@@ -3,19 +3,39 @@
     // All the code in this file is included in all platforms.
     public class Story
     {
-        public int IdStory { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string Author { get; set; }
 
-        public List<Event> Events { get; set; }
+        #region Attributs
+
+        private int idStory;
+        private string title;
+        private string description;
+        private string author;
+
+        private List<Event> events;
+        #endregion
+
+        #region Properties
+        public int IdStory { get => idStory; set => idStory = value; }
+
+        public string Title { get => title; set => title = value; }
+
+        public string Description { get => description; set => description = value; }
+
+        public string Author { get => author; set => author = value; }
+
+        public List<Event> Events { get => events;  set => events = value; }
+
+        #endregion
+
+        #region Constructors
 
         public Story(string title, string description)
         {
-            Events = new List<Event>();
-            Title = title;
-            Description = description;
+            this.events = new List<Event>();
+            this.title = title;
+            this.description = description;
         }
+        #endregion
 
         /// <summary>
         /// Deletes the Story

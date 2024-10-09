@@ -8,7 +8,7 @@
         <Label Text="{x:Static local:AppResources.WelcomeMessage}"
                HorizontalOptions="Center" 
                FontSize="36"
-               TextColor="White" />
+               TextColor="Gray" />
     </StackLayout>
 
 </ContentPage>

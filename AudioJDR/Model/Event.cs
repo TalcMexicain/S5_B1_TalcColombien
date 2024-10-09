@@ -11,11 +11,27 @@ namespace Model
     /// </summary>
     public class Event
     {
-        public int IdEvent { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        #region Attributs
 
-        public List<Option> Options { get; set; }
+        private int idEvent;
+        private string name;
+        private string description;
+
+        private List<Option> options;
+        #endregion
+
+        #region Properties
+
+        public int IdEvent { get => idEvent; set => idEvent = value; }
+
+        public string Name { get => name; set => name = value; }
+
+        public string Description { get => description; set => description = value; }
+
+        public List<Option> Options { get => options; set => options = value; }
+        #endregion
+
+        #region Constructors
 
         public Event(string name, string description)
         {
@@ -23,6 +39,7 @@ namespace Model
             Name = name;
             Description = description;
         }
+        #endregion
 
         /// <summary>
         /// Deletes an event

@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Model
+namespace Model.Storage
 {
     public class SaveSystem
     {
@@ -76,7 +76,7 @@ namespace Model
             string eventJson = await File.ReadAllTextAsync(eventFilePath);
             Event currentEvent = JsonSerializer.Deserialize<Event>(eventJson);
 
-            return new Save(story,currentEvent)
+            return new Save(story, currentEvent)
             {
                 SaveDate = Directory.GetCreationTime(saveFolderPath) // Use folder creation time as save date
             };
