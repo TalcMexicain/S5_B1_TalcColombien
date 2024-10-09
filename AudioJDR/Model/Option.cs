@@ -8,16 +8,30 @@ namespace Model
 {
     public class Option
     {
-        public int IdOption { get; set; }
-        public string Text { get; set; }
+        #region Attributs
 
-        public Event? LinkedEvent { get; set; }
+        private int idOption;
+        private string text;
 
+        private Event? linkedEvent;
+        #endregion
+
+        #region Properties
+
+        public int IdOption { get => idOption; set => idOption = value; }
+        public string Text { get => text; set => text = value; }
+
+        public Event? LinkedEvent { get => linkedEvent; set => linkedEvent = value; }
+        #endregion
+
+        #region Constructors
+        
         public Option(string text, Event? linkedEvent)
         {
             Text = text;
             LinkedEvent = linkedEvent;
         }
+        #endregion
 
         public void DeleteOption()
         {
