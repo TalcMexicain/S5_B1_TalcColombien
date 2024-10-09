@@ -15,6 +15,7 @@
         #endregion
 
         #region Properties
+
         public int IdStory { get => idStory; set => idStory = value; }
 
         public string Title { get => title; set => title = value; }
@@ -42,7 +43,7 @@
         /// </summary>
         public void DeleteStory()
         {
-            foreach (var evt in Events.ToList())
+            foreach (var evt in this.events.ToList())
             {
                 DeleteEvent(evt); // Delete each event linked to the story
             }
@@ -54,7 +55,7 @@
         /// <param name="evt"></param>
         public void AddEvent(Event evt)
         {
-            Events.Add(evt);
+            this.events.Add(evt);
         }
 
         /// <summary>
@@ -64,7 +65,7 @@
         public void DeleteEvent(Event evt)
         {
             evt.DeleteEvent(); // Delete all options in the event
-            Events.Remove(evt);
+            this.events.Remove(evt);
         }
     }
 }
