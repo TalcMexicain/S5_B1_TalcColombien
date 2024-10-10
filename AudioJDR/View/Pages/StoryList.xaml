@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="View.StoryList"
+             Title="Story List">
+
+    <Grid Padding="20" RowDefinitions="Auto,*,Auto">
+        <Button Text="X" HorizontalOptions="Start" Margin="10,10,0,10" BackgroundColor="Red" TextColor="Black" Clicked="OnMainPageButtonClicked"/>
+        <Label Grid.Row="0"
+           Text="Story List"
+           FontSize="Large"
+           HorizontalOptions="Center"
+           VerticalOptions="Center"/>
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Stories}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="3" VerticalItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="Black"
+                           CornerRadius="5"
+                           WidthRequest="300"
+                           BackgroundColor="#dbe9f4"
+                           Margin="0,10,0,10">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="16" TextColor="DimGrey"/>
+                            <Label Text="{Binding Description}" TextColor="Grey"/>
+                            <Label Text="{Binding Events.Count, StringFormat='Noeuds : {0}'}" TextColor="Grey"/>
+                            <Label Text="Items : 0" TextColor="Grey"/>
+                            <HorizontalStackLayout HorizontalOptions="Center">
+                                <Button Text="Éditer" Margin="0,0,10,0">
+                                    <Button.BackgroundColor>
+                                        <AppThemeBinding Light="LightGreen" Dark="ForestGreen" />
+                                    </Button.BackgroundColor>
+                                    <Button.TextColor>
+                                        <AppThemeBinding Light="Black" Dark="White" />
+                                    </Button.TextColor>
+                                </Button>
+                                <Button Text="Exporter">
+                                    <Button.BackgroundColor>
+                                        <AppThemeBinding Light="LightBlue" Dark="DarkBlue" />
+                                    </Button.BackgroundColor>
+                                    <Button.TextColor>
+                                        <AppThemeBinding Light="Black" Dark="White" />
+                                    </Button.TextColor>
+                                </Button>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="2"
+            Text="Créer une nouvelle histoire"
+            BackgroundColor="Green"
+            TextColor="White"
+            HorizontalOptions="Center"
+            Padding="10,5"/>
+    </Grid>
+
+</ContentPage>

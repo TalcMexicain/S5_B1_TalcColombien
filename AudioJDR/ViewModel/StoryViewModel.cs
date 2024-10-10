@@ -3,14 +3,24 @@ using System.Collections.ObjectModel;
 
 namespace ViewModel
 {
-    // All the code in this file is included in all platforms.
     public class StoryViewModel : BaseViewModel
     {
         public ObservableCollection<Story> Stories { get; set; }
-
         public StoryViewModel()
         {
             Stories = new ObservableCollection<Story>();
+        }
+        /// <summary>
+        /// Load stories (temp) to display them on the StoryList page
+        /// </summary>
+        public void LoadStories()
+        {
+            Stories.Clear();
+            Stories.Add(new Story("AVENTURE 1", "Fantaisie médiévale") { Events = new List<Event>()});
+            Stories.Add(new Story("AVENTURE 2", "Thriller/Drame") { Events = new List<Event>()} );
+            Stories.Add(new Story("AVENTURE 3", "Action") { Events = new List<Event>() });
+            Stories.Add(new Story("AVENTURE 4", "yaume") { Events = new List<Event>() });
+
         }
 
         /// <summary>

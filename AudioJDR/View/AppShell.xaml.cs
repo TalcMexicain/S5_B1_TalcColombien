@@ -11,6 +11,7 @@ namespace View
             Routing.RegisterRoute(nameof(MainCreatorPage), typeof(MainCreatorPage));
             Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+            Routing.RegisterRoute(nameof(StoryList), typeof(StoryList));
         }
     }
 }

@@ -9,7 +9,6 @@ namespace View
             InitializeComponent();
 
             //SetCulture("en"); // To test in other languages
-
             MainPage = new AppShell();
         }
 
