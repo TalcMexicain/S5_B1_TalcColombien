@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:View.Resources.Localization"
+             x:Class="View.Pages.SettingsPage">
+
+    <ContentPage.BackgroundColor>
+        <AppThemeBinding Light="White" Dark="#333333" />
+    </ContentPage.BackgroundColor>
+
+    <Grid Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20*" />
+        </Grid.RowDefinitions>
+
+        <!-- Theme Toggle -->
+        <Button 
+            Grid.Row="1"
+            Text="{x:Static local:AppResources.ToggleTheme}"
+            Clicked="OnThemeButtonClicked"
+            HorizontalOptions="Center">
+            <Button.BackgroundColor>
+                <AppThemeBinding Light="#ADD8E6" Dark="#1E90FF" />
+            </Button.BackgroundColor>
+            <Button.TextColor>
+                <AppThemeBinding Light="Black" Dark="White" />
+            </Button.TextColor>
+        </Button>
+
+        <!-- Language Picker -->
+        <Picker 
+            Grid.Row="3"
+            x:Name="LanguagePicker"
+            SelectedIndexChanged="OnLanguageChanged"
+            HorizontalOptions="Center">
+            <Picker.BackgroundColor>
+                <AppThemeBinding Light="#ADD8E6" Dark="#1E90FF" />
+            </Picker.BackgroundColor>
+            <Picker.TextColor>
+                <AppThemeBinding Light="Black" Dark="White" />
+            </Picker.TextColor>
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>English</x:String>
+                    <x:String>French</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+
+        <!-- Back Button -->
+        <Button 
+            Grid.Row="5"
+            Text="{x:Static local:AppResources.Back}"
+            Clicked="OnBackButtonClicked"
+            HorizontalOptions="Center">
+            <Button.BackgroundColor>
+                <AppThemeBinding Light="#D3D3D3" Dark="#555555" />
+            </Button.BackgroundColor>
+            <Button.TextColor>
+                <AppThemeBinding Light="Black" Dark="White" />
+            </Button.TextColor>
+        </Button>
+
+    </Grid>
+</ContentPage>
