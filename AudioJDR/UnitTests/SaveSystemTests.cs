@@ -18,7 +18,7 @@ namespace UnitTests
         public SaveSystemTests()
         {
             //  Use a temporary directory for tests
-            _testSaveFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TestSaves");
+            _testSaveFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TestSaveSystemClass");
 
             if (Directory.Exists(_testSaveFolder))
             {

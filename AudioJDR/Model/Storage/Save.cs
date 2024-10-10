@@ -60,10 +60,11 @@ namespace Model.Storage
         /// <summary>
         /// Deletes the save.
         /// </summary>
-        public void DeleteSave()
+        /// <param name="savingPath"></param>
+        public void DeleteSave(string savingPath = null)
         {
-            SaveSystem saveSystem = new SaveSystem();
-            saveSystem.DeleteSave(Story.Title);
+            SaveSystem saveSystem = new SaveSystem(savingPath);
+            saveSystem.DeleteSave(this.story.Title);
         }
     }
 }
