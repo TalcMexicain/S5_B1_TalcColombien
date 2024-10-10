@@ -3,6 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:View.Resources.Localization"
              x:Class="View.EventCreationPage">
+
+    <!-- Background color based on light and dark mode -->
+    <ContentPage.BackgroundColor>
+        <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
+    </ContentPage.BackgroundColor>
+    
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
 
@@ -11,60 +17,97 @@
                    FontSize="24"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
-                   Margin="0,10,0,20" />
+                   Margin="0,10,0,20">
+                <Label.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Label.TextColor>
+            </Label>
 
             <!-- Node title input -->
-            <Frame BorderColor="#cccccc" CornerRadius="10" Padding="10">
+            <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+                <Frame.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
+                </Frame.BackgroundColor>
+                
                 <VerticalStackLayout>
                     <Label Text="{x:Static local:AppResources.NodeTitle}"
                            FontSize="Medium"
                            FontAttributes="Bold"
-                           Margin="0,0,0,5" />
+                           Margin="0,0,0,5">
+                        <Label.TextColor>
+                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                        </Label.TextColor>
+                    </Label>
                     <Entry x:Name="NodeTitleEntry"
                            Placeholder="{x:Static local:AppResources.PlaceholderNodeTitle}"
-                           FontSize="Medium" />
+                           FontSize="Medium"/>
                 </VerticalStackLayout>
             </Frame>
 
             <!-- Node content input -->
-            <Frame BorderColor="#cccccc" CornerRadius="10" Padding="10">
+            <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+                <Frame.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
+                </Frame.BackgroundColor>
+                
                 <VerticalStackLayout>
                     <Label Text="{x:Static local:AppResources.StoryContent}"
                            FontSize="Medium"
                            FontAttributes="Bold"
-                           Margin="0,0,0,5" />
+                           Margin="0,0,0,5">
+                        <Label.TextColor>
+                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                        </Label.TextColor>
+                    </Label>
                     <Editor x:Name="NodeContentEditor"
                             Placeholder="{x:Static local:AppResources.PlaceholderStoryContent}"
                             HeightRequest="250"
-                            FontSize="Medium" />
+                            FontSize="Medium"/>
                 </VerticalStackLayout>
             </Frame>
 
             <!-- Choices Section -->
-            <Frame BorderColor="#cccccc" CornerRadius="10" Padding="10">
+            <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+                <Frame.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
+                </Frame.BackgroundColor>
+                
                 <VerticalStackLayout>
                     <Label Text="{x:Static local:AppResources.Choices}"
                            FontSize="Medium"
                            FontAttributes="Bold"
-                           Margin="0,0,0,10" />
+                           Margin="0,0,0,10">
+                        <Label.TextColor>
+                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                        </Label.TextColor>
+                    </Label>
 
                     <!-- Button to add a new choice -->
                     <Button Text="{x:Static local:AppResources.AddChoice}"
                             FontSize="Small"
-                            BackgroundColor="#4CAF50"
-                            TextColor="White"
                             CornerRadius="20"
                             HeightRequest="40"
                             WidthRequest="170"
                             HorizontalOptions="Start"
                             Padding="10"
-                            Clicked="OnAddChoiceClicked" />
+                            Clicked="OnAddChoiceClicked">
+                        <Button.BackgroundColor>
+                            <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                        </Button.BackgroundColor>
+                        <Button.TextColor>
+                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                        </Button.TextColor>
+                    </Button>
 
                     <!-- List of choices -->
                     <CollectionView x:Name="ChoicesList" Margin="0,10,0,0" ItemsSource="{Binding Options}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Frame BorderColor="#dddddd" CornerRadius="5" Padding="10" Margin="0,5,0,5">
+                                    <Frame.BackgroundColor>
+                                        <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
+                                    </Frame.BackgroundColor>
+                                    
                                     <StackLayout Orientation="Horizontal" Spacing="15">
                                         <!-- Entry to edit the choice text -->
                                         <Entry Text="{Binding Text}"
@@ -75,15 +118,20 @@
                                         <!-- Button to delete the choice -->
                                         <Button Text="{x:Static local:AppResources.Delete}"
                                                 FontSize="Small"
-                                                BackgroundColor="#E53935"
-                                                TextColor="White"
                                                 CornerRadius="20"
                                                 HeightRequest="30"
                                                 WidthRequest="110"
                                                 HorizontalOptions="End"
                                                 Padding="5"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteOptionCommand}"
-                                                CommandParameter="{Binding}" />
+                                                CommandParameter="{Binding}">
+                                            <Button.BackgroundColor>
+                                                <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
+                                            </Button.BackgroundColor>
+                                            <Button.TextColor>
+                                                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                                            </Button.TextColor>
+                                        </Button>
                                     </StackLayout>
                                 </Frame>
                             </DataTemplate>
@@ -98,7 +146,14 @@
                     HeightRequest="60"
                     CornerRadius="10"
                     HorizontalOptions="Center"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center">
+                <Button.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                </Button.BackgroundColor>
+                <Button.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Button.TextColor>
+            </Button>
 
             <!-- Back Button -->
             <Button Text="{x:Static local:AppResources.Back}"
@@ -109,10 +164,10 @@
                     VerticalOptions="Center"
                     Clicked="OnBackButtonClicked">
                 <Button.BackgroundColor>
-                    <AppThemeBinding Light="#757575" Dark="#616161" />
+                    <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                 </Button.BackgroundColor>
                 <Button.TextColor>
-                    <AppThemeBinding Light="White" Dark="White" />
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                 </Button.TextColor>
             </Button>
         </VerticalStackLayout>

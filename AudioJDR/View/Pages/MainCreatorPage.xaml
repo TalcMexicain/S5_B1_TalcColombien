@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:View.Resources.Localization"
              x:Class="View.Pages.MainCreatorPage">
     <ContentPage.BackgroundColor>
-        <AppThemeBinding Light="LightSkyBlue" Dark="#1E1E1E" />
+        <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
     </ContentPage.BackgroundColor>
 
     <!-- Grid Layout for Centering Elements -->
@@ -27,7 +27,7 @@
                FontSize="48"
                FontAttributes="Bold">
             <Label.TextColor>
-                <AppThemeBinding Light="Black" Dark="White" />
+                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
             </Label.TextColor>
         </Label>
 
@@ -38,14 +38,13 @@
                VerticalOptions="Center"
                FontSize="24">
             <Label.TextColor>
-                <AppThemeBinding Light="Black" Dark="White" />
+                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
             </Label.TextColor>
         </Label>
 
         <!-- Edit Button -->
         <Button Text="{x:Static local:AppResources.GoToStoryList}"
                 Grid.Row="3"
-                FontAttributes="Bold"
                 WidthRequest="250"
                 HeightRequest="70"
                 CornerRadius="10"
@@ -53,10 +52,10 @@
                 VerticalOptions="Center"
                 Clicked="OnGoToStoryListButtonClicked">
             <Button.BackgroundColor>
-                <AppThemeBinding Light="#4CAF50" Dark="#388E3C" />
+                <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
             </Button.BackgroundColor>
             <Button.TextColor>
-                <AppThemeBinding Light="White" Dark="White" />
+                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
             </Button.TextColor>
         </Button>
 
@@ -70,10 +69,10 @@
                 VerticalOptions="Center"
                 Clicked="OnBackButtonClicked">
             <Button.BackgroundColor>
-                <AppThemeBinding Light="#757575" Dark="#616161" />
+                <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
             </Button.BackgroundColor>
             <Button.TextColor>
-                <AppThemeBinding Light="White" Dark="White" />
+                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
             </Button.TextColor>
         </Button>
     </Grid>

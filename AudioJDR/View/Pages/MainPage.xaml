@@ -6,7 +6,7 @@
 
     <!-- Background color based on light and dark mode -->
     <ContentPage.BackgroundColor>
-        <AppThemeBinding Light="LightSkyBlue" Dark="#1E1E1E" />
+        <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
     </ContentPage.BackgroundColor>
 
     <!-- Use Grid for better alignment and spacing with percentages -->
@@ -38,7 +38,7 @@
                HorizontalOptions="Center"
                FontSize="36">
             <Label.TextColor>
-                <AppThemeBinding Light="Black" Dark="White" />
+                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
             </Label.TextColor>
         </Label>
 
@@ -50,10 +50,10 @@
                 HorizontalOptions="Center"
                 IsEnabled="False">
             <Button.BackgroundColor>
-                <AppThemeBinding Light="LightGray" Dark="Gray" />
+                <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
             </Button.BackgroundColor>
             <Button.TextColor>
-                <AppThemeBinding Light="DarkGray" Dark="LightGray" />
+                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
             </Button.TextColor>
         </Button>
 
@@ -65,10 +65,10 @@
                 HorizontalOptions="Center"
                 Clicked="OnCreateButtonClicked">
             <Button.BackgroundColor>
-                <AppThemeBinding Light="LightBlue" Dark="Navy" />
+                <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
             </Button.BackgroundColor>
             <Button.TextColor>
-                <AppThemeBinding Light="White" Dark="White" />
+                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
             </Button.TextColor>
         </Button>
 
@@ -80,10 +80,10 @@
                 HorizontalOptions="Center"
                 Clicked="OnOptionButtonClicked">
             <Button.BackgroundColor>
-                <AppThemeBinding Light="LightGray" Dark="Gray" />
+                <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
             </Button.BackgroundColor>
             <Button.TextColor>
-                <AppThemeBinding Light="DarkGray" Dark="LightGray" />
+                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
             </Button.TextColor>
         </Button>
     </Grid>
