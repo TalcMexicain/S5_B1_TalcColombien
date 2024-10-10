@@ -9,36 +9,72 @@ namespace View.Pages
         public SettingsPage()
         {
             InitializeComponent();
-            LanguagePicker.Title = $"{AppResources.SelectLanguage} ({AppResources.RestartWarning})";
+            PickerInitialization();
+        }
+
+        /// <summary>
+        /// Initializes the picker with the current language or sets it to the default language.
+        /// </summary>
+        private void PickerInitialization()
+        {
+            // Set the items source for the picker
+            LanguagePicker.ItemsSource = new List<string> { "English", "French" };
+
+            // Delay setting the selected item until the ItemsSource is fully initialized
+            LanguagePicker.Loaded += (sender, e) =>
+            {
+                // Get the current language of the system (two-letter ISO code)
+                var currentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+                // Set the picker to the current language
+                if (currentLanguage == "en")
+                {
+                    LanguagePicker.SelectedItem = "English";
+                }
+                else if (currentLanguage == "fr")
+                {
+                    LanguagePicker.SelectedItem = "French";
+                }
+                else
+                {
+                    // If the current language is not supported, default to English
+                    LanguagePicker.SelectedItem = "English";
+                }
+            };
         }
 
         /// <summary>
         /// Handles the theme toggle
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void OnThemeButtonClicked(object sender, EventArgs e)
         {
-            // Toggle between light and dark themes
             if (Application.Current.RequestedTheme == AppTheme.Light)
             {
-                Application.Current.UserAppTheme = AppTheme.Dark; // Switch to dark theme
+                Application.Current.UserAppTheme = AppTheme.Dark;
             }
             else
             {
-                Application.Current.UserAppTheme = AppTheme.Light; // Switch to light theme
+                Application.Current.UserAppTheme = AppTheme.Light;
             }
         }
 
         /// <summary>
         /// Handles language change
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void OnLanguageChanged(object sender, EventArgs e)
         {
-            var selectedLanguage = LanguagePicker.SelectedItem.ToString();
+            var selectedLanguage = LanguagePicker.SelectedItem?.ToString();
+            var currentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 
+            // Check if the selected language is already in use
+            if ((selectedLanguage == "English" && currentLanguage == "en") ||
+                (selectedLanguage == "French" && currentLanguage == "fr"))
+            {
+                // If the selected language is the same as the current language, do nothing
+                return;
+            }
+
+            // If language is different, apply the change
             if (selectedLanguage == "English")
             {
                 SetLanguage("en");
@@ -60,13 +96,16 @@ namespace View.Pages
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
 
-            // Refresh the app
-            Application.Current.MainPage = new AppShell();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await Shell.Current.GoToAsync(nameof(SettingsPage));
+            });
         }
+
 
         private async void OnBackButtonClicked(object sender, EventArgs e)
         {
-            await Navigation.PopAsync(); // Go back to the previous page
+            await Shell.Current.GoToAsync(nameof(MainPage));
         }
     }
 }

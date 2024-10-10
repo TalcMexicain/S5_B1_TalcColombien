@@ -38,6 +38,7 @@
         <Picker 
             Grid.Row="3"
             x:Name="LanguagePicker"
+            Title="{x:Static local:AppResources.SelectLanguage}"
             SelectedIndexChanged="OnLanguageChanged"
             HorizontalOptions="Center">
             <Picker.BackgroundColor>
@@ -46,12 +47,6 @@
             <Picker.TextColor>
                 <AppThemeBinding Light="Black" Dark="White" />
             </Picker.TextColor>
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>English</x:String>
-                    <x:String>French</x:String>
-                </x:Array>
-            </Picker.ItemsSource>
         </Picker>
 
         <!-- Back Button -->
