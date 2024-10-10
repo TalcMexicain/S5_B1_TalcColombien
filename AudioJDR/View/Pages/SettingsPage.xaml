@@ -5,7 +5,7 @@
              x:Class="View.Pages.SettingsPage">
 
     <ContentPage.BackgroundColor>
-        <AppThemeBinding Light="White" Dark="#333333" />
+        <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
     </ContentPage.BackgroundColor>
 
     <Grid Padding="20">
@@ -27,7 +27,7 @@
             Clicked="OnThemeButtonClicked"
             HorizontalOptions="Center">
             <Button.BackgroundColor>
-                <AppThemeBinding Light="#ADD8E6" Dark="#1E90FF" />
+                <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
             </Button.BackgroundColor>
             <Button.TextColor>
                 <AppThemeBinding Light="Black" Dark="White" />
@@ -41,10 +41,10 @@
             SelectedIndexChanged="OnLanguageChanged"
             HorizontalOptions="Center">
             <Picker.BackgroundColor>
-                <AppThemeBinding Light="#ADD8E6" Dark="#1E90FF" />
+                <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
             </Picker.BackgroundColor>
             <Picker.TextColor>
-                <AppThemeBinding Light="Black" Dark="White" />
+                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
             </Picker.TextColor>
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
@@ -61,10 +61,10 @@
             Clicked="OnBackButtonClicked"
             HorizontalOptions="Center">
             <Button.BackgroundColor>
-                <AppThemeBinding Light="#D3D3D3" Dark="#555555" />
+                <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
             </Button.BackgroundColor>
             <Button.TextColor>
-                <AppThemeBinding Light="Black" Dark="White" />
+                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
             </Button.TextColor>
         </Button>
 
