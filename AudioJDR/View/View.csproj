@@ -81,4 +81,10 @@
 	  </EmbeddedResource>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="StoryList.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>
