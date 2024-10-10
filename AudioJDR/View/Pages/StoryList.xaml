@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="View.StoryList"
-             Title="Story List">
+             xmlns:local="clr-namespace:View.Resources.Localization"
+             x:Class="View.StoryList">
 
-    <Grid Padding="20" RowDefinitions="Auto,*,Auto">
-        <Button Text="X" HorizontalOptions="Start" Margin="10,10,0,10" BackgroundColor="Red" TextColor="Black" Clicked="OnMainPageButtonClicked"/>
+    <Grid Padding="20" RowDefinitions="Auto,*,Auto,60,Auto">
         <Label Grid.Row="0"
-           Text="Story List"
-           FontSize="Large"
-           HorizontalOptions="Center"
-           VerticalOptions="Center"/>
-        <CollectionView Grid.Row="1" ItemsSource="{Binding Stories}">
+               Text="{x:Static local:AppResources.TitleStoryList}"
+               FontSize="Large"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               Margin="0,0,0,10"/>
+        <CollectionView Grid.Row="1" 
+                        ItemsSource="{Binding Stories}" 
+                        WidthRequest="1000"
+                        VerticalOptions="Center">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="3" VerticalItemSpacing="10"/>
+                <GridItemsLayout Orientation="Vertical" 
+                                 Span="3" 
+                                 VerticalItemSpacing="8"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame BorderColor="Black"
                            CornerRadius="5"
                            WidthRequest="300"
+                           HeightRequest="160"
                            BackgroundColor="#dbe9f4"
-                           Margin="0,10,0,10">
+                           Padding="10,10,10,5">
                         <VerticalStackLayout>
                             <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="16" TextColor="DimGrey"/>
                             <Label Text="{Binding Description}" TextColor="Grey"/>
                             <Label Text="{Binding Events.Count, StringFormat='Noeuds : {0}'}" TextColor="Grey"/>
-                            <Label Text="Items : 0" TextColor="Grey"/>
+                            <Label Text="Items : 0" TextColor="Grey" Margin="0,0,0,10"/>
                             <HorizontalStackLayout HorizontalOptions="Center">
-                                <Button Text="Éditer" Margin="0,0,10,0">
+                                <Button Text="{x:Static local:AppResources.Edit}" Margin="0,0,10,0">
                                     <Button.BackgroundColor>
                                         <AppThemeBinding Light="LightGreen" Dark="ForestGreen" />
                                     </Button.BackgroundColor>
@@ -36,7 +42,7 @@
                                         <AppThemeBinding Light="Black" Dark="White" />
                                     </Button.TextColor>
                                 </Button>
-                                <Button Text="Exporter">
+                                <Button Text="{x:Static local:AppResources.Export}">
                                     <Button.BackgroundColor>
                                         <AppThemeBinding Light="LightBlue" Dark="DarkBlue" />
                                     </Button.BackgroundColor>
@@ -50,13 +56,41 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        
+        <!-- Go on New Story Button -->
+        <Button Text="{x:Static local:AppResources.CreateNewStory}"
+                Grid.Row="3"
+                FontAttributes="Bold"
+                WidthRequest="230"
+                HeightRequest="50"
+                CornerRadius="5"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+            <Button.BackgroundColor>
+                <AppThemeBinding Light="#4CAF50" Dark="#388E3C" />
+            </Button.BackgroundColor>
+            <Button.TextColor>
+                <AppThemeBinding Light="White" Dark="White" />
+            </Button.TextColor>
+        </Button>
 
-        <Button Grid.Row="2"
-            Text="Créer une nouvelle histoire"
-            BackgroundColor="Green"
-            TextColor="White"
-            HorizontalOptions="Center"
-            Padding="10,5"/>
+        <!-- Go Back Button (Larger, Centered, With More Spacing) -->
+        <Button Text="{x:Static local:AppResources.Back}"
+        Grid.Row="5"
+        WidthRequest="180"
+        HeightRequest="40"
+        CornerRadius="5"
+        Margin="0,0,0,-5"
+        HorizontalOptions="Center"
+        VerticalOptions="Center"
+        Clicked="OnBackButtonClicked">
+            <Button.BackgroundColor>
+                <AppThemeBinding Light="#757575" Dark="#616161" />
+            </Button.BackgroundColor>
+            <Button.TextColor>
+                <AppThemeBinding Light="White" Dark="White" />
+            </Button.TextColor>
+        </Button>
     </Grid>
 
 </ContentPage>

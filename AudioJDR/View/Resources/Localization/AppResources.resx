@@ -144,4 +144,16 @@
   <data name="WelcomeMessage" xml:space="preserve">
     <value>Welcome to AudioRPG</value>
   </data>
+  <data name="TitleStoryList" xml:space="preserve">
+    <value>Story List</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="CreateNewStory" xml:space="preserve">
+    <value>Create a new story</value>
+  </data>
 </root>

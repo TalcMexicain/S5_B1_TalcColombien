@@ -144,4 +144,16 @@
   <data name="WelcomeMessage" xml:space="preserve">
     <value>Bienvenue dans AudioJDR</value>
   </data>
+  <data name="TitleStoryList" xml:space="preserve">
+    <value>Liste d'histoire</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exporter</value>
+  </data>
+  <data name="CreateNewStory" xml:space="preserve">
+    <value>Créer une nouvelle histoire</value>
+  </data>
 </root>

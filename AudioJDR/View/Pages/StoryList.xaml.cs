@@ -1,3 +1,4 @@
+using View.Pages;
 using ViewModel;
 
 namespace View;
@@ -18,9 +19,8 @@ public partial class StoryList : ContentPage
         base.OnAppearing();
         _viewModel.LoadStories();
     }
-
-    private async void OnMainPageButtonClicked(object sender, EventArgs e)
+    private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        Application.Current.MainPage = new MainPage();
+        await Shell.Current.GoToAsync(nameof(MainCreatorPage));
     }
 }

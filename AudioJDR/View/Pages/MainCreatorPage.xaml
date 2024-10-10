@@ -50,7 +50,8 @@
                 HeightRequest="70"
                 CornerRadius="10"
                 HorizontalOptions="Center"
-                VerticalOptions="Center">
+                VerticalOptions="Center"
+                Clicked="OnGoToStoryListButtonClicked">
             <Button.BackgroundColor>
                 <AppThemeBinding Light="#4CAF50" Dark="#388E3C" />
             </Button.BackgroundColor>
