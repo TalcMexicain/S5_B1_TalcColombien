@@ -39,6 +39,11 @@ namespace Model
             this.name = name;
             this.description = description;
         }
+
+        public Event()
+        {
+            this.options = new List<Option>();
+        }
         #endregion
 
         /// <summary>

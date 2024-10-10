@@ -17,14 +17,15 @@ namespace UnitTests
 
         public SaveSystemTests()
         {
-            _saveSystem = new SaveSystem();
+            //  Use a temporary directory for tests
+            _testSaveFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TestSaves");
 
-            // Utiliser un répertoire temporaire pour les tests
-            _testSaveFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "saves", "TestSave");
             if (Directory.Exists(_testSaveFolder))
             {
                 Directory.Delete(_testSaveFolder, true);
             }
+
+            _saveSystem = new SaveSystem(_testSaveFolder);
         }
 
         [Fact]
@@ -39,19 +40,26 @@ namespace UnitTests
             // Act
             await _saveSystem.SaveGameAsync(save);
 
-            // Assert
-            string storyFilePath = Path.Combine(_testSaveFolder, "story.json");
-            string eventFilePath = Path.Combine(_testSaveFolder, "current_event.json");
+            var optionsJson = new JsonSerializerOptions
+            {
+                ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
+            };
 
-            Assert.True(File.Exists(storyFilePath), "Story file should exist");
-            Assert.True(File.Exists(eventFilePath), "Event file should exist");
+            // Assert
+            string storyFilePath = Path.Combine(_testSaveFolder, "Test Story", "story.json");
+            string eventFilePath = Path.Combine(_testSaveFolder, "Test Story", "current_event.json");
+
+            Assert.True(File.Exists(storyFilePath), "Story file should exist at " + storyFilePath);
+            Assert.True(File.Exists(eventFilePath), "Event file should exist at " + eventFilePath);
 
             string storyJson = await File.ReadAllTextAsync(storyFilePath);
-            var savedStory = JsonSerializer.Deserialize<Story>(storyJson);
+            var savedStory = JsonSerializer.Deserialize<Story>(storyJson, optionsJson);
+            Assert.NotNull(savedStory);
             Assert.Equal(story.Title, savedStory.Title);
 
             string eventJson = await File.ReadAllTextAsync(eventFilePath);
-            var savedEvent = JsonSerializer.Deserialize<Event>(eventJson);
+            var savedEvent = JsonSerializer.Deserialize<Event>(eventJson, optionsJson);
+            Assert.NotNull(savedEvent);
             Assert.Equal(currentEvent.Name, savedEvent.Name);
         }
 
@@ -69,8 +77,6 @@ namespace UnitTests
             currentEvent.AddOption(option);
             story.AddEvent(currentEvent);
             story.AddEvent(parentEvent);
-
-            //PROBLEME DE CYCLE
             
             //currentEvent.AddOption(option);
             var save = new Save(story, currentEvent);

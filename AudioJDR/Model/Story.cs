@@ -36,6 +36,11 @@
             this.title = title;
             this.description = description;
         }
+
+        public Story()
+        {
+            this.events = new List<Event>();
+        }
         #endregion
 
         /// <summary>

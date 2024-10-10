@@ -31,6 +31,11 @@ namespace Model
             this.text = text;
             this.linkedEvent = linkedEvent;
         }
+
+        public Option() 
+        {
+
+        } 
         #endregion
 
         public void DeleteLinkedOption()

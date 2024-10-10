@@ -11,11 +11,17 @@ namespace Model.Storage
     {
         private readonly string _savesFolderPath;
 
-        public SaveSystem()
+        public SaveSystem(string savesFolderPath = null)
         {
-            // Define the path to the saves folder (Possible location of the file :  )
-            _savesFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Saves");
-
+            if (savesFolderPath != null)
+            {
+                _savesFolderPath = savesFolderPath;
+            }
+            else
+            {
+                _savesFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Saves");
+            }
+            
             // Create the saves directory if it doesn't exist
             if (!Directory.Exists(_savesFolderPath))
             {
@@ -39,14 +45,20 @@ namespace Model.Storage
             // Create or override the folder for this specific save
             Directory.CreateDirectory(saveFolderPath);
 
+            var optionsJson = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve // Gestion des références circulaires
+            };
+
             // Save the Story to a JSON file
             string storyFilePath = Path.Combine(saveFolderPath, "story.json");
-            string storyJson = JsonSerializer.Serialize(save.Story, new JsonSerializerOptions { WriteIndented = true });
+            string storyJson = JsonSerializer.Serialize(save.Story, optionsJson);
             await File.WriteAllTextAsync(storyFilePath, storyJson);
 
             // Save the current Event to a JSON file
             string eventFilePath = Path.Combine(saveFolderPath, "current_event.json");
-            string eventJson = JsonSerializer.Serialize(save.CurrentEvent, new JsonSerializerOptions { WriteIndented = true });
+            string eventJson = JsonSerializer.Serialize(save.CurrentEvent, optionsJson);
             await File.WriteAllTextAsync(eventFilePath, eventJson);
         }
 
@@ -64,17 +76,22 @@ namespace Model.Storage
                 return null; // Save folder doesn't exist
             }
 
+            var optionsJson = new JsonSerializerOptions
+            {
+                ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
+            };
+
             // Load the Story from the JSON file
             string storyFilePath = Path.Combine(saveFolderPath, "story.json");
             if (!File.Exists(storyFilePath)) return null;
             string storyJson = await File.ReadAllTextAsync(storyFilePath);
-            Story story = JsonSerializer.Deserialize<Story>(storyJson);
+            Story story = JsonSerializer.Deserialize<Story>(storyJson, optionsJson);
 
             // Load the current Event from the JSON file
             string eventFilePath = Path.Combine(saveFolderPath, "current_event.json");
             if (!File.Exists(eventFilePath)) return null;
             string eventJson = await File.ReadAllTextAsync(eventFilePath);
-            Event currentEvent = JsonSerializer.Deserialize<Event>(eventJson);
+            Event currentEvent = JsonSerializer.Deserialize<Event>(eventJson, optionsJson);
 
             return new Save(story, currentEvent)
             {
