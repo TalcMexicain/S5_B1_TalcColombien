@@ -35,9 +35,9 @@ namespace Model
 
         public Event(string name, string description)
         {
-            Options = new List<Option>();
-            Name = name;
-            Description = description;
+            this.options = new List<Option>();
+            this.name = name;
+            this.description = description;
         }
         #endregion
 
@@ -46,7 +46,7 @@ namespace Model
         /// </summary>
         public void DeleteEvent()
         {
-            foreach (var option in Options.ToList())
+            foreach (var option in this.options.ToList())
             {
                 DeleteOption(option); // Delete each option linked to this event
             }
@@ -58,7 +58,7 @@ namespace Model
         /// <param name="option"></param>
         public void AddOption(Option option)
         {
-            Options.Add(option);
+            this.options.Add(option);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Model
         /// <param name="option"></param>
         public void DeleteOption(Option option)
         {
-            Options.Remove(option);
+            this.options.Remove(option);
         }
     }
 }

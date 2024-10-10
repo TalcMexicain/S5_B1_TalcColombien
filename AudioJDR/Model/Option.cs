@@ -28,19 +28,19 @@ namespace Model
         
         public Option(string text, Event? linkedEvent)
         {
-            Text = text;
-            LinkedEvent = linkedEvent;
+            this.text = text;
+            this.linkedEvent = linkedEvent;
         }
         #endregion
 
-        public void DeleteOption()
+        public void DeleteLinkedOption()
         {
-            LinkedEvent = null;
+            this.linkedEvent = null;
         }
 
         public void LinkOptionToEvent(Event linkedEvent)
         {
-            LinkedEvent = linkedEvent;
+            this.linkedEvent = linkedEvent;
         }
     }
 }

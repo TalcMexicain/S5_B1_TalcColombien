@@ -36,7 +36,7 @@ namespace ViewModel
         {
             if (option != null)
             {
-                option.DeleteOption();
+                option.DeleteLinkedOption();
                 Options.Remove(option);
             }
         }

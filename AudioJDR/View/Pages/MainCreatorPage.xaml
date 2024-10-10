@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:View.Resources.Localization"
+             x:Class="View.Pages.MainCreatorPage">
+    <ContentPage.BackgroundColor>
+        <AppThemeBinding Light="LightSkyBlue" Dark="#1E1E1E" />
+    </ContentPage.BackgroundColor>
+
+    <!-- Grid Layout for Centering Elements -->
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="CenterAndExpand" Padding="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30*" />
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <Label Text="{x:Static local:AppResources.Title}"
+               Grid.Row="0"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               FontSize="48"
+               FontAttributes="Bold">
+            <Label.TextColor>
+                <AppThemeBinding Light="Black" Dark="White" />
+            </Label.TextColor>
+        </Label>
+
+        <!-- Subtitle (Smaller Font, Centered) -->
+        <Label Text="{x:Static local:AppResources.Editor}"
+               Grid.Row="1"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               FontSize="24">
+            <Label.TextColor>
+                <AppThemeBinding Light="Black" Dark="White" />
+            </Label.TextColor>
+        </Label>
+
+        <!-- Edit Button (Larger, Centered) -->
+        <Button Text="{x:Static local:AppResources.GoToStoryList}"
+                Grid.Row="3"
+                FontAttributes="Bold"
+                WidthRequest="250"
+                HeightRequest="70"
+                CornerRadius="10"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+            <Button.BackgroundColor>
+                <AppThemeBinding Light="#4CAF50" Dark="#388E3C" />
+            </Button.BackgroundColor>
+            <Button.TextColor>
+                <AppThemeBinding Light="White" Dark="White" />
+            </Button.TextColor>
+        </Button>
+
+        <!-- Go Back Button (Larger, Centered, With More Spacing) -->
+        <Button Text="{x:Static local:AppResources.Back}"
+                Grid.Row="5"
+                WidthRequest="200"
+                HeightRequest="60"
+                CornerRadius="10"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Clicked="OnBackButtonClicked">
+            <Button.BackgroundColor>
+                <AppThemeBinding Light="#757575" Dark="#616161" />
+            </Button.BackgroundColor>
+            <Button.TextColor>
+                <AppThemeBinding Light="White" Dark="White" />
+            </Button.TextColor>
+        </Button>
+    </Grid>
+</ContentPage>

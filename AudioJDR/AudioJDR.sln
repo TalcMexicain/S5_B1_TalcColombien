@@ -5,9 +5,14 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "View", "View\View.csproj", "{D67F69DD-F803-40F2-BEA1-330838B92F6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{A330E005-E169-4E15-B9C3-5C3B3F23116E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModel", "ViewModel\ViewModel.csproj", "{A330E005-E169-4E15-B9C3-5C3B3F23116E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{D8AA92FB-6BD3-47D6-8E36-8B3E4B2644EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{D8AA92FB-6BD3-47D6-8E36-8B3E4B2644EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{FA26C0CB-0DB1-4F1D-A2B5-C5488DF56737}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D8AA92FB-6BD3-47D6-8E36-8B3E4B2644EE} = {D8AA92FB-6BD3-47D6-8E36-8B3E4B2644EE}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +34,10 @@ Global
 		{D8AA92FB-6BD3-47D6-8E36-8B3E4B2644EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8AA92FB-6BD3-47D6-8E36-8B3E4B2644EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8AA92FB-6BD3-47D6-8E36-8B3E4B2644EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA26C0CB-0DB1-4F1D-A2B5-C5488DF56737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA26C0CB-0DB1-4F1D-A2B5-C5488DF56737}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA26C0CB-0DB1-4F1D-A2B5-C5488DF56737}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA26C0CB-0DB1-4F1D-A2B5-C5488DF56737}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

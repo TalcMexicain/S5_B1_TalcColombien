@@ -13,8 +13,8 @@ namespace Model.Storage
 
         public SaveSystem()
         {
-            // Define the path to the saves folder
-            _savesFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "saves");
+            // Define the path to the saves folder (Possible location of the file :  )
+            _savesFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Saves");
 
             // Create the saves directory if it doesn't exist
             if (!Directory.Exists(_savesFolderPath))
