@@ -34,9 +34,10 @@
 
         <!-- Title -->
         <Label Text="{x:Static local:AppResources.WelcomeMessage}"
+               FontFamily="UncialAntiquaRegular"
                Grid.Row="1"
                HorizontalOptions="Center"
-               FontSize="36">
+               FontSize="60">
             <Label.TextColor>
                 <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
             </Label.TextColor>

@@ -21,10 +21,11 @@
 
         <!-- Title -->
         <Label Text="{x:Static local:AppResources.Title}"
+               FontFamily="UncialAntiquaRegular"
                Grid.Row="0"
                HorizontalOptions="Center"
                VerticalOptions="Center"
-               FontSize="48"
+               FontSize="40"
                FontAttributes="Bold">
             <Label.TextColor>
                 <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
@@ -33,10 +34,11 @@
 
         <!-- Subtitle -->
         <Label Text="{x:Static local:AppResources.Editor}"
+               FontFamily="UncialAntiquaRegular"
                Grid.Row="1"
                HorizontalOptions="Center"
                VerticalOptions="Center"
-               FontSize="24">
+               FontSize="25">
             <Label.TextColor>
                 <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
             </Label.TextColor>
