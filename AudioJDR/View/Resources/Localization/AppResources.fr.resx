@@ -165,4 +165,34 @@
   <data name="CreateNewStory" xml:space="preserve">
     <value>Créer une nouvelle histoire</value>
   </data>
+  <data name="TitleCreateNode" xml:space="preserve">
+    <value>Créer un noeud</value>
+  </data>
+  <data name="NodeTitle" xml:space="preserve">
+    <value>Titre du noeud</value>
+  </data>
+  <data name="PlaceholderNodeTitle" xml:space="preserve">
+    <value>Entrez le titre du noeud</value>
+  </data>
+  <data name="StoryContent" xml:space="preserve">
+    <value>Contenu de l'histoire</value>
+  </data>
+  <data name="PlaceholderStoryContent" xml:space="preserve">
+    <value>Entrez le contenu de l'histoire</value>
+  </data>
+  <data name="Choices" xml:space="preserve">
+    <value>Choix</value>
+  </data>
+  <data name="AddChoice" xml:space="preserve">
+    <value>Ajouter un choix</value>
+  </data>
+  <data name="PlaceholderChoiceText" xml:space="preserve">
+    <value>Entrez le texte de votre choix</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Sauvegarder</value>
+  </data>
 </root>

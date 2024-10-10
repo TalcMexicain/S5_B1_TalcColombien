@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:View.Resources.Localization"
              x:Class="View.EventCreationPage">
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
 
             <!-- Title Section -->
-            <Label Text="Create a Node"
+            <Label Text="{x:Static local:AppResources.TitleCreateNode}"
                    FontSize="24"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
@@ -15,12 +16,12 @@
             <!-- Node title input -->
             <Frame BorderColor="#cccccc" CornerRadius="10" Padding="10">
                 <VerticalStackLayout>
-                    <Label Text="Node Title"
+                    <Label Text="{x:Static local:AppResources.NodeTitle}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,5" />
                     <Entry x:Name="NodeTitleEntry"
-                           Placeholder="Enter node title"
+                           Placeholder="{x:Static local:AppResources.PlaceholderNodeTitle}"
                            FontSize="Medium" />
                 </VerticalStackLayout>
             </Frame>
@@ -28,12 +29,12 @@
             <!-- Node content input -->
             <Frame BorderColor="#cccccc" CornerRadius="10" Padding="10">
                 <VerticalStackLayout>
-                    <Label Text="Story Content"
+                    <Label Text="{x:Static local:AppResources.StoryContent}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,5" />
                     <Editor x:Name="NodeContentEditor"
-                            Placeholder="Enter story content"
+                            Placeholder="{x:Static local:AppResources.PlaceholderStoryContent}"
                             HeightRequest="250"
                             FontSize="Medium" />
                 </VerticalStackLayout>
@@ -42,13 +43,13 @@
             <!-- Choices Section -->
             <Frame BorderColor="#cccccc" CornerRadius="10" Padding="10">
                 <VerticalStackLayout>
-                    <Label Text="Choices"
+                    <Label Text="{x:Static local:AppResources.Choices}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,10" />
 
                     <!-- Button to add a new choice -->
-                    <Button Text="Add Choice"
+                    <Button Text="{x:Static local:AppResources.AddChoice}"
                             FontSize="Small"
                             BackgroundColor="#4CAF50"
                             TextColor="White"
@@ -67,18 +68,18 @@
                                     <StackLayout Orientation="Horizontal" Spacing="15">
                                         <!-- Entry to edit the choice text -->
                                         <Entry Text="{Binding Text}"
-                                               Placeholder="Enter choice text"
+                                               Placeholder="{x:Static local:AppResources.PlaceholderChoiceText}"
                                                FontSize="Medium"
                                                VerticalOptions="Center"
                                                WidthRequest="500" />
                                         <!-- Button to delete the choice -->
-                                        <Button Text="Delete"
+                                        <Button Text="{x:Static local:AppResources.Delete}"
                                                 FontSize="Small"
                                                 BackgroundColor="#E53935"
                                                 TextColor="White"
                                                 CornerRadius="20"
                                                 HeightRequest="30"
-                                                WidthRequest="100"
+                                                WidthRequest="110"
                                                 HorizontalOptions="End"
                                                 Padding="5"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteOptionCommand}"
@@ -92,7 +93,7 @@
             </Frame>
 
             <!-- Save Button -->
-            <Button Text="Save"
+            <Button Text="{x:Static local:AppResources.Save}"
                     WidthRequest="200"
                     HeightRequest="60"
                     CornerRadius="10"
@@ -100,7 +101,7 @@
                     VerticalOptions="Center" />
 
             <!-- Back Button -->
-            <Button Text="Back"
+            <Button Text="{x:Static local:AppResources.Back}"
                     WidthRequest="200"
                     HeightRequest="60"
                     CornerRadius="10"

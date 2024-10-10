@@ -61,11 +61,29 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add Choice.
+        /// </summary>
+        internal static string AddChoice {
+            get {
+                return ResourceManager.GetString("AddChoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Back.
         /// </summary>
         internal static string Back {
             get {
                 return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Choices.
+        /// </summary>
+        internal static string Choices {
+            get {
+                return ResourceManager.GetString("Choices", resourceCulture);
             }
         }
         
@@ -84,6 +102,15 @@ namespace View.Resources.Localization {
         internal static string CreateNewStory {
             get {
                 return ResourceManager.GetString("CreateNewStory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Delete.
+        /// </summary>
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
         
@@ -124,6 +151,42 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Node Title.
+        /// </summary>
+        internal static string NodeTitle {
+            get {
+                return ResourceManager.GetString("NodeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter choice text.
+        /// </summary>
+        internal static string PlaceholderChoiceText {
+            get {
+                return ResourceManager.GetString("PlaceholderChoiceText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter node title.
+        /// </summary>
+        internal static string PlaceholderNodeTitle {
+            get {
+                return ResourceManager.GetString("PlaceholderNodeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter story content.
+        /// </summary>
+        internal static string PlaceholderStoryContent {
+            get {
+                return ResourceManager.GetString("PlaceholderStoryContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Play.
         /// </summary>
         internal static string Play {
@@ -138,6 +201,15 @@ namespace View.Resources.Localization {
         internal static string RestartWarning {
             get {
                 return ResourceManager.GetString("RestartWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Save.
+        /// </summary>
+        internal static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
             }
         }
         
@@ -160,6 +232,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Story Content.
+        /// </summary>
+        internal static string StoryContent {
+            get {
+                return ResourceManager.GetString("StoryContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à AudioRPG.
         /// </summary>
         internal static string Title {
@@ -169,11 +250,11 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Change theme.
+        ///   Recherche une chaîne localisée semblable à Create a Node.
         /// </summary>
-        internal static string ToggleTheme {
+        internal static string TitleCreateNode {
             get {
-                return ResourceManager.GetString("ToggleTheme", resourceCulture);
+                return ResourceManager.GetString("TitleCreateNode", resourceCulture);
             }
         }
         
@@ -183,6 +264,15 @@ namespace View.Resources.Localization {
         internal static string TitleStoryList {
             get {
                 return ResourceManager.GetString("TitleStoryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Change theme.
+        /// </summary>
+        internal static string ToggleTheme {
+            get {
+                return ResourceManager.GetString("ToggleTheme", resourceCulture);
             }
         }
         

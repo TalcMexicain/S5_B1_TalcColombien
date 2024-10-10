@@ -165,4 +165,34 @@
   <data name="CreateNewStory" xml:space="preserve">
     <value>Create a new story</value>
   </data>
+  <data name="TitleCreateNode" xml:space="preserve">
+    <value>Create a Node</value>
+  </data>
+  <data name="NodeTitle" xml:space="preserve">
+    <value>Node Title</value>
+  </data>
+  <data name="PlaceholderNodeTitle" xml:space="preserve">
+    <value>Enter node title</value>
+  </data>
+  <data name="StoryContent" xml:space="preserve">
+    <value>Story Content</value>
+  </data>
+  <data name="PlaceholderStoryContent" xml:space="preserve">
+    <value>Enter story content</value>
+  </data>
+  <data name="Choices" xml:space="preserve">
+    <value>Choices</value>
+  </data>
+  <data name="AddChoice" xml:space="preserve">
+    <value>Add Choice</value>
+  </data>
+  <data name="PlaceholderChoiceText" xml:space="preserve">
+    <value>Enter choice text</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
 </root>
