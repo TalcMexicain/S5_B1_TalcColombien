@@ -21,7 +21,10 @@ public partial class EventCreationPage : ContentPage
         _viewModel.AddOption();
     }
 
-    
+    private async void OnSaveButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(StoryMap));
+    }
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(StoryList));

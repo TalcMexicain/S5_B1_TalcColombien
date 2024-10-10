@@ -19,6 +19,10 @@ public partial class StoryList : ContentPage
         base.OnAppearing();
         _viewModel.LoadStories();
     }
+    private async void OnEditButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(StoryMap));
+    }
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(MainCreatorPage));
@@ -27,4 +31,5 @@ public partial class StoryList : ContentPage
     {
         await Shell.Current.GoToAsync(nameof(EventCreationPage));
     }
+    
 }

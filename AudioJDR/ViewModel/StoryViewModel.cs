@@ -10,6 +10,7 @@ namespace ViewModel
         {
             Stories = new ObservableCollection<Story>();
         }
+
         /// <summary>
         /// Load stories (temp) to display them on the StoryList page
         /// </summary>

@@ -146,7 +146,8 @@
                     HeightRequest="60"
                     CornerRadius="10"
                     HorizontalOptions="Center"
-                    VerticalOptions="Center">
+                    VerticalOptions="Center"
+                    Clicked="OnSaveButtonClicked">
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>

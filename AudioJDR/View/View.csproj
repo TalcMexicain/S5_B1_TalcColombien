@@ -67,6 +67,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\StoryMap.xaml.cs">
+	    <DependentUpon>StoryMap.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Resources\Localization\AppResources.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
@@ -83,6 +86,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Pages\EventCreationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\StoryMap.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\StoryList.xaml">
