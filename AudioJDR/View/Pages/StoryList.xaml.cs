@@ -23,4 +23,8 @@ public partial class StoryList : ContentPage
     {
         await Shell.Current.GoToAsync(nameof(MainCreatorPage));
     }
+    private async void OnCreateNewStoryButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(EventCreationPage));
+    }
 }

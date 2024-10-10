@@ -1,6 +1,7 @@
+using View.Pages;
 using ViewModel;
 
-namespace View.Pages;
+namespace View;
 
 public partial class EventCreationPage : ContentPage
 {
@@ -23,7 +24,7 @@ public partial class EventCreationPage : ContentPage
     
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(MainPage));
+        await Shell.Current.GoToAsync(nameof(StoryList));
     }
 
 }

@@ -10,7 +10,7 @@ namespace View
             InitializeComponent();
 
             //SetCulture("en"); // To test in other languages
-            MainPage = new EventCreationPage();
+            MainPage = new AppShell();
         }
 
         /// <summary>

@@ -65,7 +65,8 @@
                 HeightRequest="50"
                 CornerRadius="5"
                 HorizontalOptions="Center"
-                VerticalOptions="Center">
+                VerticalOptions="Center"
+                Clicked="OnCreateNewStoryButtonClicked">
             <Button.BackgroundColor>
                 <AppThemeBinding Light="#4CAF50" Dark="#388E3C" />
             </Button.BackgroundColor>

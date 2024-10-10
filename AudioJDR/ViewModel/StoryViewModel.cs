@@ -20,7 +20,6 @@ namespace ViewModel
             Stories.Add(new Story("AVENTURE 2", "Thriller/Drame") { Events = new List<Event>()} );
             Stories.Add(new Story("AVENTURE 3", "Action") { Events = new List<Event>() });
             Stories.Add(new Story("AVENTURE 4", "yaume") { Events = new List<Event>() });
-
         }
 
         /// <summary>
