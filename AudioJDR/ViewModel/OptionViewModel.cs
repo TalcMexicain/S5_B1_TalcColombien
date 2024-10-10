@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Model;
 
 namespace ViewModel
@@ -12,17 +13,18 @@ namespace ViewModel
     {
         public ObservableCollection<Option> Options { get; set; }
 
+        public ICommand DeleteOptionCommand { get; }
+
         public OptionViewModel()
         {
             Options = new ObservableCollection<Option>();
+            DeleteOptionCommand = new Command<Option>(DeleteOption);
         }
 
         /// <summary>
-        /// Adds a new option with text and linked event
+        /// Adds a new option with default text
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="linkedEvent"></param>
-        public void AddOption(string text, Event? linkedEvent)
+        public void AddOption(string text = "", Event? linkedEvent = null)
         {
             var newOption = new Option(text, linkedEvent);
             Options.Add(newOption);
