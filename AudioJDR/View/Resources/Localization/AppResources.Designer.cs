@@ -106,6 +106,24 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à This will restart the app.
+        /// </summary>
+        internal static string RestartWarning {
+            get {
+                return ResourceManager.GetString("RestartWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Select your language.
+        /// </summary>
+        internal static string SelectLanguage {
+            get {
+                return ResourceManager.GetString("SelectLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Settings.
         /// </summary>
         internal static string Settings {
@@ -120,6 +138,15 @@ namespace View.Resources.Localization {
         internal static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Change theme.
+        /// </summary>
+        internal static string ToggleTheme {
+            get {
+                return ResourceManager.GetString("ToggleTheme", resourceCulture);
             }
         }
         

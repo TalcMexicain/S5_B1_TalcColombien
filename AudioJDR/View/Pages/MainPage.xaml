@@ -78,7 +78,7 @@
                 WidthRequest="200"
                 HeightRequest="60"
                 HorizontalOptions="Center"
-                IsEnabled="False">
+                Clicked="OnOptionButtonClicked">
             <Button.BackgroundColor>
                 <AppThemeBinding Light="LightGray" Dark="Gray" />
             </Button.BackgroundColor>
