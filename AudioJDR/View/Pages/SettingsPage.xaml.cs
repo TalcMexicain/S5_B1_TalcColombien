@@ -9,43 +9,78 @@ namespace View.Pages
         public SettingsPage()
         {
             InitializeComponent();
+            SetResponsiveSizes();
             PickerInitialization();
+            this.SizeChanged += OnSizeChanged;
         }
 
-        /// <summary>
-        /// Initializes the picker with the current language or sets it to the default language.
-        /// </summary>
+        private void OnSizeChanged(object sender, EventArgs e)
+        {
+            SetResponsiveSizes();
+        }
+
+        private void SetResponsiveSizes()
+        {
+            // Use the current page size to set button sizes dynamically
+            double pageWidth = this.Width;
+            double pageHeight = this.Height;
+
+            // Set minimum button sizes to prevent them from becoming too small
+            double minButtonWidth = 250; // Adjust the minimum width for landscape
+            double minButtonHeight = 60;
+
+            // Set button sizes dynamically as a percentage of the current page size
+            if (pageWidth > 0 && pageHeight > 0)
+            {
+                double buttonWidth = Math.Max(pageWidth * 0.45, minButtonWidth);
+                double buttonHeight = Math.Max(pageHeight * 0.1, minButtonHeight);
+
+                ThemeToggleButton.WidthRequest = buttonWidth;
+                ThemeToggleButton.HeightRequest = buttonHeight;
+
+                LanguagePicker.WidthRequest = Math.Max(pageWidth * 0.45, 300);
+                LanguagePicker.HeightRequest = Math.Max(pageHeight * 0.1, 100);
+
+                BackButton.WidthRequest = buttonWidth * 0.75;
+                BackButton.HeightRequest = buttonHeight;
+
+                // Adjust font size based on button width, with a maximum size to avoid overflow
+                double buttonFontSize = Math.Min(buttonWidth * 0.08, 30); 
+
+                ThemeToggleButton.FontSize = buttonFontSize;
+                LanguagePicker.FontSize = buttonFontSize;
+                BackButton.FontSize = buttonFontSize;
+
+                // Adjust button padding to ensure text fits well
+                ThemeToggleButton.Padding = new Thickness(20, 5);
+                BackButton.Padding = new Thickness(20, 5);
+            }
+        }
+
         private void PickerInitialization()
         {
             // Set the items source for the picker
-            LanguagePicker.ItemsSource = new List<string> { "English", "French" };
+            LanguagePicker.ItemsSource = new List<string> { "English", "Français" };
 
-            // Delay setting the selected item until the ItemsSource is fully initialized
             LanguagePicker.Loaded += (sender, e) =>
             {
-                // Get the current language of the system (two-letter ISO code)
                 var currentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 
-                // Set the picker to the current language
                 if (currentLanguage == "en")
                 {
                     LanguagePicker.SelectedItem = "English";
                 }
                 else if (currentLanguage == "fr")
                 {
-                    LanguagePicker.SelectedItem = "French";
+                    LanguagePicker.SelectedItem = "Français";
                 }
                 else
                 {
-                    // If the current language is not supported, default to English
                     LanguagePicker.SelectedItem = "English";
                 }
             };
         }
 
-        /// <summary>
-        /// Handles the theme toggle
-        /// </summary>
         private void OnThemeButtonClicked(object sender, EventArgs e)
         {
             if (Application.Current.RequestedTheme == AppTheme.Light)
@@ -58,40 +93,29 @@ namespace View.Pages
             }
         }
 
-        /// <summary>
-        /// Handles language change
-        /// </summary>
         private void OnLanguageChanged(object sender, EventArgs e)
         {
             var selectedLanguage = LanguagePicker.SelectedItem?.ToString();
             var currentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 
-            // Check if the selected language is already in use
             if ((selectedLanguage == "English" && currentLanguage == "en") ||
-                (selectedLanguage == "French" && currentLanguage == "fr"))
+                (selectedLanguage == "Français" && currentLanguage == "fr"))
             {
-                // If the selected language is the same as the current language, do nothing
                 return;
             }
 
-            // If language is different, apply the change
             if (selectedLanguage == "English")
             {
                 SetLanguage("en");
             }
-            else if (selectedLanguage == "French")
+            else if (selectedLanguage == "Français")
             {
                 SetLanguage("fr");
             }
         }
 
-        /// <summary>
-        /// Sets the application language
-        /// </summary>
-        /// <param name="languageCode"></param>
         private void SetLanguage(string languageCode)
         {
-            // Set the culture for the app
             var culture = new CultureInfo(languageCode);
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
@@ -101,7 +125,6 @@ namespace View.Pages
                 await Shell.Current.GoToAsync(nameof(SettingsPage));
             });
         }
-
 
         private async void OnBackButtonClicked(object sender, EventArgs e)
         {

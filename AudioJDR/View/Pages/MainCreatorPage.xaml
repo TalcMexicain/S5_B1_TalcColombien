@@ -3,79 +3,89 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:View.Resources.Localization"
              x:Class="View.Pages.MainCreatorPage">
+
     <ContentPage.BackgroundColor>
         <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
     </ContentPage.BackgroundColor>
 
     <!-- Grid Layout for Centering Elements -->
-    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="CenterAndExpand" Padding="30">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="22*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="60*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="5*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="30*" />
-        </Grid.RowDefinitions>
+    <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <Grid VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!-- Title -->
+                <RowDefinition Height="Auto" />
+                <!-- Subtitle -->
+                <RowDefinition Height="70" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Edit Button -->
+                <RowDefinition Height="20" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Back Button -->
+            </Grid.RowDefinitions>
 
-        <!-- Title -->
-        <Label Text="{x:Static local:AppResources.Title}"
-               FontFamily="UncialAntiquaRegular"
-               Grid.Row="0"
-               HorizontalOptions="Center"
-               VerticalOptions="Center"
-               FontSize="40"
-               FontAttributes="Bold">
-            <Label.TextColor>
-                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-            </Label.TextColor>
-        </Label>
+            <!-- Title -->
+            <Label Text="{x:Static local:AppResources.Title}"
+                   FontFamily="UncialAntiquaRegular"
+                   Grid.Row="0"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   FontSize="Large"
+                   FontAttributes="Bold">
+                <Label.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Label.TextColor>
+            </Label>
 
-        <!-- Subtitle -->
-        <Label Text="{x:Static local:AppResources.Editor}"
-               FontFamily="UncialAntiquaRegular"
-               Grid.Row="1"
-               HorizontalOptions="Center"
-               VerticalOptions="Center"
-               FontSize="25">
-            <Label.TextColor>
-                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-            </Label.TextColor>
-        </Label>
+            <!-- Subtitle -->
+            <Label Text="{x:Static local:AppResources.Editor}"
+                   FontFamily="UncialAntiquaRegular"
+                   Grid.Row="1"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   FontSize="Medium">
+                <Label.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Label.TextColor>
+            </Label>
 
-        <!-- Edit Button -->
-        <Button Text="{x:Static local:AppResources.GoToStoryList}"
-                Grid.Row="3"
-                WidthRequest="250"
-                HeightRequest="70"
-                CornerRadius="10"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                Clicked="OnGoToStoryListButtonClicked">
-            <Button.BackgroundColor>
-                <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
-            </Button.BackgroundColor>
-            <Button.TextColor>
-                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-            </Button.TextColor>
-        </Button>
+            <!-- Edit Button -->
+            <Button x:Name="ToStoryListButton"
+                    Text="{x:Static local:AppResources.GoToStoryList}"
+                    Grid.Row="3"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    FontSize="Medium"
+                    Padding="20,5"
+                    LineBreakMode="WordWrap"
+                    Clicked="OnGoToStoryListButtonClicked">
+                <Button.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                </Button.BackgroundColor>
+                <Button.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Button.TextColor>
+            </Button>
 
-        <!-- Go Back Button -->
-        <Button Text="{x:Static local:AppResources.Back}"
-                Grid.Row="5"
-                WidthRequest="200"
-                HeightRequest="60"
-                CornerRadius="10"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                Clicked="OnBackButtonClicked">
-            <Button.BackgroundColor>
-                <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
-            </Button.BackgroundColor>
-            <Button.TextColor>
-                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-            </Button.TextColor>
-        </Button>
-    </Grid>
+            <!-- Go Back Button -->
+            <Button x:Name="BackButton"
+                    Text="{x:Static local:AppResources.Back}"
+                    Grid.Row="5"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    FontSize="Medium"
+                    Padding="20,5"
+                    LineBreakMode="WordWrap"
+                    Clicked="OnBackButtonClicked">
+                <Button.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
+                </Button.BackgroundColor>
+                <Button.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Button.TextColor>
+            </Button>
+        </Grid>
+    </ScrollView>
 </ContentPage>
