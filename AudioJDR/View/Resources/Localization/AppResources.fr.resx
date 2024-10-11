@@ -165,14 +165,14 @@
   <data name="CreateNewStory" xml:space="preserve">
     <value>Créer une nouvelle histoire</value>
   </data>
-  <data name="TitleCreateNode" xml:space="preserve">
-    <value>Créer un noeud</value>
+  <data name="TitleCreateEvent" xml:space="preserve">
+    <value>Créer un évènement</value>
   </data>
-  <data name="NodeTitle" xml:space="preserve">
-    <value>Titre du noeud</value>
+  <data name="EventTitle" xml:space="preserve">
+    <value>Titre de l'évènement</value>
   </data>
-  <data name="PlaceholderNodeTitle" xml:space="preserve">
-    <value>Entrez le titre du noeud</value>
+  <data name="PlaceholderEventTitle" xml:space="preserve">
+    <value>Entrez le titre de l'évènement</value>
   </data>
   <data name="StoryContent" xml:space="preserve">
     <value>Contenu de l'histoire</value>
@@ -180,14 +180,14 @@
   <data name="PlaceholderStoryContent" xml:space="preserve">
     <value>Entrez le contenu de l'histoire</value>
   </data>
-  <data name="Choices" xml:space="preserve">
-    <value>Choix</value>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
   </data>
-  <data name="AddChoice" xml:space="preserve">
-    <value>Ajouter un choix</value>
+  <data name="AddOption" xml:space="preserve">
+    <value>Ajouter une option</value>
   </data>
-  <data name="PlaceholderChoiceText" xml:space="preserve">
-    <value>Entrez le texte de votre choix</value>
+  <data name="PlaceholderOptionText" xml:space="preserve">
+    <value>Entrez le texte de votre option</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Supprimer</value>

@@ -7,6 +7,10 @@ public partial class StoryMap : ContentPage
 {
     public StoryMap()
     {
-        InitializeComponent();        
+        InitializeComponent();
+    }
+    private async void OnBackButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("..");
     }
 }

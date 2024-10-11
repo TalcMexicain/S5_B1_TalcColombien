@@ -165,14 +165,14 @@
   <data name="CreateNewStory" xml:space="preserve">
     <value>Create a new story</value>
   </data>
-  <data name="TitleCreateNode" xml:space="preserve">
-    <value>Create a Node</value>
+  <data name="TitleCreateEvent" xml:space="preserve">
+    <value>Create an Event</value>
   </data>
-  <data name="NodeTitle" xml:space="preserve">
-    <value>Node Title</value>
+  <data name="EventTitle" xml:space="preserve">
+    <value>Event Title</value>
   </data>
-  <data name="PlaceholderNodeTitle" xml:space="preserve">
-    <value>Enter node title</value>
+  <data name="PlaceholderEventTitle" xml:space="preserve">
+    <value>Enter event title</value>
   </data>
   <data name="StoryContent" xml:space="preserve">
     <value>Story Content</value>
@@ -180,14 +180,14 @@
   <data name="PlaceholderStoryContent" xml:space="preserve">
     <value>Enter story content</value>
   </data>
-  <data name="Choices" xml:space="preserve">
-    <value>Choices</value>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
   </data>
-  <data name="AddChoice" xml:space="preserve">
-    <value>Add Choice</value>
+  <data name="AddOption" xml:space="preserve">
+    <value>Add Option</value>
   </data>
-  <data name="PlaceholderChoiceText" xml:space="preserve">
-    <value>Enter choice text</value>
+  <data name="PlaceholderOptionText" xml:space="preserve">
+    <value>Enter option text</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>

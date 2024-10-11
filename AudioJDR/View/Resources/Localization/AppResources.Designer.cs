@@ -61,11 +61,11 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Add Choice.
+        ///   Recherche une chaîne localisée semblable à Add Option.
         /// </summary>
-        internal static string AddChoice {
+        internal static string AddOption {
             get {
-                return ResourceManager.GetString("AddChoice", resourceCulture);
+                return ResourceManager.GetString("AddOption", resourceCulture);
             }
         }
         
@@ -75,15 +75,6 @@ namespace View.Resources.Localization {
         internal static string Back {
             get {
                 return ResourceManager.GetString("Back", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à Choices.
-        /// </summary>
-        internal static string Choices {
-            get {
-                return ResourceManager.GetString("Choices", resourceCulture);
             }
         }
         
@@ -133,6 +124,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Event Title.
+        /// </summary>
+        internal static string EventTitle {
+            get {
+                return ResourceManager.GetString("EventTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Export.
         /// </summary>
         internal static string Export {
@@ -151,29 +151,29 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Node Title.
+        ///   Recherche une chaîne localisée semblable à Options.
         /// </summary>
-        internal static string NodeTitle {
+        internal static string Options {
             get {
-                return ResourceManager.GetString("NodeTitle", resourceCulture);
+                return ResourceManager.GetString("Options", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Enter choice text.
+        ///   Recherche une chaîne localisée semblable à Enter event title.
         /// </summary>
-        internal static string PlaceholderChoiceText {
+        internal static string PlaceholderEventTitle {
             get {
-                return ResourceManager.GetString("PlaceholderChoiceText", resourceCulture);
+                return ResourceManager.GetString("PlaceholderEventTitle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Enter node title.
+        ///   Recherche une chaîne localisée semblable à Enter option text.
         /// </summary>
-        internal static string PlaceholderNodeTitle {
+        internal static string PlaceholderOptionText {
             get {
-                return ResourceManager.GetString("PlaceholderNodeTitle", resourceCulture);
+                return ResourceManager.GetString("PlaceholderOptionText", resourceCulture);
             }
         }
         
@@ -250,11 +250,11 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Create a Node.
+        ///   Recherche une chaîne localisée semblable à Create an Event.
         /// </summary>
-        internal static string TitleCreateNode {
+        internal static string TitleCreateEvent {
             get {
-                return ResourceManager.GetString("TitleCreateNode", resourceCulture);
+                return ResourceManager.GetString("TitleCreateEvent", resourceCulture);
             }
         }
         

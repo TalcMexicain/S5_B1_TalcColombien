@@ -1,5 +1,6 @@
 using View.Pages;
 using ViewModel;
+using Model;
 
 namespace View;
 
@@ -23,6 +24,7 @@ public partial class StoryList : ContentPage
     {
         await Shell.Current.GoToAsync(nameof(StoryMap));
     }
+
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(MainCreatorPage));

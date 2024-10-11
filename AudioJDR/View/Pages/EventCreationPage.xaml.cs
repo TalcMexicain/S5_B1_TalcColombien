@@ -16,7 +16,7 @@ public partial class EventCreationPage : ContentPage
     }
 
     
-    private void OnAddChoiceClicked(object sender, EventArgs e)
+    private void OnAddOptionClicked(object sender, EventArgs e)
     {
         _viewModel.AddOption();
     }
