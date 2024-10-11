@@ -13,6 +13,7 @@ namespace View
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
             Routing.RegisterRoute(nameof(StoryList), typeof(StoryList));
             Routing.RegisterRoute(nameof(EventCreationPage), typeof(EventCreationPage));
+            Routing.RegisterRoute(nameof(OptionCreationPage), typeof(OptionCreationPage));
             Routing.RegisterRoute(nameof(StoryMap), typeof(StoryMap));
         }
     }

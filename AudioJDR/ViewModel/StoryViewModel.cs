@@ -21,7 +21,7 @@ namespace ViewModel
             }
         }
 
-        /// <summary>
+        /// <summary>7
         /// Load stories (temp) to display them on the StoryList page
         /// </summary>
         public void LoadStories()

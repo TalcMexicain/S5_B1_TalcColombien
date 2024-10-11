@@ -151,11 +151,56 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Linked event.
+        /// </summary>
+        internal static string LinkedEventOption {
+            get {
+                return ResourceManager.GetString("LinkedEventOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter the name of the option.
+        /// </summary>
+        internal static string OptionNameInputText {
+            get {
+                return ResourceManager.GetString("OptionNameInputText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Option name.
+        /// </summary>
+        internal static string OptionNameTitle {
+            get {
+                return ResourceManager.GetString("OptionNameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Select an event.
+        /// </summary>
+        internal static string OptionPageEvents {
+            get {
+                return ResourceManager.GetString("OptionPageEvents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Options.
         /// </summary>
         internal static string Options {
             get {
                 return ResourceManager.GetString("Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Create/Edit Option.
+        /// </summary>
+        internal static string OptionTitle {
+            get {
+                return ResourceManager.GetString("OptionTitle", resourceCulture);
             }
         }
         
@@ -237,6 +282,24 @@ namespace View.Resources.Localization {
         internal static string StoryContent {
             get {
                 return ResourceManager.GetString("StoryContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Option text.
+        /// </summary>
+        internal static string TextWordOption {
+            get {
+                return ResourceManager.GetString("TextWordOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter the words linked to the.
+        /// </summary>
+        internal static string TextWordOptionInput {
+            get {
+                return ResourceManager.GetString("TextWordOptionInput", resourceCulture);
             }
         }
         

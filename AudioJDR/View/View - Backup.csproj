@@ -67,6 +67,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\EventCreationPage - Copier.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\StoryMap.xaml.cs">
 	    <DependentUpon>StoryMap.xaml</DependentUpon>
 	  </Compile>
@@ -85,6 +88,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Pages\EventCreationPage - Copier.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\EventCreationPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

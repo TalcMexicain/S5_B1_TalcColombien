@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.Extensions.Logging;
 using Model;
 
 namespace ViewModel
@@ -42,5 +43,7 @@ namespace ViewModel
                 Options.Remove(option);
             }
         }
+
+
     }
 }

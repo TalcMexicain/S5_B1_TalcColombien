@@ -5,20 +5,20 @@ namespace View;
 
 public partial class EventCreationPage : ContentPage
 {
-    private readonly OptionViewModel _viewModel;
+    private readonly EventViewModel _viewModel;
 
     public EventCreationPage()
     {
         InitializeComponent();
 
-        _viewModel = new OptionViewModel();
+        _viewModel = new EventViewModel();
         BindingContext = _viewModel;
     }
 
-    
-    private void OnAddOptionClicked(object sender, EventArgs e)
+    private async void OnAddOptionClicked(object sender, EventArgs e)
     {
-        _viewModel.AddOption();
+        //_viewModel.AddOption();
+        await Navigation.PushAsync(new OptionCreationPage(_viewModel));
     }
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)

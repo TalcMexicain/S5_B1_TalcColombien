@@ -11,10 +11,37 @@ namespace ViewModel
     public class EventViewModel : BaseViewModel
     {
         public ObservableCollection<Event> Events { get; set; }
+        public ObservableCollection<Option> Options { get; set; }
 
         public EventViewModel()
         {
             Events = new ObservableCollection<Event>();
+            Options = new ObservableCollection<Option>();
+        }
+
+        /// <summary>
+        /// Load events (temp) to display them in the OptionCreationPage List event
+        /// </summary>
+        public void LoadEvent()
+        {
+            Events.Clear();
+            Events.Add(new Event("EVENEMENT 1", "Event one description"));
+            Events.Add(new Event("EVENEMENT 2", "Event two description"));
+            Events.Add(new Event("EVENEMENT 3", "Event three description"));
+            Events.Add(new Event("EVENEMENT 4", "Event four description"));
+        }
+
+        /// <summary>
+        /// Load events options (temp) to display them in the EventCreationPage List Of Option
+        /// </summary>
+        public void LoadEventsOptions()
+        {
+            foreach(Event @event in Events)
+            {
+                @event.Options.Add(new Option("Text Option", null) { NameOption = "OPTION 1" });
+                @event.Options.Add(new Option("Text Option", null) { NameOption = "OPTION 2" });
+                @event.Options.Add(new Option("Text Option", null) { NameOption = "OPTION 3" });
+            }
         }
 
         /// <summary>
@@ -26,6 +53,12 @@ namespace ViewModel
         {
             var newEvent = new Event(name, description);
             Events.Add(newEvent);
+        }
+
+
+        public void AddOption(Option option)
+        {
+            Options.Add(option);
         }
 
         /// <summary>

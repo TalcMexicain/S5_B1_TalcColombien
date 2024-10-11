@@ -195,4 +195,25 @@
   <data name="Save" xml:space="preserve">
     <value>Sauvegarder</value>
   </data>
+  <data name="LinkedEventOption" xml:space="preserve">
+    <value>Evénement lié</value>
+  </data>
+  <data name="OptionNameTitle" xml:space="preserve">
+    <value>Nom de l'option</value>
+  </data>
+  <data name="OptionTitle" xml:space="preserve">
+    <value>Créer/Modifier Option</value>
+  </data>
+  <data name="TextWordOption" xml:space="preserve">
+    <value>Texte de l'option</value>
+  </data>
+  <data name="OptionPageEvents" xml:space="preserve">
+    <value>Sélectionnez un événement</value>
+  </data>
+  <data name="OptionNameInputText" xml:space="preserve">
+    <value>Entrez le nom de l'option</value>
+  </data>
+  <data name="TextWordOptionInput" xml:space="preserve">
+    <value>Entrez les mots liés à l'option</value>
+  </data>
 </root>

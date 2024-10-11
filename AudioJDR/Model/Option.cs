@@ -11,6 +11,7 @@ namespace Model
         #region Attributs
 
         private int idOption;
+        private string nameOption;
         private string text;
 
         private Event? linkedEvent;
@@ -19,13 +20,17 @@ namespace Model
         #region Properties
 
         public int IdOption { get => idOption; set => idOption = value; }
+
+        public string NameOption { get => nameOption; set => nameOption = value; }
+
         public string Text { get => text; set => text = value; }
 
         public Event? LinkedEvent { get => linkedEvent; set => linkedEvent = value; }
+
         #endregion
 
         #region Constructors
-        
+
         public Option(string text, Event? linkedEvent)
         {
             this.text = text;

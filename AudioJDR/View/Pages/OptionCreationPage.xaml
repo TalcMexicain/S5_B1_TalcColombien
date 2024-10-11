@@ -2,18 +2,18 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:View.Resources.Localization"
-             x:Class="View.EventCreationPage">
+             x:Class="View.Pages.OptionCreationPage">
 
     <!-- Background color based on light and dark mode -->
     <ContentPage.BackgroundColor>
         <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
     </ContentPage.BackgroundColor>
-    
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
 
-            <!-- Title Section -->
-            <Label Text="{x:Static local:AppResources.TitleCreateEvent}"
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20" HorizontalOptions="CenterAndExpand">
+
+            <!-- Page Title -->
+            <Label Text="{x:Static local:AppResources.OptionTitle}"
                    FontFamily="UncialAntiquaRegular"
                    FontSize="40"
                    FontAttributes="Bold"
@@ -24,14 +24,14 @@
                 </Label.TextColor>
             </Label>
 
-            <!-- Event title input -->
+            <!-- Input for Option Name -->
             <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
-                
+
                 <VerticalStackLayout>
-                    <Label Text="{x:Static local:AppResources.EventTitle}"
+                    <Label Text="{x:Static local:AppResources.OptionNameTitle}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,5">
@@ -39,20 +39,20 @@
                             <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                         </Label.TextColor>
                     </Label>
-                    <Entry x:Name="EventTitleEntry"
-                           Placeholder="{x:Static local:AppResources.PlaceholderEventTitle}"
+                    <Entry x:Name="OptionNameEntry"
+                           Placeholder="{x:Static local:AppResources.OptionNameInputText}"
                            FontSize="Medium"/>
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Event content input -->
+            <!-- New Large Text Input for Option Text -->
             <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
-                
+
                 <VerticalStackLayout>
-                    <Label Text="{x:Static local:AppResources.StoryContent}"
+                    <Label Text="{x:Static local:AppResources.TextWordOption}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,5">
@@ -60,60 +60,35 @@
                             <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                         </Label.TextColor>
                     </Label>
-                    <Editor x:Name="EventContentEditor"
-                            Placeholder="{x:Static local:AppResources.PlaceholderStoryContent}"
-                            HeightRequest="250"
+                    <Editor x:Name="OptionTextWord"
+                            Placeholder="{x:Static local:AppResources.TextWordOptionInput}"
+                            HeightRequest="200"
                             FontSize="Medium"/>
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Options Section -->
+            <!-- Event Picker -->
             <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
-                
+
                 <VerticalStackLayout>
-                    <Label Text="{x:Static local:AppResources.Options}"
+                    <Label Text="{x:Static local:AppResources.LinkedEventOption}"
                            FontSize="Medium"
                            FontAttributes="Bold"
-                           Margin="0,0,0,10">
+                           Margin="0,0,0,5">
                         <Label.TextColor>
                             <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                         </Label.TextColor>
                     </Label>
-
-                    <!-- Button to add a new option -->
-                    <Button Text="{x:Static local:AppResources.AddOption}"
-                            FontSize="Small"
-                            CornerRadius="20"
-                            HeightRequest="40"
-                            WidthRequest="200"
-                            HorizontalOptions="Start"
-                            Padding="10"
-                            Clicked="OnAddOptionClicked">
-                        <Button.BackgroundColor>
-                            <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
-                        </Button.BackgroundColor>
-                        <Button.TextColor>
-                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                        </Button.TextColor>
-                    </Button>
-
-                    
-                    <!-- List of choices  -->
-                    <CollectionView x:Name="OptionsList" ItemsSource="{Binding Options}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Frame BorderColor="#dddddd" CornerRadius="5" Padding="10" Margin="0,5,0,5">
-                                    <Label Text="{Binding Title}" FontSize="Medium" VerticalOptions="Center" />
-                                </Frame>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-
+                    <Picker x:Name="EventPicker"
+                            Title="{x:Static local:AppResources.OptionPageEvents}"
+                            ItemsSource="{Binding Events}"
+                            ItemDisplayBinding="{Binding Name}" />
                 </VerticalStackLayout>
             </Frame>
+
 
             <!-- Save Button -->
             <Button Text="{x:Static local:AppResources.Save}"
