@@ -4,6 +4,48 @@
              xmlns:local="clr-namespace:View.Resources.Localization"
              x:Class="View.StoryMap">
 
-    
+    <!-- Background color based on light and dark mode -->
+    <ContentPage.BackgroundColor>
+        <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
+    </ContentPage.BackgroundColor>
+    <Grid Padding="20" RowDefinitions="Auto,*,Auto">
+        <Label Grid.Row="0"
+               Text="{Binding SelectedStory.Title}"
+               FontFamily="UncialAntiquaRegular"
+               FontSize="Large"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               Margin="0,5,0,0">
+            <Label.TextColor>
+                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+            </Label.TextColor>
+        </Label>
 
+        <CollectionView Grid.Row="1" 
+                        ItemsSource="{Binding SelectedStory.Events}"
+                        VerticalOptions="Center">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="10">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Name}" FontAttributes="Bold" />
+                            <Label Text="{Binding Description}" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="2"
+                Text="{x:Static local:AppResources.Back}"
+                Clicked="OnBackButtonClicked"
+                HorizontalOptions="Center">
+            <Button.BackgroundColor>
+                <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
+            </Button.BackgroundColor>
+            <Button.TextColor>
+                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+            </Button.TextColor>
+        </Button>
+    </Grid>
 </ContentPage>

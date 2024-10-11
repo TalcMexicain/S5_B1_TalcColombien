@@ -13,7 +13,7 @@
         <VerticalStackLayout Padding="20" Spacing="15">
 
             <!-- Title Section -->
-            <Label Text="{x:Static local:AppResources.TitleCreateNode}"
+            <Label Text="{x:Static local:AppResources.TitleCreateEvent}"
                    FontFamily="UncialAntiquaRegular"
                    FontSize="40"
                    FontAttributes="Bold"
@@ -24,14 +24,14 @@
                 </Label.TextColor>
             </Label>
 
-            <!-- Node title input -->
+            <!-- Event title input -->
             <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
                 
                 <VerticalStackLayout>
-                    <Label Text="{x:Static local:AppResources.NodeTitle}"
+                    <Label Text="{x:Static local:AppResources.EventTitle}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,5">
@@ -39,13 +39,13 @@
                             <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                         </Label.TextColor>
                     </Label>
-                    <Entry x:Name="NodeTitleEntry"
-                           Placeholder="{x:Static local:AppResources.PlaceholderNodeTitle}"
+                    <Entry x:Name="EventTitleEntry"
+                           Placeholder="{x:Static local:AppResources.PlaceholderEventTitle}"
                            FontSize="Medium"/>
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Node content input -->
+            <!-- Event content input -->
             <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
@@ -60,21 +60,21 @@
                             <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                         </Label.TextColor>
                     </Label>
-                    <Editor x:Name="NodeContentEditor"
+                    <Editor x:Name="EventContentEditor"
                             Placeholder="{x:Static local:AppResources.PlaceholderStoryContent}"
                             HeightRequest="250"
                             FontSize="Medium"/>
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Choices Section -->
+            <!-- Options Section -->
             <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
                 
                 <VerticalStackLayout>
-                    <Label Text="{x:Static local:AppResources.Choices}"
+                    <Label Text="{x:Static local:AppResources.Options}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,10">
@@ -83,15 +83,15 @@
                         </Label.TextColor>
                     </Label>
 
-                    <!-- Button to add a new choice -->
-                    <Button Text="{x:Static local:AppResources.AddChoice}"
+                    <!-- Button to add a new option -->
+                    <Button Text="{x:Static local:AppResources.AddOption}"
                             FontSize="Small"
                             CornerRadius="20"
                             HeightRequest="40"
-                            WidthRequest="170"
+                            WidthRequest="200"
                             HorizontalOptions="Start"
                             Padding="10"
-                            Clicked="OnAddChoiceClicked">
+                            Clicked="OnAddOptionClicked">
                         <Button.BackgroundColor>
                             <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                         </Button.BackgroundColor>
@@ -100,23 +100,25 @@
                         </Button.TextColor>
                     </Button>
 
-                    <!-- List of choices -->
-                    <CollectionView x:Name="ChoicesList" Margin="0,10,0,0" ItemsSource="{Binding Options}">
+                    <!-- List of options -->
+                    <CollectionView x:Name="OptionsList" Margin="0,10,0,0" ItemsSource="{Binding Options}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Frame BorderColor="#dddddd" CornerRadius="5" Padding="10" Margin="0,5,0,5">
+                                <Frame BorderColor="#dddddd" 
+                                       CornerRadius="5" Padding="10" 
+                                       Margin="0,5,0,5">
                                     <Frame.BackgroundColor>
                                         <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                                     </Frame.BackgroundColor>
                                     
                                     <StackLayout Orientation="Horizontal" Spacing="15">
-                                        <!-- Entry to edit the choice text -->
+                                        <!-- Entry to edit the option text -->
                                         <Entry Text="{Binding Text}"
-                                               Placeholder="{x:Static local:AppResources.PlaceholderChoiceText}"
+                                               Placeholder="{x:Static local:AppResources.PlaceholderOptionText}"
                                                FontSize="Medium"
                                                VerticalOptions="Center"
                                                WidthRequest="500" />
-                                        <!-- Button to delete the choice -->
+                                        <!-- Button to delete the option -->
                                         <Button Text="{x:Static local:AppResources.Delete}"
                                                 FontSize="Small"
                                                 CornerRadius="20"

@@ -10,6 +10,16 @@ namespace ViewModel
         {
             Stories = new ObservableCollection<Story>();
         }
+        private Story _selectedStory;
+        public Story SelectedStory
+        {
+            get => _selectedStory;
+            set
+            {
+                _selectedStory = value;
+                OnPropertyChanged(nameof(SelectedStory));
+            }
+        }
 
         /// <summary>
         /// Load stories (temp) to display them on the StoryList page
@@ -17,10 +27,10 @@ namespace ViewModel
         public void LoadStories()
         {
             Stories.Clear();
-            Stories.Add(new Story("AVENTURE 1", "Fantaisie médiévale") { Events = new List<Event>()});
-            Stories.Add(new Story("AVENTURE 2", "Thriller/Drame") { Events = new List<Event>()} );
-            Stories.Add(new Story("AVENTURE 3", "Action") { Events = new List<Event>() });
-            Stories.Add(new Story("AVENTURE 4", "yaume") { Events = new List<Event>() });
+            Stories.Add(new Story("AVENTURE 1", "Fantaisie médiévale") { IdStory = 1, Events = new List<Event>() });
+            Stories.Add(new Story("AVENTURE 2", "Thriller/Drame") { IdStory = 2, Events = new List<Event>() });
+            Stories.Add(new Story("AVENTURE 3", "Action") { IdStory = 3, Events = new List<Event>() });
+            Stories.Add(new Story("AVENTURE 4", "yaume") { IdStory = 4, Events = new List<Event>() });
         }
 
         /// <summary>
