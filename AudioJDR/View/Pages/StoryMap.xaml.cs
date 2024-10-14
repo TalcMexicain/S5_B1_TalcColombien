@@ -30,7 +30,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
 
         if (pageWidth > 0 && pageHeight > 0)
         {
-            double buttonWidth = Math.Max(pageWidth * 0.45, 150);
+            double buttonWidth = Math.Max(pageWidth * 0.24, 180);
             double buttonHeight = Math.Max(pageHeight * 0.08, 50);
 
             StoryNameEntry.WidthRequest = Math.Max(pageWidth * 0.7, 300);
