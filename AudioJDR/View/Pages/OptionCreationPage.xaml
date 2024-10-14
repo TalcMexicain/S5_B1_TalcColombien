@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:View.Resources.Localization"
+             x:Class="View.Pages.OptionCreationPage">
+
+    <!-- Background color based on light and dark mode -->
+    <ContentPage.BackgroundColor>
+        <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
+    </ContentPage.BackgroundColor>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20" HorizontalOptions="CenterAndExpand">
+
+            <!-- Page Title -->
+            <Label Text="{x:Static local:AppResources.OptionTitle}"
+                   FontFamily="UncialAntiquaRegular"
+                   FontSize="40"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,10,0,20">
+                <Label.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Label.TextColor>
+            </Label>
+
+            <!-- Input for Option Name -->
+            <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+                <Frame.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
+                </Frame.BackgroundColor>
+
+                <VerticalStackLayout>
+                    <Label Text="{x:Static local:AppResources.OptionNameTitle}"
+                           FontSize="Medium"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,5">
+                        <Label.TextColor>
+                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                        </Label.TextColor>
+                    </Label>
+                    <Entry x:Name="OptionNameEntry"
+                           Placeholder="{x:Static local:AppResources.OptionNameInputText}"
+                           FontSize="Medium"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- New Large Text Input for Option Text -->
+            <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+                <Frame.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
+                </Frame.BackgroundColor>
+
+                <VerticalStackLayout>
+                    <Label Text="{x:Static local:AppResources.TextWordOption}"
+                           FontSize="Medium"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,5">
+                        <Label.TextColor>
+                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                        </Label.TextColor>
+                    </Label>
+                    <Editor x:Name="OptionTextWord"
+                            Placeholder="{x:Static local:AppResources.TextWordOptionInput}"
+                            HeightRequest="200"
+                            FontSize="Medium"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Event Picker -->
+            <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+                <Frame.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
+                </Frame.BackgroundColor>
+
+                <VerticalStackLayout>
+                    <Label Text="{x:Static local:AppResources.LinkedEventOption}"
+                           FontSize="Medium"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,5">
+                        <Label.TextColor>
+                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                        </Label.TextColor>
+                    </Label>
+                    <Picker x:Name="EventPicker"
+                            Title="{x:Static local:AppResources.OptionPageEvents}"
+                            ItemsSource="{Binding Events}"
+                            ItemDisplayBinding="{Binding Name}" />
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <!-- Save Button -->
+            <Button Text="{x:Static local:AppResources.Save}"
+                    WidthRequest="200"
+                    HeightRequest="60"
+                    CornerRadius="10"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Clicked="OnSaveButtonClicked">
+                <Button.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                </Button.BackgroundColor>
+                <Button.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Button.TextColor>
+            </Button>
+
+            <!-- Back Button -->
+            <Button Text="{x:Static local:AppResources.Back}"
+                    WidthRequest="200"
+                    HeightRequest="60"
+                    CornerRadius="10"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Clicked="OnBackButtonClicked">
+                <Button.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
+                </Button.BackgroundColor>
+                <Button.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Button.TextColor>
+            </Button>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

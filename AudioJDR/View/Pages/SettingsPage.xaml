@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:View.Resources.Localization"
+             x:Class="View.Pages.SettingsPage">
+
+    <ContentPage.BackgroundColor>
+        <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
+    </ContentPage.BackgroundColor>
+
+    <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <Grid VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!-- Title -->
+                <RowDefinition Height="70" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Theme Toggle Button -->
+                <RowDefinition Height="20" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Language Picker -->
+                <RowDefinition Height="50" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Back Button -->
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <Label Text="{x:Static local:AppResources.Settings}"
+                   FontFamily="UncialAntiquaRegular"
+                   Grid.Row="0"
+                   HorizontalOptions="Center"
+                   FontSize="Large">
+                <Label.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Label.TextColor>
+            </Label>
+
+            <!-- Theme Toggle Button -->
+            <Button x:Name="ThemeToggleButton"
+                    Grid.Row="2"
+                    Text="{x:Static local:AppResources.ToggleTheme}"
+                    Clicked="OnThemeButtonClicked"
+                    HorizontalOptions="Center"
+                    Padding="20,10"
+                    LineBreakMode="WordWrap"
+                    FontSize="Medium">
+                <Button.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                </Button.BackgroundColor>
+                <Button.TextColor>
+                    <AppThemeBinding Light="Black" Dark="White" />
+                </Button.TextColor>
+            </Button>
+
+            <!-- Language Picker -->
+            <Picker x:Name="LanguagePicker"
+                    Grid.Row="4"
+                    Title="{x:Static local:AppResources.SelectLanguage}"
+                    SelectedIndexChanged="OnLanguageChanged"
+                    HorizontalOptions="Center"
+                    FontSize="Medium">
+                <Picker.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                </Picker.BackgroundColor>
+                <Picker.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Picker.TextColor>
+            </Picker>
+
+            <!-- Back Button -->
+            <Button x:Name="BackButton"
+                    Grid.Row="6"
+                    Text="{x:Static local:AppResources.Back}"
+                    Clicked="OnBackButtonClicked"
+                    HorizontalOptions="Center"
+                    Padding="20,10"
+                    LineBreakMode="WordWrap"
+                    FontSize="Medium">
+                <Button.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
+                </Button.BackgroundColor>
+                <Button.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Button.TextColor>
+            </Button>
+        </Grid>
+    </ScrollView>
+</ContentPage>

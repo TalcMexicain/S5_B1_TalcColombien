@@ -117,7 +117,112 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Back" xml:space="preserve">
+    <value>Retour</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Créer</value>
+  </data>
+  <data name="Editor" xml:space="preserve">
+    <value>Editeur</value>
+  </data>
+  <data name="GoToStoryList" xml:space="preserve">
+    <value>Vers la liste des histoires</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Jouer</value>
+  </data>
+  <data name="RestartWarning" xml:space="preserve">
+    <value>Cela va redémarrer l'application</value>
+  </data>
+  <data name="SelectLanguage" xml:space="preserve">
+    <value>Sélectionnez votre langue</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>AudioJDR</value>
+  </data>
+  <data name="ToggleTheme" xml:space="preserve">
+    <value>Changer le thème</value>
+  </data>
+  <data name="WelcomeCreator" xml:space="preserve">
+    <value>Bienvenue dans la partie Créateur</value>
+  </data>
   <data name="WelcomeMessage" xml:space="preserve">
     <value>Bienvenue dans AudioJDR</value>
+  </data>
+  <data name="TitleStoryList" xml:space="preserve">
+    <value>Liste d'histoire</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exporter</value>
+  </data>
+  <data name="CreateNewStory" xml:space="preserve">
+    <value>Créer une nouvelle histoire</value>
+  </data>
+  <data name="TitleCreateEvent" xml:space="preserve">
+    <value>Créer un évènement</value>
+  </data>
+  <data name="EventTitle" xml:space="preserve">
+    <value>Titre de l'évènement</value>
+  </data>
+  <data name="PlaceholderEventTitle" xml:space="preserve">
+    <value>Entrez le titre de l'évènement</value>
+  </data>
+  <data name="StoryContent" xml:space="preserve">
+    <value>Contenu de l'histoire</value>
+  </data>
+  <data name="PlaceholderStoryContent" xml:space="preserve">
+    <value>Entrez le contenu de l'histoire</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="AddOption" xml:space="preserve">
+    <value>Ajouter une option</value>
+  </data>
+  <data name="PlaceholderOptionText" xml:space="preserve">
+    <value>Entrez le texte de votre option</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Sauvegarder</value>
+  </data>
+  <data name="LinkedEventOption" xml:space="preserve">
+    <value>Evénement lié</value>
+  </data>
+  <data name="OptionNameTitle" xml:space="preserve">
+    <value>Nom de l'option</value>
+  </data>
+  <data name="OptionTitle" xml:space="preserve">
+    <value>Créer/Modifier Option</value>
+  </data>
+  <data name="TextWordOption" xml:space="preserve">
+    <value>Texte de l'option</value>
+  </data>
+  <data name="OptionPageEvents" xml:space="preserve">
+    <value>Sélectionnez un événement</value>
+  </data>
+  <data name="OptionNameInputText" xml:space="preserve">
+    <value>Entrez le nom de l'option</value>
+  </data>
+  <data name="TextWordOptionInput" xml:space="preserve">
+    <value>Entrez les mots liés à l'option</value>
+  </data>
+  <data name="CreateNewEvent" xml:space="preserve">
+    <value>Créer un nouvel évènement</value>
+  </data>
+  <data name="NewStoryDescPlaceholder" xml:space="preserve">
+    <value>Ajouter description</value>
+  </data>
+  <data name="NewStoryPlaceholder" xml:space="preserve">
+    <value>Nouvelle histoire</value>
   </data>
 </root>

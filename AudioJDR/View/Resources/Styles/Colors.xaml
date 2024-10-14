@@ -6,6 +6,29 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
+    <!--Global colors for light mode-->
+    <Color x:Key="MainBackgroundL">#F0E3D2</Color>
+    <Color x:Key="MainTextL">#2B2B2B</Color>
+    <Color x:Key="PrimaryButtonsL">#C19A6B</Color>
+    <Color x:Key="SecondaryButtonsL">#8B572A</Color>
+    <Color x:Key="SecondaryBackgroundL">#D4A373</Color>
+    <Color x:Key="ActiveLinkL">#E67E22</Color>
+    <Color x:Key="AdditionalColorL">#D6C7A1</Color>
+    <Color x:Key="BorderColorL">#85796B</Color>
+
+    <!--Global colors for dark mode-->
+    <Color x:Key="MainBackgroundD">#2B1D0E</Color>
+    <Color x:Key="MainTextD">#EAE1D5</Color>
+    <Color x:Key="SecondaryButtonsD">#A64942</Color>
+    <Color x:Key="PrimaryButtonsD">#5E3923</Color>
+    <Color x:Key="SecondaryBackgroundD">#8C5A2B</Color>
+    <Color x:Key="ActiveLinkD">#D35400</Color>
+    <Color x:Key="AdditionalColorD">#3E2C1C</Color>
+
+
+
+
+    <!--Others color-->
     <Color x:Key="Primary">#512BD4</Color>
     <Color x:Key="PrimaryDark">#ac99ea</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>

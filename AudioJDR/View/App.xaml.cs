@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using View.Pages;
 
 namespace View
 {
@@ -9,7 +10,6 @@ namespace View
             InitializeComponent();
 
             //SetCulture("en"); // To test in other languages
-
             MainPage = new AppShell();
         }
 

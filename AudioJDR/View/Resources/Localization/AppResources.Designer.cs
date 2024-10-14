@@ -61,7 +61,322 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Welcome to AudioJDR.
+        ///   Recherche une chaîne localisée semblable à Add Option.
+        /// </summary>
+        internal static string AddOption {
+            get {
+                return ResourceManager.GetString("AddOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Back.
+        /// </summary>
+        internal static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Create.
+        /// </summary>
+        internal static string Create {
+            get {
+                return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Create a new event.
+        /// </summary>
+        internal static string CreateNewEvent {
+            get {
+                return ResourceManager.GetString("CreateNewEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Create a new story.
+        /// </summary>
+        internal static string CreateNewStory {
+            get {
+                return ResourceManager.GetString("CreateNewStory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Delete.
+        /// </summary>
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Edit.
+        /// </summary>
+        internal static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Editor.
+        /// </summary>
+        internal static string Editor {
+            get {
+                return ResourceManager.GetString("Editor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Event Title.
+        /// </summary>
+        internal static string EventTitle {
+            get {
+                return ResourceManager.GetString("EventTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Export.
+        /// </summary>
+        internal static string Export {
+            get {
+                return ResourceManager.GetString("Export", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Go to your story list.
+        /// </summary>
+        internal static string GoToStoryList {
+            get {
+                return ResourceManager.GetString("GoToStoryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Linked event.
+        /// </summary>
+        internal static string LinkedEventOption {
+            get {
+                return ResourceManager.GetString("LinkedEventOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add description.
+        /// </summary>
+        internal static string NewStoryDescPlaceholder {
+            get {
+                return ResourceManager.GetString("NewStoryDescPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à New Story.
+        /// </summary>
+        internal static string NewStoryPlaceholder {
+            get {
+                return ResourceManager.GetString("NewStoryPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter the name of the option.
+        /// </summary>
+        internal static string OptionNameInputText {
+            get {
+                return ResourceManager.GetString("OptionNameInputText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Option name.
+        /// </summary>
+        internal static string OptionNameTitle {
+            get {
+                return ResourceManager.GetString("OptionNameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Select an event.
+        /// </summary>
+        internal static string OptionPageEvents {
+            get {
+                return ResourceManager.GetString("OptionPageEvents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Options.
+        /// </summary>
+        internal static string Options {
+            get {
+                return ResourceManager.GetString("Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Create/Edit Option.
+        /// </summary>
+        internal static string OptionTitle {
+            get {
+                return ResourceManager.GetString("OptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter event title.
+        /// </summary>
+        internal static string PlaceholderEventTitle {
+            get {
+                return ResourceManager.GetString("PlaceholderEventTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter option text.
+        /// </summary>
+        internal static string PlaceholderOptionText {
+            get {
+                return ResourceManager.GetString("PlaceholderOptionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter story content.
+        /// </summary>
+        internal static string PlaceholderStoryContent {
+            get {
+                return ResourceManager.GetString("PlaceholderStoryContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Play.
+        /// </summary>
+        internal static string Play {
+            get {
+                return ResourceManager.GetString("Play", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à This will restart the app.
+        /// </summary>
+        internal static string RestartWarning {
+            get {
+                return ResourceManager.GetString("RestartWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Save.
+        /// </summary>
+        internal static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Select your language.
+        /// </summary>
+        internal static string SelectLanguage {
+            get {
+                return ResourceManager.GetString("SelectLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Settings.
+        /// </summary>
+        internal static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Story Content.
+        /// </summary>
+        internal static string StoryContent {
+            get {
+                return ResourceManager.GetString("StoryContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Option text.
+        /// </summary>
+        internal static string TextWordOption {
+            get {
+                return ResourceManager.GetString("TextWordOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter the words linked to the.
+        /// </summary>
+        internal static string TextWordOptionInput {
+            get {
+                return ResourceManager.GetString("TextWordOptionInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à AudioRPG.
+        /// </summary>
+        internal static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Create an Event.
+        /// </summary>
+        internal static string TitleCreateEvent {
+            get {
+                return ResourceManager.GetString("TitleCreateEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Story List.
+        /// </summary>
+        internal static string TitleStoryList {
+            get {
+                return ResourceManager.GetString("TitleStoryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Change theme.
+        /// </summary>
+        internal static string ToggleTheme {
+            get {
+                return ResourceManager.GetString("ToggleTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Welcome to the Creator Area.
+        /// </summary>
+        internal static string WelcomeCreator {
+            get {
+                return ResourceManager.GetString("WelcomeCreator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Welcome to AudioRPG.
         /// </summary>
         internal static string WelcomeMessage {
             get {
