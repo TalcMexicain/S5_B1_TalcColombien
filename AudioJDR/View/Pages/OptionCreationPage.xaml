@@ -10,10 +10,36 @@
     </ContentPage.BackgroundColor>
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="20" HorizontalOptions="CenterAndExpand">
+        <Grid Padding="20">
+            <!-- Define rows for the grid -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!-- Title -->
+                <RowDefinition Height="20" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Option Name Frame -->
+                <RowDefinition Height="20" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Option Text Frame -->
+                <RowDefinition Height="20" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Event Picker Frame -->
+                <RowDefinition Height="20" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Save Button -->
+                <RowDefinition Height="10" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Back Button -->
+            </Grid.RowDefinitions>
 
             <!-- Page Title -->
-            <Label Text="{x:Static local:AppResources.OptionTitle}"
+            <Label Grid.Row="0"
+                   Text="{x:Static local:AppResources.OptionTitle}"
                    FontFamily="UncialAntiquaRegular"
                    FontSize="40"
                    FontAttributes="Bold"
@@ -25,7 +51,12 @@
             </Label>
 
             <!-- Input for Option Name -->
-            <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+            <Frame Grid.Row="2"
+                   x:Name="OptionNameFrame"
+                   BorderColor="{StaticResource BorderColorL}"
+                   CornerRadius="10"
+                   Padding="10"
+                   HorizontalOptions="FillAndExpand">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
@@ -34,11 +65,7 @@
                     <Label Text="{x:Static local:AppResources.OptionNameTitle}"
                            FontSize="Medium"
                            FontAttributes="Bold"
-                           Margin="0,0,0,5">
-                        <Label.TextColor>
-                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                        </Label.TextColor>
-                    </Label>
+                           Margin="0,0,0,5"/>
                     <Entry x:Name="OptionNameEntry"
                            Placeholder="{x:Static local:AppResources.OptionNameInputText}"
                            FontSize="Medium"/>
@@ -46,7 +73,12 @@
             </Frame>
 
             <!-- New Large Text Input for Option Text -->
-            <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+            <Frame Grid.Row="4"
+                   x:Name="OptionTextFrame"
+                   BorderColor="{StaticResource BorderColorL}"
+                   CornerRadius="10"
+                   Padding="10"
+                   HorizontalOptions="FillAndExpand">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
@@ -55,11 +87,7 @@
                     <Label Text="{x:Static local:AppResources.TextWordOption}"
                            FontSize="Medium"
                            FontAttributes="Bold"
-                           Margin="0,0,0,5">
-                        <Label.TextColor>
-                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                        </Label.TextColor>
-                    </Label>
+                           Margin="0,0,0,5"/>
                     <Editor x:Name="OptionTextWord"
                             Placeholder="{x:Static local:AppResources.TextWordOptionInput}"
                             HeightRequest="200"
@@ -68,7 +96,12 @@
             </Frame>
 
             <!-- Event Picker -->
-            <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+            <Frame Grid.Row="6"
+                   x:Name="EventPickerFrame"
+                   BorderColor="{StaticResource BorderColorL}"
+                   CornerRadius="10"
+                   Padding="10"
+                   HorizontalOptions="FillAndExpand">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
@@ -77,23 +110,18 @@
                     <Label Text="{x:Static local:AppResources.LinkedEventOption}"
                            FontSize="Medium"
                            FontAttributes="Bold"
-                           Margin="0,0,0,5">
-                        <Label.TextColor>
-                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                        </Label.TextColor>
-                    </Label>
+                           Margin="0,0,0,5"/>
                     <Picker x:Name="EventPicker"
                             Title="{x:Static local:AppResources.OptionPageEvents}"
                             ItemsSource="{Binding Events}"
-                            ItemDisplayBinding="{Binding Name}" />
+                            ItemDisplayBinding="{Binding Name}"/>
                 </VerticalStackLayout>
             </Frame>
 
-
             <!-- Save Button -->
-            <Button Text="{x:Static local:AppResources.Save}"
-                    WidthRequest="200"
-                    HeightRequest="60"
+            <Button Grid.Row="8"
+                    x:Name="SaveButton"
+                    Text="{x:Static local:AppResources.Save}"
                     CornerRadius="10"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
@@ -107,9 +135,9 @@
             </Button>
 
             <!-- Back Button -->
-            <Button Text="{x:Static local:AppResources.Back}"
-                    WidthRequest="200"
-                    HeightRequest="60"
+            <Button Grid.Row="10"
+                    x:Name="BackButton"
+                    Text="{x:Static local:AppResources.Back}"
                     CornerRadius="10"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
@@ -121,6 +149,6 @@
                     <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                 </Button.TextColor>
             </Button>
-        </VerticalStackLayout>
+        </Grid>
     </ScrollView>
 </ContentPage>

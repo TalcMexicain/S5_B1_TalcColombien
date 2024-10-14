@@ -2,18 +2,44 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:View.Resources.Localization"
-             x:Class="View.EventCreationPage">
+             x:Class="View.Pages.EventCreationPage">
 
     <!-- Background color based on light and dark mode -->
     <ContentPage.BackgroundColor>
         <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
     </ContentPage.BackgroundColor>
-    
+
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+        <Grid Padding="20">
+            <!-- Define rows for the grid -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!-- Title -->
+                <RowDefinition Height="20" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Event Name Frame -->
+                <RowDefinition Height="20" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Event Text Frame -->
+                <RowDefinition Height="20" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Option Adding Frame -->
+                <RowDefinition Height="20" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Save Button -->
+                <RowDefinition Height="10" />
+                <!-- Spacer -->
+                <RowDefinition Height="Auto" />
+                <!-- Back Button -->
+            </Grid.RowDefinitions>
 
             <!-- Title Section -->
-            <Label Text="{x:Static local:AppResources.TitleCreateEvent}"
+            <Label x:Name="TitleLabel" Grid.Row="0"
+                   Text="{x:Static local:AppResources.TitleCreateEvent}"
                    FontFamily="UncialAntiquaRegular"
                    FontSize="40"
                    FontAttributes="Bold"
@@ -25,13 +51,14 @@
             </Label>
 
             <!-- Event title input -->
-            <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+            <Frame x:Name="EventTitleFrame" Grid.Row="2"
+                   BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
-                
+
                 <VerticalStackLayout>
-                    <Label Text="{x:Static local:AppResources.EventTitle}"
+                    <Label x:Name="EventTitleLabel" Text="{x:Static local:AppResources.EventTitle}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,5">
@@ -46,13 +73,14 @@
             </Frame>
 
             <!-- Event content input -->
-            <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+            <Frame x:Name="EventContentFrame" Grid.Row="4"
+                   BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
-                
+
                 <VerticalStackLayout>
-                    <Label Text="{x:Static local:AppResources.StoryContent}"
+                    <Label x:Name="EventContentLabel" Text="{x:Static local:AppResources.StoryContent}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,5">
@@ -68,13 +96,14 @@
             </Frame>
 
             <!-- Options Section -->
-            <Frame BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+            <Frame x:Name="OptionsFrame" Grid.Row="6"
+                   BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
-                
+
                 <VerticalStackLayout>
-                    <Label Text="{x:Static local:AppResources.Options}"
+                    <Label x:Name="OptionsLabel" Text="{x:Static local:AppResources.Options}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,10">
@@ -84,10 +113,10 @@
                     </Label>
 
                     <!-- Button to add a new option -->
-                    <Button Text="{x:Static local:AppResources.AddOption}"
+                    <Button x:Name="AddOptionButton" Text="{x:Static local:AppResources.AddOption}"
                             FontSize="Small"
                             CornerRadius="20"
-                            HeightRequest="40"
+                            HeightRequest="50"
                             WidthRequest="200"
                             HorizontalOptions="Start"
                             Padding="10"
@@ -100,8 +129,7 @@
                         </Button.TextColor>
                     </Button>
 
-                    
-                    <!-- List of choices  -->
+                    <!-- List of choices -->
                     <CollectionView x:Name="OptionsList" ItemsSource="{Binding Options}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
@@ -116,7 +144,8 @@
             </Frame>
 
             <!-- Save Button -->
-            <Button Text="{x:Static local:AppResources.Save}"
+            <Button x:Name="SaveButton" Grid.Row="8"
+                    Text="{x:Static local:AppResources.Save}"
                     WidthRequest="200"
                     HeightRequest="60"
                     CornerRadius="10"
@@ -132,7 +161,8 @@
             </Button>
 
             <!-- Back Button -->
-            <Button Text="{x:Static local:AppResources.Back}"
+            <Button x:Name="BackButton" Grid.Row="10"
+                    Text="{x:Static local:AppResources.Back}"
                     WidthRequest="200"
                     HeightRequest="60"
                     CornerRadius="10"
@@ -146,6 +176,7 @@
                     <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                 </Button.TextColor>
             </Button>
-        </VerticalStackLayout>
+
+        </Grid>
     </ScrollView>
 </ContentPage>

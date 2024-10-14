@@ -23,7 +23,7 @@ public partial class MainCreatorPage : ContentPage
 
         // Set minimum button sizes to prevent them from becoming too small
         double minButtonWidth = 250; // Minimum width for buttons
-        double minButtonHeight = 50; // Minimum height for buttons
+        double minButtonHeight = 70; // Minimum height for buttons
 
         // Set button sizes dynamically as a percentage of the current page size
         if (pageWidth > 0 && pageHeight > 0)

@@ -29,7 +29,7 @@ public partial class StoryList : ContentPage
         double pageHeight = this.Height;
 
         // Set minimum button sizes to prevent them from becoming too small
-        double minButtonWidth = 250; 
+        double minButtonWidth = 350; 
         double minButtonHeight = 50; 
 
         // Set button sizes dynamically as a percentage of the current page size
