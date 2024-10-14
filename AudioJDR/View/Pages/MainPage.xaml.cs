@@ -29,7 +29,7 @@ namespace View
             // Set button sizes dynamically as a percentage of the current page size
             if (pageWidth > 0 && pageHeight > 0)
             {
-                double buttonWidth = Math.Max(pageWidth * 0.45, minButtonWidth); 
+                double buttonWidth = Math.Max(pageWidth * 0.35, minButtonWidth); 
                 double buttonHeight = Math.Max(pageHeight * 0.1, minButtonHeight); 
 
                 PlayButton.WidthRequest = buttonWidth;

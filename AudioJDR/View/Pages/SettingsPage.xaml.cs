@@ -32,13 +32,13 @@ namespace View.Pages
             // Set button sizes dynamically as a percentage of the current page size
             if (pageWidth > 0 && pageHeight > 0)
             {
-                double buttonWidth = Math.Max(pageWidth * 0.45, minButtonWidth);
+                double buttonWidth = Math.Max(pageWidth * 0.35, minButtonWidth);
                 double buttonHeight = Math.Max(pageHeight * 0.1, minButtonHeight);
 
                 ThemeToggleButton.WidthRequest = buttonWidth;
                 ThemeToggleButton.HeightRequest = buttonHeight;
 
-                LanguagePicker.WidthRequest = Math.Max(pageWidth * 0.45, 300);
+                LanguagePicker.WidthRequest = Math.Max(pageWidth * 0.35, 300);
                 LanguagePicker.HeightRequest = Math.Max(pageHeight * 0.1, 100);
 
                 BackButton.WidthRequest = buttonWidth * 0.75;
