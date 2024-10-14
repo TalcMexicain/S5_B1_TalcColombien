@@ -97,7 +97,8 @@
                 x:Name="SaveButton"
                 Text="{x:Static local:AppResources.Save}"
                 HorizontalOptions="Center"
-                VerticalOptions="Center">
+                VerticalOptions="Center"
+                Clicked="OnSaveButtonClicked">
             <Button.BackgroundColor>
                 <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
             </Button.BackgroundColor>
@@ -111,7 +112,8 @@
                 x:Name="CreateNewEventButton"
                 Text="{x:Static local:AppResources.CreateNewEvent}"
                 HorizontalOptions="Center"
-                VerticalOptions="Center">
+                VerticalOptions="Center"
+                Clicked="OnCreateNewEventButtonClicked">
             <Button.BackgroundColor>
                 <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
             </Button.BackgroundColor>

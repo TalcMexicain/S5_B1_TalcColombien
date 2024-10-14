@@ -86,7 +86,15 @@ public partial class StoryMap : ContentPage, IQueryAttributable
 
     private async void OnEditEventClicked(object sender, EventArgs e)
     {
-        // Event edit logic here
+        await Shell.Current.GoToAsync(nameof(EventCreationPage));
+    }
+    private async void OnCreateNewEventButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(EventCreationPage));
+    }
+    private async void OnSaveButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(StoryList));
     }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
