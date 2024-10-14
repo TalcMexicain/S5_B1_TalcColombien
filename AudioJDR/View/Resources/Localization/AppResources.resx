@@ -216,4 +216,13 @@
   <data name="TextWordOptionInput" xml:space="preserve">
     <value>Enter the words linked to the</value>
   </data>
+  <data name="CreateNewEvent" xml:space="preserve">
+    <value>Create a new event</value>
+  </data>
+  <data name="NewStoryDescPlaceholder" xml:space="preserve">
+    <value>Add description</value>
+  </data>
+  <data name="NewStoryPlaceholder" xml:space="preserve">
+    <value>New Story</value>
+  </data>
 </root>

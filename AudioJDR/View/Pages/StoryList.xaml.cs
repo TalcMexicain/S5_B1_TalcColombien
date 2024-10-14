@@ -65,16 +65,19 @@ public partial class StoryList : ContentPage
 
     private async void OnEditButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(StoryMap)); // Navigate to StoryMap page
+        if (sender is Button button && button.BindingContext is Story selectedStory)
+        {
+            await Shell.Current.GoToAsync($"{nameof(StoryMap)}?storyId={selectedStory.IdStory}");
+        }
+    }
+
+    private async void OnCreateNewStoryButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync($"{nameof(StoryMap)}?storyId=0");
     }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(MainCreatorPage)); // Navigate back to MainCreatorPage
-    }
-
-    private async void OnCreateNewStoryButtonClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(StoryMap)); // Navigate to StoryMap
     }
 }

@@ -88,6 +88,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Create a new event.
+        /// </summary>
+        internal static string CreateNewEvent {
+            get {
+                return ResourceManager.GetString("CreateNewEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Create a new story.
         /// </summary>
         internal static string CreateNewStory {
@@ -156,6 +165,24 @@ namespace View.Resources.Localization {
         internal static string LinkedEventOption {
             get {
                 return ResourceManager.GetString("LinkedEventOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add description.
+        /// </summary>
+        internal static string NewStoryDescPlaceholder {
+            get {
+                return ResourceManager.GetString("NewStoryDescPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à New Story.
+        /// </summary>
+        internal static string NewStoryPlaceholder {
+            get {
+                return ResourceManager.GetString("NewStoryPlaceholder", resourceCulture);
             }
         }
         

@@ -1,4 +1,6 @@
-﻿namespace Model
+﻿using System.Collections.ObjectModel;
+
+namespace Model
 {
     // All the code in this file is included in all platforms.
     public class Story
@@ -11,7 +13,7 @@
         private string description;
         private string author;
 
-        private List<Event> events;
+        private ObservableCollection<Event> events;
         #endregion
 
         #region Properties
@@ -24,7 +26,7 @@
 
         public string Author { get => author; set => author = value; }
 
-        public List<Event> Events { get => events;  set => events = value; }
+        public ObservableCollection<Event> Events { get => events;  set => events = value; }
 
         #endregion
 
@@ -32,14 +34,14 @@
 
         public Story(string title, string description)
         {
-            this.events = new List<Event>();
+            this.events = new ObservableCollection<Event>();
             this.title = title;
             this.description = description;
         }
 
         public Story()
         {
-            this.events = new List<Event>();
+            this.events = new ObservableCollection<Event>();
         }
         #endregion
 

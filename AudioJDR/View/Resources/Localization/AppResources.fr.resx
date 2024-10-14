@@ -216,4 +216,13 @@
   <data name="TextWordOptionInput" xml:space="preserve">
     <value>Entrez les mots liés à l'option</value>
   </data>
+  <data name="CreateNewEvent" xml:space="preserve">
+    <value>Créer un nouvel évènement</value>
+  </data>
+  <data name="NewStoryDescPlaceholder" xml:space="preserve">
+    <value>Ajouter description</value>
+  </data>
+  <data name="NewStoryPlaceholder" xml:space="preserve">
+    <value>Nouvelle histoire</value>
+  </data>
 </root>
