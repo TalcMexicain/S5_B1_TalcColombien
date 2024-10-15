@@ -5,14 +5,21 @@ namespace ViewModel
 {
     public class StoryViewModel : BaseViewModel
     {
+        private static StoryViewModel _instance;
+
+        // Singleton instance
+        public static StoryViewModel Instance => _instance ??= new StoryViewModel();
+
         public ObservableCollection<Story> Stories { get; set; }
+
+        private StoryViewModel()
+        {
+            Stories = new ObservableCollection<Story>();
+            LoadStories(); // Load stories when the singleton is first created
+        }
 
         public ObservableCollection<Event> Events => SelectedStory?.Events;
 
-        public StoryViewModel()
-        {
-            Stories = new ObservableCollection<Story>();
-        }
 
         private Story _selectedStory;
         public Story SelectedStory
@@ -31,7 +38,11 @@ namespace ViewModel
         /// </summary>
         public void LoadStories()
         {
-            Stories.Clear();
+            if (Stories.Count > 0)
+            {
+                return; // Avoid reloading stories if they are already loaded
+            }
+
             ObservableCollection<Event> events = new ObservableCollection<Event>
             {
                 new Event("EVENEMENT 1", "Event one description"),
@@ -39,14 +50,32 @@ namespace ViewModel
                 new Event("EVENEMENT 3", "Event three description"),
                 new Event("EVENEMENT 4", "Event four description"),
             };
+
             Stories.Add(new Story("AVENTURE 1", "Fantaisie médiévale") { IdStory = 1, Events = events });
             Stories.Add(new Story("AVENTURE 2", "Thriller/Drame") { IdStory = 2, Events = new ObservableCollection<Event>() });
             Stories.Add(new Story("AVENTURE 3", "Action") { IdStory = 3, Events = new ObservableCollection<Event>() });
             Stories.Add(new Story("AVENTURE 4", "Yaume") { IdStory = 4, Events = new ObservableCollection<Event>() });
+
+            System.Diagnostics.Debug.WriteLine($"Loaded {Stories.Count} stories");
+
+            for (int i = 0; i < Stories.Count; i++)
+            {
+                var story = Stories[i];
+                System.Diagnostics.Debug.WriteLine($"Story {i + 1}: Title = {story.Title}, IdStory = {story.IdStory}, EventsCount = {story.Events.Count}");
+            }
         }
+
 
         public Story GetStoryById(int storyId)
         {
+            System.Diagnostics.Debug.WriteLine($"AT GETSTORYBYID");
+            System.Diagnostics.Debug.WriteLine($"Loaded {Stories.Count} stories");
+
+            for (int i = 0; i < Stories.Count; i++)
+            {
+                var story = Stories[i];
+                System.Diagnostics.Debug.WriteLine($"Story {i + 1}: Title = {story.Title}, IdStory = {story.IdStory}, EventsCount = {story.Events.Count}");
+            }
             return Stories.FirstOrDefault(s => s.IdStory == storyId);
         }
 

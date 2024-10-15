@@ -13,7 +13,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
     public StoryMap()
     {
         InitializeComponent();
-        _viewModel = new StoryViewModel();
+        _viewModel = StoryViewModel.Instance;
         BindingContext = _viewModel;
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
@@ -58,19 +58,32 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         if (query.ContainsKey("storyId"))
         {
             int storyId = int.Parse(query["storyId"].ToString());
-            LoadStory(storyId); // Load story by ID
+            System.Diagnostics.Debug.WriteLine($"Received storyId: {storyId}");
+            LoadStory(storyId); // Load the story by ID
+        }
+        else
+        {
+            System.Diagnostics.Debug.WriteLine("No storyId received");
         }
     }
+
 
     private void LoadStory(int storyId)
     {
         var selectedStory = _viewModel.GetStoryById(storyId);
+
         if (selectedStory != null)
         {
             _viewModel.SelectedStory = selectedStory;
+            System.Diagnostics.Debug.WriteLine($"Story loaded: {selectedStory.Title}, Events count: {selectedStory.Events.Count}");
+
+            OnPropertyChanged(nameof(_viewModel.SelectedStory));  // Notify the UI of the change
+            OnPropertyChanged(nameof(_viewModel.Events));  // Notify the UI that the event list has changed
         }
         else
         {
+            System.Diagnostics.Debug.WriteLine("Story not found, creating new story.");
+
             // Create a new story if it doesn't exist
             var newStory = new Story
             {
@@ -82,8 +95,14 @@ public partial class StoryMap : ContentPage, IQueryAttributable
 
             _viewModel.SelectedStory = newStory;
             _viewModel.Stories.Add(newStory);
+
+            System.Diagnostics.Debug.WriteLine($"New story created: {newStory.Title}, Events count: {newStory.Events.Count}");
+
+            OnPropertyChanged(nameof(_viewModel.SelectedStory));  // Notify the UI of the change
+            OnPropertyChanged(nameof(_viewModel.Events));  // Notify the UI that the event list has changed
         }
     }
+
 
     private async void OnEditEventClicked(object sender, EventArgs e)
     {

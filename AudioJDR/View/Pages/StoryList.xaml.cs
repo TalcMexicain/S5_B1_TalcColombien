@@ -11,7 +11,7 @@ public partial class StoryList : ContentPage
     public StoryList()
     {
         InitializeComponent();
-        _viewModel = new StoryViewModel();
+        _viewModel = StoryViewModel.Instance;
         BindingContext = _viewModel;
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged; // To handle resizing
