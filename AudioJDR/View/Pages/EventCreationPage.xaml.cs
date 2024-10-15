@@ -1,17 +1,18 @@
+using Model;
 using ViewModel;
 
 namespace View.Pages;
 
 public partial class EventCreationPage : ContentPage
 {
-    private readonly EventViewModel _viewModel;
+    private readonly EventViewModel _eventViewModel;
 
-    public EventCreationPage()
+    public EventCreationPage(EventViewModel _viewModel)
     {
         InitializeComponent();
 
-        _viewModel = new EventViewModel();
-        BindingContext = _viewModel;
+        _eventViewModel = _viewModel;
+        BindingContext = _eventViewModel;
 
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged; // Handle dynamic resizing
@@ -51,7 +52,7 @@ public partial class EventCreationPage : ContentPage
 
     private async void OnAddOptionClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new OptionCreationPage(_viewModel));
+        await Navigation.PushAsync(new OptionCreationPage(_eventViewModel));
     }
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
@@ -62,5 +63,27 @@ public partial class EventCreationPage : ContentPage
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(StoryList));
+    }
+
+    private async void OnEditOptionClicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        var optionObject = button.CommandParameter as Option;
+
+        if (optionObject != null) 
+        {
+            await Navigation.PushAsync(new OptionCreationPage(_eventViewModel,optionObject));
+        }
+    }
+
+    private void OnDeleteOptionClicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        var optionObject = button.CommandParameter as Option;
+
+        if (optionObject != null)
+        {
+            _eventViewModel.RemoveOption(optionObject);
+        }
     }
 }

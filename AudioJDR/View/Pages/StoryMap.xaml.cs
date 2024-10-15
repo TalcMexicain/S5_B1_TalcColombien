@@ -9,11 +9,13 @@ namespace View;
 public partial class StoryMap : ContentPage, IQueryAttributable
 {
     private StoryViewModel _viewModel;
+    private EventViewModel _eventViewModel;
 
     public StoryMap()
     {
         InitializeComponent();
         _viewModel = StoryViewModel.Instance;
+        _eventViewModel = new EventViewModel();
         BindingContext = _viewModel;
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
@@ -106,11 +108,11 @@ public partial class StoryMap : ContentPage, IQueryAttributable
 
     private async void OnEditEventClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(EventCreationPage));
+        await Navigation.PushAsync(new EventCreationPage(_eventViewModel));
     }
     private async void OnCreateNewEventButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(EventCreationPage));
+        await Navigation.PushAsync(new EventCreationPage(_eventViewModel));
     }
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
