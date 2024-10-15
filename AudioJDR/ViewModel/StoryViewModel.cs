@@ -1,114 +1,179 @@
 ﻿using Model;
+using Model.Storage;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace ViewModel
 {
     public class StoryViewModel : BaseViewModel
     {
-        private static StoryViewModel _instance;
-
-        // Singleton instance
-        public static StoryViewModel Instance => _instance ??= new StoryViewModel();
-
-        public ObservableCollection<Story> Stories { get; set; }
-
-        private StoryViewModel()
-        {
-            Stories = new ObservableCollection<Story>();
-            LoadStories(); // Load stories when the singleton is first created
-        }
-
-        public ObservableCollection<Event> Events => SelectedStory?.Events;
-
+        private readonly StoryManager _storyManager;
 
         private Story _selectedStory;
+
         public Story SelectedStory
         {
             get => _selectedStory;
             set
             {
                 _selectedStory = value;
-                OnPropertyChanged(nameof(SelectedStory));
-                OnPropertyChanged(nameof(Events)); // Notify when the Events collection changes
+                OnPropertyChanged(nameof(SelectedStory));  // Notify UI to update when the selected story changes
+            }
+        }
+
+        // Backing field for Stories
+        private ObservableCollection<Story> _stories;
+        public ObservableCollection<Story> Stories
+        {
+            get
+            {
+                if (_stories == null)
+                {
+                    _stories = new ObservableCollection<Story>();
+                }
+                return _stories;
+            }
+            private set
+            {
+                _stories = value;
+                OnPropertyChanged(nameof(Stories));
+            }
+        }
+
+        public StoryViewModel()
+        {
+            _storyManager = new StoryManager();
+            _stories = new ObservableCollection<Story>();
+            LoadStories();
+        }
+
+        /// <summary>
+        /// Load stories from the StorySaveSystem and populate the Stories collection.
+        /// </summary>
+        public async Task LoadStories()
+        {
+            var savedStories = await _storyManager.GetSavedStoriesAsync();
+            if (savedStories != null)
+            {
+                Stories.Clear();
+                foreach (var story in savedStories)
+                {
+                    Stories.Add(story); // Populate Stories list
+                }
             }
         }
 
         /// <summary>
-        /// Load stories (temp) to display them on the StoryList page
+        /// Adds a story
         /// </summary>
-        public void LoadStories()
+        /// <param name="newStory"></param>
+        /// <returns></returns>
+        public async Task AddStory(Story newStory)
         {
-            if (Stories.Count > 0)
+            Stories.Add(newStory);
+            await _storyManager.SaveCurrentStory(newStory); // Save the story using its ID
+        }
+
+        /// <summary>
+        /// Updates the story with the given with the given story
+        /// </summary>
+        /// <param name="storyId">the id of the story to update</param>
+        /// <param name="updatedStory">the update</param>
+        /// <returns></returns>
+        public async Task UpdateStory(int storyId, Story updatedStory)
+        {
+            var story = await GetStoryByIdAsync(storyId);
+
+            if (story != null)
             {
-                return; // Avoid reloading stories if they are already loaded
-            }
+                story.Title = updatedStory.Title;
+                story.Description = updatedStory.Description;
+                story.Events = updatedStory.Events;
 
-            ObservableCollection<Event> events = new ObservableCollection<Event>
-            {
-                new Event("EVENEMENT 1", "Event one description"),
-                new Event("EVENEMENT 2", "Event two description"),
-                new Event("EVENEMENT 3", "Event three description"),
-                new Event("EVENEMENT 4", "Event four description"),
-            };
-
-            Stories.Add(new Story("AVENTURE 1", "Fantaisie médiévale") { IdStory = 1, Events = events });
-            Stories.Add(new Story("AVENTURE 2", "Thriller/Drame") { IdStory = 2, Events = new ObservableCollection<Event>() });
-            Stories.Add(new Story("AVENTURE 3", "Action") { IdStory = 3, Events = new ObservableCollection<Event>() });
-            Stories.Add(new Story("AVENTURE 4", "Yaume") { IdStory = 4, Events = new ObservableCollection<Event>() });
-
-            System.Diagnostics.Debug.WriteLine($"Loaded {Stories.Count} stories");
-
-            for (int i = 0; i < Stories.Count; i++)
-            {
-                var story = Stories[i];
-                System.Diagnostics.Debug.WriteLine($"Story {i + 1}: Title = {story.Title}, IdStory = {story.IdStory}, EventsCount = {story.Events.Count}");
+                await _storyManager.SaveCurrentStory(story); // Save the updated story using its ID
             }
         }
 
 
-        public Story GetStoryById(int storyId)
+        /// <summary>
+        /// Get a story by its ID.
+        /// </summary>
+        public async Task<Story> GetStoryByIdAsync(int storyId)
         {
-            System.Diagnostics.Debug.WriteLine($"AT GETSTORYBYID");
-            System.Diagnostics.Debug.WriteLine($"Loaded {Stories.Count} stories");
-
-            for (int i = 0; i < Stories.Count; i++)
+            if (Stories.Count == 0)
             {
-                var story = Stories[i];
-                System.Diagnostics.Debug.WriteLine($"Story {i + 1}: Title = {story.Title}, IdStory = {story.IdStory}, EventsCount = {story.Events.Count}");
+                // Ensure stories are loaded before trying to retrieve a story
+                await LoadStories();
             }
             return Stories.FirstOrDefault(s => s.IdStory == storyId);
         }
 
-        public int GenerateNewStoryId()
-        {
-            // Generate a new ID based on the highest existing ID + 1
-            if (Stories.Count == 0)
-                return 1; // If there are no stories, start with ID 1
-
-            return Stories.Max(s => s.IdStory) + 1; // Get the highest current ID and increment
-        }
-
         /// <summary>
-        /// Adds a story with name and description
+        /// Deletes a story from the Stories list and from storage.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="description"></param>
-        public void AddStory(string name, string description)
+        public async Task DeleteStory(int storyId)
         {
-            var newStory = new Story(name, description);
-            Stories.Add(newStory);
-        }
-
-        /// <summary>
-        /// Deletes a story
-        /// </summary>
-        /// <param name="story"></param>
-        public void DeleteStory(Story story)
-        {
+            var story = await GetStoryByIdAsync(storyId);
             if (story != null)
             {
-                story.DeleteStory();
                 Stories.Remove(story);
+                _storyManager.DeleteStory(story.IdStory);
+            }
+        }
+
+        /// <summary>
+        /// Generate a new unique ID for the story.
+        /// </summary>
+        public int GenerateNewStoryId()
+        {
+            if (Stories.Count == 0)
+                return 1; // Start from 1 if no stories
+
+            return Stories.Max(s => s.IdStory) + 1;
+        }
+
+        /// <summary>
+        /// Add an event to a story based on the storyId.
+        /// </summary>
+        public void AddEventToStory(int storyId, Event newEvent)
+        {
+            var story = Stories.FirstOrDefault(s => s.IdStory == storyId);
+            if (story != null)
+            {
+                story.Events.Add(newEvent);
+            }
+        }
+
+        /// <summary>
+        /// Update an event in a story based on the storyId and event.
+        /// </summary>
+        public void UpdateEventInStory(int storyId, Event updatedEvent)
+        {
+            var story = Stories.FirstOrDefault(s => s.IdStory == storyId);
+            if (story != null)
+            {
+                var existingEvent = story.Events.FirstOrDefault(e => e.IdEvent == updatedEvent.IdEvent);
+                if (existingEvent != null)
+                {
+                    existingEvent.Name = updatedEvent.Name;
+                    existingEvent.Description = updatedEvent.Description;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Delete an event from a story based on the storyId and eventId.
+        /// </summary>
+        public void DeleteEventFromStory(int storyId, int eventId)
+        {
+            var story = Stories.FirstOrDefault(s => s.IdStory == storyId);
+            if (story != null)
+            {
+                var existingEvent = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
+                if (existingEvent != null)
+                {
+                    story.Events.Remove(existingEvent);
+                }
             }
         }
     }

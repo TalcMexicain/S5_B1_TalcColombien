@@ -4,11 +4,6 @@
              xmlns:local="clr-namespace:View.Resources.Localization"
              x:Class="View.StoryMap">
 
-    <!-- Background color based on light and dark mode -->
-    <ContentPage.BackgroundColor>
-        <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
-    </ContentPage.BackgroundColor>
-
     <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
         <Grid Padding="20">
             <Grid.RowDefinitions>
@@ -26,12 +21,12 @@
             <!-- Title (Story Name) -->
             <Entry Grid.Row="0"
                    x:Name="StoryNameEntry"
-                   Text="{Binding SelectedStory.Title}"  
-                           FontAttributes="Bold"
-                           FontSize="Large"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           Margin="0,20,0,10">
+                   Text="{Binding Story.Title}"  
+                   FontAttributes="Bold"
+                   FontSize="Large"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Margin="0,20,0,10">
                 <Entry.TextColor>
                     <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                 </Entry.TextColor>
@@ -40,7 +35,7 @@
             <!-- Events List -->
             <CollectionView Grid.Row="2"
                             x:Name="EventList"
-                            ItemsSource="{Binding Events}"  
+                            ItemsSource="{Binding Story.Events}"  
                             VerticalOptions="FillAndExpand"
                             Margin="0,0,0,20">
                 <CollectionView.ItemsLayout>
@@ -91,7 +86,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
 
             <!-- Save Button -->
             <Button Grid.Row="4"

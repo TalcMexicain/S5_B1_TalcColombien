@@ -1,6 +1,7 @@
 using View.Pages;
 using ViewModel;
 using Model;
+using System.Diagnostics;
 
 namespace View;
 
@@ -11,7 +12,7 @@ public partial class StoryList : ContentPage
     public StoryList()
     {
         InitializeComponent();
-        _viewModel = StoryViewModel.Instance;
+        _viewModel = new StoryViewModel();
         BindingContext = _viewModel;
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged; // To handle resizing
@@ -29,8 +30,8 @@ public partial class StoryList : ContentPage
         double pageHeight = this.Height;
 
         // Set minimum button sizes to prevent them from becoming too small
-        double minButtonWidth = 350; 
-        double minButtonHeight = 50; 
+        double minButtonWidth = 350;
+        double minButtonHeight = 50;
 
         // Set button sizes dynamically as a percentage of the current page size
         if (pageWidth > 0 && pageHeight > 0)
@@ -52,22 +53,21 @@ public partial class StoryList : ContentPage
             BackButton.FontSize = buttonFontSize;
 
             // Adjust button padding to ensure text fits well
-            CreateNewStoryButton.Padding = new Thickness(20, 5); 
+            CreateNewStoryButton.Padding = new Thickness(20, 5);
             BackButton.Padding = new Thickness(20, 5);
         }
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        _viewModel.LoadStories(); // Load the stories when the page appears
     }
 
     private async void OnEditButtonClicked(object sender, EventArgs e)
     {
         if (sender is Button button && button.BindingContext is Story selectedStory)
         {
+            Debug.WriteLine($"Edit Button Clicked: Story ID: {selectedStory.IdStory}, Title: {selectedStory.Title}");
             await Shell.Current.GoToAsync($"{nameof(StoryMap)}?storyId={selectedStory.IdStory}");
+        }
+        else
+        {
+            Debug.WriteLine("Error: Could not retrieve the selected story.");
         }
     }
 

@@ -313,6 +313,24 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à The name of your story contains unauthorized characters.
+        /// </summary>
+        internal static string StoryNameInvalidErrorDesc {
+            get {
+                return ResourceManager.GetString("StoryNameInvalidErrorDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Story Invalid.
+        /// </summary>
+        internal static string StoryNameInvalidErrorTitle {
+            get {
+                return ResourceManager.GetString("StoryNameInvalidErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Option text.
         /// </summary>
         internal static string TextWordOption {

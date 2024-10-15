@@ -225,4 +225,10 @@
   <data name="NewStoryPlaceholder" xml:space="preserve">
     <value>Nouvelle histoire</value>
   </data>
+  <data name="StoryNameInvalidErrorDesc" xml:space="preserve">
+    <value>Le nom de votre histoire contient des caractères non autorisés</value>
+  </data>
+  <data name="StoryNameInvalidErrorTitle" xml:space="preserve">
+    <value>Histoire non valide</value>
+  </data>
 </root>

@@ -3,17 +3,18 @@ using Model;
 using System.Collections.ObjectModel;
 using View.Resources.Localization;
 using View.Pages;
+using System.Diagnostics;
 
 namespace View;
-
 public partial class StoryMap : ContentPage, IQueryAttributable
 {
     private StoryViewModel _viewModel;
+    private int _storyId;
 
     public StoryMap()
     {
         InitializeComponent();
-        _viewModel = StoryViewModel.Instance;
+        _viewModel = new StoryViewModel();
         BindingContext = _viewModel;
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
@@ -26,6 +27,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
 
     private void SetResponsiveSizes()
     {
+        // Example of dynamic size logic
         double pageWidth = this.Width;
         double pageHeight = this.Height;
 
@@ -57,64 +59,78 @@ public partial class StoryMap : ContentPage, IQueryAttributable
     {
         if (query.ContainsKey("storyId"))
         {
-            int storyId = int.Parse(query["storyId"].ToString());
-            System.Diagnostics.Debug.WriteLine($"Received storyId: {storyId}");
-            LoadStory(storyId); // Load the story by ID
+            _storyId = int.Parse(query["storyId"].ToString());
+            Debug.WriteLine($"Received storyId: {_storyId}");
+            LoadStory(_storyId); // Load the story by ID
         }
         else
         {
-            System.Diagnostics.Debug.WriteLine("No storyId received");
+            Debug.WriteLine("No storyId received");
         }
     }
 
-
-    private void LoadStory(int storyId)
+    private async void LoadStory(int storyId)
     {
-        var selectedStory = _viewModel.GetStoryById(storyId);
+        var story = await _viewModel.GetStoryByIdAsync(storyId);
 
-        if (selectedStory != null)
+        if (story != null)
         {
-            _viewModel.SelectedStory = selectedStory;
-            System.Diagnostics.Debug.WriteLine($"Story loaded: {selectedStory.Title}, Events count: {selectedStory.Events.Count}");
-
-            OnPropertyChanged(nameof(_viewModel.SelectedStory));  // Notify the UI of the change
-            OnPropertyChanged(nameof(_viewModel.Events));  // Notify the UI that the event list has changed
+            StoryNameEntry.Text = story.Title;
+            EventList.ItemsSource = story.Events;
+            Debug.WriteLine($"Story loaded: {story.Title}, Events count: {story.Events.Count}");
         }
         else
         {
-            System.Diagnostics.Debug.WriteLine("Story not found, creating new story.");
-
-            // Create a new story if it doesn't exist
-            var newStory = new Story
-            {
-                IdStory = _viewModel.GenerateNewStoryId(),
-                Title = AppResources.NewStoryPlaceholder,
-                Description = AppResources.NewStoryDescPlaceholder,
-                Events = new ObservableCollection<Event>()
-            };
-
-            _viewModel.SelectedStory = newStory;
-            _viewModel.Stories.Add(newStory);
-
-            System.Diagnostics.Debug.WriteLine($"New story created: {newStory.Title}, Events count: {newStory.Events.Count}");
-
-            OnPropertyChanged(nameof(_viewModel.SelectedStory));  // Notify the UI of the change
-            OnPropertyChanged(nameof(_viewModel.Events));  // Notify the UI that the event list has changed
+            // Don't add a new story yet, wait for the user to save
+            StoryNameEntry.Text = string.Empty;
+            EventList.ItemsSource = new ObservableCollection<Event>();
         }
     }
-
 
     private async void OnEditEventClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(EventCreationPage));
+        await Shell.Current.GoToAsync(nameof(EventCreationPage), true, new Dictionary<string, object>
+        {
+            {"storyId", _storyId}
+        });
     }
+
     private async void OnCreateNewEventButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(EventCreationPage));
+        await Shell.Current.GoToAsync(nameof(EventCreationPage), true, new Dictionary<string, object>
+        {
+            {"storyId", _storyId}
+        });
     }
+
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(StoryList));
+        // If the storyId is 0, treat it as a new story; otherwise, update the existing story
+        if (_storyId == 0)
+        {
+            var newStory = new Story
+            {
+                IdStory = _viewModel.GenerateNewStoryId(),
+                Title = StoryNameEntry.Text,
+                Events = (ObservableCollection<Event>)EventList.ItemsSource
+            };
+
+            await _viewModel.AddStory(newStory); // Add and save the new story
+            _storyId = newStory.IdStory; // Update the ID after saving
+        }
+        else
+        {
+            var updatedStory = new Story
+            {
+                IdStory = _storyId,
+                Title = StoryNameEntry.Text,
+                Events = (ObservableCollection<Event>)EventList.ItemsSource
+            };
+
+            await _viewModel.UpdateStory(_storyId, updatedStory); // Save changes
+        }
+
+        await Shell.Current.GoToAsync(nameof(StoryList)); // Navigate back to the story list
     }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
