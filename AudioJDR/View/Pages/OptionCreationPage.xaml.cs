@@ -1,22 +1,43 @@
 using ViewModel;
 using Model;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace View.Pages;
 
 public partial class OptionCreationPage : ContentPage
 {
     private readonly EventViewModel eventViewModel;
-    private readonly OptionViewModel optionViewModel;
+    private Option? _optionObject;
 
-    public OptionCreationPage(EventViewModel eventVM)
+    public OptionCreationPage(EventViewModel eventVM,Option option = null)
     {
         InitializeComponent();
         eventViewModel = eventVM;
-        optionViewModel = new OptionViewModel();
         BindingContext = eventViewModel;
 
         // Handle dynamic resizing
         this.SizeChanged += OnSizeChanged;
+
+        if (option != null ) 
+        {
+            _optionObject = option;
+            LoadOptionInformation();
+        }
+        else
+        {
+            _optionObject = null;
+        }
+    }
+
+    private void LoadOptionInformation()
+    {
+        this.OptionNameEntry.Text = this._optionObject.NameOption;
+        this.OptionTextWord.Text = this._optionObject.Text;
+
+        if (this._optionObject.LinkedEvent != null ) 
+        {
+            this.EventPicker.SelectedItem = this._optionObject.LinkedEvent;
+        }
     }
 
     private void OnSizeChanged(object sender, EventArgs e)
@@ -34,14 +55,14 @@ public partial class OptionCreationPage : ContentPage
             return;
 
         // Define minimum sizes to prevent elements from becoming too small
-        double minButtonWidth = 200;
-        double minButtonHeight = 60;
+        double minButtonWidth = 150;
+        double minButtonHeight = 50;
 
         double minFrameWidth = 300;
         double minEditorHeight = 200;
 
         // Calculate dynamic sizes based on page dimensions
-        double buttonWidth = Math.Max(pageWidth * 0.6, minButtonWidth); // 60% of page width or min size
+        double buttonWidth = Math.Max(pageWidth * 0.25, minButtonWidth); // 60% of page width or min size
         double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight); // 8% of page height or min size
 
         double frameWidth = Math.Max(pageWidth * 0.8, minFrameWidth); // 80% of page width or min size
@@ -61,7 +82,7 @@ public partial class OptionCreationPage : ContentPage
         SaveButton.WidthRequest = buttonWidth;
         SaveButton.HeightRequest = buttonHeight;
 
-        BackButton.WidthRequest = buttonWidth;
+        BackButton.WidthRequest = buttonWidth * 0.8;
         BackButton.HeightRequest = buttonHeight;
 
         // Adjust font sizes based on button width
@@ -79,24 +100,26 @@ public partial class OptionCreationPage : ContentPage
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
-        Option option = new Option
+        if(_optionObject == null)
         {
-            NameOption = this.OptionNameEntry.Text,
-            Text = this.OptionTextWord.Text
-        };
-
-        // Assign the selected event to the LinkedEvent property of the option
-        if (EventPicker.SelectedItem is Event selectedEvent)
-        {
-            option.LinkedEvent = selectedEvent;
+            this._optionObject = new Option();
+            eventViewModel.AddOption(this._optionObject);
         }
 
-        eventViewModel.AddOption(option);
-        await Shell.Current.GoToAsync(nameof(EventCreationPage));
+        this._optionObject.NameOption = this.OptionNameEntry.Text;
+        this._optionObject.Text = this.OptionTextWord.Text;
+
+        // Assign the selected event to the LinkedEvent property of the option
+        if (this.EventPicker.SelectedItem is Event selectedEvent)
+        {
+            this._optionObject.LinkedEvent = selectedEvent;
+        }
+
+        await Navigation.PushAsync(new EventCreationPage(eventViewModel));
     }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(EventCreationPage));
+        await Navigation.PushAsync(new EventCreationPage(eventViewModel));
     }
 }

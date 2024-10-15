@@ -1,17 +1,18 @@
+using Model;
 using ViewModel;
 
 namespace View.Pages;
 
 public partial class EventCreationPage : ContentPage
 {
-    private readonly EventViewModel _viewModel;
+    private readonly EventViewModel _eventViewModel;
 
-    public EventCreationPage()
+    public EventCreationPage(EventViewModel _viewModel)
     {
         InitializeComponent();
 
-        _viewModel = new EventViewModel();
-        BindingContext = _viewModel;
+        _eventViewModel = _viewModel;
+        BindingContext = _eventViewModel;
 
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged; // Handle dynamic resizing
@@ -28,23 +29,30 @@ public partial class EventCreationPage : ContentPage
         double pageWidth = this.Width;
         double pageHeight = this.Height;
 
+        // Set minimum button sizes to prevent them from becoming too small
+        double minButtonWidth = 150;
+        double minButtonHeight = 50;
+
         if (pageWidth > 0 && pageHeight > 0)
         {
+            double buttonWidth = Math.Max(pageWidth * 0.25, minButtonWidth);
+            double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight);
+
             // Adjust frames and buttons
             EventTitleEntry.WidthRequest = Math.Max(pageWidth * 0.8, 250);
             EventContentEditor.WidthRequest = Math.Max(pageWidth * 0.8, 250);
 
-            SaveButton.WidthRequest = Math.Max(pageWidth * 0.4, 150);
-            SaveButton.HeightRequest = Math.Max(pageHeight * 0.08, 60);
+            SaveButton.WidthRequest = buttonWidth;
+            SaveButton.HeightRequest = buttonHeight;
 
-            BackButton.WidthRequest = Math.Max(pageWidth * 0.4, 150);
-            BackButton.HeightRequest = Math.Max(pageHeight * 0.08, 60);
+            BackButton.WidthRequest = buttonWidth * 0.8;
+            BackButton.HeightRequest = buttonHeight;
         }
     }
 
     private async void OnAddOptionClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new OptionCreationPage(_viewModel));
+        await Navigation.PushAsync(new OptionCreationPage(_eventViewModel));
     }
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
@@ -55,5 +63,27 @@ public partial class EventCreationPage : ContentPage
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(StoryList));
+    }
+
+    private async void OnEditOptionClicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        var optionObject = button.CommandParameter as Option;
+
+        if (optionObject != null) 
+        {
+            await Navigation.PushAsync(new OptionCreationPage(_eventViewModel,optionObject));
+        }
+    }
+
+    private void OnDeleteOptionClicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        var optionObject = button.CommandParameter as Option;
+
+        if (optionObject != null)
+        {
+            _eventViewModel.RemoveOption(optionObject);
+        }
     }
 }

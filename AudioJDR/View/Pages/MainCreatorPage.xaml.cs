@@ -7,7 +7,7 @@ public partial class MainCreatorPage : ContentPage
     {
         InitializeComponent();
         SetResponsiveSizes();
-        this.SizeChanged += OnSizeChanged;  // Recalculate sizes on screen resize
+        this.SizeChanged += OnSizeChanged;
     }
 
     private void OnSizeChanged(object sender, EventArgs e)
@@ -22,8 +22,8 @@ public partial class MainCreatorPage : ContentPage
         double pageHeight = this.Height;
 
         // Set minimum button sizes to prevent them from becoming too small
-        double minButtonWidth = 250; // Minimum width for buttons
-        double minButtonHeight = 70; // Minimum height for buttons
+        double minButtonWidth = 250;
+        double minButtonHeight = 70;
 
         // Set button sizes dynamically as a percentage of the current page size
         if (pageWidth > 0 && pageHeight > 0)
@@ -34,28 +34,28 @@ public partial class MainCreatorPage : ContentPage
             ToStoryListButton.WidthRequest = buttonWidth;
             ToStoryListButton.HeightRequest = buttonHeight;
 
-            BackButton.WidthRequest = buttonWidth * 0.75;
+            BackButton.WidthRequest = buttonWidth * 0.8;
             BackButton.HeightRequest = buttonHeight;
 
             // Adjust font size based on button width, with a maximum size to avoid overflow
-            double buttonFontSize = Math.Min(buttonWidth * 0.06, 20);  // Font size reduced more for smaller screens
+            double buttonFontSize = Math.Min(buttonWidth * 0.06, 20);
 
             ToStoryListButton.FontSize = buttonFontSize;
             BackButton.FontSize = buttonFontSize;
 
             // Adjust button padding to ensure text fits well
-            ToStoryListButton.Padding = new Thickness(20, 5);  // Increased padding for better fit
+            ToStoryListButton.Padding = new Thickness(20, 5);
             BackButton.Padding = new Thickness(20, 5);
         }
     }
 
     private async void OnGoToStoryListButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(StoryList));  // Navigation to Story List
+        await Shell.Current.GoToAsync(nameof(StoryList));
     }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(MainPage));  // Navigation back to MainPage
+        await Shell.Current.GoToAsync(nameof(MainPage));
     }
 }

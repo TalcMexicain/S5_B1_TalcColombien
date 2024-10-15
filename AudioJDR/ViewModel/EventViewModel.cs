@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,27 @@ namespace ViewModel
 {
     public class EventViewModel : BaseViewModel
     {
-        public ObservableCollection<Event> Events { get; set; }
-        public ObservableCollection<Option> Options { get; set; }
+
+        private ObservableCollection<Option> _options;
+        private ObservableCollection<Event> _events;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ObservableCollection<Event> Events 
+        {
+            get => _events;
+            set => _events = value;
+        }
+
+        public ObservableCollection<Option> Options 
+        {
+            get => _options;
+            set
+            {
+                _options = value;
+                OnPropertyChanged(nameof(Options));
+            }
+        }
 
         public EventViewModel()
         {
@@ -55,10 +75,23 @@ namespace ViewModel
             Events.Add(newEvent);
         }
 
+        /// <summary>
+        /// Adds a new option to the options collection.
+        /// </summary>
+        /// <param name="option">The option to be added</param>
 
         public void AddOption(Option option)
         {
             Options.Add(option);
+        }
+
+        /// <summary>
+        /// Removes the specified option from the options collection
+        /// </summary>
+        /// <param name="option">The option to be removed</param>
+        public void RemoveOption(Option option) 
+        { 
+            Options.Remove(option); 
         }
 
         /// <summary>
@@ -72,6 +105,11 @@ namespace ViewModel
                 ev.DeleteEvent();
                 Events.Remove(ev);
             }
+        }
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
