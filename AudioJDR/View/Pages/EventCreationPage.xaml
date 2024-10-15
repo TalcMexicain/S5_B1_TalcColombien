@@ -151,6 +151,7 @@
                     CornerRadius="10"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
+                    FontSize="Small"
                     Clicked="OnSaveButtonClicked">
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
@@ -168,6 +169,7 @@
                     CornerRadius="10"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
+                    FontSize="Small"
                     Clicked="OnBackButtonClicked">
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />

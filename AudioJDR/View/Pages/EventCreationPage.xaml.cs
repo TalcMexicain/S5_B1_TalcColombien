@@ -34,10 +34,10 @@ public partial class EventCreationPage : ContentPage
             EventTitleEntry.WidthRequest = Math.Max(pageWidth * 0.8, 250);
             EventContentEditor.WidthRequest = Math.Max(pageWidth * 0.8, 250);
 
-            SaveButton.WidthRequest = Math.Max(pageWidth * 0.4, 150);
+            SaveButton.WidthRequest = Math.Max(pageWidth * 0.25, 150);
             SaveButton.HeightRequest = Math.Max(pageHeight * 0.08, 60);
 
-            BackButton.WidthRequest = Math.Max(pageWidth * 0.4, 150);
+            BackButton.WidthRequest = Math.Max(pageWidth * 0.25, 150);
             BackButton.HeightRequest = Math.Max(pageHeight * 0.08, 60);
         }
     }

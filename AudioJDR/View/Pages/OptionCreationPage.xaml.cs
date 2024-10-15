@@ -34,14 +34,14 @@ public partial class OptionCreationPage : ContentPage
             return;
 
         // Define minimum sizes to prevent elements from becoming too small
-        double minButtonWidth = 200;
-        double minButtonHeight = 60;
+        double minButtonWidth = 150;
+        double minButtonHeight = 50;
 
         double minFrameWidth = 300;
         double minEditorHeight = 200;
 
         // Calculate dynamic sizes based on page dimensions
-        double buttonWidth = Math.Max(pageWidth * 0.6, minButtonWidth); // 60% of page width or min size
+        double buttonWidth = Math.Max(pageWidth * 0.25, minButtonWidth); // 60% of page width or min size
         double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight); // 8% of page height or min size
 
         double frameWidth = Math.Max(pageWidth * 0.8, minFrameWidth); // 80% of page width or min size
