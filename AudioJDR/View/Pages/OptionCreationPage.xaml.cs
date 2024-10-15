@@ -61,7 +61,7 @@ public partial class OptionCreationPage : ContentPage
         SaveButton.WidthRequest = buttonWidth;
         SaveButton.HeightRequest = buttonHeight;
 
-        BackButton.WidthRequest = buttonWidth;
+        BackButton.WidthRequest = buttonWidth * 0.8;
         BackButton.HeightRequest = buttonHeight;
 
         // Adjust font sizes based on button width

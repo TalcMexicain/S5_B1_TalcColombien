@@ -41,7 +41,7 @@ public partial class StoryList : ContentPage
             CreateNewStoryButton.WidthRequest = buttonWidth;
             CreateNewStoryButton.HeightRequest = buttonHeight;
 
-            BackButton.WidthRequest = buttonWidth * 0.75;
+            BackButton.WidthRequest = buttonWidth * 0.8;
             BackButton.HeightRequest = buttonHeight;
 
             StoriesList.WidthRequest = pageWidth * 0.85;

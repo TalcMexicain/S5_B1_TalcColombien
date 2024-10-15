@@ -28,17 +28,24 @@ public partial class EventCreationPage : ContentPage
         double pageWidth = this.Width;
         double pageHeight = this.Height;
 
+        // Set minimum button sizes to prevent them from becoming too small
+        double minButtonWidth = 150;
+        double minButtonHeight = 50;
+
         if (pageWidth > 0 && pageHeight > 0)
         {
+            double buttonWidth = Math.Max(pageWidth * 0.25, minButtonWidth);
+            double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight);
+
             // Adjust frames and buttons
             EventTitleEntry.WidthRequest = Math.Max(pageWidth * 0.8, 250);
             EventContentEditor.WidthRequest = Math.Max(pageWidth * 0.8, 250);
 
-            SaveButton.WidthRequest = Math.Max(pageWidth * 0.25, 150);
-            SaveButton.HeightRequest = Math.Max(pageHeight * 0.08, 60);
+            SaveButton.WidthRequest = buttonWidth;
+            SaveButton.HeightRequest = buttonHeight;
 
-            BackButton.WidthRequest = Math.Max(pageWidth * 0.25, 150);
-            BackButton.HeightRequest = Math.Max(pageHeight * 0.08, 60);
+            BackButton.WidthRequest = buttonWidth * 0.8;
+            BackButton.HeightRequest = buttonHeight;
         }
     }
 
