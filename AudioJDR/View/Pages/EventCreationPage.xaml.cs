@@ -81,12 +81,12 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
     private async void OnAddOptionClicked(object sender, EventArgs e)
     {
         // Go to OptionCreationPage and pass storyId and eventId
-        await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}?storyId={_storyId}&eventId={_eventId}");
+        //await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}?storyId={_storyId}&eventId={_eventId}");
     }
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
-        if (!string.IsNullOrWhiteSpace(eventTitle) || !string.IsNullOrWhiteSpace(eventContent))
+        if (!string.IsNullOrWhiteSpace(EventTitleEntry.Text) || !string.IsNullOrWhiteSpace(EventContentEditor.Text))
         {
             // Create or update the event in the StoryViewModel
             if (_eventId == 0)
