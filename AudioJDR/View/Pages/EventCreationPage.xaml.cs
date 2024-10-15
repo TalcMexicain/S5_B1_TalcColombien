@@ -83,7 +83,7 @@ public partial class EventCreationPage : ContentPage
     private async void OnEditOptionClicked(object sender, EventArgs e)
     {
         var button = sender as Button;
-        var optionObject = button.CommandParameter as Option;
+        var optionObject = button?.CommandParameter as Option;
 
         if (optionObject != null) 
         {
@@ -94,7 +94,7 @@ public partial class EventCreationPage : ContentPage
     private void OnDeleteOptionClicked(object sender, EventArgs e)
     {
         var button = sender as Button;
-        var optionObject = button.CommandParameter as Option;
+        var optionObject = button?.CommandParameter as Option;
 
         if (optionObject != null)
         {

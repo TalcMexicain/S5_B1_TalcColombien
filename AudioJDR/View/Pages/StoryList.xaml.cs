@@ -80,4 +80,21 @@ public partial class StoryList : ContentPage
     {
         await Shell.Current.GoToAsync(nameof(MainCreatorPage)); // Navigate back to MainCreatorPage
     }
+
+    private void OnExportButtonClicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void OnDeleteButtonClicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+
+        var storyObjet = button?.CommandParameter as Story;
+
+        if (storyObjet != null)
+        {
+            _viewModel?.DeleteStory(storyObjet.IdStory);
+        }
+    }
 }

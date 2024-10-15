@@ -14,6 +14,7 @@
     <Color x:Key="SecondaryBackgroundL">#D4A373</Color>
     <Color x:Key="ActiveLinkL">#E67E22</Color>
     <Color x:Key="AdditionalColorL">#D6C7A1</Color>
+    <Color x:Key="DeleteColorL">#D68829</Color>
     <Color x:Key="BorderColorL">#85796B</Color>
 
     <!--Global colors for dark mode-->
@@ -24,6 +25,7 @@
     <Color x:Key="SecondaryBackgroundD">#8C5A2B</Color>
     <Color x:Key="ActiveLinkD">#D35400</Color>
     <Color x:Key="AdditionalColorD">#3E2C1C</Color>
+    <Color x:Key="DeleteColorD">#D68829</Color>
 
 
 
