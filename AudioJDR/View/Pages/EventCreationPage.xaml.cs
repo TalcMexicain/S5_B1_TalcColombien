@@ -86,29 +86,35 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
-        // Create or update the event in the StoryViewModel
-        if (_eventId == 0)
+        if (!string.IsNullOrWhiteSpace(eventTitle) || !string.IsNullOrWhiteSpace(eventContent))
         {
-            // New event
-            _storyViewModel.AddEventToStory(_storyId, new Event
+            // Create or update the event in the StoryViewModel
+            if (_eventId == 0)
             {
-                Name = EventTitleEntry.Text,
-                Description = EventContentEditor.Text
-            });
+                // New event
+                _storyViewModel.AddEventToStory(_storyId, new Event
+                {
+                    Name = EventTitleEntry.Text,
+                    Description = EventContentEditor.Text
+                });
+            }
+            else
+            {
+                // Update existing event
+                _storyViewModel.UpdateEventInStory(_storyId, new Event
+                {
+                    IdEvent = _eventId,
+                    Name = EventTitleEntry.Text,
+                    Description = EventContentEditor.Text
+                });
+            }
+            // Go back to StoryMap after saving
+            await Shell.Current.GoToAsync($"{nameof(StoryMap)}?storyId={_storyId}");
         }
         else
         {
-            // Update existing event
-            _storyViewModel.UpdateEventInStory(_storyId, new Event
-            {
-                IdEvent = _eventId,
-                Name = EventTitleEntry.Text,
-                Description = EventContentEditor.Text
-            });
+            await DisplayAlert("Error", "Please enter both a title and description for the event.", "OK");
         }
-
-        // Go back to StoryMap after saving
-        await Shell.Current.GoToAsync($"{nameof(StoryMap)}?storyId={_storyId}");
     }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)

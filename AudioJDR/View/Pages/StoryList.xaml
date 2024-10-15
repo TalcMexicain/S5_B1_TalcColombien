@@ -77,7 +77,9 @@
                                     </Label.TextColor>
                                 </Label>
 
+                                <!-- Story Buttons -->
                                 <HorizontalStackLayout HorizontalOptions="Center">
+                                    <!-- Edit Story Button -->
                                     <Button Text="{x:Static local:AppResources.Edit}"
                                             Margin="0,0,10,0"
                                             Clicked="OnEditButtonClicked">
@@ -89,9 +91,24 @@
                                         </Button.TextColor>
                                     </Button>
 
-                                    <Button Text="{x:Static local:AppResources.Export}">
+                                    <!-- Export Story Button -->
+                                    <Button Text="{x:Static local:AppResources.Export}"
+                                            Margin="0,0,10,0"
+                                            Clicked="OnExportButtonClicked">
                                         <Button.BackgroundColor>
                                             <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
+                                        </Button.BackgroundColor>
+                                        <Button.TextColor>
+                                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                                        </Button.TextColor>
+                                    </Button>
+
+                                    <!-- Delete Story Button -->
+                                    <Button Text="{x:Static local:AppResources.Delete}"
+                                            Clicked="OnDeleteButtonClicked"
+                                            CommandParameter="{Binding}">
+                                        <Button.BackgroundColor>
+                                            <AppThemeBinding Light="{StaticResource DeleteColorL}" Dark="{StaticResource DeleteColorD}" />
                                         </Button.BackgroundColor>
                                         <Button.TextColor>
                                             <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
