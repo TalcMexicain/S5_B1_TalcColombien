@@ -57,6 +57,21 @@ public partial class EventCreationPage : ContentPage
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
+        string eventTitle = EventTitleEntry.Text;
+        string eventContent = EventContentEditor.Text;
+
+        if (!string.IsNullOrWhiteSpace(eventTitle) || !string.IsNullOrWhiteSpace(eventContent)){
+
+            _eventViewModel.AddEvent(eventTitle, eventContent);
+
+            await Shell.Current.GoToAsync(nameof(StoryMap));
+        }
+        else
+        {
+            await DisplayAlert("Error", "Please enter both a title and description for the event.","OK");
+        }
+        
+
         await Shell.Current.GoToAsync(nameof(StoryMap));
     }
 

@@ -44,7 +44,7 @@ namespace ViewModel
         /// </summary>
         public void LoadEvent()
         {
-            Events.Clear();
+            
             Events.Add(new Event("EVENEMENT 1", "Event one description"));
             Events.Add(new Event("EVENEMENT 2", "Event two description"));
             Events.Add(new Event("EVENEMENT 3", "Event three description"));
