@@ -72,6 +72,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
     private async void LoadStory(int storyId)
     {
         var story = await _viewModel.GetStoryByIdAsync(storyId);
+        _viewModel.SelectedStory = story;
 
         if (story != null)
         {
@@ -82,7 +83,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         else
         {
             // Don't add a new story yet, wait for the user to save
-            StoryNameEntry.Text = string.Empty;
+            StoryNameEntry.Text = AppResources.NewStoryPlaceholder;
             EventList.ItemsSource = new ObservableCollection<Event>();
         }
     }
@@ -123,6 +124,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
 
             await _viewModel.AddStory(newStory); // Add and save the new story
             _storyId = newStory.IdStory; // Update the ID after saving
+            _viewModel.SelectedStory = newStory;
         }
         else
         {

@@ -9,7 +9,7 @@ namespace ViewModel
         private readonly StoryManager _storyManager;
         private Story _selectedStory;
 
-        public Story SelectedStory
+        public Story? SelectedStory
         {
             get => _selectedStory;
             set
@@ -158,21 +158,22 @@ namespace ViewModel
         /// <summary>
         /// Add a new event to a story.
         /// </summary>
-        public void AddEventToStory(int storyId, Event newEvent)
+        public async Task AddEventToStory(int storyId, Event newEvent)
         {
-            var story = Stories.FirstOrDefault(s => s.IdStory == storyId);
+            var story = await GetStoryByIdAsync(storyId);
             if (story != null)
             {
                 story.Events.Add(newEvent);
+                await UpdateStory(storyId,story);
             }
         }
 
         /// <summary>
         /// Update an existing event in a story.
         /// </summary>
-        public void UpdateEventInStory(int storyId, Event updatedEvent)
+        public async Task UpdateEventInStory(int storyId, Event updatedEvent)
         {
-            var story = Stories.FirstOrDefault(s => s.IdStory == storyId);
+            var story = await GetStoryByIdAsync(storyId);
             if (story != null)
             {
                 var eventToUpdate = story.Events.FirstOrDefault(e => e.IdEvent == updatedEvent.IdEvent);
@@ -180,6 +181,7 @@ namespace ViewModel
                 {
                     eventToUpdate.Name = updatedEvent.Name;
                     eventToUpdate.Description = updatedEvent.Description;
+                    await UpdateStory(storyId, story);
                 }
             }
         }
@@ -187,15 +189,16 @@ namespace ViewModel
         /// <summary>
         /// Delete an event from a story.
         /// </summary>
-        public void DeleteEventFromStory(int storyId, int eventId)
+        public async Task DeleteEventFromStory(int storyId, int eventId)
         {
-            var story = Stories.FirstOrDefault(s => s.IdStory == storyId);
+            var story = await GetStoryByIdAsync(storyId);
             if (story != null)
             {
                 var eventToDelete = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
                 if (eventToDelete != null)
                 {
                     story.Events.Remove(eventToDelete);
+                    await UpdateStory(storyId, story);
                 }
             }
         }
@@ -203,20 +206,21 @@ namespace ViewModel
         /// <summary>
         /// Remove an option from a specific event in a story.
         /// </summary>
-        public void RemoveOptionFromEvent(int storyId, int eventId, Option option)
+        public async Task RemoveOptionFromEvent(int storyId, int eventId, Option option)
         {
-            var story = Stories.FirstOrDefault(s => s.IdStory == storyId);
+            var story = await GetStoryByIdAsync(storyId);
             if (story != null)
             {
                 var eventToUpdate = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
                 if (eventToUpdate != null)
                 {
                     eventToUpdate.Options.Remove(option);
+                    await UpdateStory(storyId, story);
                 }
             }
         }
 
-        private int GenerateNewEventId()
+        public int GenerateNewEventId()
         {
             if (_selectedStory == null || _selectedStory.Events.Count == 0)
             {

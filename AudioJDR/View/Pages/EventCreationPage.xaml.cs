@@ -21,11 +21,12 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
     }
 
     // To receive storyId and eventId from the query
-    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (query.ContainsKey("storyId"))
         {
             _storyId = int.Parse(query["storyId"].ToString());
+            _storyViewModel.SelectedStory = await _storyViewModel.GetStoryByIdAsync(_storyId);
         }
         if (query.ContainsKey("eventId"))
         {
@@ -94,6 +95,7 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
                 // New event
                 _storyViewModel.AddEventToStory(_storyId, new Event
                 {
+                    IdEvent = _storyViewModel.GenerateNewEventId(),
                     Name = EventTitleEntry.Text,
                     Description = EventContentEditor.Text
                 });
