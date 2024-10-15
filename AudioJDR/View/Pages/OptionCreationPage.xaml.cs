@@ -100,26 +100,11 @@ public partial class OptionCreationPage : ContentPage
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
-        if(_optionObject == null)
-        {
-            this._optionObject = new Option();
-            eventViewModel.AddOption(this._optionObject);
-        }
-
-        this._optionObject.NameOption = this.OptionNameEntry.Text;
-        this._optionObject.Text = this.OptionTextWord.Text;
-
-        // Assign the selected event to the LinkedEvent property of the option
-        if (this.EventPicker.SelectedItem is Event selectedEvent)
-        {
-            this._optionObject.LinkedEvent = selectedEvent;
-        }
-
-        await Navigation.PushAsync(new EventCreationPage(eventViewModel));
+        //
     }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new EventCreationPage(eventViewModel));
+        //
     }
 }

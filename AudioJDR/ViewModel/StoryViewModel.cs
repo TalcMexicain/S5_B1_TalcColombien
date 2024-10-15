@@ -1,14 +1,12 @@
 ﻿using Model;
 using Model.Storage;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 namespace ViewModel
 {
     public class StoryViewModel : BaseViewModel
     {
         private readonly StoryManager _storyManager;
-
         private Story _selectedStory;
 
         public Story SelectedStory
@@ -18,10 +16,34 @@ namespace ViewModel
             {
                 _selectedStory = value;
                 OnPropertyChanged(nameof(SelectedStory));  // Notify UI to update when the selected story changes
+                OnPropertyChanged(nameof(Events)); // Notify UI to update when the events change
             }
         }
 
-        // Backing field for Stories
+        public ObservableCollection<Event> Events
+        {
+            get
+            {
+                ObservableCollection<Event> tempEvents;
+                if (_selectedStory.Events == null)
+                {
+                    tempEvents = new ObservableCollection<Event>();
+                }
+                else { tempEvents = _selectedStory.Events; }
+                return tempEvents;
+
+            }
+            private set
+            {
+                if (_selectedStory != null)
+                {
+                    _selectedStory.Events = value;
+                    OnPropertyChanged(nameof(Events));
+                }
+            }
+        }
+
+
         private ObservableCollection<Story> _stories;
         public ObservableCollection<Story> Stories
         {
@@ -71,8 +93,9 @@ namespace ViewModel
         public async Task AddStory(Story newStory)
         {
             Stories.Add(newStory);
-            await _storyManager.SaveCurrentStory(newStory); // Save the story using its ID
+            await _storyManager.SaveCurrentStory(newStory);
         }
+
 
         /// <summary>
         /// Updates the story with the given with the given story
@@ -83,17 +106,15 @@ namespace ViewModel
         public async Task UpdateStory(int storyId, Story updatedStory)
         {
             var story = await GetStoryByIdAsync(storyId);
-
             if (story != null)
             {
                 story.Title = updatedStory.Title;
                 story.Description = updatedStory.Description;
                 story.Events = updatedStory.Events;
 
-                await _storyManager.SaveCurrentStory(story); // Save the updated story using its ID
+                await _storyManager.SaveCurrentStory(story);
             }
         }
-
 
         /// <summary>
         /// Get a story by its ID.
@@ -132,8 +153,10 @@ namespace ViewModel
             return Stories.Max(s => s.IdStory) + 1;
         }
 
+        #region Event Management
+
         /// <summary>
-        /// Add an event to a story based on the storyId.
+        /// Add a new event to a story.
         /// </summary>
         public void AddEventToStory(int storyId, Event newEvent)
         {
@@ -145,36 +168,76 @@ namespace ViewModel
         }
 
         /// <summary>
-        /// Update an event in a story based on the storyId and event.
+        /// Update an existing event in a story.
         /// </summary>
         public void UpdateEventInStory(int storyId, Event updatedEvent)
         {
             var story = Stories.FirstOrDefault(s => s.IdStory == storyId);
             if (story != null)
             {
-                var existingEvent = story.Events.FirstOrDefault(e => e.IdEvent == updatedEvent.IdEvent);
-                if (existingEvent != null)
+                var eventToUpdate = story.Events.FirstOrDefault(e => e.IdEvent == updatedEvent.IdEvent);
+                if (eventToUpdate != null)
                 {
-                    existingEvent.Name = updatedEvent.Name;
-                    existingEvent.Description = updatedEvent.Description;
+                    eventToUpdate.Name = updatedEvent.Name;
+                    eventToUpdate.Description = updatedEvent.Description;
                 }
             }
         }
 
         /// <summary>
-        /// Delete an event from a story based on the storyId and eventId.
+        /// Delete an event from a story.
         /// </summary>
         public void DeleteEventFromStory(int storyId, int eventId)
         {
             var story = Stories.FirstOrDefault(s => s.IdStory == storyId);
             if (story != null)
             {
-                var existingEvent = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
-                if (existingEvent != null)
+                var eventToDelete = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
+                if (eventToDelete != null)
                 {
-                    story.Events.Remove(existingEvent);
+                    story.Events.Remove(eventToDelete);
                 }
             }
         }
+
+        /// <summary>
+        /// Remove an option from a specific event in a story.
+        /// </summary>
+        public void RemoveOptionFromEvent(int storyId, int eventId, Option option)
+        {
+            var story = Stories.FirstOrDefault(s => s.IdStory == storyId);
+            if (story != null)
+            {
+                var eventToUpdate = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
+                if (eventToUpdate != null)
+                {
+                    eventToUpdate.Options.Remove(option);
+                }
+            }
+        }
+
+        private int GenerateNewEventId()
+        {
+            if (_selectedStory == null || _selectedStory.Events.Count == 0)
+            {
+                return 1;
+            }
+            return _selectedStory.Events.Max(e => e.IdEvent) + 1;
+        }
+
+        /// <summary>
+        /// Get an event by its ID from a specific story.
+        /// </summary>
+        public async Task<Event> GetEventByIdAsync(int storyId, int eventId)
+        {
+            var story = await GetStoryByIdAsync(storyId);
+            if (story != null)
+            {
+                return story.Events.FirstOrDefault(e => e.IdEvent == eventId);
+            }
+            return null;
+        }
+
+        #endregion
     }
 }

@@ -89,19 +89,25 @@ public partial class StoryMap : ContentPage, IQueryAttributable
 
     private async void OnEditEventClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(EventCreationPage), true, new Dictionary<string, object>
+        if (sender is Button button && button.BindingContext is Event selectedEvent)
         {
-            {"storyId", _storyId}
-        });
+            // Navigating to EventCreationPage with both storyId and eventId
+            Debug.WriteLine($"Edit Event Clicked: Story ID: {_storyId}, Event ID: {selectedEvent.IdEvent}");
+            await Shell.Current.GoToAsync($"{nameof(EventCreationPage)}?storyId={_storyId}&eventId={selectedEvent.IdEvent}");
+        }
+        else
+        {
+            Debug.WriteLine("Error: Could not retrieve the selected event.");
+        }
     }
 
     private async void OnCreateNewEventButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(EventCreationPage), true, new Dictionary<string, object>
-        {
-            {"storyId", _storyId}
-        });
+        // Navigating to EventCreationPage with just the storyId and a new eventId (set as 0 for new event creation)
+        Debug.WriteLine($"Create New Event Clicked: Story ID: {_storyId}");
+        await Shell.Current.GoToAsync($"{nameof(EventCreationPage)}?storyId={_storyId}&eventId=0");
     }
+
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
