@@ -46,8 +46,8 @@
                     VerticalOptions="Center"
                     FontSize="Medium"
                     Padding="20,10"
-                    IsEnabled="False"
-                    LineBreakMode="WordWrap">
+                    LineBreakMode="WordWrap"
+                    Clicked="OnPlayButtonClicked">
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>

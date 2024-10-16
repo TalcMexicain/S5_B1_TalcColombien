@@ -231,4 +231,19 @@
   <data name="StoryNameInvalidErrorTitle" xml:space="preserve">
     <value>Story Invalid</value>
   </data>
+  <data name="TitleYourStory" xml:space="preserve">
+    <value>Your Story</value>
+  </data>
+  <data name="NewGame" xml:space="preserve">
+    <value>New game</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="Repeat" xml:space="preserve">
+    <value>Repeat</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
 </root>

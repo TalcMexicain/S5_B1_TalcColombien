@@ -79,6 +79,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Continue.
+        /// </summary>
+        internal static string Continue {
+            get {
+                return ResourceManager.GetString("Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Create.
         /// </summary>
         internal static string Create {
@@ -160,11 +169,29 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Import.
+        /// </summary>
+        internal static string Import {
+            get {
+                return ResourceManager.GetString("Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Linked event.
         /// </summary>
         internal static string LinkedEventOption {
             get {
                 return ResourceManager.GetString("LinkedEventOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à New game.
+        /// </summary>
+        internal static string NewGame {
+            get {
+                return ResourceManager.GetString("NewGame", resourceCulture);
             }
         }
         
@@ -264,6 +291,15 @@ namespace View.Resources.Localization {
         internal static string Play {
             get {
                 return ResourceManager.GetString("Play", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Repeat.
+        /// </summary>
+        internal static string Repeat {
+            get {
+                return ResourceManager.GetString("Repeat", resourceCulture);
             }
         }
         
@@ -372,6 +408,15 @@ namespace View.Resources.Localization {
         internal static string TitleStoryList {
             get {
                 return ResourceManager.GetString("TitleStoryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Your Story.
+        /// </summary>
+        internal static string TitleYourStory {
+            get {
+                return ResourceManager.GetString("TitleYourStory", resourceCulture);
             }
         }
         

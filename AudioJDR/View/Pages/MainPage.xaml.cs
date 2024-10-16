@@ -52,7 +52,7 @@ namespace View
 
         private async void OnPlayButtonClicked(object sender, EventArgs e)
         {
-            // Navigation code
+            await Shell.Current.GoToAsync(nameof(YourStories));
         }
 
         private async void OnCreateButtonClicked(object sender, EventArgs e)

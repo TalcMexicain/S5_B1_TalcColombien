@@ -204,11 +204,11 @@
   <data name="OptionTitle" xml:space="preserve">
     <value>Créer/Modifier Option</value>
   </data>
-  <data name="TextWordOption" xml:space="preserve">
-    <value>Texte de l'option</value>
-  </data>
   <data name="OptionPageEvents" xml:space="preserve">
     <value>Sélectionnez un événement</value>
+  </data>
+  <data name="TextWordOption" xml:space="preserve">
+    <value>Texte de l'option</value>
   </data>
   <data name="OptionNameInputText" xml:space="preserve">
     <value>Entrez le nom de l'option</value>
@@ -230,5 +230,20 @@
   </data>
   <data name="StoryNameInvalidErrorTitle" xml:space="preserve">
     <value>Histoire non valide</value>
+  </data>
+  <data name="TitleYourStory" xml:space="preserve">
+    <value>Vos histoires</value>
+  </data>
+  <data name="NewGame" xml:space="preserve">
+    <value>Nouvelle partie</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continuer</value>
+  </data>
+  <data name="Repeat" xml:space="preserve">
+    <value>Répéter</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Importer</value>
   </data>
 </root>
