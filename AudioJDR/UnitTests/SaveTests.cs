@@ -8,8 +8,15 @@ using Model.Storage;
 
 namespace UnitTests
 {
-    public class SaveTests
+    public class SaveTests : IDisposable
     {
+        private string _pathSaveFolder;
+
+        public SaveTests() 
+        {
+            _pathSaveFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TestSaveClass");
+        }
+
         [Fact]
         public void Properties_Test()
         {
@@ -32,25 +39,32 @@ namespace UnitTests
             Event currentEvent = new Event("Test Event", "This is the test event description");
             Save save = new Save(storyToTest, currentEvent);
 
-            string pathSaveFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TestSaveClass");
-            SaveSystem saveSystem = new SaveSystem(pathSaveFolder);
+            SaveSystem saveSystem = new SaveSystem(_pathSaveFolder);
 
             await saveSystem.SaveGameAsync(save);
 
             //Check that the story and event are correctly saved
-            string storyFilePath = Path.Combine(pathSaveFolder, "Test Story", "story.json");
-            string eventFilePath = Path.Combine(pathSaveFolder, "Test Story", "current_event.json");
+            string storyFilePath = Path.Combine(_pathSaveFolder, "Test Story", "story.json");
+            string eventFilePath = Path.Combine(_pathSaveFolder, "Test Story", "current_event.json");
 
             Assert.True(File.Exists(storyFilePath), "Story file should exist at " + storyFilePath);
             Assert.True(File.Exists(eventFilePath), "Event file should exist at " + eventFilePath);
 
-            save.DeleteSave(pathSaveFolder);
+            save.DeleteSave(_pathSaveFolder);
 
             Assert.False(File.Exists(storyFilePath), "Story file should not exist at " + storyFilePath);
             Assert.False(File.Exists(eventFilePath), "Event file should not exist at " + eventFilePath);
 
-            string pathStoryFolder = Path.Combine(pathSaveFolder, save.Story.Title);
+            string pathStoryFolder = Path.Combine(_pathSaveFolder, save.Story.Title);
             Assert.False(Directory.Exists(pathStoryFolder), "Save folder should be deleted.");
+        }
+
+        public void Dispose()
+        {
+            if (Directory.Exists(_pathSaveFolder))
+            {
+                Directory.Delete(_pathSaveFolder,true);
+            }
         }
     }
 }

@@ -15,13 +15,18 @@ namespace UnitTests
             string text = "Initial Text";
             Event initialEvent = new Event("Initial Event", "Description");
 
-            Option optionToTest = new Option(text, initialEvent);
+            Option optionToTest = new Option(text, initialEvent) 
+            { 
+                NameOption = "Initial Name" 
+            };
 
             optionToTest.Text = "Updated Text";
-            Event updatedEvent = new Event("Intial Event", "Description");
+            optionToTest.NameOption = "Updated Name";
+            Event updatedEvent = new Event("Update Event", "Description");
             optionToTest.LinkedEvent = updatedEvent;
 
             Assert.Equal("Updated Text", optionToTest.Text);
+            Assert.Equal("Updated Name", optionToTest.NameOption);
             Assert.Equal(updatedEvent, optionToTest.LinkedEvent);
         }
 

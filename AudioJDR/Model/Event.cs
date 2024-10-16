@@ -107,10 +107,14 @@ namespace Model
         /// </summary>
         public static int GenerateNewEventId(List<Event> existingEvents)
         {
-            if (existingEvents == null || existingEvents.Count == 0)
-                return 1;
+            int returnId = 1;
 
-            return existingEvents.Max(e => e.IdEvent) + 1;
+            if (existingEvents != null && existingEvents.Count > 0)
+            {
+                returnId = existingEvents.Max(e => e.IdEvent) + 1;
+            }
+                
+            return returnId;
         }
 
         #endregion

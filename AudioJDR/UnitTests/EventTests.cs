@@ -50,5 +50,39 @@ namespace UnitTests
             Assert.DoesNotContain(optionToDelete, eventToTest.Options);
 
         }
+
+        [Fact]
+        public void GenerateNewEventId_Test()
+        {
+
+            List<Event> eventListTest =
+            [
+                new Event("Event 1", "Description 1") { IdEvent = 1 },
+                new Event("Event 2", "Description 2") { IdEvent = 2 },
+                new Event("Event 3", "Description 3") { IdEvent = 3 },
+            ];
+
+            int newId = Event.GenerateNewEventId(eventListTest);
+
+            Assert.Equal(4, newId);
+        }
+
+        [Fact]
+        public void GenerateNewEventId_EmptyList_Test()
+        {
+            List<Event> emptyEventList = new List<Event>();
+
+            int newId = Event.GenerateNewEventId(emptyEventList);
+
+            Assert.Equal(1, newId); 
+        }
+
+        [Fact]
+        public void GenerateNewEventId_NullList_Test()
+        {
+            int newId = Event.GenerateNewEventId(null);
+
+            Assert.Equal(1, newId);
+        }
     }
 }

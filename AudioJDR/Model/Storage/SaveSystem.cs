@@ -11,7 +11,7 @@ namespace Model.Storage
     {
         private readonly string _savesFolderPath;
 
-        public SaveSystem(string savesFolderPath = null)
+        public SaveSystem(string? savesFolderPath = null)
         {
             if (savesFolderPath != null)
             {

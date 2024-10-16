@@ -10,7 +10,7 @@ using Model.Storage;
 
 namespace UnitTests
 {
-    public class SaveSystemTests
+    public class SaveSystemTests : IDisposable
     {
         private readonly SaveSystem _saveSystem;
         private readonly string _testSaveFolder;
@@ -139,5 +139,12 @@ namespace UnitTests
             };
         }
 
+        public void Dispose()
+        {
+            if (Directory.Exists(_testSaveFolder))
+            {
+                Directory.Delete(_testSaveFolder, true);
+            }
+        }
     }
 }

@@ -10,10 +10,19 @@ namespace Model.Storage
     {
         private readonly string _storiesFolderPath;
 
-        public StorySaveSystem()
+        public StorySaveSystem(string? storiesFolderPath = null)
         {
-            _storiesFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Stories");
-            Debug.WriteLine("Saves folder path: " + _storiesFolderPath);
+            if (storiesFolderPath != null)
+            {
+                _storiesFolderPath = storiesFolderPath;
+            }
+            else
+            {
+                _storiesFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Stories");
+            }
+
+            //Debug.WriteLine("Saves folder path: " + _storiesFolderPath);
+
             // Create the stories directory if it doesn't exist
             if (!Directory.Exists(_storiesFolderPath))
             {
