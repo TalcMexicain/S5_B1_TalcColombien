@@ -25,7 +25,7 @@ namespace UnitTests
             _storySaveSystem = new StorySaveSystem(_testFolder);
         }
 
-            [Fact]
+        [Fact]
         public async Task SaveStoryAsync_ShouldCreateFile()
         {
             Story storyTest = new Story

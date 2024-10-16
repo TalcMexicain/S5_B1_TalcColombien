@@ -20,24 +20,37 @@ namespace Model
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the unique identifier for the event
+        /// </summary>
         public int IdEvent
         {
             get => idEvent;
             set => idEvent = value;
         }
 
+        /// <summary>
+        /// Gets or sets the name of the event
+        /// </summary>
         public string Name
         {
             get => name;
             set => name = value;
         }
 
+        /// <summary>
+        /// Gets or sets the description of the event, which provides additional details about the event
+        /// </summary>
         public string Description
         {
             get => description;
             set => description = value;
         }
 
+        /// <summary>
+        /// Gets or sets the list of options associated with this event. 
+        /// Options represent possible choices or actions linked to the event
+        /// </summary>
         public List<Option> Options
         {
             get => options;
