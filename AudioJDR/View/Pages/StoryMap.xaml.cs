@@ -110,7 +110,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
     {
         if(sender is Button button && button.BindingContext is Event selectedEvent)
         {
-            bool confirm = await DisplayAlert(AppResources.Confirm, AppResources.DeleteOptionConfirmationText, AppResources.Yes, AppResources.No);
+            bool confirm = await DisplayAlert(AppResources.Confirm, AppResources.DeleteEventConfirmationText, AppResources.Yes, AppResources.No);
             if (confirm)
             {
                 // Remove the event from the ViewModel

@@ -276,4 +276,7 @@
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="DeleteEventConfirmationText" xml:space="preserve">
+    <value>Are you sure you want to delete this event ?</value>
+  </data>
 </root>

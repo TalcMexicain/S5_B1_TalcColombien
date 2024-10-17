@@ -133,6 +133,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Are you sure you want to delete this event ?.
+        /// </summary>
+        internal static string DeleteEventConfirmationText {
+            get {
+                return ResourceManager.GetString("DeleteEventConfirmationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Are you sure you want to delete this option ?.
         /// </summary>
         internal static string DeleteOptionConfirmationText {
