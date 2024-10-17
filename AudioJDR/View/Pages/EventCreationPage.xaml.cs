@@ -118,6 +118,35 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
 
     private async void OnAddOptionClicked(object sender, EventArgs e)
     {
+        if (!string.IsNullOrWhiteSpace(EventTitleEntry.Text) || !string.IsNullOrWhiteSpace(EventContentEditor.Text))
+        {
+            // Create or update the event in the StoryViewModel
+            if (_eventId == 0)
+            {
+                // New event
+                await _storyViewModel.AddEventToStory(_storyId, new Event
+                {
+                    IdEvent = _storyViewModel.GenerateNewEventId(),
+                    Name = EventTitleEntry.Text,
+                    Description = EventContentEditor.Text
+                });
+            }
+            else
+            {
+                // Update existing event
+                await _storyViewModel.UpdateEventInStory(_storyId, new Event
+                {
+                    IdEvent = _eventId,
+                    Name = EventTitleEntry.Text,
+                    Description = EventContentEditor.Text
+                });
+            }
+        }
+        else
+        {
+            await DisplayAlert(AppResources.Error, AppResources.ErrorEventTitleDesc, "OK");
+        }
+
         await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}?storyId={_storyId}&eventId={_eventId}&optionId=0");
     }
 
