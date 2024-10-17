@@ -99,7 +99,7 @@
                                     </Label>
                                     <!-- Event Description -->
                                     <Label Text="{Binding Description}"
-                                           Margin="0,0,90,0"
+                                           Margin="0,0,210,0"
                                            FontSize="14">
                                         <Label.TextColor>
                                             <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
