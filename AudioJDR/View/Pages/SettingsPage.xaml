@@ -61,6 +61,7 @@
                     Title="{x:Static local:AppResources.SelectLanguage}"
                     SelectedIndexChanged="OnLanguageChanged"
                     HorizontalOptions="Center"
+                    MinimumHeightRequest="110"
                     FontSize="Medium">
                 <Picker.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
