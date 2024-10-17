@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using View.Resources.Localization;
 using View.Pages;
 using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace View;
 public partial class StoryMap : ContentPage, IQueryAttributable
@@ -102,6 +103,21 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         else
         {
             Debug.WriteLine("Error: Could not retrieve the selected event.");
+        }
+    }
+
+    private async void OnDeleteEventClicked(object sender, EventArgs e)
+    {
+        if(sender is Button button && button.BindingContext is Event selectedEvent)
+        {
+            bool confirm = await DisplayAlert(AppResources.Confirm, AppResources.DeleteOptionConfirmationText, AppResources.Yes, AppResources.No);
+            if (confirm)
+            {
+                // Remove the event from the ViewModel
+                await _viewModel.DeleteEventFromStory(_storyId, selectedEvent.IdEvent);
+
+                
+            }
         }
     }
 

@@ -155,7 +155,7 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
             await DisplayAlert(AppResources.Error, AppResources.ErrorEventTitleDesc, "OK");
         }
 
-        // Naviguer vers la page de création d'options en utilisant le bon ID de l'événement
+        // Navigate to the option creation page using the correct event ID.
         await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}?storyId={_storyId}&eventId={_eventId}&optionId=0");
     }
 

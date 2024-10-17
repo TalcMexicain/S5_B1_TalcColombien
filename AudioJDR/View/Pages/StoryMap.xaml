@@ -108,16 +108,34 @@
                                 </VerticalStackLayout>
 
                                 <!-- Edit Button -->
-                                <Button Text="{x:Static local:AppResources.Edit}"
-                                        HorizontalOptions="End"
-                                        Clicked="OnEditEventClicked">
-                                    <Button.BackgroundColor>
-                                        <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
-                                    </Button.BackgroundColor>
-                                    <Button.TextColor>
-                                        <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                                    </Button.TextColor>
-                                </Button>
+                                <Grid ColumnDefinitions="Auto, Auto" HorizontalOptions="End">
+                                    <Button Text="{x:Static local:AppResources.Edit}"
+                                            Grid.Column="0"
+                                            WidthRequest="100"
+                                            HorizontalOptions="End"
+                                            Clicked="OnEditEventClicked">
+                                        <Button.BackgroundColor>
+                                            <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                                        </Button.BackgroundColor>
+                                        <Button.TextColor>
+                                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                                        </Button.TextColor>
+                                    </Button>
+
+                                    <Button Text="{x:Static local:AppResources.Delete}"
+                                            Grid.Column="1"
+                                            WidthRequest="100"
+                                            HorizontalOptions="End"
+                                            Margin="10,0,0,0"
+                                            Clicked="OnDeleteEventClicked">
+                                        <Button.BackgroundColor>
+                                            <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
+                                        </Button.BackgroundColor>
+                                        <Button.TextColor>
+                                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                                        </Button.TextColor>
+                                    </Button>
+                                </Grid>
                             </Grid>
                         </Frame>
                     </DataTemplate>
