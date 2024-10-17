@@ -11,7 +11,7 @@ namespace Model
     /// </summary>
     public class Option
     {
-        #region Attributs
+        #region Fields
 
         private int idOption;
         private string nameOption;

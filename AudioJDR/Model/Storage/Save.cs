@@ -12,7 +12,7 @@ namespace Model.Storage
     public class Save
     {
 
-        #region Attributs
+        #region Fields
 
         private int idSave;
         private DateTime saveDate;

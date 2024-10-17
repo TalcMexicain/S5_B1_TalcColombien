@@ -8,8 +8,16 @@ namespace ViewModel
 {
     public class StoryViewModel : BaseViewModel
     {
+        #region Fields
+
         private readonly StoryManager _storyManager;
         private Story _selectedStory;
+
+        private ObservableCollection<Story> _stories;
+
+        #endregion
+
+        #region Properties
 
         public Story? SelectedStory
         {
@@ -21,7 +29,6 @@ namespace ViewModel
             }
         }
 
-        private ObservableCollection<Story> _stories;
         public ObservableCollection<Story> Stories
         {
             get
@@ -38,6 +45,8 @@ namespace ViewModel
                 OnPropertyChanged(nameof(Stories));
             }
         }
+
+        #endregion
 
         public StoryViewModel()
         {
@@ -103,6 +112,7 @@ namespace ViewModel
             {
                 await LoadStories();
             }
+
             return Stories.FirstOrDefault(s => s.IdStory == storyId);
         }
 
@@ -120,14 +130,18 @@ namespace ViewModel
         }
 
         /// <summary>
-        /// Generate a new unique ID for the story.
+        /// Generate a new unique ID for the story
         /// </summary>
         public int GenerateNewStoryId()
         {
-            if (Stories.Count == 0)
-                return 1; // Start from 1 if no stories
+            int newStoryId = 1; // Start from 1 if no stories
 
-            return Stories.Max(s => s.IdStory) + 1;
+            if (Stories.Count > 0)
+            {
+                newStoryId = Stories.Max(s => s.IdStory) + 1;
+            }
+                
+            return newStoryId;
         }
 
         #region Event Management
@@ -198,13 +212,20 @@ namespace ViewModel
             }
         }
 
+        /// <summary>
+        /// Generate a new unique ID for the event
+        /// </summary>
+        /// <returns></returns>
         public int GenerateNewEventId()
         {
-            if (_selectedStory == null || _selectedStory.Events.Count == 0)
+            int newEventId = 1; // Start from 1 if no events
+
+            if (_selectedStory != null && _selectedStory.Events.Count > 0)
             {
-                return 1;
+                newEventId = _selectedStory.Events.Max(e => e.IdEvent) + 1;
             }
-            return _selectedStory.Events.Max(e => e.IdEvent) + 1;
+
+            return newEventId;
         }
 
         /// <summary>
@@ -212,13 +233,17 @@ namespace ViewModel
         /// </summary>
         public async Task<Event> GetEventByIdAsync(int storyId, int eventId)
         {
+            Event? result = null;
+
             var story = await GetStoryByIdAsync(storyId);
+
             if (story != null)
             {
                 Debug.WriteLine($"Story Found : Fetching event with id = {eventId} ..");
-                return story.Events.FirstOrDefault(e => e.IdEvent == eventId);
+                result =  story.Events.FirstOrDefault(e => e.IdEvent == eventId);
             }
-            return null;
+
+            return result;
         }
 
         #endregion
