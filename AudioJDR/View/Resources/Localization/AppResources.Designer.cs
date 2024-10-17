@@ -430,7 +430,7 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Your Story.
+        ///   Recherche une chaîne localisée semblable à Your Stories.
         /// </summary>
         internal static string TitleYourStory {
             get {
