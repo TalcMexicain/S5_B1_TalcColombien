@@ -51,14 +51,18 @@
             </Label>
 
             <!-- Event title input -->
-            <Frame x:Name="EventTitleFrame" Grid.Row="2"
-                   BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+            <Frame x:Name="EventTitleFrame"
+                   Grid.Row="2"
+                   BorderColor="{StaticResource BorderColorL}"
+                   CornerRadius="10"
+                   Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
 
                 <VerticalStackLayout>
-                    <Label x:Name="EventTitleLabel" Text="{x:Static local:AppResources.EventTitle}"
+                    <Label x:Name="EventTitleLabel"
+                           Text="{x:Static local:AppResources.EventTitle}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,5">
@@ -73,8 +77,11 @@
             </Frame>
 
             <!-- Event content input -->
-            <Frame x:Name="EventContentFrame" Grid.Row="4"
-                   BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+            <Frame x:Name="EventContentFrame"
+                   Grid.Row="4"
+                   BorderColor="{StaticResource BorderColorL}"
+                   CornerRadius="10"
+                   Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>

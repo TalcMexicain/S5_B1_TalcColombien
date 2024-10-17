@@ -13,6 +13,10 @@
         <Grid Padding="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
@@ -23,8 +27,21 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
+            <!-- Title -->
+            <Label Grid.Row="0"
+                   Text="{x:Static local:AppResources.TitleStoryMap}"
+                   FontFamily="UncialAntiquaRegular"
+                   FontSize="Large"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Margin="0,5,0,0">
+                <Label.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Label.TextColor>
+            </Label>
+
             <!-- Title (Story Name) -->
-            <Entry Grid.Row="0"
+            <Entry Grid.Row="2"
                    x:Name="StoryNameEntry"
                    Text="{Binding Story.Title}"  
                    FontAttributes="Bold"
@@ -37,8 +54,22 @@
                 </Entry.TextColor>
             </Entry>
 
+            <!-- Description -->
+            <Editor Grid.Row="4"
+                   x:Name="StoryDescriptionEditor"
+                   Text="{Binding Story.Description}"
+                   FontSize="14"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Margin="0,20,0,10"
+                   HeightRequest="100">
+                <Editor.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Editor.TextColor>
+            </Editor>
+
             <!-- Events List -->
-            <CollectionView Grid.Row="2"
+            <CollectionView Grid.Row="6"
                             x:Name="EventList"
                             ItemsSource="{Binding Story.Events}"  
                             VerticalOptions="FillAndExpand"
@@ -68,6 +99,7 @@
                                     </Label>
                                     <!-- Event Description -->
                                     <Label Text="{Binding Description}"
+                                           Margin="0,0,90,0"
                                            FontSize="14">
                                         <Label.TextColor>
                                             <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
@@ -93,7 +125,7 @@
             </CollectionView>
 
             <!-- Save Button -->
-            <Button Grid.Row="4"
+            <Button Grid.Row="8"
                             x:Name="SaveButton"
                             Text="{x:Static local:AppResources.Save}"
                             HorizontalOptions="Center"
@@ -108,7 +140,7 @@
             </Button>
 
             <!-- Create New Event Button -->
-            <Button Grid.Row="6"
+            <Button Grid.Row="10"
                             x:Name="CreateNewEventButton"
                             Text="{x:Static local:AppResources.CreateNewEvent}"
                             HorizontalOptions="Center"
@@ -123,7 +155,7 @@
             </Button>
 
             <!-- Back Button -->
-            <Button Grid.Row="8"
+            <Button Grid.Row="12"
                             x:Name="BackButton"
                             Text="{x:Static local:AppResources.Back}"
                             Clicked="OnBackButtonClicked"

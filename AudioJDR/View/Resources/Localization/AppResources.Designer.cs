@@ -187,6 +187,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à You have three buttons : Play, Create and settings.
+        /// </summary>
+        internal static string MainPageDescription {
+            get {
+                return ResourceManager.GetString("MainPageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à New game.
         /// </summary>
         internal static string NewGame {
@@ -408,6 +417,15 @@ namespace View.Resources.Localization {
         internal static string TitleStoryList {
             get {
                 return ResourceManager.GetString("TitleStoryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Story Map.
+        /// </summary>
+        internal static string TitleStoryMap {
+            get {
+                return ResourceManager.GetString("TitleStoryMap", resourceCulture);
             }
         }
         

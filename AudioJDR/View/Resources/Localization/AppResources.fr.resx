@@ -246,4 +246,10 @@
   <data name="Import" xml:space="preserve">
     <value>Importer</value>
   </data>
+  <data name="MainPageDescription" xml:space="preserve">
+    <value>Vous avez trois boutons : Jouer, Créer et Paramètres.</value>
+  </data>
+  <data name="TitleStoryMap" xml:space="preserve">
+    <value>Carte de l'histoire</value>
+  </data>
 </root>

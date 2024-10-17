@@ -37,6 +37,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
             double buttonHeight = Math.Max(pageHeight * 0.08, 50);
 
             StoryNameEntry.WidthRequest = Math.Max(pageWidth * 0.7, 300);
+            StoryDescriptionEditor.WidthRequest = Math.Max(pageWidth * 0.7, 300);
             EventList.WidthRequest = Math.Max(pageWidth * 0.9, 300);
 
             SaveButton.WidthRequest = buttonWidth;
@@ -77,6 +78,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         if (story != null)
         {
             StoryNameEntry.Text = story.Title;
+            StoryDescriptionEditor.Text = story.Description;
             EventList.ItemsSource = story.Events;
             Debug.WriteLine($"Story loaded: {story.Title}, Events count: {story.Events.Count}");
         }
@@ -84,6 +86,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         {
             // Don't add a new story yet, wait for the user to save
             StoryNameEntry.Text = AppResources.NewStoryPlaceholder;
+            StoryDescriptionEditor.Text = AppResources.NewStoryPlaceholder;
             EventList.ItemsSource = new ObservableCollection<Event>();
         }
     }
@@ -119,6 +122,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
             {
                 IdStory = _viewModel.GenerateNewStoryId(),
                 Title = StoryNameEntry.Text,
+                Description = StoryDescriptionEditor.Text,
                 Events = (ObservableCollection<Event>)EventList.ItemsSource
             };
 
@@ -132,6 +136,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
             {
                 IdStory = _storyId,
                 Title = StoryNameEntry.Text,
+                Description = StoryDescriptionEditor.Text,
                 Events = (ObservableCollection<Event>)EventList.ItemsSource
             };
 
