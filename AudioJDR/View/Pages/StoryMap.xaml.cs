@@ -123,6 +123,33 @@ public partial class StoryMap : ContentPage, IQueryAttributable
 
     private async void OnCreateNewEventButtonClicked(object sender, EventArgs e)
     {
+
+        if (_storyId == 0)
+        {
+            var newStory = new Story
+            {
+                IdStory = _viewModel.GenerateNewStoryId(),
+                Title = StoryNameEntry.Text,
+                Description = StoryDescriptionEditor.Text,
+                Events = (ObservableCollection<Event>)EventList.ItemsSource
+            };
+
+            await _viewModel.AddStory(newStory); // Add and save the new story
+            _storyId = newStory.IdStory; // Update the ID after saving
+            _viewModel.SelectedStory = newStory;
+        }
+        else
+        {
+            var updatedStory = new Story
+            {
+                IdStory = _storyId,
+                Title = StoryNameEntry.Text,
+                Description = StoryDescriptionEditor.Text,
+                Events = (ObservableCollection<Event>)EventList.ItemsSource
+            };
+
+            await _viewModel.UpdateStory(_storyId, updatedStory); // Save changes
+        }
         // Navigating to EventCreationPage with just the storyId and a new eventId (set as 0 for new event creation)
         Debug.WriteLine($"Create New Event Clicked: Story ID: {_storyId}");
         await Shell.Current.GoToAsync($"{nameof(EventCreationPage)}?storyId={_storyId}&eventId=0");
