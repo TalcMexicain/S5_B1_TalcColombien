@@ -120,26 +120,34 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
     {
         if (!string.IsNullOrWhiteSpace(EventTitleEntry.Text) || !string.IsNullOrWhiteSpace(EventContentEditor.Text))
         {
-            // Create or update the event in the StoryViewModel
+            // Create or update event
             if (_eventId == 0)
             {
                 // New event
-                await _storyViewModel.AddEventToStory(_storyId, new Event
+                var newEvent = new Event
                 {
                     IdEvent = _storyViewModel.GenerateNewEventId(),
                     Name = EventTitleEntry.Text,
                     Description = EventContentEditor.Text
-                });
+                };
+
+                // add new event in story
+                await _storyViewModel.AddEventToStory(_storyId, newEvent);
+
+                
+                _eventId = newEvent.IdEvent;
             }
             else
             {
                 // Update existing event
-                await _storyViewModel.UpdateEventInStory(_storyId, new Event
+                var updatedEvent = new Event
                 {
                     IdEvent = _eventId,
                     Name = EventTitleEntry.Text,
                     Description = EventContentEditor.Text
-                });
+                };
+
+                await _storyViewModel.UpdateEventInStory(_storyId, updatedEvent);
             }
         }
         else
@@ -147,6 +155,7 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
             await DisplayAlert(AppResources.Error, AppResources.ErrorEventTitleDesc, "OK");
         }
 
+        // Naviguer vers la page de création d'options en utilisant le bon ID de l'événement
         await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}?storyId={_storyId}&eventId={_eventId}&optionId=0");
     }
 
