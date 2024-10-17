@@ -252,4 +252,28 @@
   <data name="TitleStoryMap" xml:space="preserve">
     <value>Carte de l'histoire</value>
   </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirmez</value>
+  </data>
+  <data name="DeleteOptionConfirmationText" xml:space="preserve">
+    <value>Etes-vous sûr de bien vouloir supprimer cette option ?</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Erreur</value>
+  </data>
+  <data name="ErrorEventTitleDesc" xml:space="preserve">
+    <value>Le titre et la description de l'évènement ne peuvent pas être vides.</value>
+  </data>
+  <data name="ErrorOptionTitleDesc" xml:space="preserve">
+    <value>Le titre et la description de l'option ne peuvent pas être vides.</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Aucun</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Oui</value>
+  </data>
 </root>

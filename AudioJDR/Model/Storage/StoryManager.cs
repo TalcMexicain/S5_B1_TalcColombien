@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,6 +22,7 @@ namespace Model.Storage
         public async Task SaveCurrentStory(Story story)
         {
             await _storySaveSystem.SaveStoryAsync(story);
+            Debug.WriteLine($"Story successfully saved.");
         }
 
         /// <summary>

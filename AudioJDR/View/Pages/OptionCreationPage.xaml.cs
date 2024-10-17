@@ -1,44 +1,100 @@
 using ViewModel;
 using Model;
 using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics;
+using View.Resources.Localization;
 
 namespace View.Pages;
 
-public partial class OptionCreationPage : ContentPage
+public partial class OptionCreationPage : ContentPage, IQueryAttributable
 {
-    private readonly EventViewModel eventViewModel;
-    private Option? _optionObject;
+    private readonly StoryViewModel _storyViewModel;
+    private int _storyId;
+    private int _eventId;
+    private int _optionId;
 
-    public OptionCreationPage(EventViewModel eventVM,Option option = null)
+    public OptionCreationPage()
     {
         InitializeComponent();
-        eventViewModel = eventVM;
-        BindingContext = eventViewModel;
 
-        // Handle dynamic resizing
-        this.SizeChanged += OnSizeChanged;
+        _storyViewModel = new StoryViewModel();
+        BindingContext = _storyViewModel;
 
-        if (option != null ) 
+        SetResponsiveSizes();
+        this.SizeChanged += OnSizeChanged; // Handle dynamic resizing
+    }
+
+    public async void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.ContainsKey("storyId"))
         {
-            _optionObject = option;
-            LoadOptionInformation();
+            _storyId = int.Parse(query["storyId"].ToString());
+            _storyViewModel.SelectedStory = await _storyViewModel.GetStoryByIdAsync(_storyId);
+        }
+
+        if (query.ContainsKey("eventId"))
+        {
+            _eventId = int.Parse(query["eventId"].ToString());
+        }
+        PopulateEventPicker();
+
+        if (query.ContainsKey("optionId"))
+        {
+            _optionId = int.Parse(query["optionId"].ToString());
+
+            // Load the option if it exists
+            if (_optionId != 0)
+            {
+                LoadExistingOption(_optionId);
+            }
+        }
+        
+        Debug.WriteLine($"Opened OptionCreation Page with story (id = {_storyId}) , event (id = {_eventId}) and option (id = {_optionId})");
+    }
+
+    private async void LoadExistingOption(int optionId)
+    {
+        var existingOption = await _storyViewModel.GetOptionByIdAsync(_storyId, _eventId, optionId);
+        if (existingOption != null)
+        {
+            OptionNameEntry.Text = existingOption.NameOption;
+            OptionTextWord.Text = existingOption.Text;
+
+            SetSelectedEvent(existingOption.LinkedEvent?.IdEvent);
+
+            Debug.WriteLine($"Option found : {existingOption.IdOption}, Title: {existingOption.NameOption}");
+        }
+    }
+
+    private void SetSelectedEvent(int? linkedEventId)
+    {
+        // If linkedEventId is null or 0 (for "None"), select "None" in the picker
+        if (linkedEventId == null || linkedEventId == 0)
+        {
+            EventPicker.SelectedItem = _storyViewModel.SelectedStory.Events.FirstOrDefault(e => e.IdEvent == 0); // Select "None"
         }
         else
         {
-            _optionObject = null;
+            // Select the event with the linkedEventId
+            EventPicker.SelectedItem = _storyViewModel.SelectedStory.Events.FirstOrDefault(e => e.IdEvent == linkedEventId);
         }
     }
 
-    private void LoadOptionInformation()
+    private void PopulateEventPicker()
     {
-        this.OptionNameEntry.Text = this._optionObject.NameOption;
-        this.OptionTextWord.Text = this._optionObject.Text;
+        // Get all events from the current story and exclude the current event
+        var filteredEvents = _storyViewModel.SelectedStory.Events
+            .Where(e => e.IdEvent != _eventId)
+            .ToList();
 
-        if (this._optionObject.LinkedEvent != null ) 
-        {
-            this.EventPicker.SelectedItem = this._optionObject.LinkedEvent;
-        }
+        filteredEvents.Insert(0, new Event { IdEvent = 0, Name = AppResources.None }); // Non existing event 
+
+        EventPicker.ItemsSource = null;
+        EventPicker.ItemsSource = filteredEvents;
+
+        Debug.WriteLine($"Populated Event Picker with {filteredEvents.Count} events excluding current event (id = {_eventId})");
     }
+
 
     private void OnSizeChanged(object sender, EventArgs e)
     {
@@ -92,19 +148,52 @@ public partial class OptionCreationPage : ContentPage
         BackButton.FontSize = buttonFontSize;
     }
 
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        eventViewModel.LoadEvent();
-    }
-
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
-        //
+        if (!string.IsNullOrWhiteSpace(OptionNameEntry.Text) || !string.IsNullOrWhiteSpace(OptionTextWord.Text))
+        {
+            // Get the selected event from the picker, set to null if "None" is selected
+            var selectedEvent = (Event)EventPicker.SelectedItem;
+            if (selectedEvent.IdEvent == 0) { selectedEvent = null; }
+
+            // Create or update the option in the StoryViewModel
+            if (_optionId == 0)
+            {
+                Debug.WriteLine($"Option is new: Creating new option..");
+                // New option
+                await _storyViewModel.AddOptionToEvent(_storyId, _eventId, new Option
+                {
+                    IdOption = await _storyViewModel.GenerateNewOptionId(_storyId, _eventId),
+                    NameOption = OptionNameEntry.Text,
+                    Text = OptionTextWord.Text,
+                    LinkedEvent = selectedEvent
+                }) ;
+            }
+            else
+            {
+                Debug.WriteLine($"Option is not new: Updating option..");
+                // Update existing option
+                await _storyViewModel.UpdateOptionInEvent(_storyId, _eventId, new Option
+                {
+                    IdOption = _optionId,
+                    NameOption = OptionNameEntry.Text,
+                    Text = OptionTextWord.Text,
+                    LinkedEvent = selectedEvent
+                });
+            }
+
+            // Go back to EventCreationPage after saving
+            await Shell.Current.GoToAsync($"{nameof(EventCreationPage)}?storyId={_storyId}&eventId={_eventId}");
+        }
+        else
+        {
+            await DisplayAlert(AppResources.Error, AppResources.ErrorOptionTitleDesc, "OK");
+        }
     }
+
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        //
+        await Shell.Current.GoToAsync($"{nameof(EventCreationPage)}?storyId={_storyId}&eventId={_eventId}");
     }
 }

@@ -214,7 +214,7 @@
     <value>Enter the name of the option</value>
   </data>
   <data name="TextWordOptionInput" xml:space="preserve">
-    <value>Enter the words linked to the</value>
+    <value>Enter the words linked to the option</value>
   </data>
   <data name="CreateNewEvent" xml:space="preserve">
     <value>Create a new event</value>
@@ -251,5 +251,29 @@
   </data>
   <data name="TitleStoryMap" xml:space="preserve">
     <value>Story Map</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="DeleteOptionConfirmationText" xml:space="preserve">
+    <value>Are you sure you want to delete this option ?</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ErrorEventTitleDesc" xml:space="preserve">
+    <value>Please enter both a title and description for the event.</value>
+  </data>
+  <data name="ErrorOptionTitleDesc" xml:space="preserve">
+    <value>Please enter both a title and description for the option.</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

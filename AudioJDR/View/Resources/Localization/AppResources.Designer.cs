@@ -79,6 +79,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Confirm.
+        /// </summary>
+        internal static string Confirm {
+            get {
+                return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Continue.
         /// </summary>
         internal static string Continue {
@@ -124,6 +133,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Are you sure you want to delete this option ?.
+        /// </summary>
+        internal static string DeleteOptionConfirmationText {
+            get {
+                return ResourceManager.GetString("DeleteOptionConfirmationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Edit.
         /// </summary>
         internal static string Edit {
@@ -138,6 +156,33 @@ namespace View.Resources.Localization {
         internal static string Editor {
             get {
                 return ResourceManager.GetString("Editor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Error.
+        /// </summary>
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Please enter both a title and description for the event..
+        /// </summary>
+        internal static string ErrorEventTitleDesc {
+            get {
+                return ResourceManager.GetString("ErrorEventTitleDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Please enter both a title and description for the option..
+        /// </summary>
+        internal static string ErrorOptionTitleDesc {
+            get {
+                return ResourceManager.GetString("ErrorOptionTitleDesc", resourceCulture);
             }
         }
         
@@ -219,6 +264,24 @@ namespace View.Resources.Localization {
         internal static string NewStoryPlaceholder {
             get {
                 return ResourceManager.GetString("NewStoryPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à None.
+        /// </summary>
+        internal static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
             }
         }
         
@@ -385,7 +448,7 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Enter the words linked to the.
+        ///   Recherche une chaîne localisée semblable à Enter the words linked to the option.
         /// </summary>
         internal static string TextWordOptionInput {
             get {
@@ -462,6 +525,15 @@ namespace View.Resources.Localization {
         internal static string WelcomeMessage {
             get {
                 return ResourceManager.GetString("WelcomeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Yes.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

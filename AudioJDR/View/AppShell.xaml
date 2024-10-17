@@ -10,5 +10,6 @@
     <FlyoutItem Title="MainPage">
         <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
     </FlyoutItem>
+    
 
 </Shell>

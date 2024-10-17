@@ -1,4 +1,7 @@
+using Microsoft.Extensions.Logging;
 using Model;
+using System.Diagnostics;
+using View.Resources.Localization;
 using ViewModel;
 
 namespace View.Pages;
@@ -20,7 +23,10 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
         this.SizeChanged += OnSizeChanged; // Handle dynamic resizing
     }
 
-    // To receive storyId and eventId from the query
+    /// <summary>
+    /// To receive storyId and eventId from the query - Called when navigating to this page
+    /// </summary>
+    /// <param name="query"></param>
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (query.ContainsKey("storyId"))
@@ -32,21 +38,52 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
         {
             _eventId = int.Parse(query["eventId"].ToString());
 
-            // If eventId is 0, it's a new event, otherwise load the existing event
+            // Load the event if it exists
             if (_eventId != 0)
             {
-                LoadExistingEvent(_eventId);
+                var existingEvent = await LoadEventData(_eventId);
+
+                // Fill the page with event data
+                PopulateEventDetails(existingEvent); 
+                RefreshOptionsList(existingEvent);    
             }
         }
+        Debug.WriteLine($"Opened EventCreation Page with story (id = {_storyId}) and event (id = {_eventId})");
     }
 
-    private async void LoadExistingEvent(int eventId)
+    /// <summary>
+    /// Load event data
+    /// </summary>
+    /// <param name="eventId"></param>
+    /// <returns></returns>
+    private async Task<Event> LoadEventData(int eventId)
     {
-        var existingEvent = await _storyViewModel.GetEventByIdAsync(_storyId, eventId);
+        return await _storyViewModel.GetEventByIdAsync(_storyId, eventId);
+    }
+
+    /// <summary>
+    /// Populate event details (title and description) into UI
+    /// </summary>
+    /// <param name="existingEvent"></param>
+    private void PopulateEventDetails(Event existingEvent)
+    {
         if (existingEvent != null)
         {
             EventTitleEntry.Text = existingEvent.Name;
             EventContentEditor.Text = existingEvent.Description;
+        }
+    }
+
+    /// <summary>
+    /// Refreshes the OptionsList
+    /// </summary>
+    /// <param name="existingEvent"></param>
+    private void RefreshOptionsList(Event existingEvent)
+    {
+        if (existingEvent != null)
+        {
+            OptionsList.ItemsSource = null; // Clear the existing items - forces refresh on rebind
+            OptionsList.ItemsSource = existingEvent.Options; // Bind updated options
         }
     }
 
@@ -81,8 +118,7 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
 
     private async void OnAddOptionClicked(object sender, EventArgs e)
     {
-        // Go to OptionCreationPage and pass storyId and eventId
-        //await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}?storyId={_storyId}&eventId={_eventId}");
+        await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}?storyId={_storyId}&eventId={_eventId}&optionId=0");
     }
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
@@ -93,7 +129,7 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
             if (_eventId == 0)
             {
                 // New event
-                _storyViewModel.AddEventToStory(_storyId, new Event
+                await _storyViewModel.AddEventToStory(_storyId, new Event
                 {
                     IdEvent = _storyViewModel.GenerateNewEventId(),
                     Name = EventTitleEntry.Text,
@@ -103,7 +139,7 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
             else
             {
                 // Update existing event
-                _storyViewModel.UpdateEventInStory(_storyId, new Event
+                await _storyViewModel.UpdateEventInStory(_storyId, new Event
                 {
                     IdEvent = _eventId,
                     Name = EventTitleEntry.Text,
@@ -115,7 +151,7 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
         }
         else
         {
-            await DisplayAlert("Error", "Please enter both a title and description for the event.", "OK");
+            await DisplayAlert(AppResources.Error, AppResources.ErrorEventTitleDesc, "OK");
         }
     }
 
@@ -133,11 +169,20 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
         }
     }
 
-    private void OnDeleteOptionClicked(object sender, EventArgs e)
+    private async void OnDeleteOptionClicked(object sender, EventArgs e)
     {
         if (sender is Button button && button.CommandParameter is Option selectedOption)
         {
-            _storyViewModel.RemoveOptionFromEvent(_storyId, _eventId, selectedOption);
+            bool confirm = await DisplayAlert(AppResources.Confirm, AppResources.DeleteOptionConfirmationText, AppResources.Yes, AppResources.No);
+            if (confirm)
+            {
+                // Remove the option from the ViewModel
+                await _storyViewModel.RemoveOptionFromEvent(_storyId, _eventId, selectedOption);
+
+                // Refresh the option List
+                var existingEvent = await LoadEventData(_eventId);
+                RefreshOptionsList(existingEvent);
+            }
         }
     }
 }
