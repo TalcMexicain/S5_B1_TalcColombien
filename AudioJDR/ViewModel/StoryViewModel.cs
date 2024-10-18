@@ -147,11 +147,21 @@ namespace ViewModel
             return newStoryId;
         }
 
+        /// <summary>
+        /// Exports the story to a folder
+        /// </summary>
+        /// <param name="story">the story to export</param>
+        /// <returns></returns>
         public async Task ExportStoryAsync(Story story)
         {
             await FileServiceManager.ExportStoryAsync(story);
         }
 
+        /// <summary>
+        /// Handles the importation of a story
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="InvalidDataException"></exception>
         public async Task ImportStoryAsync()
         {
             try
@@ -168,13 +178,11 @@ namespace ViewModel
                 }
                 else
                 {
-                    // Handle the case where no valid story was imported
                     throw new InvalidDataException("Invalid story or file format.");
                 }
             }
             catch (Exception ex)
             {
-                // Handle any errors
                 Debug.WriteLine($"Error importing story: {ex.Message}");
             }
         }

@@ -8,12 +8,16 @@ using System.Diagnostics;
 
 namespace Model
 {
+    /// <summary>
+    /// General exportation and importation handler
+    /// </summary>
     public static class FileServiceManager
     {
         private static IFileService _fileService;
 
         static FileServiceManager()
         {
+            // The class used is selected according to the platform
             #if WINDOWS
             _fileService = new WindowsFileService();
             #elif ANDROID
@@ -28,9 +32,23 @@ namespace Model
         /// <returns></returns>
         public static async Task ExportStoryAsync(Story story)
         {
-            var fileName = $"{story.IdStory}.json";
-            var fileContent = JsonSerializer.SerializeToUtf8Bytes(story); 
-            await _fileService.ExportStoryAsync(fileName, fileContent); // Pass to platform-specific implementation
+            var fileName = $"{story.IdStory}.json"; // Generate the file name from the id
+            try {
+                var optionsJson = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
+                };
+                var fileContent = JsonSerializer.SerializeToUtf8Bytes(story, optionsJson); 
+                await _fileService.ExportStoryAsync(fileName, fileContent); // Pass to platform-specific implementation
+            }
+            catch (JsonException ex)
+            {
+                Debug.WriteLine($"Serialization error: {ex.Message}");
+                throw new InvalidDataException("File Couldn't be serialized.");
+            }
+
+
         }
 
         /// <summary>
@@ -47,7 +65,7 @@ namespace Model
                 try
                 {
                     var jsonString = System.Text.Encoding.UTF8.GetString(fileData);
-                    Debug.WriteLine(jsonString); // Log the raw JSON string
+                    Debug.WriteLine(jsonString); 
 
                     var optionsJson = new JsonSerializerOptions
                     {

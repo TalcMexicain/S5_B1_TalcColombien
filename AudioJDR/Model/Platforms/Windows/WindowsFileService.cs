@@ -10,6 +10,9 @@ using WinRT.Interop;
 
 namespace Model
 {
+    /// <summary>
+    /// Windows specific exportation and importation handler
+    /// </summary>
     public class WindowsFileService : IFileService
     {
         public async Task ExportStoryAsync(string fileName, byte[] fileContent)
