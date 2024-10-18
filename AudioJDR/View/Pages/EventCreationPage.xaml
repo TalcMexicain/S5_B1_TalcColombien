@@ -153,7 +153,7 @@
                                         <HorizontalStackLayout Grid.Column="1" Spacing="10" HorizontalOptions="End">
                                             <!-- Edit Button -->
                                             <Button 
-                                            Text="Edit" 
+                                            Text="{x:Static local:AppResources.Edit}" 
                                             Clicked="OnEditOptionClicked"
                                             CommandParameter="{Binding}">
                                                 <Button.BackgroundColor>
@@ -166,7 +166,7 @@
 
                                             <!-- Delete Button -->
                                             <Button 
-                                            Text="Delete" 
+                                            Text="{x:Static local:AppResources.Delete}" 
                                             Clicked="OnDeleteOptionClicked" 
                                             CommandParameter="{Binding}">
                                                 <Button.BackgroundColor>
