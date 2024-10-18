@@ -18,11 +18,19 @@ public partial class YourStories : ContentPage
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
     }
+
+    /// <summary>
+    /// Adjusts UI sizes when the page size changes.
+    /// </summary>
     private void OnSizeChanged(object sender, EventArgs e)
     {
         SetResponsiveSizes();
     }
 
+    /// <summary>
+    /// Adjusts the sizes of buttons and other UI elements dynamically based on the current page dimensions.
+    /// Ensures that elements do not shrink or grow beyond reasonable limits.
+    /// </summary>
     private void SetResponsiveSizes()
     {
         // Use the current page size to set button sizes dynamically
@@ -84,6 +92,11 @@ public partial class YourStories : ContentPage
     {
     }
 
+    /// <summary>
+    /// Handler for the Delete button click event.
+    /// Deletes the selected story from the ViewModel.
+    /// </summary>
+    /// <param name="sender">The Delete button clicked.</param>
     private void OnDeleteButtonClicked(object sender, EventArgs e)
     {
         var button = sender as Button;

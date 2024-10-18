@@ -9,8 +9,11 @@
         <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
     </ContentPage.BackgroundColor>
 
-    <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        <Grid Padding="20" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
+    <ScrollView VerticalOptions="FillAndExpand" 
+                HorizontalOptions="FillAndExpand">
+        <Grid Padding="20" 
+              VerticalOptions="CenterAndExpand" 
+              HorizontalOptions="FillAndExpand">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />

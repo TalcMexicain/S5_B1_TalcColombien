@@ -87,7 +87,8 @@
                             <Frame.BackgroundColor>
                                 <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                             </Frame.BackgroundColor>
-                            <Grid ColumnDefinitions="*,Auto" Padding="5">
+                            <Grid ColumnDefinitions="*,Auto" 
+                                  Padding="5">
                                 <!-- Event Name -->
                                 <VerticalStackLayout>
                                     <Label Text="{Binding Name}" 
@@ -108,7 +109,8 @@
                                 </VerticalStackLayout>
 
                                 <!-- Edit Button -->
-                                <Grid ColumnDefinitions="Auto, Auto" HorizontalOptions="End">
+                                <Grid ColumnDefinitions="Auto, Auto" 
+                                      HorizontalOptions="End">
                                     <Button Text="{x:Static local:AppResources.Edit}"
                                             Grid.Column="0"
                                             WidthRequest="100"

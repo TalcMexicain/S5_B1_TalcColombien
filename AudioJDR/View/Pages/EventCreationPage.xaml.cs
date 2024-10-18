@@ -24,9 +24,10 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
     }
 
     /// <summary>
-    /// To receive storyId and eventId from the query - Called when navigating to this page
+    /// Receives and applies the storyId and eventId from the query parameters when navigating to this page.
+    /// It loads the appropriate story and event data into the view model.
     /// </summary>
-    /// <param name="query"></param>
+    /// <param name="query">A dictionary containing the navigation parameters (storyId, eventId).</param>
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (query.ContainsKey("storyId"))
@@ -43,28 +44,30 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
             {
                 var existingEvent = await LoadEventData(_eventId);
 
-                // Fill the page with event data
-                PopulateEventDetails(existingEvent); 
-                RefreshOptionsList(existingEvent);    
+                // Populate the UI with the event details
+                PopulateEventDetails(existingEvent);
+                RefreshOptionsList(existingEvent);
             }
         }
         Debug.WriteLine($"Opened EventCreation Page with story (id = {_storyId}) and event (id = {_eventId})");
     }
 
+
     /// <summary>
-    /// Load event data
+    /// Retrieves the event data associated with the given event ID from the ViewModel.
     /// </summary>
-    /// <param name="eventId"></param>
-    /// <returns></returns>
+    /// <param name="eventId">The ID of the event to load.</param>
+    /// <returns>The event associated with the given ID, or null if not found.</returns>
     private async Task<Event> LoadEventData(int eventId)
     {
         return await _storyViewModel.GetEventByIdAsync(_storyId, eventId);
     }
 
+
     /// <summary>
-    /// Populate event details (title and description) into UI
+    /// Fills the page's UI elements with the details of the provided event (title, description).
     /// </summary>
-    /// <param name="existingEvent"></param>
+    /// <param name="existingEvent">The event whose details should be displayed in the UI.</param>
     private void PopulateEventDetails(Event existingEvent)
     {
         if (existingEvent != null)
@@ -74,10 +77,12 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
         }
     }
 
+
     /// <summary>
-    /// Refreshes the OptionsList
+    /// Refreshes the list of options for the provided event by re-binding the event's options
+    /// to the OptionsList view.
     /// </summary>
-    /// <param name="existingEvent"></param>
+    /// <param name="existingEvent">The event whose options should be displayed.</param>
     private void RefreshOptionsList(Event existingEvent)
     {
         if (existingEvent != null)
@@ -87,11 +92,23 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
         }
     }
 
+
+    /// <summary>
+    /// Event handler for dynamically adjusting UI element sizes when the page is resized.
+    /// This ensures the page layout remains responsive to different screen sizes.
+    /// </summary>
+    /// <param name="sender">The source of the event (typically the page itself).</param>
+    /// <param name="e">Event arguments.</param>
     private void OnSizeChanged(object sender, EventArgs e)
     {
         SetResponsiveSizes(); // Adjust sizes when screen size changes
     }
 
+
+    /// <summary>
+    /// Dynamically adjusts the sizes of various UI elements (buttons, text inputs) based on
+    /// the current page dimensions to ensure a responsive layout.
+    /// </summary>
     private void SetResponsiveSizes()
     {
         double pageWidth = this.Width;
@@ -116,6 +133,13 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
         }
     }
 
+
+    /// <summary>
+    /// Handles the logic for creating or updating an event and navigating to the OptionCreationPage 
+    /// to add options related to the event.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event (typically a button).</param>
+    /// <param name="e">Event arguments associated with the button click.</param>
     private async void OnAddOptionClicked(object sender, EventArgs e)
     {
         if (!string.IsNullOrWhiteSpace(EventTitleEntry.Text) || !string.IsNullOrWhiteSpace(EventContentEditor.Text))
@@ -131,10 +155,9 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
                     Description = EventContentEditor.Text
                 };
 
-                // add new event in story
+                // Add new event to the story
                 await _storyViewModel.AddEventToStory(_storyId, newEvent);
 
-                
                 _eventId = newEvent.IdEvent;
             }
             else
@@ -149,7 +172,8 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
 
                 await _storyViewModel.UpdateEventInStory(_storyId, updatedEvent);
             }
-            // Navigate to the option creation page using the correct event ID.
+
+            // Navigate to the OptionCreationPage for adding options to the event
             await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}?storyId={_storyId}&eventId={_eventId}&optionId=0");
         }
         else
@@ -158,6 +182,13 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
         }
     }
 
+
+    /// <summary>
+    /// Handles the save button click event by either creating or updating an event
+    /// in the story and navigating back to the StoryMap page after saving.
+    /// </summary>
+    /// <param name="sender">The source of the event (the save button).</param>
+    /// <param name="e">Event arguments.</param>
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
         if (!string.IsNullOrWhiteSpace(EventTitleEntry.Text) || !string.IsNullOrWhiteSpace(EventContentEditor.Text))
@@ -194,7 +225,6 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        // Navigate back to StoryMap
         await Shell.Current.GoToAsync($"{nameof(StoryMap)}?storyId={_storyId}");
     }
 
@@ -206,6 +236,12 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
         }
     }
 
+    /// <summary>
+    /// Handles the click event for deleting an option from the event by confirming with the user
+    /// and removing the option from the ViewModel if confirmed.
+    /// </summary>
+    /// <param name="sender">The source of the event (the delete button).</param>
+    /// <param name="e">Event arguments.</param>
     private async void OnDeleteOptionClicked(object sender, EventArgs e)
     {
         if (sender is Button button && button.CommandParameter is Option selectedOption)
@@ -222,4 +258,5 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
             }
         }
     }
+
 }

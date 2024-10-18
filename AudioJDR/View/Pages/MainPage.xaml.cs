@@ -11,11 +11,23 @@ namespace View
             this.SizeChanged += OnSizeChanged;
         }
 
+        /// <summary>
+        /// Event handler triggered when the page size changes. 
+        /// Calls a method to adjust the UI elements based on the new size.
+        /// </summary>
+        /// <param name="sender">The source of the event (typically the page itself).</param>
+        /// <param name="e">Event arguments.</param>
         private void OnSizeChanged(object sender, EventArgs e)
         {
             SetResponsiveSizes();
         }
 
+
+        /// <summary>
+        /// Dynamically adjusts the sizes and fonts of the buttons based on the 
+        /// current dimensions of the page. Ensures buttons do not become too small 
+        /// and that the font size is adjusted to fit the button width properly.
+        /// </summary>
         private void SetResponsiveSizes()
         {
             // Use the current page size to set button sizes dynamically
@@ -30,8 +42,9 @@ namespace View
             if (pageWidth > 0 && pageHeight > 0)
             {
                 double buttonWidth = Math.Max(pageWidth * 0.25, minButtonWidth);
-                double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight); 
+                double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight);
 
+                // Apply dynamic sizes to buttons
                 PlayButton.WidthRequest = buttonWidth;
                 PlayButton.HeightRequest = buttonHeight;
 
@@ -42,13 +55,14 @@ namespace View
                 SettingsButton.HeightRequest = buttonHeight;
 
                 // Adjust font size based on button width, with a maximum size to avoid overflow
-                double buttonFontSize = Math.Min(buttonWidth * 0.1, 24); 
+                double buttonFontSize = Math.Min(buttonWidth * 0.1, 24);
 
                 PlayButton.FontSize = buttonFontSize;
                 CreateButton.FontSize = buttonFontSize;
                 SettingsButton.FontSize = buttonFontSize;
             }
         }
+
 
         private async void OnPlayButtonClicked(object sender, EventArgs e)
         {

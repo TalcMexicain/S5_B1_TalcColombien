@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:View.Resources.Localization"
              x:Class="View.MainPage">
 
+    <!-- Background color based on light and dark mode -->
     <ContentPage.BackgroundColor>
         <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
     </ContentPage.BackgroundColor>

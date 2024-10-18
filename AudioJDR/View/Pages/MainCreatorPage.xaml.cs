@@ -9,12 +9,22 @@ public partial class MainCreatorPage : ContentPage
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
     }
-
+    /// <summary>
+    /// Event handler triggered when the page size changes. 
+    /// Calls a method to adjust UI elements based on the new size.
+    /// </summary>
+    /// <param name="sender">The source of the event (typically the page itself).</param>
+    /// <param name="e">Event arguments.</param>
     private void OnSizeChanged(object sender, EventArgs e)
     {
         SetResponsiveSizes();
     }
 
+    /// <summary>
+    /// Adjusts the sizes and padding of buttons and other UI elements dynamically 
+    /// based on the current page dimensions. Ensures that buttons do not become 
+    /// too small and that font sizes and padding are properly set for readability.
+    /// </summary>
     private void SetResponsiveSizes()
     {
         // Use the current page size to set button sizes dynamically
@@ -31,6 +41,7 @@ public partial class MainCreatorPage : ContentPage
             double buttonWidth = Math.Max(pageWidth * 0.24, minButtonWidth);
             double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight);
 
+            // Adjust the width and height of buttons
             ToStoryListButton.WidthRequest = buttonWidth;
             ToStoryListButton.HeightRequest = buttonHeight;
 
@@ -40,6 +51,7 @@ public partial class MainCreatorPage : ContentPage
             // Adjust font size based on button width, with a maximum size to avoid overflow
             double buttonFontSize = Math.Min(buttonWidth * 0.06, 20);
 
+            // Set font sizes for buttons
             ToStoryListButton.FontSize = buttonFontSize;
             BackButton.FontSize = buttonFontSize;
 
@@ -48,6 +60,7 @@ public partial class MainCreatorPage : ContentPage
             BackButton.Padding = new Thickness(20, 5);
         }
     }
+
 
     private async void OnGoToStoryListButtonClicked(object sender, EventArgs e)
     {

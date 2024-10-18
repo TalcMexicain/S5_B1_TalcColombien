@@ -18,22 +18,26 @@ public partial class StoryList : ContentPage
         this.SizeChanged += OnSizeChanged; // To handle resizing
     }
 
+    /// <summary>
+    /// Adjusts UI sizes when the page size changes.
+    /// </summary>
     private void OnSizeChanged(object sender, EventArgs e)
     {
         SetResponsiveSizes(); // Adjust sizes when screen size changes
     }
 
+    /// <summary>
+    /// Adjusts the sizes of buttons and the story list dynamically based on the current page dimensions.
+    /// Ensures that buttons do not shrink or grow beyond reasonable limits.
+    /// </summary>
     private void SetResponsiveSizes()
     {
-        // Use the current page size to set button sizes dynamically
         double pageWidth = this.Width;
         double pageHeight = this.Height;
 
-        // Set minimum button sizes to prevent them from becoming too small
         double minButtonWidth = 350;
         double minButtonHeight = 50;
 
-        // Set button sizes dynamically as a percentage of the current page size
         if (pageWidth > 0 && pageHeight > 0)
         {
             double buttonWidth = Math.Max(pageWidth * 0.24, minButtonWidth);
@@ -50,19 +54,24 @@ public partial class StoryList : ContentPage
 
             StoriesList.WidthRequest = pageWidth * 0.85;
 
-            double buttonFontSize = Math.Min(buttonWidth * 0.08, 16); // Limit font size to avoid overflow
+            double buttonFontSize = Math.Min(buttonWidth * 0.08, 16);
 
             CreateNewStoryButton.FontSize = buttonFontSize;
             ImportStoryButton.FontSize = buttonFontSize;
             BackButton.FontSize = buttonFontSize;
 
-            // Adjust button padding to ensure text fits well
             CreateNewStoryButton.Padding = new Thickness(20, 5);
             ImportStoryButton.Padding = new Thickness(20, 5);
             BackButton.Padding = new Thickness(20, 5);
         }
     }
 
+
+    /// <summary>
+    /// Opens the StoryMap page to edit the selected story.
+    /// </summary>
+    /// <param name="sender">The Edit button clicked.</param>
+    /// <param name="e">Event arguments.</param>
     private async void OnEditButtonClicked(object sender, EventArgs e)
     {
         if (sender is Button button && button.BindingContext is Story selectedStory)
@@ -75,6 +84,7 @@ public partial class StoryList : ContentPage
             Debug.WriteLine("Error: Could not retrieve the selected story.");
         }
     }
+
 
     private async void OnCreateNewStoryButtonClicked(object sender, EventArgs e)
     {
@@ -91,6 +101,11 @@ public partial class StoryList : ContentPage
         await _viewModel.ImportStoryAsync();
     }
 
+    /// <summary>
+    /// Exports the selected story by triggering the ExportStoryAsync method in the ViewModel.
+    /// </summary>
+    /// <param name="sender">The Export button clicked.</param>
+    /// <param name="e">Event arguments.</param>
     private async void OnExportButtonClicked(object sender, EventArgs e)
     {
         if (sender is Button button && button.BindingContext is Story story)
@@ -98,13 +113,21 @@ public partial class StoryList : ContentPage
             Debug.WriteLine($"Exportation of story with id = {story.IdStory} initiated");
             await _viewModel?.ExportStoryAsync(story);
         }
-        else Debug.WriteLine($"Exportation : story was not found");
+        else
+        {
+            Debug.WriteLine($"Exportation : story was not found");
+        }
     }
 
+
+    /// <summary>
+    /// Deletes the selected story by triggering the DeleteStory method in the ViewModel.
+    /// </summary>
+    /// <param name="sender">The Delete button clicked.</param>
+    /// <param name="e">Event arguments.</param>
     private void OnDeleteButtonClicked(object sender, EventArgs e)
     {
         var button = sender as Button;
-
         var storyObjet = button?.CommandParameter as Story;
 
         if (storyObjet != null)
@@ -112,4 +135,5 @@ public partial class StoryList : ContentPage
             _viewModel?.DeleteStory(storyObjet.IdStory);
         }
     }
+
 }

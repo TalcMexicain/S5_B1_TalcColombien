@@ -24,6 +24,11 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
         this.SizeChanged += OnSizeChanged; // Handle dynamic resizing
     }
 
+    /// <summary>
+    /// Applies query parameters passed to the page, such as storyId, eventId, and optionId.
+    /// Loads the appropriate story, event, and option data based on these parameters.
+    /// </summary>
+    /// <param name="query">The dictionary of query parameters.</param>
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (query.ContainsKey("storyId"))
@@ -48,10 +53,15 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
                 LoadExistingOption(_optionId);
             }
         }
-        
+
         Debug.WriteLine($"Opened OptionCreation Page with story (id = {_storyId}) , event (id = {_eventId}) and option (id = {_optionId})");
     }
 
+
+    /// <summary>
+    /// Loads the details of an existing option for editing, populating the input fields with the option data.
+    /// </summary>
+    /// <param name="optionId">The ID of the option to load.</param>
     private async void LoadExistingOption(int optionId)
     {
         var existingOption = await _storyViewModel.GetOptionByIdAsync(_storyId, _eventId, optionId);
@@ -66,23 +76,31 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
         }
     }
 
+
+    /// <summary>
+    /// Sets the selected event in the EventPicker based on the linked event ID of the option.
+    /// Selects "None" if the option is not linked to any event.
+    /// </summary>
+    /// <param name="linkedEventId">The ID of the event linked to the option, or null for no link.</param>
     private void SetSelectedEvent(int? linkedEventId)
     {
-        // If linkedEventId is null or 0 (for "None"), select "None" in the picker
         if (linkedEventId == null || linkedEventId == 0)
         {
             EventPicker.SelectedItem = _storyViewModel.SelectedStory.Events.FirstOrDefault(e => e.IdEvent == 0); // Select "None"
         }
         else
         {
-            // Select the event with the linkedEventId
             EventPicker.SelectedItem = _storyViewModel.SelectedStory.Events.FirstOrDefault(e => e.IdEvent == linkedEventId);
         }
     }
 
+
+    /// <summary>
+    /// Populates the EventPicker with all events from the selected story, excluding the current event.
+    /// Adds an option for "None" to represent no linked event.
+    /// </summary>
     private void PopulateEventPicker()
     {
-        // Get all events from the current story and exclude the current event
         var filteredEvents = _storyViewModel.SelectedStory.Events
             .Where(e => e.IdEvent != _eventId)
             .ToList();
@@ -96,11 +114,23 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
     }
 
 
+
+    /// <summary>
+    /// Event handler triggered when the page size changes.
+    /// Adjusts the UI elements dynamically to fit the new page size.
+    /// </summary>
+    /// <param name="sender">The source of the event (the page).</param>
+    /// <param name="e">Event arguments.</param>
     private void OnSizeChanged(object sender, EventArgs e)
     {
         SetResponsiveSizes();
     }
 
+
+    /// <summary>
+    /// Dynamically adjusts the sizes of the UI elements based on the current dimensions of the page.
+    /// Ensures elements like buttons, frames, and text editors do not become too small or too large.
+    /// </summary>
     private void SetResponsiveSizes()
     {
         // Get the current page size
@@ -113,18 +143,14 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
         // Define minimum sizes to prevent elements from becoming too small
         double minButtonWidth = 150;
         double minButtonHeight = 50;
-
         double minFrameWidth = 300;
         double minEditorHeight = 200;
 
         // Calculate dynamic sizes based on page dimensions
-        double buttonWidth = Math.Max(pageWidth * 0.25, minButtonWidth); // 60% of page width or min size
-        double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight); // 8% of page height or min size
-
-        double frameWidth = Math.Max(pageWidth * 0.8, minFrameWidth); // 80% of page width or min size
-        double editorHeight = Math.Max(pageHeight * 0.15, minEditorHeight); // 15% of page height or min size
-
-        // Adjust sizes for individual elements
+        double buttonWidth = Math.Max(pageWidth * 0.25, minButtonWidth);
+        double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight);
+        double frameWidth = Math.Max(pageWidth * 0.8, minFrameWidth);
+        double editorHeight = Math.Max(pageHeight * 0.15, minEditorHeight);
 
         // Set frame widths
         OptionNameFrame.WidthRequest = frameWidth;
@@ -142,37 +168,41 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
         BackButton.HeightRequest = buttonHeight;
 
         // Adjust font sizes based on button width
-        double buttonFontSize = Math.Min(buttonWidth * 0.08, 18); // Scale font size based on button width
+        double buttonFontSize = Math.Min(buttonWidth * 0.08, 18);
 
         SaveButton.FontSize = buttonFontSize;
         BackButton.FontSize = buttonFontSize;
     }
 
+
+    /// <summary>
+    /// Handles the click event for the Save button.
+    /// Validates input and creates or updates an option in the story's event.
+    /// If successful, navigates back to the EventCreationPage.
+    /// </summary>
+    /// <param name="sender">The source of the event (the Save button).</param>
+    /// <param name="e">Event arguments.</param>
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
         if (!string.IsNullOrWhiteSpace(OptionNameEntry.Text) || !string.IsNullOrWhiteSpace(OptionTextWord.Text))
         {
-            // Get the selected event from the picker, set to null if "None" is selected
             var selectedEvent = (Event)EventPicker.SelectedItem;
             if (selectedEvent.IdEvent == 0) { selectedEvent = null; }
 
-            // Create or update the option in the StoryViewModel
             if (_optionId == 0)
             {
                 Debug.WriteLine($"Option is new: Creating new option..");
-                // New option
                 await _storyViewModel.AddOptionToEvent(_storyId, _eventId, new Option
                 {
                     IdOption = await _storyViewModel.GenerateNewOptionId(_storyId, _eventId),
                     NameOption = OptionNameEntry.Text,
                     Text = OptionTextWord.Text,
                     LinkedEvent = selectedEvent
-                }) ;
+                });
             }
             else
             {
                 Debug.WriteLine($"Option is not new: Updating option..");
-                // Update existing option
                 await _storyViewModel.UpdateOptionInEvent(_storyId, _eventId, new Option
                 {
                     IdOption = _optionId,
@@ -182,7 +212,6 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
                 });
             }
 
-            // Go back to EventCreationPage after saving
             await Shell.Current.GoToAsync($"{nameof(EventCreationPage)}?storyId={_storyId}&eventId={_eventId}");
         }
         else
@@ -190,6 +219,7 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
             await DisplayAlert(AppResources.Error, AppResources.ErrorOptionTitleDesc, "OK");
         }
     }
+
 
 
     private async void OnBackButtonClicked(object sender, EventArgs e)

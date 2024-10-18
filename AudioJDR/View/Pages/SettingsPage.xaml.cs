@@ -14,22 +14,26 @@ namespace View.Pages
             this.SizeChanged += OnSizeChanged;
         }
 
+        /// <summary>
+        /// Adjusts UI sizes when the page size changes.
+        /// </summary>
         private void OnSizeChanged(object sender, EventArgs e)
         {
             SetResponsiveSizes();
         }
 
+        /// <summary>
+        /// Adjusts the sizes of buttons and other UI elements dynamically based on the current page dimensions.
+        /// Ensures that elements do not shrink or grow beyond reasonable limits.
+        /// </summary>
         private void SetResponsiveSizes()
         {
-            // Use the current page size to set button sizes dynamically
             double pageWidth = this.Width;
             double pageHeight = this.Height;
 
-            // Set minimum button sizes to prevent them from becoming too small
-            double minButtonWidth = 250; // Adjust the minimum width for landscape
+            double minButtonWidth = 250;
             double minButtonHeight = 60;
 
-            // Set button sizes dynamically as a percentage of the current page size
             if (pageWidth > 0 && pageHeight > 0)
             {
                 double buttonWidth = Math.Max(pageWidth * 0.35, minButtonWidth);
@@ -44,22 +48,23 @@ namespace View.Pages
                 BackButton.WidthRequest = buttonWidth * 0.75;
                 BackButton.HeightRequest = buttonHeight;
 
-                // Adjust font size based on button width, with a maximum size to avoid overflow
-                double buttonFontSize = Math.Min(buttonWidth * 0.08, 30); 
+                double buttonFontSize = Math.Min(buttonWidth * 0.08, 30);
 
                 ThemeToggleButton.FontSize = buttonFontSize;
                 LanguagePicker.FontSize = buttonFontSize;
                 BackButton.FontSize = buttonFontSize;
 
-                // Adjust button padding to ensure text fits well
                 ThemeToggleButton.Padding = new Thickness(20, 5);
                 BackButton.Padding = new Thickness(20, 5);
             }
         }
 
+        /// <summary>
+        /// Initializes the language picker with available languages (English, French).
+        /// Automatically selects the current app language in the picker when the page loads.
+        /// </summary>
         private void PickerInitialization()
         {
-            // Set the items source for the picker
             LanguagePicker.ItemsSource = new List<string> { "English", "Français" };
 
             LanguagePicker.Loaded += (sender, e) =>
@@ -81,6 +86,12 @@ namespace View.Pages
             };
         }
 
+        /// <summary>
+        /// Event handler for the Theme Toggle button click.
+        /// Toggles between light and dark themes for the application.
+        /// </summary>
+        /// <param name="sender">The source of the event (the Theme Toggle button).</param>
+        /// <param name="e">Event arguments.</param>
         private void OnThemeButtonClicked(object sender, EventArgs e)
         {
             if (Application.Current.RequestedTheme == AppTheme.Light)
@@ -93,6 +104,12 @@ namespace View.Pages
             }
         }
 
+        /// <summary>
+        /// Event handler triggered when the selected language in the picker is changed.
+        /// Changes the app language if the selected language is different from the current one.
+        /// </summary>
+        /// <param name="sender">The source of the event (the Language Picker).</param>
+        /// <param name="e">Event arguments.</param>
         private void OnLanguageChanged(object sender, EventArgs e)
         {
             var selectedLanguage = LanguagePicker.SelectedItem?.ToString();
@@ -114,6 +131,11 @@ namespace View.Pages
             }
         }
 
+        /// <summary>
+        /// Changes the app's language by setting the culture to the selected language code.
+        /// Reloads the current page to apply the language changes.
+        /// </summary>
+        /// <param name="languageCode">The language code ("en" for English, "fr" for French).</param>
         private void SetLanguage(string languageCode)
         {
             var culture = new CultureInfo(languageCode);

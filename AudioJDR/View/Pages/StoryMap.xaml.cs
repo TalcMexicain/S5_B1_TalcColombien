@@ -21,14 +21,21 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         this.SizeChanged += OnSizeChanged;
     }
 
+
+    /// <summary>
+    /// Adjusts UI sizes when the page size changes.
+    /// </summary>
     private void OnSizeChanged(object sender, EventArgs e)
     {
         SetResponsiveSizes();
     }
 
+    /// <summary>
+    /// Adjusts the sizes of buttons and other UI elements dynamically based on the current page dimensions.
+    /// Ensures that elements do not shrink or grow beyond reasonable limits.
+    /// </summary>
     private void SetResponsiveSizes()
     {
-        // Example of dynamic size logic
         double pageWidth = this.Width;
         double pageHeight = this.Height;
 
@@ -57,6 +64,11 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         }
     }
 
+    /// <summary>
+    /// Applies query attributes passed when navigating to this page.
+    /// In this case, it expects a "storyId" to identify which story to load.
+    /// </summary>
+    /// <param name="query">Dictionary of query parameters.</param>
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (query.ContainsKey("storyId"))
@@ -71,6 +83,11 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         }
     }
 
+    /// <summary>
+    /// Loads the story and its associated events based on the given storyId.
+    /// If the story is new (ID not found), placeholder text is displayed.
+    /// </summary>
+    /// <param name="storyId">The ID of the story to load.</param>
     private async void LoadStory(int storyId)
     {
         var story = await _viewModel.GetStoryByIdAsync(storyId);
@@ -92,6 +109,11 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         }
     }
 
+    /// <summary>
+    /// Navigates to the EventCreationPage to edit the selected event.
+    /// </summary>
+    /// <param name="sender">The Edit button clicked.</param>
+    /// <param name="e">Event arguments.</param>
     private async void OnEditEventClicked(object sender, EventArgs e)
     {
         if (sender is Button button && button.BindingContext is Event selectedEvent)
@@ -106,6 +128,11 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         }
     }
 
+    /// <summary>
+    /// Deletes the selected event after user confirmation.
+    /// </summary>
+    /// <param name="sender">The Delete button clicked.</param>
+    /// <param name="e">Event arguments.</param>
     private async void OnDeleteEventClicked(object sender, EventArgs e)
     {
         if(sender is Button button && button.BindingContext is Event selectedEvent)
@@ -121,9 +148,14 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         }
     }
 
+    /// <summary>
+    /// Creates a new event or saves changes to the current story.
+    /// If the story is new, it is first saved, and then the event creation page is opened.
+    /// </summary>
+    /// <param name="sender">The Create New Event button clicked.</param>
+    /// <param name="e">Event arguments.</param>
     private async void OnCreateNewEventButtonClicked(object sender, EventArgs e)
     {
-
         if (_storyId == 0)
         {
             var newStory = new Story
@@ -155,7 +187,12 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         await Shell.Current.GoToAsync($"{nameof(EventCreationPage)}?storyId={_storyId}&eventId=0");
     }
 
-
+    /// <summary>
+    /// Saves the current story to the database. If the story is new, it is created;
+    /// otherwise, the existing story is updated.
+    /// </summary>
+    /// <param name="sender">The Save button clicked.</param>
+    /// <param name="e">Event arguments.</param>
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
         // If the storyId is 0, treat it as a new story; otherwise, update the existing story
