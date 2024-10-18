@@ -232,6 +232,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Import a story.
+        /// </summary>
+        internal static string ImportStory {
+            get {
+                return ResourceManager.GetString("ImportStory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Linked event.
         /// </summary>
         internal static string LinkedEventOption {

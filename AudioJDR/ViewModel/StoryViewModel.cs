@@ -3,6 +3,7 @@ using Model;
 using Model.Storage;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Text;
 
 namespace ViewModel
 {
@@ -54,6 +55,8 @@ namespace ViewModel
             _stories = new ObservableCollection<Story>();
             LoadStories();
         }
+
+        #region Story Management
 
         /// <summary>
         /// Load stories from the StorySaveSystem and populate the Stories collection.
@@ -143,6 +146,40 @@ namespace ViewModel
                 
             return newStoryId;
         }
+
+        public async Task ExportStoryAsync(Story story)
+        {
+            await FileServiceManager.ExportStoryAsync(story);
+        }
+
+        public async Task ImportStoryAsync()
+        {
+            try
+            {
+                // Import the story
+                var importedStory = await FileServiceManager.ImportStoryAsync();
+                if (importedStory != null)
+                {
+                    // Generate a new ID for the imported story to prevent overwriting existing stories
+                    importedStory.IdStory = GenerateNewStoryId();
+
+                    // Add the imported story to the collection
+                    AddStory(importedStory);
+                }
+                else
+                {
+                    // Handle the case where no valid story was imported
+                    throw new InvalidDataException("Invalid story or file format.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors
+                Debug.WriteLine($"Error importing story: {ex.Message}");
+            }
+        }
+
+        #endregion
 
         #region Event Management
 

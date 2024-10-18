@@ -42,6 +42,9 @@ public partial class StoryList : ContentPage
             CreateNewStoryButton.WidthRequest = buttonWidth;
             CreateNewStoryButton.HeightRequest = buttonHeight;
 
+            ImportStoryButton.WidthRequest = buttonWidth;
+            ImportStoryButton.HeightRequest = buttonHeight;
+
             BackButton.WidthRequest = buttonWidth * 0.8;
             BackButton.HeightRequest = buttonHeight;
 
@@ -50,10 +53,12 @@ public partial class StoryList : ContentPage
             double buttonFontSize = Math.Min(buttonWidth * 0.08, 16); // Limit font size to avoid overflow
 
             CreateNewStoryButton.FontSize = buttonFontSize;
+            ImportStoryButton.FontSize = buttonFontSize;
             BackButton.FontSize = buttonFontSize;
 
             // Adjust button padding to ensure text fits well
             CreateNewStoryButton.Padding = new Thickness(20, 5);
+            ImportStoryButton.Padding = new Thickness(20, 5);
             BackButton.Padding = new Thickness(20, 5);
         }
     }
@@ -81,9 +86,21 @@ public partial class StoryList : ContentPage
         await Shell.Current.GoToAsync(nameof(MainCreatorPage)); // Navigate back to MainCreatorPage
     }
 
-    private void OnExportButtonClicked(object sender, EventArgs e)
+    private async void OnImportButtonClicked(object sender, EventArgs e)
     {
+        await _viewModel.ImportStoryAsync();
+    }
 
+    private async void OnExportButtonClicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+
+        var storyObjet = button?.CommandParameter as Story;
+
+        if (storyObjet != null)
+        {
+            await _viewModel?.ExportStoryAsync(storyObjet);
+        }
     }
 
     private void OnDeleteButtonClicked(object sender, EventArgs e)

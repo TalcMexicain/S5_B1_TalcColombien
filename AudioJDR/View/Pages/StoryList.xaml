@@ -19,6 +19,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- Title -->
@@ -139,10 +141,28 @@
                 </Button.TextColor>
             </Button>
 
+            <!-- Import Story Button -->
+            <Button x:Name="ImportStoryButton"
+                    Text="{x:Static local:AppResources.ImportStory}"
+                    Grid.Row="6"
+                    WidthRequest="230"
+                    HeightRequest="50"
+                    CornerRadius="5"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Clicked="OnImportButtonClicked">        
+                <Button.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                </Button.BackgroundColor>
+                <Button.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Button.TextColor>
+            </Button>
+
             <!-- Back Button -->
             <Button x:Name="BackButton"
                     Text="{x:Static local:AppResources.Back}"
-                    Grid.Row="6"
+                    Grid.Row="8"
                     WidthRequest="180"
                     HeightRequest="40"
                     CornerRadius="5"

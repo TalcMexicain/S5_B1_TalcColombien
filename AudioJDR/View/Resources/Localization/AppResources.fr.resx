@@ -267,6 +267,9 @@
   <data name="ErrorOptionTitleDesc" xml:space="preserve">
     <value>Le titre et la description de l'option ne peuvent pas être vides.</value>
   </data>
+  <data name="ImportStory" xml:space="preserve">
+    <value>Importer une histoire</value>
+  </data>
   <data name="No" xml:space="preserve">
     <value>Non</value>
   </data>
