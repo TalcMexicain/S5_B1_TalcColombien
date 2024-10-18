@@ -100,8 +100,11 @@
                                     </Label>
                                     <!-- Event Description -->
                                     <Label Text="{Binding Description}"
-                                           Margin="0,0,210,0"
-                                           FontSize="14">
+                                        Margin="0,0,220,0"
+                                        FontSize="14"
+                                        MaxLines="4"  
+                                        LineBreakMode="TailTruncation">
+                                        <!-- Truncate the rest -->
                                         <Label.TextColor>
                                             <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                                         </Label.TextColor>
