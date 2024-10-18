@@ -104,7 +104,9 @@
 
             <!-- Options Section -->
             <Frame x:Name="OptionsFrame" Grid.Row="6"
-                   BorderColor="{StaticResource BorderColorL}" CornerRadius="10" Padding="10">
+                   BorderColor="{StaticResource BorderColorL}" 
+                   CornerRadius="10" 
+                   Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
@@ -138,24 +140,36 @@
                     </Button>
 
                     <!-- List of choices -->
-                    <CollectionView x:Name="OptionsList" ItemsSource="{Binding Options}">
+                    <CollectionView x:Name="OptionsList" 
+                                    ItemsSource="{Binding Options}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Frame BackgroundColor="{StaticResource AdditionalColorL}" Padding="10,5" Margin="0,0,0,20">
-                                    <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                                <Frame BackgroundColor="{StaticResource AdditionalColorL}" 
+                                       Padding="10,5" 
+                                       Margin="0,0,0,20">
+                                    <Grid ColumnDefinitions="*, Auto" 
+                                          VerticalOptions="Center">
                                         <!-- Option title and text (left) -->
-                                        <HorizontalStackLayout Grid.Column="0" HorizontalOptions="StartAndExpand" Spacing="10" VerticalOptions="Center">
-                                            <Label Text="{Binding NameOption}" FontAttributes="Bold" FontSize="Small" Margin="0,0,0,5"/>
-                                            <Label Text="{Binding LinkedEvent.Name}" FontSize="Small" />
+                                        <HorizontalStackLayout Grid.Column="0" 
+                                                               HorizontalOptions="StartAndExpand" 
+                                                               Spacing="10" 
+                                                               VerticalOptions="Center">
+                                            <Label Text="{Binding NameOption}" 
+                                                   FontAttributes="Bold" 
+                                                   FontSize="Small" 
+                                                   Margin="0,0,0,5"/>
+                                            <Label Text="{Binding LinkedEvent.Name}" 
+                                                   FontSize="Small" />
                                         </HorizontalStackLayout>
 
                                         <!-- Edit and delete buttons (right) -->
-                                        <HorizontalStackLayout Grid.Column="1" Spacing="10" HorizontalOptions="End">
+                                        <HorizontalStackLayout Grid.Column="1" 
+                                                               Spacing="10" 
+                                                               HorizontalOptions="End">
                                             <!-- Edit Button -->
-                                            <Button 
-                                            Text="{x:Static local:AppResources.Edit}" 
-                                            Clicked="OnEditOptionClicked"
-                                            CommandParameter="{Binding}">
+                                            <Button Text="{x:Static local:AppResources.Edit}"
+                                                    Clicked="OnEditOptionClicked"
+                                                    CommandParameter="{Binding}">
                                                 <Button.BackgroundColor>
                                                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                                                 </Button.BackgroundColor>
@@ -165,10 +179,9 @@
                                             </Button>
 
                                             <!-- Delete Button -->
-                                            <Button 
-                                            Text="{x:Static local:AppResources.Delete}" 
-                                            Clicked="OnDeleteOptionClicked" 
-                                            CommandParameter="{Binding}">
+                                            <Button Text="{x:Static local:AppResources.Delete}"
+                                                    Clicked="OnDeleteOptionClicked"
+                                                    CommandParameter="{Binding}">
                                                 <Button.BackgroundColor>
                                                     <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                                                 </Button.BackgroundColor>
