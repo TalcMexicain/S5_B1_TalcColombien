@@ -279,6 +279,9 @@
   <data name="DeleteEventConfirmationText" xml:space="preserve">
     <value>Are you sure you want to delete this event ?</value>
   </data>
+  <data name="AddWord" xml:space="preserve">
+    <value>Add word</value>
+  </data>
   <data name="ImportStory" xml:space="preserve">
     <value>Import a story</value>
   </data>

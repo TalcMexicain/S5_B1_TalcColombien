@@ -329,6 +329,7 @@ namespace ViewModel
                 {
                     optionToUpdate.NameOption = updatedOption.NameOption;
                     optionToUpdate.Text = updatedOption.Text;
+                    optionToUpdate.Words = updatedOption.Words;
                     optionToUpdate.LinkedEvent = updatedOption.LinkedEvent;
 
                     await UpdateEventInStory(storyId, eventToUpdate);

@@ -15,8 +15,8 @@ namespace Model
 
         private int idOption;
         private string nameOption;
+        private List<string> words;
         private string text;
-
         private Event? linkedEvent;
         #endregion
 
@@ -50,6 +50,15 @@ namespace Model
         }
 
         /// <summary>
+        /// Gets or sets the text of the words that will trigger the option
+        /// </summary>
+        public List<string> Words
+        {
+            get => words;
+            set => words = value;
+        }
+
+        /// <summary>
         /// Gets or sets the event to which this option is linked
         /// </summary>
         public Event? LinkedEvent 
@@ -71,6 +80,7 @@ namespace Model
         {
             this.text = text;
             this.linkedEvent = linkedEvent;
+            this.words = new List<string>();
         }
 
         /// <summary>
@@ -78,9 +88,11 @@ namespace Model
         /// </summary>
         public Option() 
         {
-
+            this.words = new List<string>();
         }
         #endregion
+
+        #region Methods
 
         /// <summary>
         /// Removes the link between this option and the event.
@@ -98,5 +110,7 @@ namespace Model
         {
             this.linkedEvent = linkedEvent;
         }
+
+        #endregion
     }
 }

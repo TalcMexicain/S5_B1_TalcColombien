@@ -252,6 +252,9 @@
   <data name="TitleStoryMap" xml:space="preserve">
     <value>Carte de l'histoire</value>
   </data>
+  <data name="AddWord" xml:space="preserve">
+    <value>Ajouter le mot</value>
+  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Confirmez</value>
   </data>

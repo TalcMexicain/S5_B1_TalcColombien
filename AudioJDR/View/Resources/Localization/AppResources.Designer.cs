@@ -70,6 +70,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add word.
+        /// </summary>
+        internal static string AddWord {
+            get {
+                return ResourceManager.GetString("AddWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Back.
         /// </summary>
         internal static string Back {

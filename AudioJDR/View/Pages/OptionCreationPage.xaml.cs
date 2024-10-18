@@ -50,7 +50,8 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
             // Load the option if it exists
             if (_optionId != 0)
             {
-                LoadExistingOption(_optionId);
+                await LoadExistingOption(_optionId);
+                UpdateWordsDisplay();
             }
         }
 
@@ -62,7 +63,7 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
     /// Loads the details of an existing option for editing, populating the input fields with the option data.
     /// </summary>
     /// <param name="optionId">The ID of the option to load.</param>
-    private async void LoadExistingOption(int optionId)
+    private async Task LoadExistingOption(int optionId)
     {
         var existingOption = await _storyViewModel.GetOptionByIdAsync(_storyId, _eventId, optionId);
         if (existingOption != null)
@@ -126,7 +127,6 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
         SetResponsiveSizes();
     }
 
-
     /// <summary>
     /// Dynamically adjusts the sizes of the UI elements based on the current dimensions of the page.
     /// Ensures elements like buttons, frames, and text editors do not become too small or too large.
@@ -152,7 +152,23 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
         double frameWidth = Math.Max(pageWidth * 0.8, minFrameWidth);
         double editorHeight = Math.Max(pageHeight * 0.15, minEditorHeight);
 
-        // Set frame widths
+        // Adjust OptionWordsFrame size
+        OptionWordsFrame.WidthRequest = frameWidth;
+        OptionWordsFrame.HeightRequest = Math.Max(pageHeight * 0.25, 300); // Adjust the height if necessary
+
+        // Adjust WordsDisplayLabel font size
+        WordsDisplayLabel.FontSize = Math.Min(frameWidth * 0.05, 20); // Adjust based on frame width
+
+        // Adjust Entry size (OptionWordsEntry)
+        OptionWordsEntry.WidthRequest = frameWidth * 0.9;
+        OptionWordsEntry.FontSize = Math.Min(frameWidth * 0.05, 18); // Adjust based on frame width
+
+        // Adjust Add Button size
+        AddWordButton.WidthRequest = buttonWidth;
+        AddWordButton.HeightRequest = buttonHeight;
+        AddWordButton.FontSize = Math.Min(buttonWidth * 0.08, 18); // Adjust font size based on button width
+
+        // Set frame widths for other frames (if any)
         OptionNameFrame.WidthRequest = frameWidth;
         OptionTextFrame.WidthRequest = frameWidth;
         EventPickerFrame.WidthRequest = frameWidth;
@@ -160,7 +176,7 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
         // Set editor height
         OptionTextWord.HeightRequest = editorHeight;
 
-        // Adjust button sizes
+        // Adjust button sizes for Save and Back buttons
         SaveButton.WidthRequest = buttonWidth;
         SaveButton.HeightRequest = buttonHeight;
 
@@ -174,6 +190,53 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
         BackButton.FontSize = buttonFontSize;
     }
 
+
+    private async Task UpdateWordsDisplay()
+    {
+        // Retrieve the option object
+        var existingOption = await _storyViewModel.GetOptionByIdAsync(_storyId, _eventId, _optionId);
+
+        // Check if the option has words and update the display
+        if (existingOption != null && existingOption.Words != null && existingOption.Words.Any())
+        {
+            WordsDisplayLabel.Text = string.Join(" - ", existingOption.Words);
+        }
+        else
+        {
+            WordsDisplayLabel.Text = string.Empty; // Clear if no words
+        }
+    }
+
+    private async void OnAddWordClicked(object sender, EventArgs e)
+    {
+        // Get the text from the Entry
+        var newWord = OptionWordsEntry.Text;
+
+        if (!string.IsNullOrEmpty(newWord))
+        {
+            // Assuming you have _storyId, _eventId, and optionId already defined
+            var existingOption = await _storyViewModel.GetOptionByIdAsync(_storyId, _eventId, _optionId);
+
+            // Add the new word to the option's word list
+            if (existingOption.Words == null)
+            {
+                existingOption.Words = new List<string>(); // Initialize if it's null
+            }
+            existingOption.Words.Add(newWord);
+
+            // Update the option in the event
+            await _storyViewModel.UpdateOptionInEvent(_storyId, _eventId, existingOption);
+
+            // Update the word list display
+            UpdateWordsDisplay();
+
+            // Clear the Entry field after adding
+            OptionWordsEntry.Text = string.Empty;
+
+            // Dismiss the keyboard
+            OptionWordsEntry.Unfocus();
+        }
+    }
 
     /// <summary>
     /// Handles the click event for the Save button.
