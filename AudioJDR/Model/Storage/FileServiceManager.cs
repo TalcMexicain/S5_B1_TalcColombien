@@ -21,7 +21,7 @@ namespace Model
             #if WINDOWS
             _fileService = new WindowsFileService();
             #elif ANDROID
-            _fileService = new AndroidFileService();
+            _fileService = AndroidFileService.Instance;
             #endif
         }
 

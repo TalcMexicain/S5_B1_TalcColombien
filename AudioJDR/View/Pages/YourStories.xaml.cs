@@ -1,8 +1,5 @@
-using View.Pages;
 using ViewModel;
 using Model;
-using System.Diagnostics;
-using Microsoft.UI.Xaml.Controls.Primitives;
 
 
 namespace View.Pages;

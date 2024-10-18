@@ -154,7 +154,6 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
 
         // Adjust OptionWordsFrame size
         OptionWordsFrame.WidthRequest = frameWidth;
-        OptionWordsFrame.HeightRequest = Math.Max(pageHeight * 0.25, 300); // Adjust the height if necessary
 
         // Adjust WordsDisplayLabel font size
         WordsDisplayLabel.FontSize = Math.Min(frameWidth * 0.05, 20); // Adjust based on frame width
