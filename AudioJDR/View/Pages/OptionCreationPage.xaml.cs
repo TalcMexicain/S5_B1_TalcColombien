@@ -1,8 +1,74 @@
+
+/* Modification non fusionnée à partir du projet 'View (net8.0-maccatalyst)'
+Avant :
 using ViewModel;
 using Model;
 using static System.Net.Mime.MediaTypeNames;
 using System.Diagnostics;
+Après :
+using Model;
+using System.Diagnostics;
 using View.Resources.Localization;
+using ViewModel;
+*/
+
+/* Modification non fusionnée à partir du projet 'View (net8.0-windows10.0.19041.0)'
+Avant :
+using ViewModel;
+using Model;
+using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics;
+Après :
+using Model;
+using System.Diagnostics;
+using View.Resources.Localization;
+using ViewModel;
+*/
+
+/* Modification non fusionnée à partir du projet 'View (net8.0-android)'
+Avant :
+using ViewModel;
+using Model;
+using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics;
+Après :
+using Model;
+using System.Diagnostics;
+using View.Resources.Localization;
+using ViewModel;
+*/
+using Model;
+using System.Diagnostics;
+using View.Resources.Localization;
+
+
+/* Modification non fusionnée à partir du projet 'View (net8.0-maccatalyst)'
+Avant :
+using static System.Net.Mime.MediaTypeNames;
+using ViewModel;
+Après :
+using ViewModel;
+using static System.Net.Mime.MediaTypeNames;
+*/
+
+/* Modification non fusionnée à partir du projet 'View (net8.0-windows10.0.19041.0)'
+Avant :
+using static System.Net.Mime.MediaTypeNames;
+using ViewModel;
+Après :
+using ViewModel;
+using static System.Net.Mime.MediaTypeNames;
+*/
+
+/* Modification non fusionnée à partir du projet 'View (net8.0-android)'
+Avant :
+using static System.Net.Mime.MediaTypeNames;
+using ViewModel;
+Après :
+using ViewModel;
+using static System.Net.Mime.MediaTypeNames;
+*/
+using ViewModel;
 
 namespace View.Pages;
 

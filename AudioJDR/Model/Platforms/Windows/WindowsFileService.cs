@@ -1,11 +1,7 @@
 ﻿#if WINDOWS
-using Microsoft.UI.Xaml; 
-using Microsoft.Maui;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
-using Microsoft.Maui.ApplicationModel;
-using System.Runtime.InteropServices.WindowsRuntime;
 using WinRT.Interop;
 
 namespace Model
@@ -21,7 +17,7 @@ namespace Model
             var picker = new FolderPicker();
             picker.SuggestedStartLocation = PickerLocationId.Desktop;
             picker.FileTypeFilter.Add("*");
-            InitializeWithWindow.Initialize(picker, hwnd); 
+            InitializeWithWindow.Initialize(picker, hwnd);
 
             var folder = await picker.PickSingleFolderAsync();
 
@@ -38,7 +34,7 @@ namespace Model
             var picker = new FileOpenPicker();
             picker.SuggestedStartLocation = PickerLocationId.Desktop;
             picker.FileTypeFilter.Add(".json"); // Restrict to .json files
-            InitializeWithWindow.Initialize(picker, hwnd); 
+            InitializeWithWindow.Initialize(picker, hwnd);
 
             var file = await picker.PickSingleFileAsync();
 

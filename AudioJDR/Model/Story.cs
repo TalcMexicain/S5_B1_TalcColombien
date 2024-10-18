@@ -25,43 +25,46 @@ namespace Model
         /// <summary>
         /// Gets or sets the ID of the story
         /// </summary>
-        public int IdStory 
-        { 
-            get => idStory; 
-            set => idStory = value; 
+        public int IdStory
+        {
+            get => idStory;
+            set => idStory = value;
         }
 
         /// <summary>
         /// Gets or sets the title of the story
         /// </summary>
-        public string Title 
-        { 
-            get => title; 
-            set => title = value; 
+        public string Title
+        {
+            get => title;
+            set => title = value;
         }
 
         /// <summary>
         /// Gets or sets the description of the story
         /// </summary>
-        public string Description 
-        { get => description; 
-            set => description = value; 
+        public string Description
+        {
+            get => description;
+            set => description = value;
         }
 
         /// <summary>
         /// Gets or sets the author of the story
         /// </summary>
-        public string Author 
-        { get => author; 
-            set => author = value; 
+        public string Author
+        {
+            get => author;
+            set => author = value;
         }
 
         /// <summary>
         /// Gets or sets the list of events in the story
         /// </summary>
-        public ObservableCollection<Event> Events 
-        { get => events;  
-            set => events = value; 
+        public ObservableCollection<Event> Events
+        {
+            get => events;
+            set => events = value;
         }
 
         #endregion

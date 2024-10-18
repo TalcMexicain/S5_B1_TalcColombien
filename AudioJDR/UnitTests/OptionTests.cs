@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model;
+﻿using Model;
 
 namespace UnitTests
 {
@@ -15,18 +10,13 @@ namespace UnitTests
             string text = "Initial Text";
             Event initialEvent = new Event("Initial Event", "Description");
 
-            Option optionToTest = new Option(text, initialEvent) 
-            { 
-                NameOption = "Initial Name" 
-            };
+            Option optionToTest = new Option(text, initialEvent);
 
             optionToTest.Text = "Updated Text";
-            optionToTest.NameOption = "Updated Name";
-            Event updatedEvent = new Event("Update Event", "Description");
+            Event updatedEvent = new Event("Intial Event", "Description");
             optionToTest.LinkedEvent = updatedEvent;
 
             Assert.Equal("Updated Text", optionToTest.Text);
-            Assert.Equal("Updated Name", optionToTest.NameOption);
             Assert.Equal(updatedEvent, optionToTest.LinkedEvent);
         }
 

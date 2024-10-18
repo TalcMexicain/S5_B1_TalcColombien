@@ -1,11 +1,6 @@
 ﻿using Model;
 using Model.Storage;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ViewModel
 {
@@ -21,14 +16,14 @@ namespace ViewModel
 
         #region Properties 
 
-        public ObservableCollection<string> AvailableSaves 
+        public ObservableCollection<string> AvailableSaves
         {
             get => _availableSaves;
             set => _availableSaves = value;
         }
 
 
-        public Save CurrentSave 
+        public Save CurrentSave
         {
             get => _currentSave;
             set => _currentSave = value;
@@ -50,7 +45,7 @@ namespace ViewModel
         /// <returns></returns>
         public async Task SaveGameAsync(Story story, Event currentEvent)
         {
-            var save = new Save(story,currentEvent)
+            var save = new Save(story, currentEvent)
             {
                 SaveDate = DateTime.Now
             };

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Model;
+﻿using Model;
 using Model.Storage;
+using System.Text.Json;
 
 
 namespace UnitTests
 {
-    public class SaveSystemTests : IDisposable
+    public class SaveSystemTests
     {
         private readonly SaveSystem _saveSystem;
         private readonly string _testSaveFolder;
@@ -77,7 +72,7 @@ namespace UnitTests
             currentEvent.AddOption(option);
             story.AddEvent(currentEvent);
             story.AddEvent(parentEvent);
-            
+
             //currentEvent.AddOption(option);
             var save = new Save(story, currentEvent);
 
@@ -139,12 +134,5 @@ namespace UnitTests
             };
         }
 
-        public void Dispose()
-        {
-            if (Directory.Exists(_testSaveFolder))
-            {
-                Directory.Delete(_testSaveFolder, true);
-            }
-        }
     }
 }

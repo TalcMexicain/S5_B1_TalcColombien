@@ -1,10 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.
+/* Modification non fusionnée à partir du projet 'Model (net8.0-windows10.0.19041.0)'
+Avant :
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text.Json;
+Après :
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
+*/
+
+/* Modification non fusionnée à partir du projet 'Model (net8.0)'
+Avant :
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+Après :
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+*/
+
+/* Modification non fusionnée à partir du projet 'Model (net8.0-android)'
+Avant :
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+Après :
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+*/
+
+/* Modification non fusionnée à partir du projet 'Model (net8.0-ios)'
+Avant :
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+Après :
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+*/
+Diagnostics;
+using System.Text.Json;
+/* Modification non fusionnée à partir du projet 'Model (net8.0-windows10.0.19041.0)'
+Avant :
+using System.Diagnostics;
+Après :
+using System.Threading.Tasks;
+*/
+
+/* Modification non fusionnée à partir du projet 'Model (net8.0)'
+Avant :
+using System.Diagnostics;
+Après :
+using System.Threading.Tasks;
+*/
+
+/* Modification non fusionnée à partir du projet 'Model (net8.0-android)'
+Avant :
+using System.Diagnostics;
+Après :
+using System.Threading.Tasks;
+*/
+
+/* Modification non fusionnée à partir du projet 'Model (net8.0-ios)'
+Avant :
+using System.Diagnostics;
+Après :
+using System.Threading.Tasks;
+*/
+
 
 namespace Model
 {
@@ -18,11 +85,11 @@ namespace Model
         static FileServiceManager()
         {
             // The class used is selected according to the platform
-            #if WINDOWS
+#if WINDOWS
             _fileService = new WindowsFileService();
-            #elif ANDROID
+#elif ANDROID
             _fileService = AndroidFileService.Instance;
-            #endif
+#endif
         }
 
         /// <summary>
@@ -33,13 +100,14 @@ namespace Model
         public static async Task ExportStoryAsync(Story story)
         {
             var fileName = $"{story.IdStory}.json"; // Generate the file name from the id
-            try {
+            try
+            {
                 var optionsJson = new JsonSerializerOptions
                 {
                     WriteIndented = true,
                     ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
                 };
-                var fileContent = JsonSerializer.SerializeToUtf8Bytes(story, optionsJson); 
+                var fileContent = JsonSerializer.SerializeToUtf8Bytes(story, optionsJson);
                 await _fileService.ExportStoryAsync(fileName, fileContent); // Pass to platform-specific implementation
             }
             catch (JsonException ex)
@@ -65,7 +133,7 @@ namespace Model
                 try
                 {
                     var jsonString = System.Text.Encoding.UTF8.GetString(fileData);
-                    Debug.WriteLine(jsonString); 
+                    Debug.WriteLine(jsonString);
 
                     var optionsJson = new JsonSerializerOptions
                     {

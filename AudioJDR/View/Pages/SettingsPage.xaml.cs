@@ -1,6 +1,4 @@
-using Microsoft.Maui.Controls;
 using System.Globalization;
-using View.Resources.Localization;
 
 namespace View.Pages
 {

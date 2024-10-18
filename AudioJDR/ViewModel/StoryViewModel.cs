@@ -1,9 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-using Model;
+﻿using Model;
 using Model.Storage;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Text;
 
 namespace ViewModel
 {
@@ -143,7 +141,7 @@ namespace ViewModel
             {
                 newStoryId = Stories.Max(s => s.IdStory) + 1;
             }
-                
+
             return newStoryId;
         }
 
@@ -200,7 +198,7 @@ namespace ViewModel
             if (story != null)
             {
                 story.Events.Add(newEvent);
-                await UpdateStory(storyId,story);
+                await UpdateStory(storyId, story);
             }
         }
 
@@ -285,7 +283,7 @@ namespace ViewModel
             if (story != null)
             {
                 Debug.WriteLine($"Story Found : Fetching event with id = {eventId} ..");
-                result =  story.Events.FirstOrDefault(e => e.IdEvent == eventId);
+                result = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
             }
 
             return result;
@@ -300,7 +298,7 @@ namespace ViewModel
         /// </summary>
         public async Task AddOptionToEvent(int storyId, int eventId, Option newOption)
         {
-            var eventToUpdate = await GetEventByIdAsync(storyId,eventId);
+            var eventToUpdate = await GetEventByIdAsync(storyId, eventId);
 
             if (eventToUpdate != null)
             {

@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Model;
 using System.Diagnostics;
 using View.Resources.Localization;

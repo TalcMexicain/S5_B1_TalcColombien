@@ -1,5 +1,5 @@
-using ViewModel;
 using Model;
+using ViewModel;
 
 
 namespace View.Pages;
@@ -8,7 +8,7 @@ public partial class YourStories : ContentPage
 {
     private StoryViewModel _viewModel;
     public YourStories()
-	{
+    {
         InitializeComponent();
         _viewModel = new StoryViewModel();
         BindingContext = _viewModel;

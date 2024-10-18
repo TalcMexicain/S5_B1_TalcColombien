@@ -1,10 +1,7 @@
 ﻿#if ANDROID
 using Android.App;
 using Android.Content;
-using Android.Provider;
 using AndroidX.DocumentFile.Provider;
-using System.IO;
-using System.Text.Json;
 
 namespace Model
 {

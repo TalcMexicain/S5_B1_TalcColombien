@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model;
+﻿using Model;
 using Model.Storage;
 
 namespace UnitTests
@@ -119,11 +114,11 @@ namespace UnitTests
         public void DeleteStory_ShouldRemoveFile()
         {
 
-            Story story = new Story 
-            { 
-                IdStory = 3, 
-                Title = "Story to Delete", 
-                Description = "Story for delete test" 
+            Story story = new Story
+            {
+                IdStory = 3,
+                Title = "Story to Delete",
+                Description = "Story for delete test"
             };
 
             string storyFilePath = Path.Combine(_testFolder, $"{story.IdStory}.json");

@@ -1,7 +1,7 @@
-using View.Pages;
-using ViewModel;
 using Model;
 using System.Diagnostics;
+using View.Pages;
+using ViewModel;
 
 namespace View;
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Model
+﻿namespace Model
 {
     /// <summary>
     /// Represents an Event in a Story.
@@ -126,7 +122,7 @@ namespace Model
             {
                 returnId = existingEvents.Max(e => e.IdEvent) + 1;
             }
-                
+
             return returnId;
         }
 

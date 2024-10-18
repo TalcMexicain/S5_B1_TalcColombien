@@ -1,10 +1,30 @@
+
+/* Modification non fusionnée à partir du projet 'View (net8.0-maccatalyst)'
+Avant :
 using ViewModel;
+Après :
+using Microsoft.Extensions.Logging;
+*/
+
+/* Modification non fusionnée à partir du projet 'View (net8.0-windows10.0.19041.0)'
+Avant :
+using ViewModel;
+Après :
+using Microsoft.Extensions.Logging;
+*/
+
+/* Modification non fusionnée à partir du projet 'View (net8.0-android)'
+Avant :
+using ViewModel;
+Après :
+using Microsoft.Extensions.Logging;
+*/
 using Model;
 using System.Collections.ObjectModel;
-using View.Resources.Localization;
-using View.Pages;
 using System.Diagnostics;
-using Microsoft.Extensions.Logging;
+using View.Pages;
+using View.Resources.Localization;
+using ViewModel;
 
 namespace View;
 public partial class StoryMap : ContentPage, IQueryAttributable
@@ -135,7 +155,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
     /// <param name="e">Event arguments.</param>
     private async void OnDeleteEventClicked(object sender, EventArgs e)
     {
-        if(sender is Button button && button.BindingContext is Event selectedEvent)
+        if (sender is Button button && button.BindingContext is Event selectedEvent)
         {
             bool confirm = await DisplayAlert(AppResources.Confirm, AppResources.DeleteEventConfirmationText, AppResources.Yes, AppResources.No);
             if (confirm)
@@ -143,7 +163,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
                 // Remove the event from the ViewModel
                 await _viewModel.DeleteEventFromStory(_storyId, selectedEvent.IdEvent);
 
-                
+
             }
         }
     }

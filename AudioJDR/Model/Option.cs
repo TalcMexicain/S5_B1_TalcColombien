@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Model
+﻿namespace Model
 {
     /// <summary>
     /// Represents an Option in a Event
@@ -25,28 +19,28 @@ namespace Model
         /// <summary>
         /// Gets or sets the ID of the option
         /// </summary>
-        public int IdOption 
-        { 
-            get => idOption; 
-            set => idOption = value; 
+        public int IdOption
+        {
+            get => idOption;
+            set => idOption = value;
         }
 
         /// <summary>
         /// Gets or sets the name of the option
         /// </summary>
-        public string NameOption 
-        { 
-            get => nameOption; 
-            set => nameOption = value; 
+        public string NameOption
+        {
+            get => nameOption;
+            set => nameOption = value;
         }
 
         /// <summary>
         /// Gets or sets the text of the words that will trigger the option
         /// </summary>
-        public string Text 
-        { 
-            get => text; 
-            set => text = value; 
+        public string Text
+        {
+            get => text;
+            set => text = value;
         }
 
         /// <summary>
@@ -61,10 +55,10 @@ namespace Model
         /// <summary>
         /// Gets or sets the event to which this option is linked
         /// </summary>
-        public Event? LinkedEvent 
-        { 
-            get => linkedEvent; 
-            set => linkedEvent = value; 
+        public Event? LinkedEvent
+        {
+            get => linkedEvent;
+            set => linkedEvent = value;
         }
 
         #endregion
@@ -86,7 +80,7 @@ namespace Model
         /// <summary>
         /// Default constructor for serialization or initialization without parameters.
         /// </summary>
-        public Option() 
+        public Option()
         {
             this.words = new List<string>();
         }

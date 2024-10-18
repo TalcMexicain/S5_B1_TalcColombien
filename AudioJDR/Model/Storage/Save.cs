@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Model.Storage
+﻿namespace Model.Storage
 {
     /// <summary>
     /// Represents a saved game state including the story and the current event.
