@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:View.Resources.Localization"
-             x:Class="View.StoryList">
-
+             x:Class="View.Pages.YourStories">
+    
     <!-- Background color based on light and dark mode -->
     <ContentPage.BackgroundColor>
         <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
@@ -28,7 +28,7 @@
 
             <!-- Title -->
             <Label Grid.Row="0"
-                   Text="{x:Static local:AppResources.TitleStoryList}"
+                   Text="{x:Static local:AppResources.TitleYourStory}"
                    FontFamily="UncialAntiquaRegular"
                    FontSize="Large"
                    HorizontalOptions="Center"
@@ -84,10 +84,10 @@
 
                                 <!-- Story Buttons -->
                                 <HorizontalStackLayout HorizontalOptions="Center">
-                                    <!-- Edit Story Button -->
-                                    <Button Text="{x:Static local:AppResources.Edit}"
+                                    <!-- New Game Button -->
+                                    <Button Text="{x:Static local:AppResources.NewGame}"
                                             Margin="0,0,10,0"
-                                            Clicked="OnEditButtonClicked">
+                                            Clicked="OnNewGameButtonClicked">
                                         <Button.BackgroundColor>
                                             <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                                         </Button.BackgroundColor>
@@ -96,10 +96,10 @@
                                         </Button.TextColor>
                                     </Button>
 
-                                    <!-- Export Story Button -->
-                                    <Button Text="{x:Static local:AppResources.Export}"
+                                    <!-- Continue Button -->
+                                    <Button Text="{x:Static local:AppResources.Continue}"
                                             Margin="0,0,10,0"
-                                            Clicked="OnExportButtonClicked">
+                                            Clicked="OnContinueButtonClicked">
                                         <Button.BackgroundColor>
                                             <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                                         </Button.BackgroundColor>
@@ -126,16 +126,16 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <!-- Create New Story Button -->
-            <Button x:Name="CreateNewStoryButton"
-                    Text="{x:Static local:AppResources.CreateNewStory}"
+            <!-- Repeat Button -->
+            <Button x:Name="RepeatVoiceButton"
+                    Text="{x:Static local:AppResources.Repeat}"
                     Grid.Row="4"
                     WidthRequest="230"
                     HeightRequest="50"
                     CornerRadius="5"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
-                    Clicked="OnCreateNewStoryButtonClicked">
+                    Clicked="OnRepeatButtonClicked">
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>
@@ -145,15 +145,15 @@
             </Button>
 
             <!-- Import Story Button -->
-            <Button x:Name="ImportStoryButton"
-                    Text="{x:Static local:AppResources.ImportStory}"
+            <Button x:Name="ImportButton"
+                    Text="{x:Static local:AppResources.Import}"
                     Grid.Row="6"
                     WidthRequest="230"
                     HeightRequest="50"
                     CornerRadius="5"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
-                    Clicked="OnImportButtonClicked">        
+                    Clicked="OnImportButtonClicked">
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>

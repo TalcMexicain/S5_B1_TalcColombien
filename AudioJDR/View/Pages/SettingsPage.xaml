@@ -8,8 +8,10 @@
         <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
     </ContentPage.BackgroundColor>
 
-    <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        <Grid VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
+    <ScrollView VerticalOptions="FillAndExpand" 
+                HorizontalOptions="FillAndExpand">
+        <Grid VerticalOptions="CenterAndExpand" 
+              HorizontalOptions="FillAndExpand">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <!-- Title -->
@@ -61,6 +63,7 @@
                     Title="{x:Static local:AppResources.SelectLanguage}"
                     SelectedIndexChanged="OnLanguageChanged"
                     HorizontalOptions="Center"
+                    MinimumHeightRequest="110"
                     FontSize="Medium">
                 <Picker.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />

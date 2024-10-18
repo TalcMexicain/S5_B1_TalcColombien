@@ -7,14 +7,24 @@ public partial class MainCreatorPage : ContentPage
     {
         InitializeComponent();
         SetResponsiveSizes();
-        this.SizeChanged += OnSizeChanged;  // Recalculate sizes on screen resize
+        this.SizeChanged += OnSizeChanged;
     }
-
+    /// <summary>
+    /// Event handler triggered when the page size changes. 
+    /// Calls a method to adjust UI elements based on the new size.
+    /// </summary>
+    /// <param name="sender">The source of the event (typically the page itself).</param>
+    /// <param name="e">Event arguments.</param>
     private void OnSizeChanged(object sender, EventArgs e)
     {
         SetResponsiveSizes();
     }
 
+    /// <summary>
+    /// Adjusts the sizes and padding of buttons and other UI elements dynamically 
+    /// based on the current page dimensions. Ensures that buttons do not become 
+    /// too small and that font sizes and padding are properly set for readability.
+    /// </summary>
     private void SetResponsiveSizes()
     {
         // Use the current page size to set button sizes dynamically
@@ -22,40 +32,43 @@ public partial class MainCreatorPage : ContentPage
         double pageHeight = this.Height;
 
         // Set minimum button sizes to prevent them from becoming too small
-        double minButtonWidth = 250; // Minimum width for buttons
-        double minButtonHeight = 60; // Minimum height for buttons
+        double minButtonWidth = 250;
+        double minButtonHeight = 70;
 
         // Set button sizes dynamically as a percentage of the current page size
         if (pageWidth > 0 && pageHeight > 0)
         {
-            double buttonWidth = Math.Max(pageWidth * 0.35, minButtonWidth);
-            double buttonHeight = Math.Max(pageHeight * 0.1, minButtonHeight);
+            double buttonWidth = Math.Max(pageWidth * 0.24, minButtonWidth);
+            double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight);
 
+            // Adjust the width and height of buttons
             ToStoryListButton.WidthRequest = buttonWidth;
             ToStoryListButton.HeightRequest = buttonHeight;
 
-            BackButton.WidthRequest = buttonWidth * 0.75;
+            BackButton.WidthRequest = buttonWidth * 0.8;
             BackButton.HeightRequest = buttonHeight;
 
             // Adjust font size based on button width, with a maximum size to avoid overflow
-            double buttonFontSize = Math.Min(buttonWidth * 0.06, 20);  // Font size reduced more for smaller screens
+            double buttonFontSize = Math.Min(buttonWidth * 0.06, 20);
 
+            // Set font sizes for buttons
             ToStoryListButton.FontSize = buttonFontSize;
             BackButton.FontSize = buttonFontSize;
 
             // Adjust button padding to ensure text fits well
-            ToStoryListButton.Padding = new Thickness(20, 5);  // Increased padding for better fit
+            ToStoryListButton.Padding = new Thickness(20, 5);
             BackButton.Padding = new Thickness(20, 5);
         }
     }
 
+
     private async void OnGoToStoryListButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(StoryList));  // Navigation to Story List
+        await Shell.Current.GoToAsync(nameof(StoryList));
     }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(MainPage));  // Navigation back to MainPage
+        await Shell.Current.GoToAsync(nameof(MainPage));
     }
 }

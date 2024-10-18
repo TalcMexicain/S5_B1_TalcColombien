@@ -214,7 +214,7 @@
     <value>Enter the name of the option</value>
   </data>
   <data name="TextWordOptionInput" xml:space="preserve">
-    <value>Enter the words linked to the</value>
+    <value>Enter the words linked to the option</value>
   </data>
   <data name="CreateNewEvent" xml:space="preserve">
     <value>Create a new event</value>
@@ -224,5 +224,65 @@
   </data>
   <data name="NewStoryPlaceholder" xml:space="preserve">
     <value>New Story</value>
+  </data>
+  <data name="StoryNameInvalidErrorDesc" xml:space="preserve">
+    <value>The name of your story contains unauthorized characters</value>
+  </data>
+  <data name="StoryNameInvalidErrorTitle" xml:space="preserve">
+    <value>Story Invalid</value>
+  </data>
+  <data name="TitleYourStory" xml:space="preserve">
+    <value>Your Stories</value>
+  </data>
+  <data name="NewGame" xml:space="preserve">
+    <value>New game</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="Repeat" xml:space="preserve">
+    <value>Repeat</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="MainPageDescription" xml:space="preserve">
+    <value>You have three buttons : Play, Create and settings</value>
+  </data>
+  <data name="TitleStoryMap" xml:space="preserve">
+    <value>Story Map</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="DeleteOptionConfirmationText" xml:space="preserve">
+    <value>Are you sure you want to delete this option ?</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ErrorEventTitleDesc" xml:space="preserve">
+    <value>Please enter both a title and description for the event.</value>
+  </data>
+  <data name="ErrorOptionTitleDesc" xml:space="preserve">
+    <value>Please enter both a title and description for the option.</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="DeleteEventConfirmationText" xml:space="preserve">
+    <value>Are you sure you want to delete this event ?</value>
+  </data>
+  <data name="AddWord" xml:space="preserve">
+    <value>Add word</value>
+  </data>
+  <data name="ImportStory" xml:space="preserve">
+    <value>Import a story</value>
   </data>
 </root>

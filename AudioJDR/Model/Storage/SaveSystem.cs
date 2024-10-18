@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 
 namespace Model.Storage
 {
@@ -11,7 +6,7 @@ namespace Model.Storage
     {
         private readonly string _savesFolderPath;
 
-        public SaveSystem(string savesFolderPath = null)
+        public SaveSystem(string? savesFolderPath = null)
         {
             if (savesFolderPath != null)
             {
@@ -21,7 +16,7 @@ namespace Model.Storage
             {
                 _savesFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Saves");
             }
-            
+
             // Create the saves directory if it doesn't exist
             if (!Directory.Exists(_savesFolderPath))
             {

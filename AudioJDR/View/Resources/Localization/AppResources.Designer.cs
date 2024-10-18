@@ -70,11 +70,38 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add word.
+        /// </summary>
+        internal static string AddWord {
+            get {
+                return ResourceManager.GetString("AddWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Back.
         /// </summary>
         internal static string Back {
             get {
                 return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Confirm.
+        /// </summary>
+        internal static string Confirm {
+            get {
+                return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Continue.
+        /// </summary>
+        internal static string Continue {
+            get {
+                return ResourceManager.GetString("Continue", resourceCulture);
             }
         }
         
@@ -115,6 +142,24 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Are you sure you want to delete this event ?.
+        /// </summary>
+        internal static string DeleteEventConfirmationText {
+            get {
+                return ResourceManager.GetString("DeleteEventConfirmationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Are you sure you want to delete this option ?.
+        /// </summary>
+        internal static string DeleteOptionConfirmationText {
+            get {
+                return ResourceManager.GetString("DeleteOptionConfirmationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Edit.
         /// </summary>
         internal static string Edit {
@@ -129,6 +174,33 @@ namespace View.Resources.Localization {
         internal static string Editor {
             get {
                 return ResourceManager.GetString("Editor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Error.
+        /// </summary>
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Please enter both a title and description for the event..
+        /// </summary>
+        internal static string ErrorEventTitleDesc {
+            get {
+                return ResourceManager.GetString("ErrorEventTitleDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Please enter both a title and description for the option..
+        /// </summary>
+        internal static string ErrorOptionTitleDesc {
+            get {
+                return ResourceManager.GetString("ErrorOptionTitleDesc", resourceCulture);
             }
         }
         
@@ -160,11 +232,47 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Import.
+        /// </summary>
+        internal static string Import {
+            get {
+                return ResourceManager.GetString("Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Import a story.
+        /// </summary>
+        internal static string ImportStory {
+            get {
+                return ResourceManager.GetString("ImportStory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Linked event.
         /// </summary>
         internal static string LinkedEventOption {
             get {
                 return ResourceManager.GetString("LinkedEventOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à You have three buttons : Play, Create and settings.
+        /// </summary>
+        internal static string MainPageDescription {
+            get {
+                return ResourceManager.GetString("MainPageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à New game.
+        /// </summary>
+        internal static string NewGame {
+            get {
+                return ResourceManager.GetString("NewGame", resourceCulture);
             }
         }
         
@@ -183,6 +291,24 @@ namespace View.Resources.Localization {
         internal static string NewStoryPlaceholder {
             get {
                 return ResourceManager.GetString("NewStoryPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à None.
+        /// </summary>
+        internal static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
             }
         }
         
@@ -268,6 +394,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Repeat.
+        /// </summary>
+        internal static string Repeat {
+            get {
+                return ResourceManager.GetString("Repeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à This will restart the app.
         /// </summary>
         internal static string RestartWarning {
@@ -313,6 +448,24 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à The name of your story contains unauthorized characters.
+        /// </summary>
+        internal static string StoryNameInvalidErrorDesc {
+            get {
+                return ResourceManager.GetString("StoryNameInvalidErrorDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Story Invalid.
+        /// </summary>
+        internal static string StoryNameInvalidErrorTitle {
+            get {
+                return ResourceManager.GetString("StoryNameInvalidErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Option text.
         /// </summary>
         internal static string TextWordOption {
@@ -322,7 +475,7 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Enter the words linked to the.
+        ///   Recherche une chaîne localisée semblable à Enter the words linked to the option.
         /// </summary>
         internal static string TextWordOptionInput {
             get {
@@ -358,6 +511,24 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Story Map.
+        /// </summary>
+        internal static string TitleStoryMap {
+            get {
+                return ResourceManager.GetString("TitleStoryMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Your Stories.
+        /// </summary>
+        internal static string TitleYourStory {
+            get {
+                return ResourceManager.GetString("TitleYourStory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Change theme.
         /// </summary>
         internal static string ToggleTheme {
@@ -381,6 +552,15 @@ namespace View.Resources.Localization {
         internal static string WelcomeMessage {
             get {
                 return ResourceManager.GetString("WelcomeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Yes.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

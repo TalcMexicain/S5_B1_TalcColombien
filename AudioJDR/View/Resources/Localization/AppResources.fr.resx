@@ -204,11 +204,11 @@
   <data name="OptionTitle" xml:space="preserve">
     <value>Créer/Modifier Option</value>
   </data>
-  <data name="TextWordOption" xml:space="preserve">
-    <value>Texte de l'option</value>
-  </data>
   <data name="OptionPageEvents" xml:space="preserve">
     <value>Sélectionnez un événement</value>
+  </data>
+  <data name="TextWordOption" xml:space="preserve">
+    <value>Texte de l'option</value>
   </data>
   <data name="OptionNameInputText" xml:space="preserve">
     <value>Entrez le nom de l'option</value>
@@ -224,5 +224,62 @@
   </data>
   <data name="NewStoryPlaceholder" xml:space="preserve">
     <value>Nouvelle histoire</value>
+  </data>
+  <data name="StoryNameInvalidErrorDesc" xml:space="preserve">
+    <value>Le nom de votre histoire contient des caractères non autorisés</value>
+  </data>
+  <data name="StoryNameInvalidErrorTitle" xml:space="preserve">
+    <value>Histoire non valide</value>
+  </data>
+  <data name="TitleYourStory" xml:space="preserve">
+    <value>Vos histoires</value>
+  </data>
+  <data name="NewGame" xml:space="preserve">
+    <value>Nouvelle partie</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continuer</value>
+  </data>
+  <data name="Repeat" xml:space="preserve">
+    <value>Répéter</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Importer</value>
+  </data>
+  <data name="MainPageDescription" xml:space="preserve">
+    <value>Vous avez trois boutons : Jouer, Créer et Paramètres.</value>
+  </data>
+  <data name="TitleStoryMap" xml:space="preserve">
+    <value>Carte de l'histoire</value>
+  </data>
+  <data name="AddWord" xml:space="preserve">
+    <value>Ajouter le mot</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirmez</value>
+  </data>
+  <data name="DeleteOptionConfirmationText" xml:space="preserve">
+    <value>Etes-vous sûr de bien vouloir supprimer cette option ?</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Erreur</value>
+  </data>
+  <data name="ErrorEventTitleDesc" xml:space="preserve">
+    <value>Le titre et la description de l'évènement ne peuvent pas être vides.</value>
+  </data>
+  <data name="ErrorOptionTitleDesc" xml:space="preserve">
+    <value>Le titre et la description de l'option ne peuvent pas être vides.</value>
+  </data>
+  <data name="ImportStory" xml:space="preserve">
+    <value>Importer une histoire</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Aucun</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Oui</value>
   </data>
 </root>

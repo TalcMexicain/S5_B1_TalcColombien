@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model;
+﻿using Model;
 
 namespace UnitTests
 {
@@ -38,7 +33,7 @@ namespace UnitTests
             Event eventToAdd = new Event("Event1", "Event1 Description");
             story.AddEvent(eventToAdd);
 
-            Assert.Contains(eventToAdd,story.Events);
+            Assert.Contains(eventToAdd, story.Events);
         }
 
         [Fact]

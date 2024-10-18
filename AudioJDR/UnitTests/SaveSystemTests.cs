@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Model;
+﻿using Model;
 using Model.Storage;
+using System.Text.Json;
 
 
 namespace UnitTests
@@ -77,7 +72,7 @@ namespace UnitTests
             currentEvent.AddOption(option);
             story.AddEvent(currentEvent);
             story.AddEvent(parentEvent);
-            
+
             //currentEvent.AddOption(option);
             var save = new Save(story, currentEvent);
 

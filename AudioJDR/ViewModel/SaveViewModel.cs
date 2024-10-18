@@ -1,25 +1,40 @@
 ﻿using Model;
 using Model.Storage;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ViewModel
 {
     public class SaveViewModel : BaseViewModel
     {
-        private readonly SaveSystem _saveSystem;
+        #region Fields
 
-        public ObservableCollection<string> AvailableSaves { get; set; }
-        public Save CurrentSave { get; set; }
+        private readonly SaveSystem _saveSystem;
+        private ObservableCollection<string> _availableSaves;
+        private Save _currentSave;
+
+        #endregion
+
+        #region Properties 
+
+        public ObservableCollection<string> AvailableSaves
+        {
+            get => _availableSaves;
+            set => _availableSaves = value;
+        }
+
+
+        public Save CurrentSave
+        {
+            get => _currentSave;
+            set => _currentSave = value;
+        }
+
+        #endregion
 
         public SaveViewModel()
         {
             _saveSystem = new SaveSystem();
-            AvailableSaves = new ObservableCollection<string>(GetAvailableSaves());
+            _availableSaves = new ObservableCollection<string>(GetAvailableSaves());
         }
 
         /// <summary>
@@ -30,7 +45,7 @@ namespace ViewModel
         /// <returns></returns>
         public async Task SaveGameAsync(Story story, Event currentEvent)
         {
-            var save = new Save(story,currentEvent)
+            var save = new Save(story, currentEvent)
             {
                 SaveDate = DateTime.Now
             };
@@ -38,9 +53,9 @@ namespace ViewModel
             await _saveSystem.SaveGameAsync(save);
 
             // Update the available saves list (if it's a new save)
-            if (!AvailableSaves.Contains(story.Title))
+            if (!_availableSaves.Contains(story.Title))
             {
-                AvailableSaves.Add(story.Title);
+                _availableSaves.Add(story.Title);
             }
         }
 
@@ -51,7 +66,7 @@ namespace ViewModel
         /// <returns></returns>
         public async Task LoadGameAsync(string storyTitle)
         {
-            CurrentSave = await _saveSystem.LoadGameAsync(storyTitle);
+            _currentSave = await _saveSystem.LoadGameAsync(storyTitle);
         }
 
         /// <summary>
@@ -61,7 +76,7 @@ namespace ViewModel
         public void DeleteSave(string storyTitle)
         {
             _saveSystem.DeleteSave(storyTitle);
-            AvailableSaves.Remove(storyTitle); // Remove from the available saves list
+            _availableSaves.Remove(storyTitle); // Remove from the available saves list
         }
 
         private List<string> GetAvailableSaves()
