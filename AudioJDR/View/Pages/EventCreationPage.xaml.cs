@@ -149,14 +149,13 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
 
                 await _storyViewModel.UpdateEventInStory(_storyId, updatedEvent);
             }
+            // Navigate to the option creation page using the correct event ID.
+            await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}?storyId={_storyId}&eventId={_eventId}&optionId=0");
         }
         else
         {
             await DisplayAlert(AppResources.Error, AppResources.ErrorEventTitleDesc, "OK");
         }
-
-        // Navigate to the option creation page using the correct event ID.
-        await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}?storyId={_storyId}&eventId={_eventId}&optionId=0");
     }
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
