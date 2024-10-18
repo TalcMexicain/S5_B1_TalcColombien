@@ -93,14 +93,12 @@ public partial class StoryList : ContentPage
 
     private async void OnExportButtonClicked(object sender, EventArgs e)
     {
-        var button = sender as Button;
-
-        var storyObjet = button?.CommandParameter as Story;
-
-        if (storyObjet != null)
+        if (sender is Button button && button.BindingContext is Story story)
         {
-            await _viewModel?.ExportStoryAsync(storyObjet);
+            Debug.WriteLine($"Exportation of story with id = {story.IdStory} initiated");
+            await _viewModel?.ExportStoryAsync(story);
         }
+        else Debug.WriteLine($"Exportation : story was not found");
     }
 
     private void OnDeleteButtonClicked(object sender, EventArgs e)
