@@ -52,5 +52,6 @@ L'application comporte deux parties principales :
 
 ## Contributeurs
 
-- **Alexandre Guidet** (Chef de projet)
+- **Alexandre Guidet** (Client)
+- **Florence Mendes** (Chef de projet)
 - **Le Talc Colombien** (Équipe de développement)
