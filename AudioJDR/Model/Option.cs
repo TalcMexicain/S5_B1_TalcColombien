@@ -44,15 +44,6 @@
         }
 
         /// <summary>
-        /// Gets or sets the text of the words that will trigger the option
-        /// </summary>
-        public List<string> Words
-        {
-            get => words;
-            set => words = value;
-        }
-
-        /// <summary>
         /// Gets or sets the event to which this option is linked
         /// </summary>
         public Event? LinkedEvent
@@ -87,6 +78,48 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Add a word to the list of words if it is not in the list
+        /// </summary>
+        /// <param name="word">The word to add</param>
+        public void AddWordInList(string word)
+        {
+            if (!this.words.Contains(word))
+            {
+                this.words.Add(word);
+            }
+        }
+
+        /// <summary>
+        /// Remove a word to the list of words if it exist in list
+        /// </summary>
+        /// <param name="word">The word to remove</param>
+        public void RemoveWordInList(string word)
+        {
+            if (this.words.Contains(word))
+            {
+                this.words.Remove(word);
+            }
+        }
+
+        /// <summary>
+        /// Get the list of words that will trigger the option
+        /// </summary>
+        /// <returns>The list of words</returns>
+        public List<string> GetWords()
+        {
+            return this.words;
+        }
+
+        /// <summary>
+        /// Checks if the list is not empty or null
+        /// </summary>
+        /// <returns>True if the list has at least one element otherwise false</returns>
+        public bool IsWordsListNotEmpty()
+        {
+            return this.words != null && this.words.Any();
+        }
 
         /// <summary>
         /// Removes the link between this option and the event.
