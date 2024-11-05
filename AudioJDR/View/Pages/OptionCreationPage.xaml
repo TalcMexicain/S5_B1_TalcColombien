@@ -76,6 +76,7 @@
                            Margin="0,0,0,5"/>
                     <Entry x:Name="OptionNameEntry"
                            Placeholder="{x:Static local:AppResources.OptionNameInputText}"
+                           PlaceholderColor="{StaticResource Gray400}"
                            FontSize="Medium"/>
                 </VerticalStackLayout>
             </Frame>
@@ -98,6 +99,7 @@
                            Margin="0,0,0,5"/>
                     <Editor x:Name="OptionTextWord"
                             Placeholder="{x:Static local:AppResources.TextWordOptionInput}"
+                            PlaceholderColor="{StaticResource Gray400}"
                             HeightRequest="200"
                             FontSize="Medium"/>
                 </VerticalStackLayout>
@@ -122,6 +124,7 @@
                     <!-- Entry with margin for proper spacing around the input field -->
                     <Entry x:Name="OptionWordsEntry"
                        Placeholder="{x:Static local:AppResources.TextWordOptionInput}"
+                       PlaceholderColor="{StaticResource Gray400}"
                        Margin="0,0,0,10" />
 
                     <!-- Button with added HorizontalOptions and margin to prevent cutting off -->
