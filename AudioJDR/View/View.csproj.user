@@ -22,6 +22,9 @@
     <MauiXaml Update="Pages\OptionCreationPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
+    <MauiXaml Update="Pages\PlayPage.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="Pages\StoryMap.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>

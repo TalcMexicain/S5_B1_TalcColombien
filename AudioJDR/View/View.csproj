@@ -92,6 +92,9 @@
 	  <MauiXaml Update="Pages\OptionCreationPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\PlayPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\StoryMap.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

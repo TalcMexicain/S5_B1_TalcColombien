@@ -17,6 +17,7 @@ namespace View
             Routing.RegisterRoute(nameof(StoryMap), typeof(StoryMap));
 
             Routing.RegisterRoute(nameof(YourStories), typeof(YourStories));
+            Routing.RegisterRoute(nameof(PlayPage), typeof(PlayPage));
         }
     }
 }
