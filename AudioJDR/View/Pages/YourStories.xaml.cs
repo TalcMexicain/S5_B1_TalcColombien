@@ -100,6 +100,7 @@ public partial class YourStories : ContentPage
 
     private async void OnImportButtonClicked(object sender, EventArgs e)
     {
+        await _viewModel.ImportStoryAsync();
     }   
 
     private void OnContinueButtonClicked(object sender, EventArgs e)
