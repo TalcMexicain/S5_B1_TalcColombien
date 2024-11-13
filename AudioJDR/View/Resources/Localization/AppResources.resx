@@ -285,4 +285,12 @@
   <data name="ImportStory" xml:space="preserve">
     <value>Import a story</value>
   </data>
+  <data name="Player" xml:space="preserve">
+    <value>Player</value>
+  </data>
+  <data name="RulesPlayer" xml:space="preserve">
+    <value>How to play :
+
+Listen to what the story is saying and say out loud your choice from the options given</value>
+  </data>
 </root>

@@ -78,12 +78,7 @@ public partial class YourStories : ContentPage
 
     private async void OnImportButtonClicked(object sender, EventArgs e)
     {
-    }
-
-    private async void OnBackButtonClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(MainPage));
-    }
+    }   
 
     private void OnContinueButtonClicked(object sender, EventArgs e)
     {
@@ -104,5 +99,9 @@ public partial class YourStories : ContentPage
         {
             _viewModel?.DeleteStory(storyObjet.IdStory);
         }
+    }
+    private async void OnBackButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(MainPlayerPage));
     }
 }

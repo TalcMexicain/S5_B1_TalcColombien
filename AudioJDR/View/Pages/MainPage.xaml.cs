@@ -66,7 +66,7 @@ namespace View
 
         private async void OnPlayButtonClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync(nameof(YourStories));
+            await Shell.Current.GoToAsync(nameof(MainPlayerPage));
         }
 
         private async void OnCreateButtonClicked(object sender, EventArgs e)
