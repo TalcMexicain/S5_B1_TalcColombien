@@ -21,7 +21,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>View</ApplicationTitle>
+		<ApplicationTitle>AudioJDR</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>IUTDijon.AudioJDR</ApplicationId>
