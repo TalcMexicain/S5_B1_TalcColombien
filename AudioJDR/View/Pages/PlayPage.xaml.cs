@@ -121,6 +121,6 @@ public partial class PlayPage : ContentPage, IQueryAttributable
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync($"{nameof(StoryMap)}?storyId={_storyId}");
+        await Shell.Current.GoToAsync($"{nameof(YourStories)}?storyId={_storyId}");
     }
 }
