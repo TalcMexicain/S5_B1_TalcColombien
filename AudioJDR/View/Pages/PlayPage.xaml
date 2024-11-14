@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="View.Pages.PlayPage"
-             >
+             Title="Play Page">
 
     <ContentPage.BackgroundColor>
         <AppThemeBinding Light="{StaticResource MainBackgroundL}" Dark="{StaticResource MainBackgroundD}" />
@@ -12,33 +12,26 @@
         <Grid Padding="20">
             <!-- Define rows for the grid -->
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <!-- Title -->
-                <RowDefinition Height="20" />
-                <!-- Spacer -->
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
                 <!-- Event Name Frame -->
-                <RowDefinition Height="20" />
-                <!-- Spacer -->
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
                 <!-- Event Text Frame -->
-                <RowDefinition Height="20" />
-                <!-- Spacer -->
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
                 <!-- Option Adding Frame -->
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
-                <!-- Spacer -->
+                <!-- Spacer and buttons -->
                 <RowDefinition Height="Auto" />
-                <!-- Save Button -->
                 <RowDefinition Height="10" />
-                <!-- Spacer -->
                 <RowDefinition Height="Auto" />
-                <!-- Back Button -->
             </Grid.RowDefinitions>
 
             <!-- Title Section -->
             <Label x:Name="EventTitleLabel" Grid.Row="0"
-                
                 FontFamily="UncialAntiquaRegular"
                 FontSize="40"
                 FontAttributes="Bold"
@@ -53,6 +46,7 @@
                    Grid.Row="4"
                    BorderColor="{StaticResource BorderColorL}"
                    CornerRadius="10"
+                   HeightRequest="400"
                    Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
@@ -78,43 +72,69 @@
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
 
-
-
-
                 <!-- List of choices -->
                 <CollectionView x:Name="OptionsListView" 
-                        ItemsSource="{Binding Options}">
+                    ItemsSource="{Binding Options}"
+                    SelectionMode="None">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Frame BackgroundColor="{StaticResource AdditionalColorL}" 
                                    Padding="10,5" 
                                    Margin="0,0,0,20">
                                 <Grid ColumnDefinitions="*, Auto" 
-                                        VerticalOptions="Center">
+                                      VerticalOptions="Center">
                                     <!-- Option title and text (left) -->
                                     <HorizontalStackLayout Grid.Column="0" 
-                                                   HorizontalOptions="StartAndExpand" 
-                                                   Spacing="10" 
-                                                   VerticalOptions="Center">
+                                           HorizontalOptions="StartAndExpand" 
+                                           Spacing="10" 
+                                           VerticalOptions="Center">
                                         <Label Text="{Binding NameOption}" 
                                                FontAttributes="Bold" 
                                                FontSize="Small" 
                                                Margin="0,0,0,5"
                                                TextColor="{StaticResource Gray400}"/>
                                         <Label Text="{Binding LinkedEvent.Name}" 
-
                                                FontSize="Small"
                                                TextColor="{StaticResource Gray400}"/>
                                     </HorizontalStackLayout>
-
-                                   
-
+                                    <HorizontalStackLayout Grid.Column="1" 
+                                           Spacing="10" 
+                                           HorizontalOptions="End">
+                                        <!-- Selection Button -->
+                                        <Button Text="Sélectionner"
+                                                CommandParameter="{Binding}"
+                                                Clicked="OnOptionSelected">
+                                            <Button.BackgroundColor>
+                                                <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                                            </Button.BackgroundColor>
+                                            <Button.TextColor>
+                                                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                                            </Button.TextColor>
+                                        </Button>
+                                    </HorizontalStackLayout>
                                 </Grid>
                             </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Frame>
+
+            <!-- Repeat Button -->
+            <Button x:Name="RepeatButton" Grid.Row="8"
+                Text="Repeter"
+                WidthRequest="200"
+                HeightRequest="60"
+                CornerRadius="10"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                FontSize="Small">
+                <Button.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                </Button.BackgroundColor>
+                <Button.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Button.TextColor>
+            </Button>
             <!-- Back Button -->
             <Button x:Name="BackButton" Grid.Row="10"
                     Text="Retour"

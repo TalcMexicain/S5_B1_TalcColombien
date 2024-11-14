@@ -15,6 +15,7 @@ public partial class PlayPage : ContentPage, IQueryAttributable
     private StoryViewModel _viewModel; // ViewModel to manage story and event data
     private int _storyId; // ID of the current story
     private int _eventId; // ID of the current event
+    private Story _currentStory;
 
     /// <summary>
     /// Initializes a new instance of the PlayPage class.
@@ -24,6 +25,27 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         InitializeComponent();
         _viewModel = new StoryViewModel();
         BindingContext = _viewModel;
+    }
+
+    private void SetResponsiveSizes()
+    {
+        double pageWidth = this.Width;
+        double pageHeight = this.Height;
+
+        double minButtonWidth = 150;
+        double minButtonHeight = 50;
+
+        if (pageWidth > 0 && pageHeight > 0)
+        {
+            double buttonWidth = Math.Max(pageWidth * 0.25, minButtonWidth);
+            double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight);
+
+            EventTitleLabel.WidthRequest = Math.Max(pageWidth * 0.8, 250);
+            EventDescriptionLabel.WidthRequest = Math.Max(pageWidth * 0.8, 250);
+
+            BackButton.WidthRequest = buttonWidth * 0.8;
+            BackButton.HeightRequest = buttonHeight;
+        }
     }
 
     /// <summary>
@@ -47,19 +69,14 @@ public partial class PlayPage : ContentPage, IQueryAttributable
     /// <param name="eventId">The ID of the event.</param>
     private async Task LoadEvent(int storyId, int eventId)
     {
-        var story = await _viewModel.GetStoryByIdAsync(storyId);
-        var eventToShow = story?.Events.FirstOrDefault(e => e.IdEvent == eventId);
+        _currentStory = await _viewModel.GetStoryByIdAsync(storyId); // Store the story in the private field
+        var eventToShow = _currentStory?.Events.FirstOrDefault(e => e.IdEvent == eventId);
 
         if (eventToShow != null)
         {
             EventTitleLabel.Text = eventToShow.Name;
             EventDescriptionLabel.Text = eventToShow.Description;
-
-
-            // Load options dynamically into the options list
-
             OptionsListView.ItemsSource = eventToShow.Options;
-
         }
         else
         {
@@ -70,14 +87,35 @@ public partial class PlayPage : ContentPage, IQueryAttributable
     /// <summary>
     /// Handles the selection of an option by navigating to the next event.
     /// </summary>
-    /// <param name="sender">The sender object.</param>
-    /// <param name="e">Event arguments.</param>
-    private async void OnOptionSelected(object sender, SelectedItemChangedEventArgs e)
+    /// <param name="sender">The sender object (CollectionView).</param>
+    /// <param name="e">Event arguments containing the current selection.</param>
+    private async void OnOptionSelected(object sender, EventArgs e)
     {
-        if (e.SelectedItem is Option selectedOption)
+        if (sender is Button button)
         {
-            // Navigate to the next event specified by the option's NextEventId
-            await Shell.Current.GoToAsync($"{nameof(PlayPage)}?storyId={_storyId}&eventId={selectedOption.LinkedEvent}");
+            var selectedOption = button.CommandParameter as Option;
+            if (selectedOption != null)
+            {
+                // Check if the selected option has a linked event
+                if (selectedOption.LinkedEvent != null)
+                {
+                    var linkedEvent = _currentStory?.Events.FirstOrDefault(ev => ev.IdEvent == selectedOption.LinkedEvent.IdEvent);
+
+                    if (linkedEvent != null)
+                    {
+                        // Navigate to the event
+                        await Shell.Current.GoToAsync($"{nameof(PlayPage)}?storyId={_storyId}&eventId={linkedEvent.IdEvent}");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error", "Linked event not found.", "OK");
+                    }
+                }
+                else
+                {
+                    await DisplayAlert("Error", "No linked event found for this option.", "OK");
+                }
+            }
         }
     }
 
