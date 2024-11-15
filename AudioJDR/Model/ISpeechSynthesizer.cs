@@ -18,6 +18,21 @@ namespace Model
         void SynthesizeTextAsync(string textToSynthesize);
 
         /// <summary>
+        /// Stops any ongoing speech synthesis asynchronously
+        /// </summary>
+        void StopSynthesisTextAsync();
+
+        /// <summary>
+        /// Pauses the currently running speech synthesis
+        /// </summary>
+        void PauseCurrentSynthesis();
+
+        /// <summary>
+        /// Resumes a speech synthesis that was previously paused
+        /// </summary>
+        void ResumePausedSynthesis();
+
+        /// <summary>
         /// Sets the volume of the voice used for speech synthesis
         /// </summary>
         /// <param name="voiceVolume">The volume of the voice (between 0 and 100)</param>

@@ -28,6 +28,30 @@ namespace Model
             _synthesizer.SpeakAsync(textToSynthesize);
         }
 
+        public void StopSynthesisTextAsync()
+        {
+            if (_synthesizer.State == SynthesizerState.Speaking) 
+            {
+                _synthesizer.SpeakAsyncCancelAll();
+            }
+        }
+
+        public void PauseCurrentSynthesis()
+        {
+            if (_synthesizer.State == SynthesizerState.Speaking)
+            {
+                _synthesizer.Pause();
+            }
+        }
+
+        public void ResumePausedSynthesis()
+        {
+            if (_synthesizer.State == SynthesizerState.Speaking)
+            {
+                _synthesizer.Resume();
+            }
+        }
+
         public void SetVoiceType(string voiceName)
         {
             if (string.IsNullOrWhiteSpace(voiceName))
@@ -58,7 +82,6 @@ namespace Model
 
             return voicesNames;
         }
-
 
         public void SetVoiceVolume(int voiceVolume)
         {
