@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Model;
 using ViewModel;
 
@@ -70,6 +71,27 @@ public partial class YourStories : ContentPage
 
     private async void OnNewGameButtonClicked(object sender, EventArgs e)
     {
+        if (sender is Button button && button.BindingContext is Story selectedStory)
+        {
+            // Load the first event of the selected story
+            var firstEvent = selectedStory.Events?.FirstOrDefault(e => e.IdEvent == 1);
+
+            if (firstEvent != null)
+            {
+                Debug.WriteLine($"Starting game with Story ID: {selectedStory.IdStory}, Event ID: {firstEvent.IdEvent}");
+                await Shell.Current.GoToAsync($"{nameof(PlayPage)}?storyId={selectedStory.IdStory}&eventId={firstEvent.IdEvent}");
+            }
+            else
+            {
+                Debug.WriteLine("No event found with IdEvent = 1");
+                await DisplayAlert("Erreur", "Aucun événement de départ trouvé.", "OK");
+            }
+        }
+        else
+        {
+            Debug.WriteLine("Erreur: Aucune histoire sélectionnée.");
+            await DisplayAlert("Erreur", "Veuillez sélectionner une histoire à jouer.", "OK");
+        }
     }
 
     private async void OnRepeatButtonClicked(object sender, EventArgs e)
@@ -78,15 +100,12 @@ public partial class YourStories : ContentPage
 
     private async void OnImportButtonClicked(object sender, EventArgs e)
     {
-    }
-
-    private async void OnBackButtonClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(MainPage));
-    }
+        await _viewModel.ImportStoryAsync();
+    }   
 
     private void OnContinueButtonClicked(object sender, EventArgs e)
     {
+
     }
 
     /// <summary>
@@ -104,5 +123,9 @@ public partial class YourStories : ContentPage
         {
             _viewModel?.DeleteStory(storyObjet.IdStory);
         }
+    }
+    private async void OnBackButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(MainPlayerPage));
     }
 }

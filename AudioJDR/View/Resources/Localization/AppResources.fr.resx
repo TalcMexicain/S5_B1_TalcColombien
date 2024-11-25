@@ -252,9 +252,6 @@
   <data name="TitleStoryMap" xml:space="preserve">
     <value>Carte de l'histoire</value>
   </data>
-  <data name="AddWord" xml:space="preserve">
-    <value>Ajouter le mot</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Confirmez</value>
   </data>
@@ -270,9 +267,6 @@
   <data name="ErrorOptionTitleDesc" xml:space="preserve">
     <value>Le titre et la description de l'option ne peuvent pas être vides.</value>
   </data>
-  <data name="ImportStory" xml:space="preserve">
-    <value>Importer une histoire</value>
-  </data>
   <data name="No" xml:space="preserve">
     <value>Non</value>
   </data>
@@ -281,5 +275,19 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Oui</value>
+  </data>
+  <data name="AddWord" xml:space="preserve">
+    <value>Ajouter le mot</value>
+  </data>
+  <data name="ImportStory" xml:space="preserve">
+    <value>Importer une histoire</value>
+  </data>
+  <data name="Player" xml:space="preserve">
+    <value>Joueur</value>
+  </data>
+  <data name="RulesPlayer" xml:space="preserve">
+    <value>Comment jouer :
+
+Ecouter ce que l'histoire raconte et dites à voix haute votre choix parmis les options données.</value>
   </data>
 </root>

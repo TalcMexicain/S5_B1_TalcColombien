@@ -1,73 +1,6 @@
-
-/* Modification non fusionnée à partir du projet 'View (net8.0-maccatalyst)'
-Avant :
-using ViewModel;
-using Model;
-using static System.Net.Mime.MediaTypeNames;
-using System.Diagnostics;
-Après :
 using Model;
 using System.Diagnostics;
 using View.Resources.Localization;
-using ViewModel;
-*/
-
-/* Modification non fusionnée à partir du projet 'View (net8.0-windows10.0.19041.0)'
-Avant :
-using ViewModel;
-using Model;
-using static System.Net.Mime.MediaTypeNames;
-using System.Diagnostics;
-Après :
-using Model;
-using System.Diagnostics;
-using View.Resources.Localization;
-using ViewModel;
-*/
-
-/* Modification non fusionnée à partir du projet 'View (net8.0-android)'
-Avant :
-using ViewModel;
-using Model;
-using static System.Net.Mime.MediaTypeNames;
-using System.Diagnostics;
-Après :
-using Model;
-using System.Diagnostics;
-using View.Resources.Localization;
-using ViewModel;
-*/
-using Model;
-using System.Diagnostics;
-using View.Resources.Localization;
-
-
-/* Modification non fusionnée à partir du projet 'View (net8.0-maccatalyst)'
-Avant :
-using static System.Net.Mime.MediaTypeNames;
-using ViewModel;
-Après :
-using ViewModel;
-using static System.Net.Mime.MediaTypeNames;
-*/
-
-/* Modification non fusionnée à partir du projet 'View (net8.0-windows10.0.19041.0)'
-Avant :
-using static System.Net.Mime.MediaTypeNames;
-using ViewModel;
-Après :
-using ViewModel;
-using static System.Net.Mime.MediaTypeNames;
-*/
-
-/* Modification non fusionnée à partir du projet 'View (net8.0-android)'
-Avant :
-using static System.Net.Mime.MediaTypeNames;
-using ViewModel;
-Après :
-using ViewModel;
-using static System.Net.Mime.MediaTypeNames;
-*/
 using ViewModel;
 
 namespace View.Pages;
@@ -78,6 +11,8 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
     private int _storyId;
     private int _eventId;
     private int _optionId;
+
+    private Option _optionObject;
 
     public OptionCreationPage()
     {
@@ -114,41 +49,34 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
             _optionId = int.Parse(query["optionId"].ToString());
 
             // Load the option if it exists
-            if (_optionId != 0)
+            await OnLoadOptionPage(_optionId);
+        }
+    }
+
+    private async Task OnLoadOptionPage(int optionId)
+    {
+        if (optionId != 0)
+        {
+            var existingOption = await _storyViewModel.GetOptionByIdAsync(_storyId, _eventId, optionId);
+
+            if (existingOption != null)
             {
-                await LoadExistingOption(_optionId);
+                OptionNameEntry.Text = existingOption.NameOption;
+                OptionTextWord.Text = existingOption.Text;
+
+                SetSelectedEvent(existingOption.LinkedEvent?.IdEvent);
+
+                _optionObject = existingOption;
+
                 UpdateWordsDisplay();
             }
         }
-
-        Debug.WriteLine($"Opened OptionCreation Page with story (id = {_storyId}) , event (id = {_eventId}) and option (id = {_optionId})");
-    }
-
-
-    /// <summary>
-    /// Loads the details of an existing option for editing, populating the input fields with the option data.
-    /// </summary>
-    /// <param name="optionId">The ID of the option to load.</param>
-    private async Task LoadExistingOption(int optionId)
-    {
-        var existingOption = await _storyViewModel.GetOptionByIdAsync(_storyId, _eventId, optionId);
-        if (existingOption != null)
+        else
         {
-            OptionNameEntry.Text = existingOption.NameOption;
-            OptionTextWord.Text = existingOption.Text;
-
-            SetSelectedEvent(existingOption.LinkedEvent?.IdEvent);
-
-            Debug.WriteLine($"Option found : {existingOption.IdOption}, Title: {existingOption.NameOption}");
+            this._optionObject = new Option();
         }
     }
 
-
-    /// <summary>
-    /// Sets the selected event in the EventPicker based on the linked event ID of the option.
-    /// Selects "None" if the option is not linked to any event.
-    /// </summary>
-    /// <param name="linkedEventId">The ID of the event linked to the option, or null for no link.</param>
     private void SetSelectedEvent(int? linkedEventId)
     {
         if (linkedEventId == null || linkedEventId == 0)
@@ -161,11 +89,6 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
         }
     }
 
-
-    /// <summary>
-    /// Populates the EventPicker with all events from the selected story, excluding the current event.
-    /// Adds an option for "None" to represent no linked event.
-    /// </summary>
     private void PopulateEventPicker()
     {
         var filteredEvents = _storyViewModel.SelectedStory.Events
@@ -180,14 +103,6 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
         Debug.WriteLine($"Populated Event Picker with {filteredEvents.Count} events excluding current event (id = {_eventId})");
     }
 
-
-
-    /// <summary>
-    /// Event handler triggered when the page size changes.
-    /// Adjusts the UI elements dynamically to fit the new page size.
-    /// </summary>
-    /// <param name="sender">The source of the event (the page).</param>
-    /// <param name="e">Event arguments.</param>
     private void OnSizeChanged(object sender, EventArgs e)
     {
         SetResponsiveSizes();
@@ -258,17 +173,15 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
 
     private async Task UpdateWordsDisplay()
     {
-        // Retrieve the option object
-        var existingOption = await _storyViewModel.GetOptionByIdAsync(_storyId, _eventId, _optionId);
 
         // Check if the option has words and update the display
-        if (existingOption != null && existingOption.Words != null && existingOption.Words.Any())
+        if (this._optionObject.IsWordsListNotEmpty())
         {
-            WordsDisplayLabel.Text = string.Join(" - ", existingOption.Words);
+            this.WordsDisplayLabel.Text = string.Join(" - ", this._optionObject.GetWords());
         }
         else
         {
-            WordsDisplayLabel.Text = string.Empty; // Clear if no words
+            this.WordsDisplayLabel.Text = string.Empty; // Clear if no words
         }
     }
 
@@ -279,65 +192,44 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
 
         if (!string.IsNullOrEmpty(newWord))
         {
-            // Assuming you have _storyId, _eventId, and optionId already defined
-            var existingOption = await _storyViewModel.GetOptionByIdAsync(_storyId, _eventId, _optionId);
 
-            // Add the new word to the option's word list
-            if (existingOption.Words == null)
-            {
-                existingOption.Words = new List<string>(); // Initialize if it's null
-            }
-            existingOption.Words.Add(newWord);
+            this._optionObject.AddWordInList(newWord);
 
-            // Update the option in the event
-            await _storyViewModel.UpdateOptionInEvent(_storyId, _eventId, existingOption);
+            await _storyViewModel.UpdateOptionInEvent(_storyId, _eventId, _optionObject);
 
-            // Update the word list display
             UpdateWordsDisplay();
 
             // Clear the Entry field after adding
-            OptionWordsEntry.Text = string.Empty;
+            this.OptionWordsEntry.Text = string.Empty;
 
             // Dismiss the keyboard
-            OptionWordsEntry.Unfocus();
+            this.OptionWordsEntry.Unfocus();
         }
     }
 
-    /// <summary>
-    /// Handles the click event for the Save button.
-    /// Validates input and creates or updates an option in the story's event.
-    /// If successful, navigates back to the EventCreationPage.
-    /// </summary>
-    /// <param name="sender">The source of the event (the Save button).</param>
-    /// <param name="e">Event arguments.</param>
+
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
         if (!string.IsNullOrWhiteSpace(OptionNameEntry.Text) || !string.IsNullOrWhiteSpace(OptionTextWord.Text))
         {
             var selectedEvent = (Event)EventPicker.SelectedItem;
-            if (selectedEvent.IdEvent == 0) { selectedEvent = null; }
+            if (selectedEvent != null && selectedEvent.IdEvent == 0) 
+            { 
+                selectedEvent = null; 
+            }
+
+            this._optionObject.IdOption = await _storyViewModel.GenerateNewOptionId(_storyId, _eventId);
+            this._optionObject.NameOption = OptionNameEntry.Text;
+            this._optionObject.Text = OptionTextWord.Text;
+            this._optionObject.LinkedEvent = selectedEvent;
 
             if (_optionId == 0)
             {
-                Debug.WriteLine($"Option is new: Creating new option..");
-                await _storyViewModel.AddOptionToEvent(_storyId, _eventId, new Option
-                {
-                    IdOption = await _storyViewModel.GenerateNewOptionId(_storyId, _eventId),
-                    NameOption = OptionNameEntry.Text,
-                    Text = OptionTextWord.Text,
-                    LinkedEvent = selectedEvent
-                });
+                await _storyViewModel.AddOptionToEvent(_storyId, _eventId, _optionObject);
             }
             else
             {
-                Debug.WriteLine($"Option is not new: Updating option..");
-                await _storyViewModel.UpdateOptionInEvent(_storyId, _eventId, new Option
-                {
-                    IdOption = _optionId,
-                    NameOption = OptionNameEntry.Text,
-                    Text = OptionTextWord.Text,
-                    LinkedEvent = selectedEvent
-                });
+                await _storyViewModel.UpdateOptionInEvent(_storyId, _eventId, _optionObject);
             }
 
             await Shell.Current.GoToAsync($"{nameof(EventCreationPage)}?storyId={_storyId}&eventId={_eventId}");
@@ -347,7 +239,6 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
             await DisplayAlert(AppResources.Error, AppResources.ErrorOptionTitleDesc, "OK");
         }
     }
-
 
 
     private async void OnBackButtonClicked(object sender, EventArgs e)

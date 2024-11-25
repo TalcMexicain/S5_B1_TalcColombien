@@ -394,6 +394,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Player.
+        /// </summary>
+        internal static string Player {
+            get {
+                return ResourceManager.GetString("Player", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Repeat.
         /// </summary>
         internal static string Repeat {
@@ -408,6 +417,17 @@ namespace View.Resources.Localization {
         internal static string RestartWarning {
             get {
                 return ResourceManager.GetString("RestartWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à How to play :
+        ///
+        ///Listen to what the story is saying and say out loud your choice from the options given.
+        /// </summary>
+        internal static string RulesPlayer {
+            get {
+                return ResourceManager.GetString("RulesPlayer", resourceCulture);
             }
         }
         

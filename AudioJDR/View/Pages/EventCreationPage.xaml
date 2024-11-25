@@ -72,6 +72,7 @@
                     </Label>
                     <Entry x:Name="EventTitleEntry"
                            Placeholder="{x:Static local:AppResources.PlaceholderEventTitle}"
+                           PlaceholderColor="{StaticResource Gray400}"
                            FontSize="Medium"/>
                 </VerticalStackLayout>
             </Frame>
@@ -97,6 +98,7 @@
                     </Label>
                     <Editor x:Name="EventContentEditor"
                             Placeholder="{x:Static local:AppResources.PlaceholderStoryContent}"
+                            PlaceholderColor="{StaticResource Gray400}"
                             HeightRequest="250"
                             FontSize="Medium"/>
                 </VerticalStackLayout>
@@ -157,9 +159,12 @@
                                             <Label Text="{Binding NameOption}" 
                                                    FontAttributes="Bold" 
                                                    FontSize="Small" 
-                                                   Margin="0,0,0,5"/>
+                                                   Margin="0,0,0,5"
+                                                   TextColor="{StaticResource Gray400}"/>
                                             <Label Text="{Binding LinkedEvent.Name}" 
-                                                   FontSize="Small" />
+
+                                                   FontSize="Small"
+                                                   TextColor="{StaticResource Gray400}"/>
                                         </HorizontalStackLayout>
 
                                         <!-- Edit and delete buttons (right) -->
