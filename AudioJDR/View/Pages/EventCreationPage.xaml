@@ -70,7 +70,8 @@
                             <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                         </Label.TextColor>
                     </Label>
-                    <Entry x:Name="EventTitleEntry"
+                    <Entry x:Name="EventNameEntry"
+                           Text="{Binding CurrentEvent.Name}"
                            Placeholder="{x:Static local:AppResources.PlaceholderEventTitle}"
                            PlaceholderColor="{StaticResource Gray400}"
                            FontSize="Medium"/>
@@ -96,7 +97,8 @@
                             <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                         </Label.TextColor>
                     </Label>
-                    <Editor x:Name="EventContentEditor"
+                    <Editor x:Name="EventDescriptionEditor"
+                            Text="{Binding CurrentEvent.Description}"
                             Placeholder="{x:Static local:AppResources.PlaceholderStoryContent}"
                             PlaceholderColor="{StaticResource Gray400}"
                             HeightRequest="250"
@@ -124,7 +126,7 @@
                     </Label>
 
                     <!-- Button to add a new option -->
-                    <Button x:Name="AddOptionButton" Text="{x:Static local:AppResources.AddOption}"
+                    <Button x:Name="CreateNewOptionButton" Text="{x:Static local:AppResources.AddOption}"
                             FontSize="Small"
                             CornerRadius="20"
                             HeightRequest="50"
@@ -132,7 +134,7 @@
                             HorizontalOptions="Start"
                             Padding="10"
                             Margin="0,0,0,20"
-                            Clicked="OnAddOptionClicked">
+                            Clicked="OnCreateNewOptionButtonClicked">
                         <Button.BackgroundColor>
                             <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                         </Button.BackgroundColor>
@@ -142,8 +144,8 @@
                     </Button>
 
                     <!-- List of choices -->
-                    <CollectionView x:Name="OptionsList" 
-                                    ItemsSource="{Binding Options}">
+                    <CollectionView x:Name="OptionList" 
+                                    ItemsSource="{Binding CurrentEvent.Options}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Frame BackgroundColor="{StaticResource AdditionalColorL}" 
@@ -153,16 +155,15 @@
                                           VerticalOptions="Center">
                                         <!-- Option title and text (left) -->
                                         <HorizontalStackLayout Grid.Column="0" 
-                                                               HorizontalOptions="StartAndExpand" 
-                                                               Spacing="10" 
-                                                               VerticalOptions="Center">
+                                                             HorizontalOptions="StartAndExpand" 
+                                                             Spacing="10" 
+                                                             VerticalOptions="Center">
                                             <Label Text="{Binding NameOption}" 
                                                    FontAttributes="Bold" 
                                                    FontSize="Small" 
                                                    Margin="0,0,0,5"
                                                    TextColor="{StaticResource Gray400}"/>
                                             <Label Text="{Binding LinkedEvent.Name}" 
-
                                                    FontSize="Small"
                                                    TextColor="{StaticResource Gray400}"/>
                                         </HorizontalStackLayout>
@@ -173,7 +174,7 @@
                                                                HorizontalOptions="End">
                                             <!-- Edit Button -->
                                             <Button Text="{x:Static local:AppResources.Edit}"
-                                                    Clicked="OnEditOptionClicked"
+                                                    Clicked="OnEditOptionButtonClicked"
                                                     CommandParameter="{Binding}">
                                                 <Button.BackgroundColor>
                                                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
@@ -185,7 +186,7 @@
 
                                             <!-- Delete Button -->
                                             <Button Text="{x:Static local:AppResources.Delete}"
-                                                    Clicked="OnDeleteOptionClicked"
+                                                    Clicked="OnDeleteOptionButtonClicked"
                                                     CommandParameter="{Binding}">
                                                 <Button.BackgroundColor>
                                                     <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />

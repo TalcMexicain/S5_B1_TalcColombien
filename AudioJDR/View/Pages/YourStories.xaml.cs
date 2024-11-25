@@ -121,7 +121,7 @@ public partial class YourStories : ContentPage
 
         if (storyObjet != null)
         {
-            _viewModel?.DeleteStory(storyObjet.IdStory);
+            _viewModel?.DeleteStoryAsync(storyObjet.IdStory);
         }
     }
     private async void OnBackButtonClicked(object sender, EventArgs e)

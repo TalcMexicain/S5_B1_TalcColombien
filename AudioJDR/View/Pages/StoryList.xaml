@@ -87,6 +87,7 @@
                                     <!-- Edit Story Button -->
                                     <Button Text="{x:Static local:AppResources.Edit}"
                                             Margin="0,0,10,0"
+                                            CommandParameter="{Binding}"
                                             Clicked="OnEditButtonClicked">
                                         <Button.BackgroundColor>
                                             <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
@@ -99,6 +100,7 @@
                                     <!-- Export Story Button -->
                                     <Button Text="{x:Static local:AppResources.Export}"
                                             Margin="0,0,10,0"
+                                            CommandParameter="{Binding}"
                                             Clicked="OnExportButtonClicked">
                                         <Button.BackgroundColor>
                                             <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />

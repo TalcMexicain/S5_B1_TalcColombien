@@ -160,6 +160,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à You have unsaved changes. If you go back, these changes will be lost. Do you want to continue?.
+        /// </summary>
+        internal static string DiscardChangesMessage {
+            get {
+                return ResourceManager.GetString("DiscardChangesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Edit.
         /// </summary>
         internal static string Edit {
@@ -558,6 +567,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à You have unsaved changes. Do you want to save your changes before proceeding?.
+        /// </summary>
+        internal static string UnsavedChangesMessage {
+            get {
+                return ResourceManager.GetString("UnsavedChangesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Welcome to the Creator Area.
         /// </summary>
         internal static string WelcomeCreator {
@@ -572,6 +590,15 @@ namespace View.Resources.Localization {
         internal static string WelcomeMessage {
             get {
                 return ResourceManager.GetString("WelcomeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à This word already exists in the list.
+        /// </summary>
+        internal static string WordAlreadyExists {
+            get {
+                return ResourceManager.GetString("WordAlreadyExists", resourceCulture);
             }
         }
         

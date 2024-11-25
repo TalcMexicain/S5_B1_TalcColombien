@@ -7,7 +7,7 @@ namespace View;
 
 public partial class StoryList : ContentPage
 {
-    private StoryViewModel _viewModel;
+    private readonly StoryViewModel _viewModel;
 
     public StoryList()
     {
@@ -66,7 +66,6 @@ public partial class StoryList : ContentPage
         }
     }
 
-
     /// <summary>
     /// Opens the StoryMap page to edit the selected story.
     /// </summary>
@@ -84,7 +83,6 @@ public partial class StoryList : ContentPage
             Debug.WriteLine("Error: Could not retrieve the selected story.");
         }
     }
-
 
     private async void OnCreateNewStoryButtonClicked(object sender, EventArgs e)
     {
@@ -119,21 +117,14 @@ public partial class StoryList : ContentPage
         }
     }
 
-
     /// <summary>
     /// Deletes the selected story by triggering the DeleteStory method in the ViewModel.
     /// </summary>
-    /// <param name="sender">The Delete button clicked.</param>
-    /// <param name="e">Event arguments.</param>
-    private void OnDeleteButtonClicked(object sender, EventArgs e)
+    private async void OnDeleteButtonClicked(object sender, EventArgs e)
     {
-        var button = sender as Button;
-        var storyObjet = button?.CommandParameter as Story;
-
-        if (storyObjet != null)
+        if (sender is Button button && button.CommandParameter is Story storyObject)
         {
-            _viewModel?.DeleteStory(storyObjet.IdStory);
+            await _viewModel.DeleteStoryAsync(storyObject.IdStory);
         }
     }
-
 }

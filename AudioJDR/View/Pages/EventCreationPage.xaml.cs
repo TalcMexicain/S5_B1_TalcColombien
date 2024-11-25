@@ -1,261 +1,207 @@
 using Model;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using View.Resources.Localization;
 using ViewModel;
 
 namespace View.Pages;
 
+/// <summary>
+/// Represents the Event Creation/Edition page that allows users to create or edit an event,
+/// including its name, description, and associated options.
+/// The page also handles saving changes and navigation.
+/// </summary>
 public partial class EventCreationPage : ContentPage, IQueryAttributable
 {
     private readonly StoryViewModel _storyViewModel;
+    private EventViewModel _eventViewModel;
     private int _storyId;
     private int _eventId;
+    private string _initialName;
+    private string _initialDescription;
+    private ObservableCollection<Option> _initialOptions;
 
+    /// <summary>
+    /// Initializes a new instance of the EventCreationPage.
+    /// </summary>
     public EventCreationPage()
     {
         InitializeComponent();
-
         _storyViewModel = new StoryViewModel();
-        BindingContext = _storyViewModel;
-
         SetResponsiveSizes();
-        this.SizeChanged += OnSizeChanged; // Handle dynamic resizing
+        this.SizeChanged += OnSizeChanged;
     }
 
-    /// <summary>
-    /// Receives and applies the storyId and eventId from the query parameters when navigating to this page.
-    /// It loads the appropriate story and event data into the view model.
-    /// </summary>
-    /// <param name="query">A dictionary containing the navigation parameters (storyId, eventId).</param>
-    public async void ApplyQueryAttributes(IDictionary<string, object> query)
-    {
-        if (query.ContainsKey("storyId"))
-        {
-            _storyId = int.Parse(query["storyId"].ToString());
-            _storyViewModel.SelectedStory = await _storyViewModel.GetStoryByIdAsync(_storyId);
-        }
-        if (query.ContainsKey("eventId"))
-        {
-            _eventId = int.Parse(query["eventId"].ToString());
-
-            // Load the event if it exists
-            if (_eventId != 0)
-            {
-                var existingEvent = await LoadEventData(_eventId);
-
-                // Populate the UI with the event details
-                PopulateEventDetails(existingEvent);
-                RefreshOptionsList(existingEvent);
-            }
-        }
-        Debug.WriteLine($"Opened EventCreation Page with story (id = {_storyId}) and event (id = {_eventId})");
-    }
-
-
-    /// <summary>
-    /// Retrieves the event data associated with the given event ID from the ViewModel.
-    /// </summary>
-    /// <param name="eventId">The ID of the event to load.</param>
-    /// <returns>The event associated with the given ID, or null if not found.</returns>
-    private async Task<Event> LoadEventData(int eventId)
-    {
-        return await _storyViewModel.GetEventByIdAsync(_storyId, eventId);
-    }
-
-
-    /// <summary>
-    /// Fills the page's UI elements with the details of the provided event (title, description).
-    /// </summary>
-    /// <param name="existingEvent">The event whose details should be displayed in the UI.</param>
-    private void PopulateEventDetails(Event existingEvent)
-    {
-        if (existingEvent != null)
-        {
-            EventTitleEntry.Text = existingEvent.Name;
-            EventContentEditor.Text = existingEvent.Description;
-        }
-    }
-
-
-    /// <summary>
-    /// Refreshes the list of options for the provided event by re-binding the event's options
-    /// to the OptionsList view.
-    /// </summary>
-    /// <param name="existingEvent">The event whose options should be displayed.</param>
-    private void RefreshOptionsList(Event existingEvent)
-    {
-        if (existingEvent != null)
-        {
-            OptionsList.ItemsSource = null; // Clear the existing items - forces refresh on rebind
-            OptionsList.ItemsSource = existingEvent.Options; // Bind updated options
-        }
-    }
-
-
-    /// <summary>
-    /// Event handler for dynamically adjusting UI element sizes when the page is resized.
-    /// This ensures the page layout remains responsive to different screen sizes.
-    /// </summary>
-    /// <param name="sender">The source of the event (typically the page itself).</param>
-    /// <param name="e">Event arguments.</param>
     private void OnSizeChanged(object sender, EventArgs e)
     {
-        SetResponsiveSizes(); // Adjust sizes when screen size changes
+        SetResponsiveSizes();
     }
 
-
-    /// <summary>
-    /// Dynamically adjusts the sizes of various UI elements (buttons, text inputs) based on
-    /// the current page dimensions to ensure a responsive layout.
-    /// </summary>
     private void SetResponsiveSizes()
     {
         double pageWidth = this.Width;
         double pageHeight = this.Height;
 
-        double minButtonWidth = 150;
-        double minButtonHeight = 50;
-
         if (pageWidth > 0 && pageHeight > 0)
         {
-            double buttonWidth = Math.Max(pageWidth * 0.25, minButtonWidth);
-            double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight);
+            double buttonWidth = Math.Max(pageWidth * 0.24, 350);
+            double buttonHeight = Math.Max(pageHeight * 0.08, 50);
 
-            EventTitleEntry.WidthRequest = Math.Max(pageWidth * 0.8, 250);
-            EventContentEditor.WidthRequest = Math.Max(pageWidth * 0.8, 250);
+            EventNameEntry.WidthRequest = Math.Max(pageWidth * 0.7, 300);
+            EventDescriptionEditor.WidthRequest = Math.Max(pageWidth * 0.7, 300);
+            OptionList.WidthRequest = Math.Max(pageWidth * 0.9, 300);
 
             SaveButton.WidthRequest = buttonWidth;
             SaveButton.HeightRequest = buttonHeight;
 
+            CreateNewOptionButton.WidthRequest = buttonWidth;
+            CreateNewOptionButton.HeightRequest = buttonHeight;
+
             BackButton.WidthRequest = buttonWidth * 0.8;
             BackButton.HeightRequest = buttonHeight;
+
+            double buttonFontSize = Math.Min(buttonWidth * 0.08, 18);
+            SaveButton.FontSize = buttonFontSize;
+            CreateNewOptionButton.FontSize = buttonFontSize;
+            BackButton.FontSize = buttonFontSize;
         }
     }
 
-
     /// <summary>
-    /// Handles the logic for creating or updating an event and navigating to the OptionCreationPage 
-    /// to add options related to the event.
+    /// Applies query attributes, setting the story and event IDs and loading the appropriate data.
     /// </summary>
-    /// <param name="sender">The object that triggered the event (typically a button).</param>
-    /// <param name="e">Event arguments associated with the button click.</param>
-    private async void OnAddOptionClicked(object sender, EventArgs e)
+    /// <param name="query">Dictionary of query parameters containing storyId and eventId.</param>
+    public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (!string.IsNullOrWhiteSpace(EventTitleEntry.Text) || !string.IsNullOrWhiteSpace(EventContentEditor.Text))
+        if (query.ContainsKey("storyId") && query.ContainsKey("eventId"))
         {
-            // Create or update event
-            if (_eventId == 0)
+            _storyId = int.Parse(query["storyId"].ToString());
+            _eventId = int.Parse(query["eventId"].ToString());
+            Debug.WriteLine($"Received storyId: {_storyId}, eventId: {_eventId}");
+
+            try
             {
-                // New event
-                var newEvent = new Event
-                {
-                    IdEvent = _storyViewModel.GenerateNewEventId(),
-                    Name = EventTitleEntry.Text,
-                    Description = EventContentEditor.Text
-                };
+                _storyViewModel.CurrentStory = await _storyViewModel.GetStoryByIdAsync(_storyId);
+                _eventViewModel = _eventId == 0 
+                    ? new EventViewModel(_storyViewModel)
+                    : await _storyViewModel.GetEventViewModelAsync(_eventId);
 
-                // Add new event to the story
-                await _storyViewModel.AddEventToStory(_storyId, newEvent);
-
-                _eventId = newEvent.IdEvent;
+                BindingContext = _eventViewModel;
+                InitializeEventState();
+                
+                Debug.WriteLine(_eventId == 0 
+                    ? "Initialized new event creation." 
+                    : $"Event loaded: {_eventViewModel.CurrentEvent.Name}, Options count: {_eventViewModel.CurrentEvent.Options.Count}");
             }
-            else
+            catch (KeyNotFoundException ex)
             {
-                // Update existing event
-                var updatedEvent = new Event
-                {
-                    IdEvent = _eventId,
-                    Name = EventTitleEntry.Text,
-                    Description = EventContentEditor.Text
-                };
-
-                await _storyViewModel.UpdateEventInStory(_storyId, updatedEvent);
+                Debug.WriteLine($"Error loading story or event: {ex.Message}");
             }
-
-            // Navigate to the OptionCreationPage for adding options to the event
-            await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}?storyId={_storyId}&eventId={_eventId}&optionId=0");
         }
         else
         {
-            await DisplayAlert(AppResources.Error, AppResources.ErrorEventTitleDesc, "OK");
+            Debug.WriteLine("Missing required navigation parameters");
         }
     }
 
-
-    /// <summary>
-    /// Handles the save button click event by either creating or updating an event
-    /// in the story and navigating back to the StoryMap page after saving.
-    /// </summary>
-    /// <param name="sender">The source of the event (the save button).</param>
-    /// <param name="e">Event arguments.</param>
-    private async void OnSaveButtonClicked(object sender, EventArgs e)
+    private void InitializeEventState()
     {
-        if (!string.IsNullOrWhiteSpace(EventTitleEntry.Text) || !string.IsNullOrWhiteSpace(EventContentEditor.Text))
+        EventNameEntry.Text = _eventViewModel.CurrentEvent.Name;
+        EventDescriptionEditor.Text = _eventViewModel.CurrentEvent.Description;
+        OptionList.ItemsSource = _eventViewModel.CurrentEvent.Options;
+
+        _initialName = _eventViewModel.CurrentEvent.Name;
+        _initialDescription = _eventViewModel.CurrentEvent.Description;
+        _initialOptions = new ObservableCollection<Option>(_eventViewModel.CurrentEvent.Options);
+    }
+
+    private async Task UpdateEvent()
+    {
+        if (_eventViewModel.CurrentEvent != null)
         {
-            // Create or update the event in the StoryViewModel
-            if (_eventId == 0)
+            _eventViewModel.CurrentEvent.Name = EventNameEntry.Text;
+            _eventViewModel.CurrentEvent.Description = EventDescriptionEditor.Text;
+            await _eventViewModel.UpdateEventAsync(_eventViewModel.CurrentEvent);
+            Debug.WriteLine("Event updated successfully.");
+        }
+    }
+
+    private void RefreshOptionList()
+    {
+        OptionList.ItemsSource = null;
+        OptionList.ItemsSource = _eventViewModel.CurrentEvent.Options;
+    }
+
+    private async Task<bool> ConfirmAndSaveIfNecessary()
+    {
+        bool hasChanges = _initialName != EventNameEntry.Text ||
+                         _initialDescription != EventDescriptionEditor.Text ||
+                         !_initialOptions.SequenceEqual(_eventViewModel.CurrentEvent.Options);
+
+        bool result = true;
+        if (hasChanges)
+        {
+            bool confirm = await DisplayAlert(AppResources.Confirm, AppResources.DiscardChangesMessage, AppResources.Yes, AppResources.No);
+            if (confirm)
             {
-                // New event
-                await _storyViewModel.AddEventToStory(_storyId, new Event
-                {
-                    IdEvent = _storyViewModel.GenerateNewEventId(),
-                    Name = EventTitleEntry.Text,
-                    Description = EventContentEditor.Text
-                });
+                await UpdateEvent();
             }
             else
             {
-                // Update existing event
-                await _storyViewModel.UpdateEventInStory(_storyId, new Event
-                {
-                    IdEvent = _eventId,
-                    Name = EventTitleEntry.Text,
-                    Description = EventContentEditor.Text
-                });
+                result = false;
             }
-            // Go back to StoryMap after saving
-            await Shell.Current.GoToAsync($"{nameof(StoryMap)}?storyId={_storyId}");
         }
-        else
+        return result;
+    }
+
+    private async void OnEditOptionButtonClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button && button.CommandParameter is Option currentOption)
         {
-            await DisplayAlert(AppResources.Error, AppResources.ErrorEventTitleDesc, "OK");
+            Debug.WriteLine($"Edit Option Clicked: Option ID: {currentOption.IdOption}");
+            await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}?storyId={_storyId}&eventId={_eventId}&optionId={currentOption.IdOption}");
         }
     }
 
-    private async void OnBackButtonClicked(object sender, EventArgs e)
+    private async void OnDeleteOptionButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync($"{nameof(StoryMap)}?storyId={_storyId}");
-    }
-
-    private async void OnEditOptionClicked(object sender, EventArgs e)
-    {
-        if (sender is Button button && button.CommandParameter is Option selectedOption)
-        {
-            await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}?storyId={_storyId}&eventId={_eventId}&optionId={selectedOption.IdOption}");
-        }
-    }
-
-    /// <summary>
-    /// Handles the click event for deleting an option from the event by confirming with the user
-    /// and removing the option from the ViewModel if confirmed.
-    /// </summary>
-    /// <param name="sender">The source of the event (the delete button).</param>
-    /// <param name="e">Event arguments.</param>
-    private async void OnDeleteOptionClicked(object sender, EventArgs e)
-    {
-        if (sender is Button button && button.CommandParameter is Option selectedOption)
+        if (sender is Button button && button.CommandParameter is Option currentOption)
         {
             bool confirm = await DisplayAlert(AppResources.Confirm, AppResources.DeleteOptionConfirmationText, AppResources.Yes, AppResources.No);
             if (confirm)
             {
-                // Remove the option from the ViewModel
-                await _storyViewModel.RemoveOptionFromEvent(_storyId, _eventId, selectedOption);
-
-                // Refresh the option List
-                var existingEvent = await LoadEventData(_eventId);
-                RefreshOptionsList(existingEvent);
+                var optionViewModel = new OptionViewModel(_eventViewModel, currentOption);
+                await optionViewModel.DeleteOptionAsync(currentOption.IdOption);
+                RefreshOptionList();
             }
         }
     }
 
+    private async void OnCreateNewOptionButtonClicked(object sender, EventArgs e)
+    {
+        bool shouldProceed = await ConfirmAndSaveIfNecessary();
+        if (shouldProceed)
+        {
+            Debug.WriteLine($"Create New Option Clicked: Event ID: {_eventId}");
+            await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}?storyId={_storyId}&eventId={_eventId}&optionId=0");
+        }
+        else
+        {
+            Debug.WriteLine("Navigation canceled by user.");
+        }
+    }
+
+    private async void OnSaveButtonClicked(object sender, EventArgs e)
+    {
+        await UpdateEvent();
+    }
+
+    private async void OnBackButtonClicked(object sender, EventArgs e)
+    {
+        bool shouldProceed = await ConfirmAndSaveIfNecessary();
+        if (shouldProceed)
+        {
+            await Shell.Current.GoToAsync($"{nameof(StoryMap)}?storyId={_storyId}");
+        }
+    }
 }
