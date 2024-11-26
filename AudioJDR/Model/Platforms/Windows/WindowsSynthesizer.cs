@@ -1,7 +1,6 @@
-﻿#if WINDOWS
-using System.Speech.Synthesis;
+﻿using System.Speech.Synthesis;
 
-namespace Model
+namespace Model.Platforms.Windows
 {
     /// <summary>
     /// Windows implementation of the ISpeechSynthesizer interface for text-to-speech functionality
@@ -98,14 +97,21 @@ namespace Model
             return _synthesizer.Volume;
         }
 
-        public void SetRate(int voiceRate)
+        public void SetRate(float voiceRate)
         {
-            if (voiceRate < -10 || voiceRate > 10)
+            const int minOutputRate = -10;
+            const int maxOutputRate = 10;
+            const float minInputRate = 0.5f;
+            const float maxInputRate = 2.0f;
+            
+            if (voiceRate < 0.5f || voiceRate > 2.0f)
             {
                 throw new ArgumentOutOfRangeException(nameof(voiceRate), "Rate parameter must be between -10 and 10");
             }
 
-            _synthesizer.Rate = voiceRate;
+            int normalizedRate = (int)Math.Round(minOutputRate + ((voiceRate - minInputRate) / (maxInputRate - minInputRate)) * (maxOutputRate - minOutputRate));
+
+            _synthesizer.Rate = normalizedRate;
         }
 
         public void Dispose()
@@ -114,4 +120,3 @@ namespace Model
         }
     }
 }
-#endif

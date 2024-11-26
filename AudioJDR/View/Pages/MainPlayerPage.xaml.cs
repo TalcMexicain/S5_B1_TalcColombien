@@ -1,14 +1,35 @@
 namespace View.Pages;
+
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Model;
 using View;
 
 public partial class MainPlayerPage : ContentPage
 {
-	public MainPlayerPage()
+    private StoryManagementSystem storyManagementSystem;
+
+    public MainPlayerPage()
     {
         InitializeComponent();
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
+        this.storyManagementSystem = new StoryManagementSystem();
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        storyManagementSystem.TextToSpeech(this.RulesPlayerLabel.Text);
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        storyManagementSystem.StopTextToSpeech();
+    }
+
     /// <summary>
     /// Event handler triggered when the page size changes. 
     /// Calls a method to adjust UI elements based on the new size.
@@ -68,7 +89,7 @@ public partial class MainPlayerPage : ContentPage
 
     private async void OnRepeatButtonClicked(object sender, EventArgs e)
     {
-        
+        storyManagementSystem.TextToSpeech(this.RulesPlayerLabel.Text);
     }
     private async void OnToYourStoriesButtonClicked(object sender, EventArgs e)
     {
