@@ -63,59 +63,30 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <Frame x:Name="OptionsFrame" Grid.Row="6"
-                   BorderColor="{StaticResource BorderColorL}" 
-                   CornerRadius="10" 
-                   Padding="10">
+            <!-- Search Field -->
+            <Frame Grid.Row="6" Padding="10"
+                BorderColor="{StaticResource BorderColorL}" 
+                CornerRadius="10"
+                 Margin="0,0,0,10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
 
-                <!-- List of choices -->
-                <CollectionView x:Name="OptionsListView" 
-                    ItemsSource="{Binding Options}"
-                    SelectionMode="None">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame BackgroundColor="{StaticResource AdditionalColorL}" 
-                                   Padding="10,5" 
-                                   Margin="0,0,0,20">
-                                <Grid ColumnDefinitions="*, Auto" 
-                                      VerticalOptions="Center">
-                                    <!-- Option title and text (left) -->
-                                    <HorizontalStackLayout Grid.Column="0" 
-                                           HorizontalOptions="StartAndExpand" 
-                                           Spacing="10" 
-                                           VerticalOptions="Center">
-                                        <Label Text="{Binding NameOption}" 
-                                               FontAttributes="Bold" 
-                                               FontSize="Small" 
-                                               Margin="0,0,0,5"
-                                               TextColor="{StaticResource Gray400}"/>
-                                        <Label Text="{Binding LinkedEvent.Name}" 
-                                               FontSize="Small"
-                                               TextColor="{StaticResource Gray400}"/>
-                                    </HorizontalStackLayout>
-                                    <HorizontalStackLayout Grid.Column="1" 
-                                           Spacing="10" 
-                                           HorizontalOptions="End">
-                                        <!-- Selection Button -->
-                                        <Button Text="Sélectionner"
-                                                CommandParameter="{Binding}"
-                                                Clicked="OnOptionSelected">
-                                            <Button.BackgroundColor>
-                                                <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
-                                            </Button.BackgroundColor>
-                                            <Button.TextColor>
-                                                <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                                            </Button.TextColor>
-                                        </Button>
-                                    </HorizontalStackLayout>
-                                </Grid>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                    <!-- Barre de saisie -->
+                    <Entry x:Name="OptionEntry"
+                        Placeholder="Entrez un mot-clé pour rechercher une option"
+                        FontSize="Small"
+                        HorizontalOptions="FillAndExpand" />
+
+                    <!-- Bouton Valider -->
+                    <Button Text="Valider"
+                        FontSize="Small"
+                        BackgroundColor="{StaticResource PrimaryButtonsL}"
+                        TextColor="{StaticResource MainTextL}"
+                        CornerRadius="5"
+                        Clicked="OnOptionSubmitted" />
+                </HorizontalStackLayout>
             </Frame>
 
             <!-- Repeat Button -->
