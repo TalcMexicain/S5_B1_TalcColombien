@@ -112,6 +112,8 @@ namespace ViewModel
             this._modelSettings = new GlobalSettings(speechSynthesizer);
             this._availableVoicesTypeTTS = new ObservableCollection<string>(this._modelSettings.AvailableVoicesTypeTTS);
 
+            PropertyChanged += GlobalSettings_PropertyChanged;
+
             InitializationViewModel();
         }
 
@@ -120,11 +122,27 @@ namespace ViewModel
         #region Public Methods
 
         /// <summary>
-        /// Applies the speech-to-text settings based on the TTS saved settings
+        /// Applies the voice volume TTS settings to the TTS instance
         /// </summary>
-        public void ApplySpeechToTextSettings()
+        public void ApplyTTSVoiceVolume()
         {
-            this._modelSettings.ApplySpeechToTextSettings();
+            this._modelSettings.ApplyTTSVoiceVolume();
+        }
+
+        /// <summary>
+        /// Applies the voice rate (speed) TTS settings to the TTS instance
+        /// </summary>
+        public void ApplyTTSVoiceRate()
+        {
+            this._modelSettings.ApplyTTSVoiceRate();
+        }
+
+        /// <summary>
+        /// Applies the voice type TTS settings to the TTS instance
+        /// </summary>
+        public void ApplyTTSVoiceType()
+        {
+            this._modelSettings.ApplyTTSVoiceType();
         }
 
         #endregion
@@ -144,12 +162,18 @@ namespace ViewModel
         {
             if (e.PropertyName != null)
             {
-                OnPropertyChanged(e.PropertyName);
-            }
-
-            if (e.PropertyName == nameof(VolumeTTS) || e.PropertyName == nameof(RateTTS) || e.PropertyName == nameof(VoiceTypeTTS))
-            {
-                ApplySpeechToTextSettings();
+                switch (e.PropertyName)
+                {
+                    case nameof(VolumeTTS):
+                        ApplyTTSVoiceVolume();
+                        break;
+                    case nameof(RateTTS):
+                        ApplyTTSVoiceRate();
+                        break;
+                    case nameof(VoiceTypeTTS):
+                    ApplyTTSVoiceType();
+                    break;
+                }
             }
         }
 
