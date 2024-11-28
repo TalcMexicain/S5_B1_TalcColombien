@@ -47,7 +47,7 @@
                    Grid.Row="4"
                    BorderColor="{StaticResource BorderColorL}"
                    CornerRadius="10"
-                   HeightRequest="400"
+                   HeightRequest="450"
                    Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
@@ -82,7 +82,7 @@
                             HorizontalOptions="FillAndExpand" />
 
                     <!-- Bouton Valider -->
-                    <Button Text="Valider"
+                    <Button Text="{x:Static local:AppResources.Save}"
                             FontSize="Small"
                             BackgroundColor="{StaticResource PrimaryButtonsL}"
                             TextColor="{StaticResource MainTextL}"
@@ -94,7 +94,7 @@
             <!-- Repeat Button -->
             <Button x:Name="RepeatButton" 
                     Grid.Row="8"
-                    Text="{x:Static local:AppResources.Save}"
+                    Text="{x:Static local:AppResources.Repeat}"
                     WidthRequest="200"
                     HeightRequest="60"
                     CornerRadius="10"
