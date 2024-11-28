@@ -30,12 +30,13 @@
             </Grid.RowDefinitions>
 
             <!-- Title Section -->
-            <Label x:Name="EventTitleLabel" Grid.Row="0"
-                FontFamily="UncialAntiquaRegular"
-                FontSize="40"
-                FontAttributes="Bold"
-                HorizontalOptions="Center"
-                Margin="0,10,0,20">
+            <Label x:Name="EventTitleLabel" 
+                   Grid.Row="0"
+                   FontFamily="UncialAntiquaRegular"
+                   FontSize="40"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,10,0,20">
                 <Label.TextColor>
                     <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                 </Label.TextColor>
@@ -53,9 +54,9 @@
 
                 <VerticalStackLayout>
                     <Label x:Name="EventDescriptionLabel"
-                       FontSize="Medium"
-                       FontAttributes="Bold"
-                       Margin="0,0,0,5">
+                           FontSize="Medium"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,5">
                         <Label.TextColor>
                             <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                         </Label.TextColor>
@@ -65,9 +66,9 @@
 
             <!-- Search Field -->
             <Frame Grid.Row="6" Padding="10"
-                BorderColor="{StaticResource BorderColorL}" 
-                CornerRadius="10"
-                 Margin="0,0,0,10">
+                   BorderColor="{StaticResource BorderColorL}" 
+                   CornerRadius="10"
+                   Margin="0,0,0,10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
@@ -75,29 +76,30 @@
                 <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
                     <!-- Barre de saisie -->
                     <Entry x:Name="OptionEntry"
-                        Placeholder="Entrez un mot-clé pour rechercher une option"
-                        FontSize="Small"
-                        HorizontalOptions="FillAndExpand" />
+                            Placeholder="Entrez un mot-clé pour rechercher une option"
+                            FontSize="Small"
+                            HorizontalOptions="FillAndExpand" />
 
                     <!-- Bouton Valider -->
                     <Button Text="Valider"
-                        FontSize="Small"
-                        BackgroundColor="{StaticResource PrimaryButtonsL}"
-                        TextColor="{StaticResource MainTextL}"
-                        CornerRadius="5"
-                        Clicked="OnOptionSubmitted" />
+                            FontSize="Small"
+                            BackgroundColor="{StaticResource PrimaryButtonsL}"
+                            TextColor="{StaticResource MainTextL}"
+                            CornerRadius="5"
+                            Clicked="OnOptionSubmitted" />
                 </HorizontalStackLayout>
             </Frame>
 
             <!-- Repeat Button -->
-            <Button x:Name="RepeatButton" Grid.Row="8"
-                Text="Repeter"
-                WidthRequest="200"
-                HeightRequest="60"
-                CornerRadius="10"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                FontSize="Small">
+            <Button x:Name="RepeatButton" 
+                    Grid.Row="8"
+                    Text="{x:Static local:AppResources.Save}"
+                    WidthRequest="200"
+                    HeightRequest="60"
+                    CornerRadius="10"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    FontSize="Small">
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>
@@ -106,8 +108,9 @@
                 </Button.TextColor>
             </Button>
             <!-- Back Button -->
-            <Button x:Name="BackButton" Grid.Row="10"
-                    Text="Retour"
+            <Button x:Name="BackButton" 
+                    Grid.Row="10"
+                    Text="{x:Static local:AppResources.Back}"
                     WidthRequest="200"
                     HeightRequest="60"
                     CornerRadius="10"
