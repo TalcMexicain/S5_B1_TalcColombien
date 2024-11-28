@@ -299,24 +299,6 @@ Ecouter ce que l'histoire raconte et dites à voix haute votre choix parmis les 
   <data name="WordAlreadyExists" xml:space="preserve">
     <value>Ce mot existe déjà dans la liste</value>
   </data>
-  <data name="DiscardChangesMessage" xml:space="preserve">
-    <value>Vous avez des modifications non enregistrées. Si vous revenez en arrière, ces modifications seront perdues. Voulez-vous continuer ?</value>
-  </data>
-  <data name="UnsavedChangesMessage" xml:space="preserve">
-    <value>Vous avez des modifications non enregistrées. Voulez-vous enregistrer vos modifications avant de continuer ?</value>
-  </data>
-  <data name="WordAlreadyExists" xml:space="preserve">
-    <value>Ce mot existe déjà dans la liste</value>
-  </data>
-  <data name="DiscardChangesMessage" xml:space="preserve">
-    <value>Vous avez des modifications non enregistrées. Si vous revenez en arrière, ces modifications seront perdues. Voulez-vous continuer ?</value>
-  </data>
-  <data name="UnsavedChangesMessage" xml:space="preserve">
-    <value>Vous avez des modifications non enregistrées. Voulez-vous enregistrer vos modifications avant de continuer ?</value>
-  </data>
-  <data name="WordAlreadyExists" xml:space="preserve">
-    <value>Ce mot existe déjà dans la liste</value>
-  </data>
   <data name="DeleteStoryConfirmation" xml:space="preserve">
     <value>Êtes-vous sûr de vouloir supprimer cette histoire ?</value>
   </data>
@@ -349,5 +331,11 @@ Ecouter ce que l'histoire raconte et dites à voix haute votre choix parmis les 
   </data>
   <data name="SaveSuccessMessage" xml:space="preserve">
     <value>L'histoire a été enregistrée avec succès.</value>
+  </data>
+  <data name="VoiceVolume" xml:space="preserve">
+    <value>Volume de la voix</value>
+  </data>
+  <data name="VoiceSpeed" xml:space="preserve">
+    <value>Vitesse de la voix</value>
   </data>
 </root>

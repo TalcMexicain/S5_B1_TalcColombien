@@ -666,6 +666,24 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Voice Speed.
+        /// </summary>
+        internal static string VoiceSpeed {
+            get {
+                return ResourceManager.GetString("VoiceSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Voice Volume.
+        /// </summary>
+        internal static string VoiceVolume {
+            get {
+                return ResourceManager.GetString("VoiceVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Welcome to the Creator Area.
         /// </summary>
         internal static string WelcomeCreator {

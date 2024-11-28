@@ -13,20 +13,28 @@
         <Grid VerticalOptions="CenterAndExpand" 
               HorizontalOptions="FillAndExpand">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <!-- Title -->
+                <RowDefinition Height="Auto" />
+                <!-- Spacer -->
                 <RowDefinition Height="70" />
-                <!-- Spacer -->
-                <RowDefinition Height="Auto" />
                 <!-- Theme Toggle Button -->
+                <RowDefinition Height="Auto" />
+                <!-- Spacer -->
                 <RowDefinition Height="20" />
-                <!-- Spacer -->
-                <RowDefinition Height="Auto" />
                 <!-- Language Picker -->
-                <RowDefinition Height="50" />
-                <!-- Spacer -->
                 <RowDefinition Height="Auto" />
+                <!-- Spacer -->
+                <RowDefinition Height="50" />
+                <!-- Voice Volume -->
+                <RowDefinition Height="Auto" />
+                <!-- Spacer -->
+                <RowDefinition Height="50" />
+                <!-- Voice Speed -->
+                <RowDefinition Height="Auto" />
+                <!-- Spacer -->
+                <RowDefinition Height="50" />
                 <!-- Back Button -->
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- Title -->
@@ -63,7 +71,7 @@
                     Title="{x:Static local:AppResources.SelectLanguage}"
                     SelectedIndexChanged="OnLanguageChanged"
                     HorizontalOptions="Center"
-                    MinimumHeightRequest="110"
+                    MaximumHeightRequest="110"
                     FontSize="Medium">
                 <Picker.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
@@ -73,9 +81,41 @@
                 </Picker.TextColor>
             </Picker>
 
+            <!-- Voice Volume -->
+            <VerticalStackLayout Grid.Row="6" HorizontalOptions="Center" Spacing="10">
+                <Label Text="{x:Static local:AppResources.VoiceVolume}"
+                       FontSize="Medium">
+                    <Label.TextColor>
+                        <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                    </Label.TextColor>
+                </Label>
+                <Slider x:Name="VolumeSlider"
+                        Minimum="0"
+                        Maximum="100"
+                        Value="50"
+                        WidthRequest="200"
+                        ValueChanged="OnVolumeChanged"/>
+            </VerticalStackLayout>
+
+            <!-- Voice Speed -->
+            <VerticalStackLayout Grid.Row="8" HorizontalOptions="Center" Spacing="10">
+                <Label Text="{x:Static local:AppResources.VoiceSpeed}"
+                       FontSize="Medium">
+                    <Label.TextColor>
+                        <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                    </Label.TextColor>
+                </Label>
+                <Slider x:Name="SpeedSlider"
+                        Minimum="0.5"
+                        Maximum="2.0"
+                        Value="1.0"
+                        WidthRequest="200"
+                        ValueChanged="OnSpeedChanged"/>
+            </VerticalStackLayout>
+
             <!-- Back Button -->
             <Button x:Name="BackButton"
-                    Grid.Row="6"
+                    Grid.Row="10"
                     Text="{x:Static local:AppResources.Back}"
                     Clicked="OnBackButtonClicked"
                     HorizontalOptions="Center"
