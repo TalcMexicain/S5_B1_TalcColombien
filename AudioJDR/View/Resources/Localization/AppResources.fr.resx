@@ -341,4 +341,7 @@ Ecouter ce que l'histoire raconte et dites à voix haute votre choix parmis les 
   <data name="PlaceholderKeyWord" xml:space="preserve">
     <value>Entrez un mot-clé pour rechercher une option</value>
   </data>
+  <data name="VoiceType" xml:space="preserve">
+    <value>Changer la voix parmi les voix disponibles</value>
+  </data>
 </root>

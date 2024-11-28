@@ -684,6 +684,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Change the voice among the available voices.
+        /// </summary>
+        internal static string VoiceType {
+            get {
+                return ResourceManager.GetString("VoiceType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Voice Volume.
         /// </summary>
         internal static string VoiceVolume {
