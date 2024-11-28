@@ -77,7 +77,7 @@
                 <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
                     <!-- Barre de saisie -->
                     <Entry x:Name="OptionEntry"
-                            Placeholder="Entrez un mot-clé pour rechercher une option"
+                            Placeholder="{x:Static local:AppResources.PlaceholderKeyWord}"
                             FontSize="Small"
                             HorizontalOptions="FillAndExpand" />
 
