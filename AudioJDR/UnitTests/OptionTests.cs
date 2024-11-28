@@ -10,13 +10,11 @@ namespace UnitTests
             string text = "Initial Text";
             Event initialEvent = new Event("Initial Event", "Description");
 
-            Option optionToTest = new Option(text, initialEvent);
+            Option optionToTest = new Option(initialEvent);
 
-            optionToTest.Text = "Updated Text";
             Event updatedEvent = new Event("Intial Event", "Description");
             optionToTest.LinkedEvent = updatedEvent;
 
-            Assert.Equal("Updated Text", optionToTest.Text);
             Assert.Equal(updatedEvent, optionToTest.LinkedEvent);
         }
 
@@ -24,7 +22,7 @@ namespace UnitTests
         public void DeleteOption_Test()
         {
             Event eventSample = new Event("Initial Event", "Description");
-            Option optionToTest = new Option("Option Text", eventSample);
+            Option optionToTest = new Option(eventSample);
 
             optionToTest.DeleteLinkedOption();
 
@@ -34,7 +32,7 @@ namespace UnitTests
         [Fact]
         public void LinkOptionToEvent_Test()
         {
-            Option optionToTest = new Option("Option Text", null);
+            Option optionToTest = new Option(null);
             Assert.Null(optionToTest.LinkedEvent);
 
             Event eventSample = new Event("Initial Event", "Description");

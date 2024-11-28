@@ -4,6 +4,8 @@ namespace View.Pages
 {
     public partial class SettingsPage : ContentPage
     {
+        #region Constructor
+
         public SettingsPage()
         {
             InitializeComponent();
@@ -12,13 +14,21 @@ namespace View.Pages
             this.SizeChanged += OnSizeChanged;
         }
 
+        #endregion
+
+        #region Event Handlers
+
         /// <summary>
         /// Adjusts UI sizes when the page size changes.
         /// </summary>
-        private void OnSizeChanged(object sender, EventArgs e)
+        private void OnSizeChanged(object? sender, EventArgs e)
         {
             SetResponsiveSizes();
         }
+
+        #endregion
+
+        #region UI Management
 
         /// <summary>
         /// Adjusts the sizes of buttons and other UI elements dynamically based on the current page dimensions.
@@ -29,33 +39,19 @@ namespace View.Pages
             double pageWidth = this.Width;
             double pageHeight = this.Height;
 
-            double minButtonWidth = 250;
-            double minButtonHeight = 60;
-
             if (pageWidth > 0 && pageHeight > 0)
             {
-                double buttonWidth = Math.Max(pageWidth * 0.35, minButtonWidth);
-                double buttonHeight = Math.Max(pageHeight * 0.1, minButtonHeight);
+                UIHelper.SetButtonSize(this, ThemeToggleButton, false);
+                UIHelper.SetButtonSize(this, BackButton, true);
 
-                ThemeToggleButton.WidthRequest = buttonWidth;
-                ThemeToggleButton.HeightRequest = buttonHeight;
-
-                LanguagePicker.WidthRequest = Math.Max(pageWidth * 0.35, 300);
-                LanguagePicker.HeightRequest = Math.Max(pageHeight * 0.1, 100);
-
-                BackButton.WidthRequest = buttonWidth * 0.75;
-                BackButton.HeightRequest = buttonHeight;
-
-                double buttonFontSize = Math.Min(buttonWidth * 0.08, 30);
-
-                ThemeToggleButton.FontSize = buttonFontSize;
-                LanguagePicker.FontSize = buttonFontSize;
-                BackButton.FontSize = buttonFontSize;
-
-                ThemeToggleButton.Padding = new Thickness(20, 5);
-                BackButton.Padding = new Thickness(20, 5);
+                LanguagePicker.WidthRequest = Math.Max(pageWidth * UIHelper.Sizes.BUTTON_WIDTH_FACTOR, UIHelper.Sizes.MIN_FRAME_WIDTH);
+                LanguagePicker.HeightRequest = Math.Max(pageHeight * UIHelper.Sizes.BUTTON_HEIGHT_FACTOR, UIHelper.Sizes.MIN_EDITOR_HEIGHT);
             }
         }
+
+        #endregion
+
+        #region Picker Initialization
 
         /// <summary>
         /// Initializes the language picker with available languages (English, French).
@@ -63,7 +59,7 @@ namespace View.Pages
         /// </summary>
         private void PickerInitialization()
         {
-            LanguagePicker.ItemsSource = new List<string> { "English", "Français" };
+            LanguagePicker.ItemsSource = new List<string> { "English", "FranÃ§ais" };
 
             LanguagePicker.Loaded += (sender, e) =>
             {
@@ -75,7 +71,7 @@ namespace View.Pages
                 }
                 else if (currentLanguage == "fr")
                 {
-                    LanguagePicker.SelectedItem = "Français";
+                    LanguagePicker.SelectedItem = "FranÃ§ais";
                 }
                 else
                 {
@@ -84,56 +80,41 @@ namespace View.Pages
             };
         }
 
+        #endregion
+
+        #region Theme and Language Management
+
         /// <summary>
         /// Event handler for the Theme Toggle button click.
         /// Toggles between light and dark themes for the application.
         /// </summary>
-        /// <param name="sender">The source of the event (the Theme Toggle button).</param>
-        /// <param name="e">Event arguments.</param>
         private void OnThemeButtonClicked(object sender, EventArgs e)
         {
-            if (Application.Current.RequestedTheme == AppTheme.Light)
-            {
-                Application.Current.UserAppTheme = AppTheme.Dark;
-            }
-            else
-            {
-                Application.Current.UserAppTheme = AppTheme.Light;
-            }
+            Application.Current.UserAppTheme = Application.Current.RequestedTheme == AppTheme.Light ? AppTheme.Dark : AppTheme.Light;
         }
 
         /// <summary>
         /// Event handler triggered when the selected language in the picker is changed.
         /// Changes the app language if the selected language is different from the current one.
         /// </summary>
-        /// <param name="sender">The source of the event (the Language Picker).</param>
-        /// <param name="e">Event arguments.</param>
         private void OnLanguageChanged(object sender, EventArgs e)
         {
             var selectedLanguage = LanguagePicker.SelectedItem?.ToString();
             var currentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 
             if ((selectedLanguage == "English" && currentLanguage == "en") ||
-                (selectedLanguage == "Français" && currentLanguage == "fr"))
+                (selectedLanguage == "FranÃ§ais" && currentLanguage == "fr"))
             {
                 return;
             }
 
-            if (selectedLanguage == "English")
-            {
-                SetLanguage("en");
-            }
-            else if (selectedLanguage == "Français")
-            {
-                SetLanguage("fr");
-            }
+            SetLanguage(selectedLanguage == "English" ? "en" : "fr");
         }
 
         /// <summary>
         /// Changes the app's language by setting the culture to the selected language code.
         /// Reloads the current page to apply the language changes.
         /// </summary>
-        /// <param name="languageCode">The language code ("en" for English, "fr" for French).</param>
         private void SetLanguage(string languageCode)
         {
             var culture = new CultureInfo(languageCode);
@@ -146,9 +127,15 @@ namespace View.Pages
             });
         }
 
+        #endregion
+
+        #region Navigation
+
         private async void OnBackButtonClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync(nameof(MainPage));
         }
+
+        #endregion
     }
 }

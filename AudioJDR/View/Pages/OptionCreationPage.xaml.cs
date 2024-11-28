@@ -22,9 +22,10 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
     private int _eventId;
     private int _optionId;
     private string _initialName;
-    private string _initialText;
     private Event _initialLinkedEvent;
-    private ObservableCollection<string> _initialWords;
+    private bool _hasUnsavedChanges;
+    private bool _isNewOption;
+    private bool _isInitializing = true;
 
     #endregion
 
@@ -38,7 +39,7 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
         InitializeComponent();
         _storyViewModel = new StoryViewModel();
         SetResponsiveSizes();
-        this.SizeChanged += OnSizeChanged;
+        InitializeEventHandlers();
     }
 
     #endregion
@@ -53,32 +54,14 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
     {
         if (query.ContainsKey("storyId") && query.ContainsKey("eventId") && query.ContainsKey("optionId"))
         {
-            _storyId = int.Parse(query["storyId"].ToString());
-            _eventId = int.Parse(query["eventId"].ToString());
-            _optionId = int.Parse(query["optionId"].ToString());
-            Debug.WriteLine($"Received storyId: {_storyId}, eventId: {_eventId}, optionId: {_optionId}");
-
-            try
-            {
-                _storyViewModel.CurrentStory = await _storyViewModel.GetStoryByIdAsync(_storyId);
-                _eventViewModel = await _storyViewModel.GetEventViewModelAsync(_eventId);
-                
-                _optionViewModel = _optionId == 0
-                    ? new OptionViewModel(_eventViewModel)
-                    : new OptionViewModel(_eventViewModel, _eventViewModel.CurrentEvent.Options.First(o => o.IdOption == _optionId));
-
-                BindingContext = _optionViewModel;
-                InitializeOptionState();
-                PopulateEventPicker();
-                
-                Debug.WriteLine(_optionId == 0 
-                    ? "Initialized new option creation." 
-                    : $"Option loaded: {_optionViewModel.CurrentOption.NameOption}");
-            }
-            catch (KeyNotFoundException ex)
-            {
-                Debug.WriteLine($"Error loading story, event, or option: {ex.Message}");
-            }
+            _storyId = (int)query["storyId"];
+            _eventId = (int)query["eventId"];
+            _optionId = (int)query["optionId"];
+            _isNewOption = (_optionId == 0);
+            
+            await InitializeViewModel();
+            InitializeOptionState();
+            PopulateEventPicker();
         }
         else
         {
@@ -86,40 +69,115 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
         }
     }
 
+    private async Task InitializeViewModel()
+    {
+        try
+        {
+            _storyViewModel.CurrentStory = await _storyViewModel.GetStoryByIdAsync(_storyId);
+            _eventViewModel = await _storyViewModel.GetEventViewModelAsync(_eventId);
+            
+            if (_isNewOption)
+            {
+                _optionViewModel = new OptionViewModel(_eventViewModel);
+                await _optionViewModel.InitializeNewOptionAsync();
+            }
+            else
+            {
+                _optionViewModel = await _eventViewModel.GetOptionViewModelAsync(_optionId);
+                Debug.WriteLine($"Loaded option with ID: {_optionId}");
+            }
+
+            BindingContext = _optionViewModel;
+            UpdateWordsDisplay();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error initializing view model: {ex.Message}");
+            await UIHelper.ShowErrorDialog(this, ex.Message);
+        }
+    }
+
+    private void InitializeEventHandlers()
+    {
+        this.SizeChanged += OnSizeChanged;
+        OptionNameEntry.TextChanged += OnOptionPropertyChanged;
+        EventPicker.SelectedIndexChanged += OnOptionPropertyChanged;
+    }
+
     private void InitializeOptionState()
     {
+        _isInitializing = true;
+        
         OptionNameEntry.Text = _optionViewModel.CurrentOption.NameOption;
-        OptionTextWord.Text = _optionViewModel.CurrentOption.Text;
         UpdateWordsDisplay();
 
         _initialName = _optionViewModel.CurrentOption.NameOption;
-        _initialText = _optionViewModel.CurrentOption.Text;
         _initialLinkedEvent = _optionViewModel.CurrentOption.LinkedEvent;
-        _initialWords = new ObservableCollection<string>(_optionViewModel.Words);
+        _hasUnsavedChanges = false;
+
+        _isInitializing = false;
     }
 
     private void PopulateEventPicker()
     {
-        var currentEventId = _eventViewModel.CurrentEvent.IdEvent;
-        var filteredEvents = _storyViewModel.CurrentStory.Events
-            .Where(e => e.IdEvent != currentEventId)
-            .ToList();
+        int? currentEventId;
 
-        filteredEvents.Insert(0, new Event { IdEvent = 0, Name = AppResources.None });
-        EventPicker.ItemsSource = filteredEvents;
-        
-        SetSelectedEvent(_optionViewModel.CurrentOption.LinkedEvent?.IdEvent);
+        // Check if the option is new
+        if (_isNewOption)
+        {
+            // If the option is new, use the CurrentEvent from the EventViewModel
+            currentEventId = _eventViewModel.CurrentEvent?.IdEvent;
+        }
+        else
+        {
+            // If the option is not new, use the LinkedEvent from the CurrentOption
+            currentEventId = _optionViewModel.CurrentOption.LinkedEvent?.IdEvent;
+        }
+
+        var currentEvents = _storyViewModel.CurrentStory.Events;
+        EventPicker.ItemsSource = currentEvents;
+
+        // Set the selected event based on the currentEventId
+        SetSelectedEvent(currentEventId);
     }
 
-    private void SetSelectedEvent(int? linkedEventId)
+    private void SetSelectedEvent(int? linkedEventId = null)
     {
-        var events = (List<Event>)EventPicker.ItemsSource;
-        EventPicker.SelectedItem = events.FirstOrDefault(e => e.IdEvent == (linkedEventId ?? 0));
+        var events = _storyViewModel.CurrentStory.Events;
+
+        if (linkedEventId == null)
+        {
+            // If linkedEventId is null, select the CurrentEvent from the EventViewModel
+            EventPicker.SelectedItem = _eventViewModel.CurrentEvent;
+        }
+        else
+        {
+            // Try to find the event with the matching ID in the ItemsSource
+            var selectedEvent = events.FirstOrDefault(e => e.IdEvent == linkedEventId);
+
+            // If no matching event is found, fall back to the CurrentEvent
+            EventPicker.SelectedItem = selectedEvent ?? _eventViewModel.CurrentEvent;
+        }
     }
 
     #endregion
 
     #region Event Handlers
+
+    private void OnOptionPropertyChanged(object sender, EventArgs e)
+    {
+        if (_isInitializing) return;
+        
+        if (_optionViewModel?.CurrentOption != null && _initialName != null)
+        {
+            var currentEvent = EventPicker.SelectedItem as Event;
+            bool nameChanged = OptionNameEntry.Text != _initialName;
+            bool eventChanged = currentEvent?.IdEvent != _initialLinkedEvent?.IdEvent;
+            
+            _hasUnsavedChanges = nameChanged || eventChanged;
+            Debug.WriteLine($"Changes detected - Name changed: {nameChanged}, Event changed: {eventChanged}");
+        }
+    }
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
@@ -127,29 +185,50 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
         
         if (canSave)
         {
-            await UpdateOption();
-            await NavigateBack();
+            await SaveOptionChanges();
         }
     }
 
     private async void OnAddWordClicked(object sender, EventArgs e)
     {
         string newWord = OptionWordsEntry.Text?.Trim();
-        bool canAddWord = !string.IsNullOrEmpty(newWord);
         
-        if (canAddWord)
+        if (ValidateWordInput(newWord))
         {
-            bool added = await _optionViewModel.AddWordAsync(newWord);
-            HandleWordAddResult(added);
+            try
+            {
+                bool added = await _optionViewModel.AddWordAsync(newWord);
+                if (added)
+                {
+                    UpdateWordsDisplay();
+                    OptionWordsEntry.Text = string.Empty;
+                    _hasUnsavedChanges = true;
+                }
+                else
+                {
+                    await UIHelper.ShowErrorDialog(this, AppResources.WordAlreadyExists);
+                }
+            }
+            catch (Exception ex)
+            {
+                await UIHelper.ShowErrorDialog(this, ex.Message);
+                Debug.WriteLine($"Error adding word: {ex.Message}");
+            }
         }
     }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        bool shouldProceed = await ConfirmAndSaveIfNecessary();
-        if (shouldProceed)
+        bool canProceed = await CheckUnsavedChanges();
+        
+        if (canProceed)
         {
-            await NavigateBack();
+            var navigationParameter = new Dictionary<string, object>
+        {
+            { "storyId", _storyId },
+            { "eventId", _eventId }
+        };
+            await Shell.Current.GoToAsync($"{nameof(EventCreationPage)}", navigationParameter);
         }
     }
 
@@ -160,92 +239,108 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
 
     #endregion
 
-    #region Data Operations
+    #region Option Operations
 
-    private async Task UpdateOption()
+    private bool HasOptionChanged()
     {
-        if (_optionViewModel.CurrentOption != null)
+        if (_optionViewModel?.CurrentOption == null) return false;
+        
+        var currentEvent = (Event)EventPicker.SelectedItem;
+        bool nameChanged = OptionNameEntry.Text != _initialName;
+        bool eventChanged = currentEvent != _initialLinkedEvent;
+        
+        return nameChanged || eventChanged;
+    }
+
+    private async Task<bool> CheckUnsavedChanges()
+    {
+        bool canProceed = true;
+        
+        if (_hasUnsavedChanges)
+        {
+            bool saveChanges = await UIHelper.ShowUnsavedChangesDialog(this);
+
+            if (saveChanges)
+            {
+                canProceed = await SaveOptionChanges();
+            }
+        }
+        
+        return canProceed;
+    }
+
+    private async Task<bool> SaveOptionChanges()
+    {
+        bool success = false;
+        
+        try
         {
             _optionViewModel.CurrentOption.NameOption = OptionNameEntry.Text;
-            _optionViewModel.CurrentOption.Text = OptionTextWord.Text;
             _optionViewModel.CurrentOption.LinkedEvent = (Event)EventPicker.SelectedItem;
+            
             await _optionViewModel.UpdateOptionAsync(_optionViewModel.CurrentOption);
-            Debug.WriteLine("Option updated successfully.");
+            
+            _initialName = OptionNameEntry.Text;
+            _initialLinkedEvent = (Event)EventPicker.SelectedItem;
+            _hasUnsavedChanges = false;
+            
+            success = true;
+            await UIHelper.ShowSuccessDialog(this, AppResources.SaveSuccessMessage);
         }
+        catch (Exception ex)
+        {
+            await UIHelper.ShowErrorDialog(this, ex.Message);
+            Debug.WriteLine($"Error saving option changes: {ex.Message}");
+        }
+        
+        return success;
     }
 
     private bool ValidateOptionInput()
     {
-        bool isValid = true;
-
-        if (string.IsNullOrWhiteSpace(OptionNameEntry.Text) || string.IsNullOrWhiteSpace(OptionTextWord.Text))
+        bool isValid = !string.IsNullOrWhiteSpace(OptionNameEntry.Text);
+        
+        if (!isValid)
         {
-            DisplayAlert(AppResources.Error, AppResources.ErrorOptionTitleDesc, "OK");
-            isValid = false;
+            UIHelper.ShowErrorDialog(this, AppResources.ErrorOptionTitle).Wait();
         }
-
+        
         return isValid;
     }
 
-    private async void HandleWordAddResult(bool added)
+    private bool ValidateWordInput(string word)
+    {
+        bool isValid = !string.IsNullOrWhiteSpace(word);
+        
+        if (!isValid)
+        {
+            UIHelper.ShowErrorDialog(this, AppResources.ErrorEmptyWord).Wait();
+        }
+        
+        return isValid;
+    }
+
+    private async Task HandleWordAddResult(bool added)
     {
         if (added)
         {
             UpdateWordsDisplay();
             OptionWordsEntry.Text = string.Empty;
+            _hasUnsavedChanges = true;
         }
         else
         {
-            await DisplayAlert(AppResources.Error, AppResources.WordAlreadyExists, "OK");
+            await UIHelper.ShowErrorDialog(this, AppResources.WordAlreadyExists);
         }
-    }
-
-    private async Task<bool> ConfirmAndSaveIfNecessary()
-    {
-        bool result = true;
-        bool hasChanges = CheckForChanges();
-
-        if (hasChanges)
-        {
-            result = await HandleUnsavedChanges();
-        }
-
-        return result;
-    }
-
-    private bool CheckForChanges()
-    {
-        return _initialName != OptionNameEntry.Text ||
-               _initialText != OptionTextWord.Text ||
-               _initialLinkedEvent != (Event)EventPicker.SelectedItem ||
-               !_initialWords.SequenceEqual(_optionViewModel.Words);
-    }
-
-    private async Task<bool> HandleUnsavedChanges()
-    {
-        bool result = true;
-        bool confirm = await DisplayAlert(AppResources.Confirm, 
-                                        AppResources.DiscardChangesMessage, 
-                                        AppResources.Yes, 
-                                        AppResources.No);
-        
-        if (confirm)
-        {
-            await UpdateOption();
-        }
-        else
-        {
-            result = false;
-        }
-
-        return result;
     }
 
     private void UpdateWordsDisplay()
     {
-        WordsDisplayLabel.Text = _optionViewModel.Words.Any()
-            ? string.Join(" - ", _optionViewModel.Words)
-            : string.Empty;
+        var words = _optionViewModel?.Words;
+        WordsDisplayLabel.Text = words != null && words.Any() 
+            ? string.Join(" - ", words)
+            : AppResources.NoWordsAdded;
+        Debug.WriteLine($"Updated words display: {WordsDisplayLabel.Text}");
     }
 
     #endregion
@@ -254,54 +349,22 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
 
     private void SetResponsiveSizes()
     {
+        // Use the current page size to set button sizes dynamically
         double pageWidth = this.Width;
         double pageHeight = this.Height;
 
-        if (pageWidth <= 0 || pageHeight <= 0) return;
+        // Set button sizes dynamically using UIHelper
+        if (pageWidth > 0 && pageHeight > 0)
+        {
+            UIHelper.SetButtonSize(this, SaveButton, false);
+            UIHelper.SetButtonSize(this, BackButton, true);
+            UIHelper.SetButtonSize(this, AddWordButton, false); 
 
-        double minButtonWidth = 150;
-        double minButtonHeight = 50;
-        double minFrameWidth = 300;
-        double minEditorHeight = 200;
-
-        double buttonWidth = Math.Max(pageWidth * 0.25, minButtonWidth);
-        double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight);
-        double frameWidth = Math.Max(pageWidth * 0.8, minFrameWidth);
-        double editorHeight = Math.Max(pageHeight * 0.15, minEditorHeight);
-
-        OptionWordsFrame.WidthRequest = frameWidth;
-        WordsDisplayLabel.FontSize = Math.Min(frameWidth * 0.05, 20);
-        OptionWordsEntry.WidthRequest = frameWidth * 0.9;
-        OptionWordsEntry.FontSize = Math.Min(frameWidth * 0.05, 18);
-
-        AddWordButton.WidthRequest = buttonWidth;
-        AddWordButton.HeightRequest = buttonHeight;
-        AddWordButton.FontSize = Math.Min(buttonWidth * 0.08, 18);
-
-        OptionNameFrame.WidthRequest = frameWidth;
-        OptionTextFrame.WidthRequest = frameWidth;
-        EventPickerFrame.WidthRequest = frameWidth;
-
-        OptionTextWord.HeightRequest = editorHeight;
-
-        SaveButton.WidthRequest = buttonWidth;
-        SaveButton.HeightRequest = buttonHeight;
-
-        BackButton.WidthRequest = buttonWidth * 0.8;
-        BackButton.HeightRequest = buttonHeight;
-
-        double buttonFontSize = Math.Min(buttonWidth * 0.08, 18);
-        SaveButton.FontSize = buttonFontSize;
-        BackButton.FontSize = buttonFontSize;
-    }
-
-    #endregion
-
-    #region Transitions
-
-    private async Task NavigateBack()
-    {
-        await Shell.Current.GoToAsync($"{nameof(EventCreationPage)}?storyId={_storyId}&eventId={_eventId}");
+            double frameWidth = UIHelper.GetResponsiveFrameWidth(pageWidth);
+            OptionNameEntry.WidthRequest = frameWidth;
+            EventPicker.WidthRequest = frameWidth;
+            OptionWordsEntry.WidthRequest = frameWidth;
+        }
     }
 
     #endregion

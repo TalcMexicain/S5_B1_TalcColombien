@@ -10,8 +10,8 @@
         /// </summary>
         /// <param name="fileName">the name of the file</param>
         /// <param name="fileContent">the file's content</param>
-        /// <returns>nothing</returns>
-        Task ExportStoryAsync(string fileName, byte[] fileContent);
+        /// <returns>a boolean indicating if the export was successful</returns>
+        Task<bool> ExportStoryAsync(string fileName, byte[] fileContent);
 
         /// <summary>
         /// Imports a story from a user selected file

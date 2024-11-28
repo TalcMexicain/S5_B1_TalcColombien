@@ -27,26 +27,23 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         BindingContext = _viewModel;
     }
 
+    #region UI Management
+
     private void SetResponsiveSizes()
     {
         double pageWidth = this.Width;
         double pageHeight = this.Height;
 
-        double minButtonWidth = 150;
-        double minButtonHeight = 50;
-
         if (pageWidth > 0 && pageHeight > 0)
         {
-            double buttonWidth = Math.Max(pageWidth * 0.25, minButtonWidth);
-            double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight);
+            EventTitleLabel.WidthRequest = Math.Max(pageWidth * UIHelper.Sizes.FRAME_WIDTH_FACTOR, UIHelper.Sizes.MIN_FRAME_WIDTH);
+            EventDescriptionLabel.WidthRequest = Math.Max(pageWidth * UIHelper.Sizes.FRAME_WIDTH_FACTOR, UIHelper.Sizes.MIN_FRAME_WIDTH);
 
-            EventTitleLabel.WidthRequest = Math.Max(pageWidth * 0.8, 250);
-            EventDescriptionLabel.WidthRequest = Math.Max(pageWidth * 0.8, 250);
-
-            BackButton.WidthRequest = buttonWidth * 0.8;
-            BackButton.HeightRequest = buttonHeight;
+            UIHelper.SetButtonSize(this, BackButton, true);
         }
     }
+
+    #endregion
 
     /// <summary>
     /// Applies query attributes received during navigation.
@@ -80,7 +77,7 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         }
         else
         {
-            await DisplayAlert("Error", "Event not found.", "OK");
+            await UIHelper.ShowErrorDialog(this, "Event not found.");
         }
     }
 
@@ -108,12 +105,12 @@ public partial class PlayPage : ContentPage, IQueryAttributable
                     }
                     else
                     {
-                        await DisplayAlert("Error", "Linked event not found.", "OK");
+                        await UIHelper.ShowErrorDialog(this, "Linked event not found.");
                     }
                 }
                 else
                 {
-                    await DisplayAlert("Error", "No linked event found for this option.", "OK");
+                    await UIHelper.ShowErrorDialog(this, "No linked event found for this option.");
                 }
             }
         }

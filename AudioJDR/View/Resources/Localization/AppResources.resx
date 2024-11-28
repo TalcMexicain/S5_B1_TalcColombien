@@ -276,14 +276,53 @@
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
-  <data name="DeleteEventConfirmationText" xml:space="preserve">
-    <value>Are you sure you want to delete this event ?</value>
-  </data>
   <data name="AddWord" xml:space="preserve">
     <value>Add word</value>
   </data>
   <data name="ImportStory" xml:space="preserve">
     <value>Import a story</value>
+  </data>
+  <data name="DiscardChangesMessage" xml:space="preserve">
+    <value>You have unsaved changes. If you go back, these changes will be lost. Do you want to continue?</value>
+  </data>
+  <data name="UnsavedChangesMessage" xml:space="preserve">
+    <value>You have unsaved changes. Do you want to save your changes before proceeding?</value>
+  </data>
+  <data name="WordAlreadyExists" xml:space="preserve">
+    <value>This word already exists in the list</value>
+  </data>
+  <data name="DeleteStoryConfirmation" xml:space="preserve">
+    <value>Are you sure you want to delete this story?</value>
+  </data>
+  <data name="ExportSuccess" xml:space="preserve">
+    <value>Story exported successfully</value>
+  </data>
+  <data name="ImportSuccess" xml:space="preserve">
+    <value>Story imported successfully</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="DeleteConfirmationFormat" xml:space="preserve">
+    <value>Are you sure you want to delete "{0}"</value>
+  </data>
+  <data name="DeleteSuccessFormat" xml:space="preserve">
+    <value>Successfully deleted "{0}"</value>
+  </data>
+  <data name="ErrorEmptyWord" xml:space="preserve">
+    <value>The word cannot be empty.</value>
+  </data>
+  <data name="ErrorOptionTitle" xml:space="preserve">
+    <value>Option title cannot be empty</value>
+  </data>
+  <data name="NoWordsAdded" xml:space="preserve">
+    <value>No words added yet.</value>
+  </data>
+  <data name="SaveSuccessMessage" xml:space="preserve">
+    <value>The story has been saved successfully.</value>
   </data>
   <data name="Player" xml:space="preserve">
     <value>Player</value>
@@ -292,6 +331,15 @@
     <value>How to play :
 
 Listen to what the story is saying and say out loud your choice from the options given</value>
+  </data>
+  <data name="DiscardChangesMessage" xml:space="preserve">
+    <value>You have unsaved changes. If you go back, these changes will be lost. Do you want to continue?</value>
+  </data>
+  <data name="UnsavedChangesMessage" xml:space="preserve">
+    <value>You have unsaved changes. Do you want to save your changes before proceeding?</value>
+  </data>
+  <data name="WordAlreadyExists" xml:space="preserve">
+    <value>This word already exists in the list</value>
   </data>
   <data name="DiscardChangesMessage" xml:space="preserve">
     <value>You have unsaved changes. If you go back, these changes will be lost. Do you want to continue?</value>

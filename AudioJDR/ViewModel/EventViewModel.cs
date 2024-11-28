@@ -1,132 +1,199 @@
 ﻿using Model;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ViewModel
 {
     /// <summary>
-    /// Represents the ViewModel for managing Events within a Story, including CRUD operations.
+    /// ViewModel responsible for managing Event objects and their operations.
+    /// Handles event creation, modification, deletion, and option management.
     /// </summary>
     public class EventViewModel : BaseViewModel
     {
-        private readonly StoryViewModel storyViewModel;
-        private Event currentEvent;
+        #region Fields
+
+        private readonly StoryViewModel _parentStoryViewModel;
+        private Event _currentEvent;
+        private ObservableCollection<OptionViewModel> _options;
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EventViewModel"/> class.
+        /// Gets or sets the current Event being worked with.
         /// </summary>
-        /// <param name="storyViewModel">The parent StoryViewModel managing the story.</param>
-        /// <param name="eventInstance">The Event instance to manage, a new one is created if null.</param>
+        public Event CurrentEvent
+        {
+            get => _currentEvent;
+            set
+            {
+                if (SetProperty(ref _currentEvent, value))
+                {
+                    RefreshOptionViewModels();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the collection of OptionViewModels for the current Event.
+        /// </summary>
+        public ObservableCollection<OptionViewModel> Options
+        {
+            get => _options;
+            private set => SetProperty(ref _options, value);
+        }
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the EventViewModel class.
+        /// </summary>
+        /// <param name="storyViewModel">The parent StoryViewModel.</param>
+        /// <param name="eventInstance">The Event instance to manage, creates new if null.</param>
         public EventViewModel(StoryViewModel storyViewModel, Event? eventInstance = null)
         {
-            this.storyViewModel = storyViewModel;
-            currentEvent = eventInstance ?? CreateNewEvent();
-            Options = new ObservableCollection<Option>(currentEvent.Options);
+            _parentStoryViewModel = storyViewModel ?? throw new ArgumentNullException(nameof(storyViewModel));
+            _options = new ObservableCollection<OptionViewModel>();
+            CurrentEvent = eventInstance ?? CreateNewEvent();
         }
+
+        #endregion
+
+        #region Event Management
+
+        /// <summary>
+        /// Updates the current event with new information.
+        /// </summary>
+        /// <param name="updatedEvent">The Event with updated details.</param>
+        /// <exception cref="ArgumentNullException">Thrown when updatedEvent is null.</exception>
+        public async Task UpdateEventAsync(Event updatedEvent)
+        {
+            if (updatedEvent == null)
+            {
+                throw new ArgumentNullException(nameof(updatedEvent));
+            }
+
+            CurrentEvent.Name = updatedEvent.Name;
+            CurrentEvent.Description = updatedEvent.Description;
+            await _parentStoryViewModel.UpdateStoryAsync(_parentStoryViewModel.CurrentStory.IdStory, _parentStoryViewModel.CurrentStory);
+            Debug.WriteLine($"Updated event: {CurrentEvent.Name} (ID: {CurrentEvent.IdEvent})");
+        }
+
+        /// <summary>
+        /// Initializes a new event with default values.
+        /// </summary>
+        public async Task InitializeNewEventAsync()
+        {
+            CurrentEvent = CreateNewEvent();
+            await _parentStoryViewModel.AddEventAsync(CurrentEvent);
+            Debug.WriteLine("Initialized new event");
+        }
+
+        /// <summary>
+        /// Deletes the current event from its parent story.
+        /// </summary>
+        public async Task DeleteEventAsync()
+        {
+            await _parentStoryViewModel.DeleteEventAsync(CurrentEvent.IdEvent);
+            Debug.WriteLine($"Deleted event with ID: {CurrentEvent.IdEvent}");
+        }
+
+        #endregion
+
+        #region Option Management
+
+        /// <summary>
+        /// Creates or retrieves an OptionViewModel for a specific option.
+        /// </summary>
+        /// <param name="optionId">The ID of the option.</param>
+        /// <returns>An OptionViewModel instance.</returns>
+        public async Task<OptionViewModel> GetOptionViewModelAsync(int optionId)
+        {
+            var option = CurrentEvent.Options.FirstOrDefault(o => o.IdOption == optionId);
+            if (option == null)
+            {
+                throw new ArgumentException($"Option with ID {optionId} not found");
+            }
+            return new OptionViewModel(this, option);
+        }
+
+        /// <summary>
+        /// Adds a new option to the current event.
+        /// </summary>
+        /// <param name="newOption">The option to add.</param>
+        /// <exception cref="ArgumentNullException">Thrown when newOption is null.</exception>
+        public async Task AddOptionAsync(Option newOption)
+        {
+            if (newOption == null)
+            {
+                throw new ArgumentNullException(nameof(newOption));
+            }
+
+            CurrentEvent.Options.Add(newOption);
+            var newViewModel = new OptionViewModel(this, newOption);
+            Options.Add(newViewModel);
+            await UpdateEventAsync(CurrentEvent);
+            Debug.WriteLine($"Added new option: {newOption.NameOption} to event {CurrentEvent.Name}");
+        }
+
+        /// <summary>
+        /// Deletes an option from the current event.
+        /// </summary>
+        /// <param name="optionId">The ID of the option to delete.</param>
+        public async Task DeleteOptionAsync(int optionId)
+        {
+            var optionToRemove = Options.FirstOrDefault(o => o.CurrentOption.IdOption == optionId);
+            if (optionToRemove != null)
+            {
+                Options.Remove(optionToRemove);
+                CurrentEvent.Options.Remove(optionToRemove.CurrentOption);
+                await _parentStoryViewModel.UpdateStoryAsync(_parentStoryViewModel.CurrentStory.IdStory, _parentStoryViewModel.CurrentStory);
+                Debug.WriteLine($"Deleted option with ID: {optionId}");
+            }
+        }
+
+        #endregion
+
+        #region Utility Methods
 
         private Event CreateNewEvent()
         {
-            int newEventId = GenerateNewEventId();
             return new Event
             {
-                IdEvent = newEventId,
+                IdEvent = GenerateNewEventId(),
                 Name = string.Empty,
                 Description = string.Empty,
                 Options = new List<Option>()
             };
         }
 
-        private int GenerateNewEventId()
+        /// <summary>
+        /// Generates a new unique ID for an event.
+        /// </summary>
+        /// <returns>A new unique event ID.</returns>
+        public int GenerateNewEventId()
         {
-            return storyViewModel.CurrentStory.Events.Count > 0
-                ? storyViewModel.CurrentStory.Events.Max(e => e.IdEvent) + 1
-                : 1;
+            var existingEvents = _parentStoryViewModel.CurrentStory.Events;
+            int newId = existingEvents.Count > 0 ? existingEvents.Max(e => e.IdEvent) + 1 : 1;
+            return newId;
         }
 
-        /// <summary>
-        /// Gets or sets the current Event instance managed by this ViewModel.
-        /// </summary>
-        public Event CurrentEvent
+        private void RefreshOptionViewModels()
         {
-            get => currentEvent;
-            set
+            Options.Clear();
+            
+            if (CurrentEvent?.Options != null)
             {
-                currentEvent = value;
-                OnPropertyChanged(nameof(CurrentEvent));
-                OnPropertyChanged(nameof(Options));
+                foreach (var option in CurrentEvent.Options)
+                {
+                    Options.Add(new OptionViewModel(this, option));
+                }
             }
         }
 
-        /// <summary>
-        /// Gets the collection of Options associated with the Event.
-        /// </summary>
-        public ObservableCollection<Option> Options { get; private set; }
-
-        /// <summary>
-        /// Adds a new event to the current story.
-        /// </summary>
-        /// <param name="newEvent">The new Event to add.</param>
-        public async Task AddEventAsync(Event newEvent)
-        {
-            storyViewModel.CurrentStory.Events.Add(newEvent);
-            await storyViewModel.UpdateStoryAsync(storyViewModel.CurrentStory.IdStory, storyViewModel.CurrentStory);
-        }
-
-        /// <summary>
-        /// Updates the current event with new information.
-        /// </summary>
-        /// <param name="updatedEvent">The Event with updated details.</param>
-        public async Task UpdateEventAsync(Event updatedEvent)
-        {
-            currentEvent.Name = updatedEvent.Name;
-            currentEvent.Description = updatedEvent.Description;
-            currentEvent.Options = updatedEvent.Options;
-            OnPropertyChanged(nameof(CurrentEvent));
-            OnPropertyChanged(nameof(Options));
-            await storyViewModel.UpdateStoryAsync(storyViewModel.CurrentStory.IdStory, storyViewModel.CurrentStory);
-        }
-
-        /// <summary>
-        /// Deletes an event by its ID from the current story.
-        /// </summary>
-        /// <param name="eventId">The ID of the event to delete.</param>
-        public async Task DeleteEventAsync(int eventId)
-        {
-            var eventToDelete = storyViewModel.CurrentStory.Events.FirstOrDefault(e => e.IdEvent == eventId);
-            if (eventToDelete != null)
-            {
-                storyViewModel.CurrentStory.Events.Remove(eventToDelete);
-                await storyViewModel.UpdateStoryAsync(storyViewModel.CurrentStory.IdStory, storyViewModel.CurrentStory);
-            }
-        }
-
-        /// <summary>
-        /// Retrieves an OptionViewModel for a specific option ID within the event.
-        /// </summary>
-        /// <param name="optionId">The ID of the option to retrieve.</param>
-        /// <returns>An instance of OptionViewModel or null if the option is not found.</returns>
-        public OptionViewModel GetOptionViewModel(int optionId)
-        {
-            var selectedOption = currentEvent.Options.FirstOrDefault(o => o.IdOption == optionId);
-            return selectedOption != null ? new OptionViewModel(this, selectedOption) : null;
-        }
-
-        /// <summary>
-        /// Gets the parent Story of the current event.
-        /// </summary>
-        /// <returns>The parent Story.</returns>
-        public Story GetParentStory()
-        {
-            return storyViewModel.CurrentStory;
-        }
-
-        /// <summary>
-        /// Gets the parent StoryViewModel.
-        /// </summary>
-        /// <returns>The parent StoryViewModel.</returns>
-        public StoryViewModel GetParentStoryViewModel()
-        {
-            return storyViewModel;
-        }
+        #endregion
     }
 }

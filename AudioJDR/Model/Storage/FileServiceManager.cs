@@ -25,9 +25,11 @@ namespace Model
         /// </summary>
         /// <param name="story"></param>
         /// <returns></returns>
-        public static async Task ExportStoryAsync(Story story)
+        public static async Task<bool> ExportStoryAsync(Story story)
         {
-            var fileName = $"{story.IdStory}.json"; // Generate the file name from the id
+            bool success = false;
+            var fileName = $"{story.IdStory}.json";
+            
             try
             {
                 var optionsJson = new JsonSerializerOptions
@@ -36,15 +38,15 @@ namespace Model
                     ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
                 };
                 var fileContent = JsonSerializer.SerializeToUtf8Bytes(story, optionsJson);
-                await _fileService.ExportStoryAsync(fileName, fileContent); // Pass to platform-specific implementation
+                success = await _fileService.ExportStoryAsync(fileName, fileContent);
             }
             catch (JsonException ex)
             {
                 Debug.WriteLine($"Serialization error: {ex.Message}");
                 throw new InvalidDataException("File Couldn't be serialized.");
             }
-
-
+            
+            return success;
         }
 
         /// <summary>

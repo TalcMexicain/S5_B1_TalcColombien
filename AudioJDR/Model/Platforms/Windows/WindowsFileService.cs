@@ -11,8 +11,10 @@ namespace Model
     /// </summary>
     public class WindowsFileService : IFileService
     {
-        public async Task ExportStoryAsync(string fileName, byte[] fileContent)
+        public async Task<bool> ExportStoryAsync(string fileName, byte[] fileContent)
         {
+            bool success = false;
+            
             var hwnd = ((MauiWinUIWindow)Microsoft.Maui.Controls.Application.Current.Windows[0].Handler.PlatformView).WindowHandle;
             var picker = new FolderPicker();
             picker.SuggestedStartLocation = PickerLocationId.Desktop;
@@ -25,26 +27,31 @@ namespace Model
             {
                 var saveFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
                 await FileIO.WriteBytesAsync(saveFile, fileContent);
+                success = true;
             }
+            
+            return success;
         }
 
         public async Task<byte[]> ImportStoryAsync()
         {
+            byte[] content = null;
+            
             var hwnd = ((MauiWinUIWindow)Microsoft.Maui.Controls.Application.Current.Windows[0].Handler.PlatformView).WindowHandle;
             var picker = new FileOpenPicker();
             picker.SuggestedStartLocation = PickerLocationId.Desktop;
-            picker.FileTypeFilter.Add(".json"); // Restrict to .json files
+            picker.FileTypeFilter.Add(".json");
             InitializeWithWindow.Initialize(picker, hwnd);
 
             var file = await picker.PickSingleFileAsync();
 
             if (file != null)
             {
-                var content = await FileIO.ReadBufferAsync(file);
-                return content.ToArray();
+                var buffer = await FileIO.ReadBufferAsync(file);
+                content = buffer.ToArray();
             }
 
-            return null;
+            return content;
         }
     }
 }

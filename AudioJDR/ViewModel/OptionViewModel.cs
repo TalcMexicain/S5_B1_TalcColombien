@@ -6,71 +6,105 @@ using System.Threading.Tasks;
 namespace ViewModel
 {
     /// <summary>
-    /// Represents the ViewModel for managing Options within an Event, including CRUD operations.
+    /// ViewModel responsible for managing Option objects and their operations.
+    /// Handles option creation, modification, deletion, and word management.
     /// </summary>
     public class OptionViewModel : BaseViewModel
     {
-        private readonly EventViewModel eventViewModel;
-        private Option currentOption;
-        private ObservableCollection<string> words;
+        #region Fields
+
+        private readonly EventViewModel _parentEventViewModel;
+        private Option _currentOption;
+        private ObservableCollection<string> _words;
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OptionViewModel"/> class.
-        /// </summary>
-        /// <param name="eventViewModel">The parent EventViewModel managing the event.</param>
-        /// <param name="optionInstance">The Option instance to manage, a new one is created if null.</param>
-        public OptionViewModel(EventViewModel eventViewModel, Option? optionInstance = null)
-        {
-            this.eventViewModel = eventViewModel;
-            currentOption = optionInstance ?? CreateNewOption();
-            words = new ObservableCollection<string>(currentOption.GetWords());
-        }
-
-        private Option CreateNewOption()
-        {
-            int newOptionId = GenerateNewOptionId();
-            return new Option
-            {
-                IdOption = newOptionId,
-                NameOption = string.Empty,
-                Text = string.Empty,
-                LinkedEvent = null
-            };
-        }
-
-        private int GenerateNewOptionId()
-        {
-            return eventViewModel.CurrentEvent.Options.Count > 0
-                ? eventViewModel.CurrentEvent.Options.Max(o => o.IdOption) + 1
-                : 1;
-        }
-
-        /// <summary>
-        /// Gets or sets the current Option instance managed by this ViewModel.
+        /// Gets or sets the current Option being worked with.
         /// </summary>
         public Option CurrentOption
         {
-            get => currentOption;
+            get => _currentOption;
             set
             {
-                currentOption = value;
-                Words = new ObservableCollection<string>(value.GetWords());
-                OnPropertyChanged(nameof(CurrentOption));
+                if (SetProperty(ref _currentOption, value))
+                {
+                    RefreshWords();
+                }
             }
         }
 
         /// <summary>
-        /// Gets or sets the collection of words associated with the option.
+        /// Gets the collection of words for the current Option.
         /// </summary>
         public ObservableCollection<string> Words
         {
-            get => words;
-            private set
-            {
-                words = value;
-                OnPropertyChanged(nameof(Words));
-            }
+            get => _words;
+            private set => SetProperty(ref _words, value);
         }
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the OptionViewModel class.
+        /// </summary>
+        /// <param name="eventViewModel">The parent EventViewModel.</param>
+        /// <param name="optionInstance">The Option instance to manage, creates new if null.</param>
+        public OptionViewModel(EventViewModel eventViewModel, Option? optionInstance = null)
+        {
+            _parentEventViewModel = eventViewModel ?? throw new ArgumentNullException(nameof(eventViewModel));
+            _words = new ObservableCollection<string>();
+            CurrentOption = optionInstance ?? CreateNewOption();
+            RefreshWords();
+        }
+
+        #endregion
+
+        #region Option Management
+
+        /// <summary>
+        /// Updates the current option with new information.
+        /// </summary>
+        /// <param name="updatedOption">The Option with updated details.</param>
+        /// <exception cref="ArgumentNullException">Thrown when updatedOption is null.</exception>
+        public async Task UpdateOptionAsync(Option updatedOption)
+        {
+            if (updatedOption == null)
+            {
+                throw new ArgumentNullException(nameof(updatedOption));
+            }
+
+            CurrentOption.NameOption = updatedOption.NameOption;
+            CurrentOption.LinkedEvent = updatedOption.LinkedEvent;
+            await _parentEventViewModel.UpdateEventAsync(_parentEventViewModel.CurrentEvent);
+            Debug.WriteLine($"Updated option: {CurrentOption.NameOption} (ID: {CurrentOption.IdOption})");
+        }
+
+        /// <summary>
+        /// Initializes a new option with default values.
+        /// </summary>
+        public async Task InitializeNewOptionAsync()
+        {
+            CurrentOption = CreateNewOption();
+            await _parentEventViewModel.AddOptionAsync(CurrentOption);
+            Debug.WriteLine("Initialized new option");
+        }
+
+        /// <summary>
+        /// Deletes the current option from its parent event.
+        /// </summary>
+        public async Task DeleteAsync()
+        {
+            await _parentEventViewModel.DeleteOptionAsync(CurrentOption.IdOption);
+        }
+
+        #endregion
+
+        #region Word Management
 
         /// <summary>
         /// Adds a new word to the option's word list.
@@ -83,15 +117,15 @@ namespace ViewModel
             
             if (!Words.Contains(word))
             {
+                CurrentOption.AddWordInList(word);
                 Words.Add(word);
-                currentOption.AddWordInList(word);
-                await UpdateOptionAsync(currentOption);
-                Debug.WriteLine($"Added word: {word} to option {currentOption.NameOption}");
+                await _parentEventViewModel.UpdateEventAsync(_parentEventViewModel.CurrentEvent);
+                Debug.WriteLine($"Added word: {word} to option {_currentOption.NameOption}");
                 success = true;
             }
             else
             {
-                Debug.WriteLine($"Word {word} already exists in option {currentOption.NameOption}");
+                Debug.WriteLine($"Word {word} already exists in option {_currentOption.NameOption}");
             }
             
             return success;
@@ -108,62 +142,54 @@ namespace ViewModel
             
             if (Words.Contains(word))
             {
+                CurrentOption.RemoveWordInList(word);
                 Words.Remove(word);
-                currentOption.RemoveWordInList(word);
-                await UpdateOptionAsync(currentOption);
-                Debug.WriteLine($"Removed word: {word} from option {currentOption.NameOption}");
+                await _parentEventViewModel.UpdateEventAsync(_parentEventViewModel.CurrentEvent);
+                Debug.WriteLine($"Removed word: {word} from option {_currentOption.NameOption}");
                 success = true;
             }
             else
             {
-                Debug.WriteLine($"Word {word} not found in option {currentOption.NameOption}");
-            }
-            
+                Debug.WriteLine($"Word {word} not found in option {_currentOption.NameOption}");
+        }
+
             return success;
         }
+        #endregion
 
-        /// <summary>
-        /// Adds a new option to the current event.
-        /// </summary>
-        /// <param name="newOption">The new Option to add.</param>
-        public async Task AddOptionAsync(Option newOption)
+        #region Utility Methods
+
+        private Option CreateNewOption()
         {
-            eventViewModel.CurrentEvent.Options.Add(newOption);
-            await eventViewModel.UpdateEventAsync(eventViewModel.CurrentEvent);
-            Debug.WriteLine($"Added new option: {newOption.NameOption}");
+            return new Option
+            {
+                IdOption = GenerateNewOptionId(),
+                NameOption = string.Empty,
+                LinkedEvent = null
+            };
         }
 
         /// <summary>
-        /// Updates the current option with new information.
+        /// Generates a new unique ID for an option.
         /// </summary>
-        /// <param name="updatedOption">The Option with updated details.</param>
-        public async Task UpdateOptionAsync(Option updatedOption)
+        /// <returns>A new unique option ID.</returns>
+        public int GenerateNewOptionId()
         {
-            currentOption.NameOption = updatedOption.NameOption;
-            currentOption.Text = updatedOption.Text;
-            currentOption.LinkedEvent = updatedOption.LinkedEvent;
-            OnPropertyChanged(nameof(CurrentOption));
-            await eventViewModel.UpdateEventAsync(eventViewModel.CurrentEvent);
-            Debug.WriteLine($"Updated option: {updatedOption.NameOption}");
+            var existingOptions = _parentEventViewModel.CurrentEvent.Options;
+            int newId = existingOptions.Count > 0 ? existingOptions.Max(o => o.IdOption) + 1 : 1;
+            return newId;
         }
 
-        /// <summary>
-        /// Deletes an option by its ID from the current event.
-        /// </summary>
-        /// <param name="optionId">The ID of the option to delete.</param>
-        public async Task DeleteOptionAsync(int optionId)
+        private void RefreshWords()
         {
-            var optionToDelete = eventViewModel.CurrentEvent.Options.FirstOrDefault(o => o.IdOption == optionId);
-            if (optionToDelete != null)
+            Words.Clear();
+            if (CurrentOption?.GetWords() != null)
             {
-                eventViewModel.CurrentEvent.Options.Remove(optionToDelete);
-                await eventViewModel.UpdateEventAsync(eventViewModel.CurrentEvent);
-                Debug.WriteLine($"Deleted option with ID: {optionId}");
-            }
-            else
-            {
-                Debug.WriteLine($"Option with ID {optionId} not found for deletion");
-                throw new KeyNotFoundException($"Option with ID {optionId} not found");
+                foreach (var word in CurrentOption.GetWords())
+                {
+                    Words.Add(word);
+                }
+                Debug.WriteLine($"Loaded {Words.Count} words for option {CurrentOption.NameOption}");
             }
         }
 
@@ -173,17 +199,10 @@ namespace ViewModel
         /// <returns>The parent Event.</returns>
         public Event GetParentEvent()
         {
-            return eventViewModel.CurrentEvent;
+            return _parentEventViewModel.CurrentEvent;
         }
 
-        /// <summary>
-        /// Gets the parent EventViewModel.
-        /// </summary>
-        /// <returns>The parent EventViewModel.</returns>
-        public EventViewModel GetParentEventViewModel()
-        {
-            return eventViewModel;
-        }
+        #endregion
     }
 }
 

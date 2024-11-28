@@ -43,6 +43,7 @@
             <!-- Title (Story Name) -->
             <Entry Grid.Row="2"
                    x:Name="StoryNameEntry"
+                   Placeholder="{x:Static local:AppResources.NewStoryPlaceholder}"
                    Text="{Binding CurrentStory.Title, Mode=TwoWay}"
                    FontAttributes="Bold"
                    FontSize="Large"
@@ -57,6 +58,7 @@
             <!-- Description -->
             <Editor Grid.Row="4"
                    x:Name="StoryDescriptionEditor"
+                   Placeholder="{x:Static local:AppResources.NewStoryDescPlaceholder}"
                    Text="{Binding CurrentStory.Description, Mode=TwoWay}"
                    FontSize="14"
                    HorizontalOptions="FillAndExpand"
@@ -82,32 +84,47 @@
                     <DataTemplate>
                         <Frame BorderColor="{StaticResource BorderColorL}"
                                CornerRadius="5"
-                               Padding="10,10,10,5"
+                               Padding="10"
                                Margin="0,10,0,10">
                             <Frame.BackgroundColor>
                                 <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                             </Frame.BackgroundColor>
 
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Name}"
-                                       FontAttributes="Bold"
-                                       FontSize="16">
-                                    <Label.TextColor>
-                                        <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                                    </Label.TextColor>
-                                </Label>
+                            <Grid ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-                                <Label Text="{Binding Description}">
-                                    <Label.TextColor>
-                                        <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                                    </Label.TextColor>
-                                </Label>
+                                <!-- Event Content -->
+                                <VerticalStackLayout Grid.Column="0">
+                                    <Label Text="{Binding Name}"
+                                           FontAttributes="Bold"
+                                           FontSize="16"
+                                           LineBreakMode="TailTruncation">
+                                        <Label.TextColor>
+                                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                                        </Label.TextColor>
+                                    </Label>
 
-                                <HorizontalStackLayout>
-                                    <!-- Edit Event Button -->
+                                    <Label Text="{Binding Description}"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="2">
+                                        <Label.TextColor>
+                                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                                        </Label.TextColor>
+                                    </Label>
+                                </VerticalStackLayout>
+
+                                <!-- Buttons -->
+                                <VerticalStackLayout Grid.Column="1" 
+                                                   Spacing="5"
+                                                   VerticalOptions="Center">
                                     <Button Text="{x:Static local:AppResources.Edit}"
                                             Clicked="OnEditEventButtonClicked"
-                                            CommandParameter="{Binding}">
+                                            CommandParameter="{Binding}"
+                                            HeightRequest="40"
+                                            WidthRequest="100">
                                         <Button.BackgroundColor>
                                             <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                                         </Button.BackgroundColor>
@@ -119,7 +136,9 @@
                                     <!-- Delete Event Button -->
                                     <Button Text="{x:Static local:AppResources.Delete}"
                                             Clicked="OnDeleteEventButtonClicked"
-                                            CommandParameter="{Binding}">
+                                            CommandParameter="{Binding}"
+                                            HeightRequest="40"
+                                            WidthRequest="100">
                                         <Button.BackgroundColor>
                                             <AppThemeBinding Light="{StaticResource DeleteColorL}" Dark="{StaticResource DeleteColorD}" />
                                         </Button.BackgroundColor>
@@ -127,8 +146,8 @@
                                             <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                                         </Button.TextColor>
                                     </Button>
-                                </HorizontalStackLayout>
-                            </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

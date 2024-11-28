@@ -24,7 +24,7 @@ namespace UnitTests
         {
             Event eventToTest = new Event("Event Name", "Event Description");
 
-            Option optionToAdd = new Option("Option 1", eventToTest);
+            Option optionToAdd = new Option(eventToTest);
             eventToTest.AddOption(optionToAdd);
 
             Assert.Contains(optionToAdd, eventToTest.Options);
@@ -35,7 +35,7 @@ namespace UnitTests
         {
             Event eventToTest = new Event("Event Name", "Event Description");
 
-            Option optionToDelete = new Option("Option 1", eventToTest);
+            Option optionToDelete = new Option(eventToTest);
             eventToTest.AddOption(optionToDelete);
             Assert.Contains(optionToDelete, eventToTest.Options);
 

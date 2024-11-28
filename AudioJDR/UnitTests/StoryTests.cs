@@ -59,7 +59,7 @@ namespace UnitTests
             Event testEvent1 = new Event("Event1", "Event1 Description");
             Event testEvent2 = new Event("Event2", "Event2 Description");
 
-            Option testOption1 = new Option("Option1", testEvent1);
+            Option testOption1 = new Option(testEvent1);
             testEvent1.AddOption(testOption1);
 
             story.AddEvent(testEvent1);

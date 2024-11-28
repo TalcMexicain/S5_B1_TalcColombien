@@ -22,19 +22,11 @@
                 <RowDefinition Height="20" />
                 <!-- Spacer -->
                 <RowDefinition Height="Auto" />
-                <!-- Option Text Frame -->
-                <RowDefinition Height="20" />
-                <!-- Spacer -->
-                <RowDefinition Height="Auto" />
                 <!-- Words frame -->
                 <RowDefinition Height="20" />
                 <!-- Spacer -->
                 <RowDefinition Height="Auto" />
                 <!-- Event Picker Frame -->
-                <RowDefinition Height="20" />
-                <!-- Spacer -->
-                <RowDefinition Height="Auto" />
-                <!-- Words frame -->
                 <RowDefinition Height="20" />
                 <!-- Spacer -->
                 <RowDefinition Height="Auto" />
@@ -81,34 +73,10 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- New Large Text Input for Option Text -->
-            <Frame Grid.Row="4"
-                   x:Name="OptionTextFrame"
-                   BorderColor="{StaticResource BorderColorL}"
-                   CornerRadius="10"
-                   Padding="10"
-                   HorizontalOptions="FillAndExpand">
-                <Frame.BackgroundColor>
-                    <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
-                </Frame.BackgroundColor>
-
-                <VerticalStackLayout>
-                    <Label Text="{x:Static local:AppResources.TextWordOption}"
-                           FontSize="Medium"
-                           FontAttributes="Bold"
-                           Margin="0,0,0,5"/>
-                    <Editor x:Name="OptionTextWord"
-                            Placeholder="{x:Static local:AppResources.TextWordOptionInput}"
-                            PlaceholderColor="{StaticResource Gray400}"
-                            HeightRequest="200"
-                            FontSize="Medium"/>
-                </VerticalStackLayout>
-            </Frame>
-
             <!-- Words frame -->
             <Frame BorderColor="{StaticResource BorderColorL}"
                        x:Name="OptionWordsFrame"
-                       Grid.Row="6"
+                       Grid.Row="4"
                        CornerRadius="10" 
                        Padding="10" 
                        HasShadow="True">        
@@ -155,7 +123,7 @@
             </Frame>
 
             <!-- Event Picker -->
-            <Frame Grid.Row="8"
+            <Frame Grid.Row="6"
                    x:Name="EventPickerFrame"
                    BorderColor="{StaticResource BorderColorL}"
                    CornerRadius="10"
@@ -172,13 +140,12 @@
                            Margin="0,0,0,5"/>
                     <Picker x:Name="EventPicker"
                             Title="{x:Static local:AppResources.OptionPageEvents}"
-                            ItemsSource="{Binding Events}"
                             ItemDisplayBinding="{Binding Name}"/>
                 </VerticalStackLayout>
             </Frame>
 
             <!-- Save Button -->
-            <Button Grid.Row="10"
+            <Button Grid.Row="8"
                     x:Name="SaveButton"
                     Text="{x:Static local:AppResources.Save}"
                     CornerRadius="10"
@@ -194,7 +161,7 @@
             </Button>
 
             <!-- Back Button -->
-            <Button Grid.Row="12"
+            <Button Grid.Row="10"
                     x:Name="BackButton"
                     Text="{x:Static local:AppResources.Back}"
                     CornerRadius="10"
