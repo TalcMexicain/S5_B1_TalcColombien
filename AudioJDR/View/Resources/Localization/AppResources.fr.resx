@@ -338,4 +338,7 @@ Ecouter ce que l'histoire raconte et dites à voix haute votre choix parmis les 
   <data name="VoiceSpeed" xml:space="preserve">
     <value>Vitesse de la voix</value>
   </data>
+  <data name="PlaceholderKeyWord" xml:space="preserve">
+    <value>Entrez un mot-clé pour rechercher une option</value>
+  </data>
 </root>

@@ -448,6 +448,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter a key-word to search an option.
+        /// </summary>
+        internal static string PlaceholderKeyWord {
+            get {
+                return ResourceManager.GetString("PlaceholderKeyWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Enter option text.
         /// </summary>
         internal static string PlaceholderOptionText {
