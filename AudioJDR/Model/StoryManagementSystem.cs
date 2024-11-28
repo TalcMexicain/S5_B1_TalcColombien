@@ -1,4 +1,11 @@
-﻿using System.Diagnostics;
+﻿#if WINDOWS
+using Model.Platforms.Windows;
+#elif ANDROID
+using Model.Platforms.Android;
+using Android.Content;
+
+#endif
+using System.Diagnostics;
 using System.Globalization;
 
 namespace Model
@@ -20,8 +27,10 @@ namespace Model
         public StoryManagementSystem() 
         {
 #if WINDOWS
-            speechSynthesizer = new WindowsSynthesizer();
-            speechRecognizer = new WindowsRecognizer();
+            this.speechSynthesizer = new WindowsSynthesizer();
+#elif ANDROID
+            Context context = Android.App.Application.Context;
+            this.speechSynthesizer = new AndroidSynthesizer(context);
 #endif
             tokenSource = new CancellationTokenSource();
         }
@@ -29,6 +38,11 @@ namespace Model
         public async void TextToSpeech(string textToSynthesize)
         {
             this.speechSynthesizer.SynthesizeTextAsync(textToSynthesize);
+        }
+
+        public void StopTextToSpeech()
+        {
+            this.speechSynthesizer.StopSynthesisTextAsync();
         }
 
         public async void SpeechToText()
@@ -39,13 +53,12 @@ namespace Model
             {
                 IProgress<string> progress = new Progress<string>(text =>
                 {
-                    // Mise à jour en temps réel du texte reconnu
                     RecognitionText = text;
                     Console.WriteLine($"Recognized: {text}");
                 });
 
                 var result = await this.speechRecognizer.Listen(new CultureInfo("fr-FR"), progress, tokenSource.Token);
-                RecognitionText = result; // Mise à jour avec le résultat final
+                RecognitionText = result;
 
                 Debug.WriteLine($"Final result: {RecognitionText}");
             }

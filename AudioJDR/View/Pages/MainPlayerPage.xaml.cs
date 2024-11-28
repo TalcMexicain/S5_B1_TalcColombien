@@ -1,20 +1,40 @@
 namespace View.Pages;
+
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Model;
 using View;
 
 public partial class MainPlayerPage : ContentPage
 {
     #region Constructor
+    private StoryManagementSystem storyManagementSystem;
 
     public MainPlayerPage()
     {
         InitializeComponent();
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
+        this.storyManagementSystem = new StoryManagementSystem();
     }
 
     #endregion
 
     #region Event Handlers
+
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        storyManagementSystem.TextToSpeech(this.RulesPlayerLabel.Text);
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        storyManagementSystem.StopTextToSpeech();
+    }
 
     /// <summary>
     /// Event handler triggered when the page size changes. 
