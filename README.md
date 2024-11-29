@@ -51,7 +51,7 @@ L'application se compose de deux parties principales :
 - **Environnement** : .NET MAUI installé.
 
 ### Instructions (avec la Release) :
-Un tutoriel sur pdf est disponible -> [ici](./AudioJDRpdf)
+Un tutoriel sur pdf est disponible -> [ici](./AudioJDR.pdf)
 
 ### Instructions (avec Visual Studio 2022) :
 1. Clonez ce dépôt GitHub :
