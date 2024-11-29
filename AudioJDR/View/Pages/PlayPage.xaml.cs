@@ -13,31 +13,33 @@ namespace View.Pages;
 /// </summary>
 public partial class PlayPage : ContentPage, IQueryAttributable
 {
-    private readonly SpeechRecognitionViewModel _speechViewModel; // Nouveau ViewModel pour la reconnaissance vocale
-    private StoryViewModel _viewModel; // ViewModel to manage story and event data
-    private int _storyId; // ID of the current story
-    private int _eventId; // ID of the current event
+    private readonly SpeechRecognitionViewModel _speechViewModel;
+    private StoryViewModel _viewModel;
+    private int _storyId;
+    private int _eventId;
     private Story _currentStory;
+
+    private SpeechSynthesizerViewModel _viewSpeechModel;
 
     /// <summary>
     /// Initializes a new instance of the PlayPage class.
     /// </summary>
-    public PlayPage()
+    public PlayPage(ISpeechSynthesizer speechSynthesizer)
     {
         InitializeComponent();
 
         _viewModel = new StoryViewModel();
         BindingContext = _speechViewModel;
 
-        // Instanciation du ViewModel pour la reconnaissance vocale
         _speechViewModel = new SpeechRecognitionViewModel();
 
-        // Abonnement aux événements du ViewModel
+        _viewSpeechModel = new SpeechSynthesizerViewModel(speechSynthesizer);
+
         _speechViewModel.OptionSubmitted += async () => await OnOptionSubmitted();
         _speechViewModel.AddWordsToView += AddWordsToView;
         _speechViewModel.TextCleared += () =>
         {
-            OptionEntry.Text = string.Empty; // Efface le champ texte lorsque "annuler" est reconnu
+            OptionEntry.Text = string.Empty;
         };
 
 
@@ -204,14 +206,19 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         await Shell.Current.GoToAsync($"{nameof(PlayPage)}?storyId={_storyId}&eventId={eventId}");
     }
 
-    /// <summary>
-    /// Overrides the OnDisappearing method to perform automatic saving of the current game state.
-    /// This ensures that when the user navigates away from the current page, the current event
-    /// of the story is saved, allowing the player to resume from where they left off.
-    /// </summary>
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // Pass the label's text to the ViewModel for TTS synthesis
+        _viewSpeechModel.TextToSynthesize = this.EventDescriptionLabel.Text;
+        _viewSpeechModel.SynthesizeText();
+    }
+
     protected override async void OnDisappearing()
     {
         base.OnDisappearing();
+        _viewSpeechModel.StopSynthesis();
 
         if (_currentStory != null && _eventId > 0)
         {

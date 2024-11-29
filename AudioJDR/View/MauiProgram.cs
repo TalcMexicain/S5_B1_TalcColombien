@@ -27,6 +27,7 @@ namespace View
                 builder.Services.AddSingleton<SettingsPage>();
                 builder.Services.AddSingleton<App>();
                 builder.Services.AddSingleton<MainPlayerPage>();
+                builder.Services.AddSingleton<PlayPage>();
 #if WINDOWS
                 builder.Services.AddSingleton<ISpeechSynthesizer, WindowsSynthesizer>();
 #elif ANDROID
