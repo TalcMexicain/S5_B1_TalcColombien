@@ -102,6 +102,7 @@
                     WidthRequest="200"
                     HeightRequest="60"
                     CornerRadius="10"
+                    Clicked="OnRepeatButtonClicked"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     FontSize="Small">

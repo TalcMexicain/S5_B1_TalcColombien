@@ -13,6 +13,8 @@ namespace View.Pages;
 /// </summary>
 public partial class PlayPage : ContentPage, IQueryAttributable
 {
+    #region Fields
+
     private readonly SpeechRecognitionViewModel _speechViewModel;
     private StoryViewModel _viewModel;
     private int _storyId;
@@ -21,6 +23,9 @@ public partial class PlayPage : ContentPage, IQueryAttributable
 
     private SpeechSynthesizerViewModel _viewSpeechModel;
 
+    #endregion
+
+    #region Constructor
     /// <summary>
     /// Initializes a new instance of the PlayPage class.
     /// </summary>
@@ -41,9 +46,9 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         {
             OptionEntry.Text = string.Empty;
         };
-
-
     }
+
+    #endregion
 
     /// <summary>
     /// Applies query attributes received during navigation.
@@ -117,7 +122,6 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         if (string.IsNullOrEmpty(userInput))
         {
             await DisplayAlert("Error", "Please enter an option.", "OK");
-            Debug.WriteLine("test2");
             return;
         }
 
@@ -254,6 +258,13 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         }
     }
 
+    
+    private async void OnRepeatButtonClicked(object sender, EventArgs e)
+    {
+        _viewSpeechModel.TextToSynthesize = this.EventDescriptionLabel.Text;
+        _viewSpeechModel.StopSynthesis();
+        _viewSpeechModel.SynthesizeText();
+    }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {

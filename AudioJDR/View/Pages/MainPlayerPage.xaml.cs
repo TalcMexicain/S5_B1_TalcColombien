@@ -55,6 +55,8 @@ public partial class MainPlayerPage : ContentPage
 
     private async void OnRepeatButtonClicked(object sender, EventArgs e)
     {
+        _viewModel.TextToSynthesize = this.RulesPlayerLabel.Text;
+        _viewModel.StopSynthesis();
         _viewModel.SynthesizeText();
     }
 
