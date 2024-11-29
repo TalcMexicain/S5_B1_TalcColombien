@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Speech.Synthesis;
 
 namespace ViewModel
 {
@@ -78,7 +79,8 @@ namespace ViewModel
         public SpeechSynthesizerViewModel(ISpeechSynthesizer speechSynthesizer)
         {
             _speechSynthesizer = speechSynthesizer;
-            this._availableVoicesTypeTTS = (ObservableCollection<string>)_speechSynthesizer.GetInstalledVoices();
+            _availableVoicesTypeTTS = new ObservableCollection<string>();
+            InitializeAvailableVoiceTypeTTS();
         }
 
         #endregion
@@ -118,6 +120,20 @@ namespace ViewModel
         public void ResumePausedSynthesis()
         {
             _speechSynthesizer.ResumePausedSynthesis();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void InitializeAvailableVoiceTypeTTS()
+        {
+            List<string> installedVoices = _speechSynthesizer.GetInstalledVoices().ToList();
+
+            foreach (string voice in installedVoices)
+            {
+                this._availableVoicesTypeTTS.Add(voice);
+            }
         }
 
         #endregion
