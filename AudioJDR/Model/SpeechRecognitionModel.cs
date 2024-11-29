@@ -7,15 +7,28 @@ using System.Speech.Recognition;
 
 namespace Model
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class SpeechRecognitionModel
     {
+        #region Fields 
+
         private SpeechRecognitionEngine _recognizer;
         private Action _onOptionSubmittedCallback;
+
+        #endregion
+
+        #region Events 
 
         /// <summary>
         /// Event triggered when a text is recognized.
         /// </summary>
         public event Action<string> SpeechRecognized;
+
+        #endregion
+
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpeechRecognitionModel"/> class.
@@ -42,6 +55,10 @@ namespace Model
                 Console.WriteLine($"Error initializing speech recognition: {ex.Message}");
             }
         }
+
+        #endregion
+
+        #region Public Methods 
 
         /// <summary>
         /// Starts the speech recognition process.
@@ -70,5 +87,7 @@ namespace Model
 
             _recognizer.LoadGrammar(grammar);
         }
+
+        #endregion
     }
 }

@@ -12,6 +12,8 @@ namespace Model
     /// </summary>
     public class WindowsFileService : IFileService
     {
+        #region Public Methods 
+
         /// <summary>
         /// Exports a story to a specified JSON file.
         /// </summary>
@@ -68,6 +70,8 @@ namespace Model
 
             return content;
         }
+
+        #endregion
     }
 }
 #endif

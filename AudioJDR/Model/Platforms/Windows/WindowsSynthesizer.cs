@@ -72,6 +72,11 @@ namespace Model.Platforms.Windows
             }
         }
 
+        public string GetCurrentVoiceTypeName()
+        {
+            return _synthesizer.Voice.Name;
+        }
+
         public ICollection<string> GetInstalledVoices()
         {
             var voices = _synthesizer.GetInstalledVoices();
@@ -116,6 +121,11 @@ namespace Model.Platforms.Windows
             int normalizedRate = (int)Math.Round(minOutputRate + ((voiceRate - minInputRate) / (maxInputRate - minInputRate)) * (maxOutputRate - minOutputRate));
 
             _synthesizer.Rate = normalizedRate;
+        }
+
+        public float GetVoiceRate()
+        {
+            return _synthesizer.Rate;
         }
 
         public void Dispose()

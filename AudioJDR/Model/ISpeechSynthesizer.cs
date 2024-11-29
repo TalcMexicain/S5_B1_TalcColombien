@@ -52,9 +52,15 @@ namespace Model
         void SetVoiceType(string voiceName);
 
         /// <summary>
-        /// 
+        /// Gets the name of the current voice type
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The name of the current voice type</returns>
+        string GetCurrentVoiceTypeName();
+
+        /// <summary>
+        /// Gets the collection of installed voices available for speech synthesis
+        /// </summary>
+        /// <returns>The collection of names of installed voices</returns>
         ICollection<string> GetInstalledVoices();
 
         /// <summary>
@@ -63,6 +69,12 @@ namespace Model
         /// </summary>
         /// <param name="voiceRate">The rate of the voice (a float between 0.5f and 2.0f)</param>
         void SetVoiceRate(float voiceRate);
+
+        /// <summary>
+        /// Gets the current rate of the voice
+        /// </summary>
+        /// <returns>The current voice rate (a float between 0.5 and 2.0)</returns>
+        float GetVoiceRate();
 
         /// <summary>
         /// Releases any resources used by the speech synthesizer

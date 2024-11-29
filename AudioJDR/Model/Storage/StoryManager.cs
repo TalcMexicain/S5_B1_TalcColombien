@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-
+﻿
 namespace Model.Storage
 {
     /// <summary>
@@ -8,7 +7,13 @@ namespace Model.Storage
     /// </summary>
     public class StoryManager
     {
+        #region Fields 
+
         private readonly StorySaveSystem _storySaveSystem;
+
+        #endregion
+
+        #region Constructor 
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StoryManager"/> class.
@@ -18,6 +23,10 @@ namespace Model.Storage
             _storySaveSystem = new StorySaveSystem();
         }
 
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
         /// Saves the given story asynchronously.
         /// </summary>
@@ -26,7 +35,6 @@ namespace Model.Storage
         public async Task SaveCurrentStoryAsync(Story story)
         {
             await _storySaveSystem.SaveStoryAsync(story);
-            Debug.WriteLine($"Story successfully saved.");
         }
 
         /// <summary>
@@ -55,13 +63,14 @@ namespace Model.Storage
         public async Task<List<Story>> GetSavedStoriesAsync()
         {
             // Get the list of story titles
-            var storyTitles = _storySaveSystem.GetAvailableStories();
+            List<int> storiesIds = _storySaveSystem.GetAvailableStories();
 
             // Load each story by title and return the full list of Story objects
-            var stories = new List<Story>();
-            foreach (var title in storyTitles)
+            List<Story> stories = new List<Story>();
+
+            foreach (int idStory in storiesIds)
             {
-                var story = await _storySaveSystem.LoadStoryAsync(title);
+                Story? story = await _storySaveSystem.LoadStoryAsync(idStory);
                 if (story != null)
                 {
                     stories.Add(story);
@@ -69,5 +78,7 @@ namespace Model.Storage
             }
             return stories;
         }
+
+        #endregion
     }
 }

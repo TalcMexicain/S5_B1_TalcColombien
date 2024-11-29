@@ -13,19 +13,19 @@ namespace View.Pages;
 /// </summary>
 public partial class PlayPage : ContentPage, IQueryAttributable
 {
-    #region Fields
+    #region Fields 
 
-    private readonly SpeechRecognitionViewModel _speechViewModel;
-    private StoryViewModel _viewModel;
+    private SpeechRecognitionViewModel _recognitionViewModel;
+    private SpeechSynthesizerViewModel _synthesizerViewModel;
+    private StoryViewModel _storyViewModel;
+    private Story _currentStory;
     private int _storyId;
     private int _eventId;
-    private Story _currentStory;
-
-    private SpeechSynthesizerViewModel _viewSpeechModel;
 
     #endregion
 
     #region Constructor
+
     /// <summary>
     /// Initializes a new instance of the PlayPage class.
     /// </summary>
@@ -33,16 +33,15 @@ public partial class PlayPage : ContentPage, IQueryAttributable
     {
         InitializeComponent();
 
-        _viewModel = new StoryViewModel();
-        BindingContext = _speechViewModel;
+        _storyViewModel = new StoryViewModel();
+        BindingContext = _recognitionViewModel;
 
-        _speechViewModel = new SpeechRecognitionViewModel();
+        _recognitionViewModel = new SpeechRecognitionViewModel();
+        _synthesizerViewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
 
-        _viewSpeechModel = new SpeechSynthesizerViewModel(speechSynthesizer);
-
-        _speechViewModel.OptionSubmitted += async () => await OnOptionSubmitted();
-        _speechViewModel.AddWordsToView += AddWordsToView;
-        _speechViewModel.TextCleared += () =>
+        _recognitionViewModel.OptionSubmitted += async () => await OnOptionSubmitted();
+        _recognitionViewModel.AddWordsToView += AddWordsToView;
+        _recognitionViewModel.TextCleared += () =>
         {
             OptionEntry.Text = string.Empty;
         };
@@ -67,7 +66,7 @@ public partial class PlayPage : ContentPage, IQueryAttributable
     public async void AddWordsToView()
     {
         OptionEntry.Text = string.Empty;
-        OptionEntry.Text += _speechViewModel.RecognizedText;
+        OptionEntry.Text += _recognitionViewModel.RecognizedText;
     }
 
     /// <summary>
@@ -78,9 +77,9 @@ public partial class PlayPage : ContentPage, IQueryAttributable
     private async Task LoadEvent(int storyId, int eventId)
     {
         var keywords = new HashSet<string>();
-        _currentStory = await _viewModel.GetStoryByIdAsync(storyId); // Store the story in the private field
-        var eventToShow = _currentStory?.Events.FirstOrDefault(e => e.IdEvent == eventId);
-        Debug.WriteLine(eventToShow.Name);
+        _currentStory = await _storyViewModel.GetStoryByIdAsync(storyId); // Store the story in the private field
+
+        Event? eventToShow = _currentStory?.Events.FirstOrDefault(e => e.IdEvent == eventId);
 
         if (eventToShow != null)
         {
@@ -102,7 +101,7 @@ public partial class PlayPage : ContentPage, IQueryAttributable
             keywords.Add("valider");
             keywords.Add("annuler");
 
-            _speechViewModel.StartRecognition(keywords);
+            _recognitionViewModel.StartRecognition(keywords);
         }
     }
 
@@ -233,8 +232,8 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         base.OnAppearing();
 
         // Pass the label's text to the ViewModel for TTS synthesis
-        _viewSpeechModel.TextToSynthesize = this.EventDescriptionLabel.Text;
-        _viewSpeechModel.SynthesizeText();
+        _synthesizerViewModel.TextToSynthesize = this.EventDescriptionLabel.Text;
+        _synthesizerViewModel.SynthesizeText();
     }
 
     /// <summary>
@@ -243,7 +242,7 @@ public partial class PlayPage : ContentPage, IQueryAttributable
     protected override async void OnDisappearing()
     {
         base.OnDisappearing();
-        _viewSpeechModel.StopSynthesis();
+        _synthesizerViewModel.StopSynthesis();
 
         if (_currentStory != null && _eventId > 0)
         {
@@ -258,20 +257,17 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         }
     }
 
-    
     private async void OnRepeatButtonClicked(object sender, EventArgs e)
     {
-        _viewSpeechModel.TextToSynthesize = this.EventDescriptionLabel.Text;
-        _viewSpeechModel.StopSynthesis();
-        _viewSpeechModel.SynthesizeText();
+        _synthesizerViewModel.TextToSynthesize = this.EventDescriptionLabel.Text;
+        _synthesizerViewModel.StopSynthesis();
+        _synthesizerViewModel.SynthesizeText();
     }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync($"{nameof(YourStories)}?storyId={_storyId}");
     }
-
-
 
     #region UI Management
 
