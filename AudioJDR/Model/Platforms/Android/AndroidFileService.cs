@@ -11,10 +11,20 @@ namespace Model
     /// </summary>
     public class AndroidFileService : IFileService
     {
-        private const int FolderPickerRequestCode = 9999;
-        private TaskCompletionSource<Android.Net.Uri> _folderPathCompletionSource;
+        #region Const
 
+        private const int FolderPickerRequestCode = 9999;
+
+        #endregion
+
+        #region Fields 
+
+        private TaskCompletionSource<Android.Net.Uri> _folderPathCompletionSource;
         private static AndroidFileService _instance;
+
+        #endregion
+
+        #region Constructor
 
         private AndroidFileService() { }
 
@@ -32,6 +42,10 @@ namespace Model
                 return _instance;
             }
         }
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
         /// Exports a story to a specified JSON file.
@@ -82,6 +96,29 @@ namespace Model
             return content;
         }
 
+        /// <summary>
+        /// Handles the folder selection result from the folder picker.
+        /// </summary>
+        /// <param name="uri">The URI of the selected folder.</param>
+        public void OnFolderPicked(Android.Net.Uri uri)
+        {
+            if (_folderPathCompletionSource != null)
+            {
+                if (uri != null)
+                {
+                    _folderPathCompletionSource.SetResult(uri);
+                }
+                else
+                {
+                    _folderPathCompletionSource.SetResult(null);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Private Methods
+
         private bool WriteStoryFileToUri(Android.Net.Uri folderUri, string fileName, byte[] fileContent)
         {
             bool success = false;
@@ -106,24 +143,7 @@ namespace Model
             return success;
         }
 
-        /// <summary>
-        /// Handles the folder selection result from the folder picker.
-        /// </summary>
-        /// <param name="uri">The URI of the selected folder.</param>
-        public void OnFolderPicked(Android.Net.Uri uri)
-        {
-            if (_folderPathCompletionSource != null)
-            {
-                if (uri != null)
-                {
-                    _folderPathCompletionSource.SetResult(uri);
-                }
-                else
-                {
-                    _folderPathCompletionSource.SetResult(null);
-                }
-            }
-        }
+        #endregion
     }
 }
 #endif

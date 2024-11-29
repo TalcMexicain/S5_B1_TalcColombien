@@ -9,7 +9,13 @@ namespace Model
     /// </summary>
     public static class FileServiceManager
     {
+        #region Fields 
+
         private static IFileService _fileService;
+
+        #endregion
+
+        #region Constructor
 
         static FileServiceManager()
         {
@@ -21,6 +27,10 @@ namespace Model
 #endif
         }
 
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
         /// Exports a story to a JSON file.
         /// </summary>
@@ -30,12 +40,12 @@ namespace Model
         public static async Task<bool> ExportStoryAsync(Story story)
         {
             bool success = false;
-            var fileName = $"{story.IdStory}.json";
+            string fileName = $"{story.IdStory}.json";
             byte[] fileContent = null;
 
             try
             {
-                var optionsJson = new JsonSerializerOptions
+                JsonSerializerOptions optionsJson = new JsonSerializerOptions
                 {
                     WriteIndented = true,
                     ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
@@ -88,6 +98,8 @@ namespace Model
 
             return importedStory;
         }
+
+        #endregion
     }
 }
 

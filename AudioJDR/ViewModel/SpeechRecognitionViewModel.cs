@@ -6,32 +6,61 @@ using Model;
 
 namespace ViewModel
 {
+    /// <summary>
+    /// ViewModel responsible of managing SpeechRecognition and their operations
+    /// Handles voice recognition
+    /// </summary>
     public class SpeechRecognitionViewModel : BaseViewModel
     {
-        private readonly SpeechRecognitionModel _speechRecognitionModel;
-        private StringBuilder _recognizedTextAccumulator = new StringBuilder();
+        #region Fields 
 
-        // Events to signal actions to the view
+        private SpeechRecognitionModel _speechRecognitionModel;
+        private StringBuilder _recognizedTextAccumulator;
+        private string _recognizedText;
+
+        #endregion
+
+        #region Events 
+
         public event Action OptionSubmitted; // When "validate" is recognized
         public event Action TextCleared; // When "cancel" is recognized
         public event Action AddWordsToView;
 
-        // Text accumulated by speech recognition
-        private string _recognizedText;
+        #endregion
+
+        #region Properties 
+
+        /// <summary>
+        /// Gets the text recognized by the speech engine
+        /// This property is automatically updated and notifies the view when changed
+        /// </summary>
         public string RecognizedText
         {
             get => _recognizedText;
-            private set => SetProperty(ref _recognizedText, value); // Automatically updates the view
+            private set => SetProperty(ref _recognizedText, value);
         }
 
+        #endregion
+
+        #region Constructor 
+
+        /// <summary>
+        /// Initializes a new instance of the SpeechRecognition class
+        /// Sets up the speech recognition model and subscribies to its events
+        /// </summary>
         public SpeechRecognitionViewModel()
         {
             // Instantiate the speech recognition model
             _speechRecognitionModel = new SpeechRecognitionModel();
+            _recognizedTextAccumulator = new StringBuilder();
 
             // Listen to recognition events
             _speechRecognitionModel.SpeechRecognized += OnSpeechRecognized;
         }
+
+        #endregion
+
+        #region Publics Methods 
 
         /// <summary>
         /// Starts speech recognition with a list of keywords.
@@ -41,6 +70,10 @@ namespace ViewModel
             _speechRecognitionModel.UpdateGrammar(keywords.ToArray());
             _speechRecognitionModel.StartRecognition();
         }
+
+        #endregion
+
+        #region Private Methods
 
         /// <summary>
         /// Handles the recognized text from the engine.
@@ -78,5 +111,7 @@ namespace ViewModel
                 AddWordsToView?.Invoke();
             }
         }
+
+        #endregion
     }
 }

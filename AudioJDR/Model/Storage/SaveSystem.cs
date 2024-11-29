@@ -116,7 +116,7 @@ namespace Model.Storage
         {
             // Get all subfolders in the saves directory
             var saveDirectories = Directory.GetDirectories(_savesFolderPath);
-            var saveNames = new List<string>();
+            List<string> saveNames = new List<string>();
 
             foreach (var directory in saveDirectories)
             {

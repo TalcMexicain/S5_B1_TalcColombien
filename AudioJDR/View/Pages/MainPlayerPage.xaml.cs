@@ -8,30 +8,34 @@ using ViewModel;
 
 public partial class MainPlayerPage : ContentPage
 {
+    #region Fields 
+
+    private SpeechSynthesizerViewModel _speechViewModel;
+
+    #endregion
+
     #region Constructor
-    private SpeechSynthesizerViewModel _viewModel;
 
     public MainPlayerPage(ISpeechSynthesizer speechSynthesizer)
     {
         InitializeComponent();
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
-        _viewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
-        BindingContext = _viewModel;
+        _speechViewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
+        BindingContext = _speechViewModel;
     }
 
     #endregion
 
     #region Event Handlers
 
-
     protected override void OnAppearing()
     {
         base.OnAppearing();
 
         // Pass the label's text to the ViewModel for TTS synthesis
-        _viewModel.TextToSynthesize = this.RulesPlayerLabel.Text;
-        _viewModel.SynthesizeText();
+        _speechViewModel.TextToSynthesize = this.RulesPlayerLabel.Text;
+        _speechViewModel.SynthesizeText();
     }
 
     protected override void OnDisappearing()
@@ -39,7 +43,7 @@ public partial class MainPlayerPage : ContentPage
         base.OnDisappearing();
 
         // Stop TTS when the page is disappearing
-        _viewModel.StopSynthesis();
+        _speechViewModel.StopSynthesis();
     }
 
     /// <summary>
@@ -55,7 +59,7 @@ public partial class MainPlayerPage : ContentPage
 
     private async void OnRepeatButtonClicked(object sender, EventArgs e)
     {
-        _viewModel.SynthesizeText();
+        _speechViewModel.SynthesizeText();
     }
 
     private async void OnToYourStoriesButtonClicked(object sender, EventArgs e)

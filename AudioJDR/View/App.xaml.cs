@@ -1,5 +1,4 @@
 ﻿using Model;
-using System.Diagnostics;
 using System.Globalization;
 using ViewModel;
 

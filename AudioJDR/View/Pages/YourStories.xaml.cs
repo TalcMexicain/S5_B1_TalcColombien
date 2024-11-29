@@ -10,6 +10,7 @@ public partial class YourStories : ContentPage
     #region Fields
 
     private StoryViewModel _viewModel;
+    private SaveViewModel _saveViewModel;
 
     #endregion
 
@@ -19,6 +20,7 @@ public partial class YourStories : ContentPage
     {
         InitializeComponent();
         _viewModel = new StoryViewModel();
+        _saveViewModel = new SaveViewModel();
         BindingContext = _viewModel;
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
@@ -40,22 +42,19 @@ public partial class YourStories : ContentPage
     {
         if (sender is Button button && button.BindingContext is Story selectedStory)
         {
-            var firstEvent = selectedStory.FirstEvent;
+            Event? firstEvent = selectedStory.FirstEvent;
 
             if (firstEvent != null)
             {
-                Debug.WriteLine($"Starting game with Story ID: {selectedStory.IdStory}, Event ID: {firstEvent.IdEvent}");
                 await Shell.Current.GoToAsync($"{nameof(PlayPage)}?storyId={selectedStory.IdStory}&eventId={firstEvent.IdEvent}");
             }
             else
             {
-                Debug.WriteLine("No first event found for the selected story.");
                 await UIHelper.ShowErrorDialog(this, "Aucun événement de départ trouvé.");
             }
         }
         else
         {
-            Debug.WriteLine("Erreur: Aucune histoire sélectionnée.");
             await UIHelper.ShowErrorDialog(this, "Veuillez sélectionner une histoire à jouer.");
         }
     }
@@ -84,10 +83,9 @@ public partial class YourStories : ContentPage
         {
             try
             {
-                var saveViewModel = new SaveViewModel();
-                await saveViewModel.LoadGameAsync(selectedStory.Title);
+                await _saveViewModel.LoadGameAsync(selectedStory.Title);
 
-                var savedEvent = saveViewModel.CurrentSave?.CurrentEvent;
+                Event? savedEvent = _saveViewModel.CurrentSave?.CurrentEvent;
 
                 if (savedEvent != null)
                 {
@@ -108,7 +106,6 @@ public partial class YourStories : ContentPage
             await UIHelper.ShowErrorDialog(this, "Veuillez sélectionner une histoire.");
         }
     }
-
 
     private void OnRepeatButtonClicked(object sender, EventArgs e)
     {

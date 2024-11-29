@@ -39,6 +39,8 @@
 
         #endregion
 
+        #region Constructor 
+
         /// <summary>
         /// Constructor's of the class Save
         /// </summary>
@@ -51,6 +53,10 @@
             SaveDate = DateTime.Now;
         }
 
+        #endregion
+
+        #region Public Methods 
+
         /// <summary>
         /// Deletes the save.
         /// </summary>
@@ -60,5 +66,6 @@
             SaveSystem saveSystem = new SaveSystem(savingPath);
             saveSystem.DeleteSave(this.story.Title);
         }
+        #endregion
     }
 }
