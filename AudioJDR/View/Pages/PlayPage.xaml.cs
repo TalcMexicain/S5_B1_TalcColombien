@@ -33,7 +33,7 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         _speechViewModel = new SpeechRecognitionViewModel();
 
         // Abonnement aux événements du ViewModel
-        _speechViewModel.OptionSubmitted += OnOptionSubmitted;
+        _speechViewModel.OptionSubmitted += async () => await OnOptionSubmitted();
         _speechViewModel.AddWordsToView += AddWordsToView;
         _speechViewModel.TextCleared += () =>
         {
@@ -99,13 +99,16 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         }
     }
 
-
+    private async void OnOptionSubmittedFromButton(object sender, EventArgs e)
+    {
+        await OnOptionSubmitted();
+    }
 
     /// <summary>
     /// Handles the submission of the user's input and attempts to find the best matching option for the current event.
     /// Navigates to the corresponding event if a match is found.
     /// </summary>
-    private async void OnOptionSubmitted()
+    private async Task OnOptionSubmitted()
     {
         string userInput = OptionEntry?.Text?.Trim().ToLower();
 
