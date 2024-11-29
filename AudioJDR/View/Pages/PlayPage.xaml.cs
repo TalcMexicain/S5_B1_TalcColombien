@@ -216,10 +216,32 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         await Shell.Current.GoToAsync($"{nameof(PlayPage)}?storyId={_storyId}&eventId={eventId}");
     }
 
+    /// <summary>
+    /// Overrides the OnDisappearing method to perform automatic saving of the current game state.
+    /// This ensures that when the user navigates away from the current page, the current event
+    /// of the story is saved, allowing the player to resume from where they left off.
+    /// </summary>
+    protected override async void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        if (_currentStory != null && _eventId > 0)
+        {
+            var currentEvent = _currentStory.Events.FirstOrDefault(e => e.IdEvent == _eventId);
+
+            if (currentEvent != null)
+            {
+                var saveViewModel = new SaveViewModel();
+
+                await saveViewModel.SaveGameAsync(_currentStory, currentEvent);
+            }
+        }
+    }
 
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync($"{nameof(YourStories)}?storyId={_storyId}");
     }
+
 }

@@ -344,4 +344,13 @@ Listen to what the story is saying and say out loud your choice from the options
   <data name="VoiceType" xml:space="preserve">
     <value>Change the voice among the available voices</value>
   </data>
+  <data name="NoValidSaveFound" xml:space="preserve">
+    <value>No valid saves found for this story</value>
+  </data>
+  <data name="SaveLoadError" xml:space="preserve">
+    <value>Error loading save</value>
+  </data>
+  <data name="SelectStory" xml:space="preserve">
+    <value>Please select a story</value>
+  </data>
 </root>

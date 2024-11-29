@@ -344,4 +344,13 @@ Ecouter ce que l'histoire raconte et dites à voix haute votre choix parmis les 
   <data name="VoiceType" xml:space="preserve">
     <value>Changer la voix parmi les voix disponibles</value>
   </data>
+  <data name="NoValidSaveFound" xml:space="preserve">
+    <value>Aucune sauvegarde valide trouvée pour cette histoire.</value>
+  </data>
+  <data name="SaveLoadError" xml:space="preserve">
+    <value>Erreur lors du chargement de la sauvegarde.</value>
+  </data>
+  <data name="SelectStory" xml:space="preserve">
+    <value>Veuillez sélectionner une histoire.</value>
+  </data>
 </root>
