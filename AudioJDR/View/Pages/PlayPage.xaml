@@ -79,7 +79,8 @@
                     <Entry x:Name="OptionEntry"
                             Placeholder="{x:Static local:AppResources.PlaceholderKeyWord}"
                             FontSize="Small"
-                            HorizontalOptions="FillAndExpand" />
+                            HorizontalOptions="FillAndExpand"
+                           />
 
                     <!-- Bouton Valider -->
                     <Button Text="{x:Static local:AppResources.Save}"
@@ -87,7 +88,9 @@
                             BackgroundColor="{StaticResource PrimaryButtonsL}"
                             TextColor="{StaticResource MainTextL}"
                             CornerRadius="5"
-                            Clicked="OnOptionSubmitted" />
+                             />
+                    
+
                 </HorizontalStackLayout>
             </Frame>
 

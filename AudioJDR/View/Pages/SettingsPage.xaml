@@ -94,7 +94,7 @@
                         Maximum="100"
                         Value="50"
                         WidthRequest="200"
-                        ValueChanged="OnVolumeChanged"/>
+                        />
             </VerticalStackLayout>
 
             <!-- Voice Speed -->
@@ -110,7 +110,7 @@
                         Maximum="2.0"
                         Value="1.0"
                         WidthRequest="200"
-                        ValueChanged="OnSpeedChanged"/>
+                        />
             </VerticalStackLayout>
 
             <!-- Back Button -->
