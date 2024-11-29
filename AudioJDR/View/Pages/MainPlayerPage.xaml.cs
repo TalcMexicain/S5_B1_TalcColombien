@@ -2,19 +2,22 @@ namespace View.Pages;
 
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Model;
+using System.Diagnostics;
 using View;
+using ViewModel;
 
 public partial class MainPlayerPage : ContentPage
 {
     #region Constructor
-    private StoryManagementSystem storyManagementSystem;
+    private SpeechSynthesizerViewModel _viewModel;
 
     public MainPlayerPage(ISpeechSynthesizer speechSynthesizer)
     {
         InitializeComponent();
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
-        this.storyManagementSystem = new StoryManagementSystem(speechSynthesizer);
+        _viewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
+        BindingContext = _viewModel;
     }
 
     #endregion
@@ -26,14 +29,17 @@ public partial class MainPlayerPage : ContentPage
     {
         base.OnAppearing();
 
-        storyManagementSystem.TextToSpeech(this.RulesPlayerLabel.Text);
+        // Pass the label's text to the ViewModel for TTS synthesis
+        _viewModel.TextToSynthesize = this.RulesPlayerLabel.Text;
+        _viewModel.SynthesizeText();
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
 
-        storyManagementSystem.StopTextToSpeech();
+        // Stop TTS when the page is disappearing
+        _viewModel.StopSynthesis();
     }
 
     /// <summary>
@@ -49,7 +55,7 @@ public partial class MainPlayerPage : ContentPage
 
     private async void OnRepeatButtonClicked(object sender, EventArgs e)
     {
-        // Implementation for repeat button click
+        _viewModel.SynthesizeText();
     }
 
     private async void OnToYourStoriesButtonClicked(object sender, EventArgs e)
