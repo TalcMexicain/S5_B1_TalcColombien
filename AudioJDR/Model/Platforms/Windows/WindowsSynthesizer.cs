@@ -20,7 +20,6 @@ namespace Model.Platforms.Windows
         {
             _synthesizer = new SpeechSynthesizer();
             this._globalSettings = new GlobalSettings(this);
-            
         }
 
         #endregion
@@ -122,15 +121,6 @@ namespace Model.Platforms.Windows
         public void Dispose()
         {
             _synthesizer?.Dispose();
-        }
-
-        #endregion
-
-        #region Private Methods 
-        
-        private void InitializeSpeechSynthesizerParameters()
-        {
-            this._globalSettings.ApplySpeechToTextSettings();
         }
 
         #endregion

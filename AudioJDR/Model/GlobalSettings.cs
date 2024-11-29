@@ -112,6 +112,8 @@ namespace Model
                 {
                     throw new ArgumentOutOfRangeException(nameof(value), "TextToSpeech rate setting value must a float between 0.5 and 2.0.");
                 }
+
+                Preferences.Set(rateKey, value);
             }
         }
 
@@ -161,17 +163,30 @@ namespace Model
         #region Public Methods
 
         /// <summary>
-        /// Applies settings stored to the current speechSynthesizer
+        /// Applies voice volume stored to the current speechSynthesizer
         /// </summary>
-        public void ApplySpeechToTextSettings()
+        public void ApplyTTSVoiceVolume()
         {
-                this._speechSynthesizer.SetVoiceVolume(VolumeTTS);
-                this._speechSynthesizer.SetVoiceRate(RateTTS);
+            this._speechSynthesizer.SetVoiceVolume(VolumeTTS);
+        }
 
-                if (VoiceTypeTTS != "")
-                {
-                    this._speechSynthesizer.SetVoiceType(VoiceTypeTTS);
-                }
+        /// <summary>
+        /// Applies voice rate stored to the current speechSynthesizer
+        /// </summary>
+        public void ApplyTTSVoiceRate() 
+        {
+            this._speechSynthesizer.SetVoiceRate(RateTTS);
+        }
+
+        /// <summary>
+        /// Applies voice type stored to the current speechSynthesizer
+        /// </summary>
+        public void ApplyTTSVoiceType()
+        {
+            if (VoiceTypeTTS != "")
+            {
+                this._speechSynthesizer.SetVoiceType(VoiceTypeTTS);
+            }
         }
         #endregion
 
