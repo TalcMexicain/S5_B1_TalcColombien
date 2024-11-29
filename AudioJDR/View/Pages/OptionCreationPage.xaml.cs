@@ -192,27 +192,43 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
     private async void OnAddWordClicked(object sender, EventArgs e)
     {
         string newWord = OptionWordsEntry.Text?.Trim();
-        
-        if (ValidateWordInput(newWord))
+
+        if (!string.IsNullOrWhiteSpace(newWord))
         {
             try
             {
-                bool added = await _optionViewModel.AddWordAsync(newWord);
-                if (added)
+                // Check if the word already exists
+                bool exists = _optionViewModel.Words.Contains(newWord);
+
+                if (exists)
                 {
-                    UpdateWordsDisplay();
-                    OptionWordsEntry.Text = string.Empty;
-                    _hasUnsavedChanges = true;
+                    // If it exists, remove the word
+                    await _optionViewModel.RemoveWordAsync(newWord);
+                    await UIHelper.ShowSuccessDialog(this, $"{newWord} has been removed.");
                 }
                 else
                 {
-                    await UIHelper.ShowErrorDialog(this, AppResources.WordAlreadyExists);
+                    // If it doesn't exist, add the word
+                    bool added = await _optionViewModel.AddWordAsync(newWord);
+                    if (added)
+                    {
+                        await UIHelper.ShowSuccessDialog(this, $"{newWord} has been added.");
+                    }
+                    else
+                    {
+                        await UIHelper.ShowErrorDialog(this, AppResources.WordAlreadyExists);
+                    }
                 }
+
+                // Update the display and clear the input
+                UpdateWordsDisplay();
+                OptionWordsEntry.Text = string.Empty;
+                _hasUnsavedChanges = true;
             }
             catch (Exception ex)
             {
                 await UIHelper.ShowErrorDialog(this, ex.Message);
-                Debug.WriteLine($"Error adding word: {ex.Message}");
+                Debug.WriteLine($"Error processing word: {ex.Message}");
             }
         }
     }

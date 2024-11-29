@@ -5,18 +5,22 @@ using AndroidX.DocumentFile.Provider;
 
 namespace Model
 {
+    /// <summary>
+    /// Android-specific exportation and importation handler for stories.
+    /// This class implements the IFileService interface to handle file operations on Android.
+    /// </summary>
     public class AndroidFileService : IFileService
     {
         private const int FolderPickerRequestCode = 9999;
         private TaskCompletionSource<Android.Net.Uri> _folderPathCompletionSource;
 
-        // Singleton instance
         private static AndroidFileService _instance;
 
-        // Private constructor to prevent external instantiation
         private AndroidFileService() { }
 
-        // Public method to access the singleton instance
+        /// <summary>
+        /// Gets the singleton instance of the AndroidFileService.
+        /// </summary>
         public static AndroidFileService Instance
         {
             get
@@ -29,12 +33,16 @@ namespace Model
             }
         }
 
+        /// <summary>
+        /// Exports a story to a specified JSON file.
+        /// </summary>
+        /// <param name="fileName">The name of the file to save the story as.</param>
+        /// <param name="fileContent">The content of the story in byte array format.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a boolean indicating success or failure.</returns>
         public async Task<bool> ExportStoryAsync(string fileName, byte[] fileContent)
         {
             bool success = false;
-            
             _folderPathCompletionSource = new TaskCompletionSource<Android.Net.Uri>();
-            Console.WriteLine($"Exportation of story with fileName = {fileName} initiated");
 
             var intent = new Intent(Intent.ActionOpenDocumentTree);
             ((Activity)Platform.CurrentActivity).StartActivityForResult(intent, FolderPickerRequestCode);
@@ -43,22 +51,20 @@ namespace Model
 
             if (folderUri != null)
             {
-                WriteStoryFileToUri(folderUri, fileName, fileContent);
-                Console.WriteLine($"Story with fileName = {fileName} exported successfully");
-                success = true;
+                success = WriteStoryFileToUri(folderUri, fileName, fileContent);
             }
-            else
-            {
-                Console.WriteLine("No folder selected, story export aborted");
-            }
-            
+
             return success;
         }
 
+        /// <summary>
+        /// Imports a story from a JSON file.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the content of the imported story as a byte array.</returns>
         public async Task<byte[]> ImportStoryAsync()
         {
             byte[] content = null;
-            
+
             var file = await FilePicker.PickAsync(new PickOptions
             {
                 PickerTitle = "Select a story file",
@@ -72,14 +78,14 @@ namespace Model
             {
                 content = File.ReadAllBytes(file.FullPath);
             }
-            
+
             return content;
         }
 
         private bool WriteStoryFileToUri(Android.Net.Uri folderUri, string fileName, byte[] fileContent)
         {
             bool success = false;
-            
+
             DocumentFile pickedDir = DocumentFile.FromTreeUri(Platform.CurrentActivity, folderUri);
 
             if (pickedDir != null)
@@ -96,30 +102,26 @@ namespace Model
                     }
                 }
             }
-            
+
             return success;
         }
 
-        // Call this method from MainActivity.cs in OnActivityResult
+        /// <summary>
+        /// Handles the folder selection result from the folder picker.
+        /// </summary>
+        /// <param name="uri">The URI of the selected folder.</param>
         public void OnFolderPicked(Android.Net.Uri uri)
         {
             if (_folderPathCompletionSource != null)
             {
                 if (uri != null)
                 {
-                    Console.WriteLine("Folder URI received, setting result...");
-                    _folderPathCompletionSource.SetResult(uri); // Return the folder Uri
+                    _folderPathCompletionSource.SetResult(uri);
                 }
                 else
                 {
-                    Console.WriteLine("No folder picked, setting result as null.");
-                    _folderPathCompletionSource.SetResult(null); // Handle the case where no folder is picked
+                    _folderPathCompletionSource.SetResult(null);
                 }
-            }
-            else
-            {
-                // This should not happen if the flow is correct
-                Console.WriteLine("TaskCompletionSource was not initialized.");
             }
         }
     }

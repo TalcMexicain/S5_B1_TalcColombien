@@ -1,4 +1,6 @@
-﻿namespace Model
+﻿using System.Diagnostics;
+
+namespace Model
 {
     /// <summary>
     /// Represents an Event in a Story.
@@ -11,6 +13,7 @@
         private string name;
         private string description;
         private List<Option> options;
+        private bool isFirst;
 
         #endregion
 
@@ -53,6 +56,15 @@
             set => options = value;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this event is the first event in the story.
+        /// </summary>
+        public bool IsFirst
+        {
+            get => isFirst;
+            set => isFirst = value;
+        }
+
         #endregion
 
         #region Constructors
@@ -67,6 +79,7 @@
             this.options = new List<Option>();
             this.name = name;
             this.description = description;
+            this.isFirst = false;
         }
 
         /// <summary>
@@ -75,6 +88,7 @@
         public Event()
         {
             this.options = new List<Option>();
+            this.isFirst = false;
         }
 
         #endregion
@@ -102,11 +116,12 @@
         }
 
         /// <summary>
-        /// Removes an option from the event.
+        /// Deletes an option from the event.
         /// </summary>
-        /// <param name="option">The option to remove from this event.</param>
+        /// <param name="option">The option to delete.</param>
         public void DeleteOption(Option option)
         {
+            Debug.WriteLine($"Deleting option: {option.NameOption} from event: {this.Name}");
             this.options.Remove(option);
         }
 

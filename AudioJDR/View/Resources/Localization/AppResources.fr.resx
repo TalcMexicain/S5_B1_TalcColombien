@@ -277,7 +277,7 @@
     <value>Oui</value>
   </data>
   <data name="AddWord" xml:space="preserve">
-    <value>Ajouter le mot</value>
+    <value>Ajouter ou supprimer le mot</value>
   </data>
   <data name="ImportStory" xml:space="preserve">
     <value>Importer une histoire</value>
@@ -352,5 +352,14 @@ Ecouter ce que l'histoire raconte et dites à voix haute votre choix parmis les 
   </data>
   <data name="SelectStory" xml:space="preserve">
     <value>Veuillez sélectionner une histoire.</value>
+  </data>
+  <data name="SetAsFirst" xml:space="preserve">
+    <value>Définir comme premier évènement</value>
+  </data>
+  <data name="RemoveAsFirst" xml:space="preserve">
+    <value>Retirer comme premier événement</value>
+  </data>
+  <data name="SetFirstEventSuccessMessage" xml:space="preserve">
+    <value>"{0}" a été défini comme le premier événement.</value>
   </data>
 </root>

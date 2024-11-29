@@ -27,7 +27,7 @@ namespace Model
         private const string voiceTypeKey = "VoiceType_TTS";
 
         private const AppTheme defaultTheme = AppTheme.Light;
-        private const string defaultLanguage = "fr";
+        private const string defaultLanguage = "fr-FR";
         private const int defaultVolumeTTS = 50;
         private const float defaultRateTTS = 1.0f;
         private const string defaultVoiceTypeTTS = "";

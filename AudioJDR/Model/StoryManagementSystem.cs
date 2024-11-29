@@ -6,7 +6,7 @@ namespace Model
     public class StoryManagementSystem
     {
         private ISpeechSynthesizer speechSynthesizer;
-        private ISpeechRecognizer speechRecognizer;
+        
 
         private CancellationTokenSource tokenSource;
         private string recognitionText;
@@ -33,30 +33,5 @@ namespace Model
             this.speechSynthesizer.StopSynthesisTextAsync();
         }
 
-        public async void SpeechToText()
-        {
-            var isAuthorized = await this.speechRecognizer.RequestPermissions();
-
-            if (isAuthorized)
-            {
-                IProgress<string> progress = new Progress<string>(text =>
-                {
-                    RecognitionText = text;
-                });
-
-                var result = await this.speechRecognizer.Listen(new CultureInfo("fr-FR"), progress, tokenSource.Token);
-                RecognitionText = result;
-            }
-
-            else
-            {
-                throw new Exception("Permission Error Or No microphone access");
-            }
-        }
-
-        public void ListenCancel()
-        {
-            tokenSource?.Cancel();
-        }
     }
 }

@@ -40,7 +40,7 @@ public partial class YourStories : ContentPage
     {
         if (sender is Button button && button.BindingContext is Story selectedStory)
         {
-            var firstEvent = selectedStory.Events?.FirstOrDefault(e => e.IdEvent == 1);
+            var firstEvent = selectedStory.FirstEvent;
 
             if (firstEvent != null)
             {
@@ -49,7 +49,7 @@ public partial class YourStories : ContentPage
             }
             else
             {
-                Debug.WriteLine("No event found with IdEvent = 1");
+                Debug.WriteLine("No first event found for the selected story.");
                 await UIHelper.ShowErrorDialog(this, "Aucun événement de départ trouvé.");
             }
         }
