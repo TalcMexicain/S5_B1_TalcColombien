@@ -277,7 +277,7 @@
     <value>Oui</value>
   </data>
   <data name="AddWord" xml:space="preserve">
-    <value>Ajouter le mot</value>
+    <value>Ajouter ou supprimer le mot</value>
   </data>
   <data name="ImportStory" xml:space="preserve">
     <value>Importer une histoire</value>

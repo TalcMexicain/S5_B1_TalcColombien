@@ -70,7 +70,7 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Add word.
+        ///   Recherche une chaîne localisée semblable à Add/Remove word.
         /// </summary>
         internal static string AddWord {
             get {

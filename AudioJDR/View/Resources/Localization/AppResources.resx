@@ -277,7 +277,7 @@
     <value>Yes</value>
   </data>
   <data name="AddWord" xml:space="preserve">
-    <value>Add word</value>
+    <value>Add/Remove word</value>
   </data>
   <data name="ImportStory" xml:space="preserve">
     <value>Import a story</value>
@@ -341,7 +341,7 @@ Listen to what the story is saying and say out loud your choice from the options
   <data name="SetAsFirst" xml:space="preserve">
     <value>Set as first event</value>
   </data>
-	<data name="RemoveAsFirst" xml:space="preserve">
+  <data name="RemoveAsFirst" xml:space="preserve">
     <value>Remove as first event</value>
   </data>
   <data name="PlaceholderKeyWord" xml:space="preserve">
