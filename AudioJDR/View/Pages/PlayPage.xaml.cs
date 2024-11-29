@@ -138,7 +138,13 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         }
     }
 
-
+    /// <summary>
+    /// Finds the best matching option for the current event based on user input.
+    /// </summary>
+    /// <param name="userWords">The words entered by the user.</param>
+    /// <returns>
+    /// A tuple containing the best matching option, the linked event, and a list of tied options.
+    /// </returns>
     private (Option? BestMatchingOption, Event? LinkedEvent, List<Option> TiedOptions) GetBestMatchingOptionForCurrentEvent(string[] userWords)
     {
         Option bestMatchingOption = null;
@@ -176,6 +182,13 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         return (bestMatchingOption, linkedEvent, tiedOptions);
     }
 
+
+    /// <summary>
+    /// Calculates the match score between user input words and option words.
+    /// </summary>
+    /// <param name="userWords">Words from the user input.</param>
+    /// <param name="optionWords">Words describing an option.</param>
+    /// <returns>A match score as a double value.</returns>
     private double CalculateMatchScore(string[] userWords, string[] optionWords)
     {
         int matchCount = 0;
@@ -191,6 +204,11 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         return (double)matchCount / optionWords.Length;
     }
 
+
+    /// <summary>
+    /// Handles scenarios where multiple options tie for the best match.
+    /// </summary>
+    /// <param name="tiedOptions">List of tied options.</param>
     private async Task HandleTiedOptions(List<Option> tiedOptions)
     {
         string optionsList = string.Join("\n", tiedOptions.Select(o => $"- {o.NameOption}"));
@@ -215,6 +233,9 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         _viewSpeechModel.SynthesizeText();
     }
 
+    /// <summary>
+    /// Saves the current game state when the page is about to disappear.
+    /// </summary>
     protected override async void OnDisappearing()
     {
         base.OnDisappearing();

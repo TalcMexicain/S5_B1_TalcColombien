@@ -12,32 +12,40 @@ namespace Model
         private SpeechRecognitionEngine _recognizer;
         private Action _onOptionSubmittedCallback;
 
-        // Événement déclenché lorsqu'un texte est reconnu
+        /// <summary>
+        /// Event triggered when a text is recognized.
+        /// </summary>
         public event Action<string> SpeechRecognized;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpeechRecognitionModel"/> class.
+        /// Sets up the speech recognition engine with French culture settings.
+        /// </summary>
         public SpeechRecognitionModel()
         {
             try
             {
-                // Initialiser le moteur de reconnaissance vocale
+                // Initialize the speech recognition engine
                 _recognizer = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("fr-FR"));
 
-                // Configurer l'entrée audio
+                // Configure the audio input
                 _recognizer.SetInputToDefaultAudioDevice();
 
-                // Abonnement à l'événement "texte reconnu"
+                // Subscribe to the "speech recognized" event
                 _recognizer.SpeechRecognized += (s, e) =>
                 {
-                    SpeechRecognized?.Invoke(e.Result.Text); // Notifie le texte reconnu
+                    SpeechRecognized?.Invoke(e.Result.Text); // Notify recognized text
                 };
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erreur lors de l'initialisation de la reconnaissance vocale : {ex.Message}");
+                Console.WriteLine($"Error initializing speech recognition: {ex.Message}");
             }
         }
 
-        // Méthode pour démarrer la reconnaissance vocale
+        /// <summary>
+        /// Starts the speech recognition process.
+        /// </summary>
         public void StartRecognition()
         {
             if (_recognizer != null && _recognizer.AudioState == AudioState.Stopped)
@@ -46,15 +54,20 @@ namespace Model
             }
         }
 
+        /// <summary>
+        /// Updates the grammar of the speech recognition engine with the provided keywords.
+        /// </summary>
+        /// <param name="keywords">An array of keywords to include in the grammar.</param>
         public void UpdateGrammar(string[] keywords)
         {
-           
-            // Mettre à jour la grammaire avec les mots-clés fournis
+            // Update the grammar with the provided keywords
             var choices = new Choices(keywords);
-            var grammarbuild = new GrammarBuilder(choices);
-            grammarbuild.Culture = new System.Globalization.CultureInfo("fr-FR");
-            var grammar = new Grammar(grammarbuild);
-            
+            var grammarBuild = new GrammarBuilder(choices)
+            {
+                Culture = new System.Globalization.CultureInfo("fr-FR") 
+            };
+            var grammar = new Grammar(grammarBuild);
+
             _recognizer.LoadGrammar(grammar);
         }
     }
