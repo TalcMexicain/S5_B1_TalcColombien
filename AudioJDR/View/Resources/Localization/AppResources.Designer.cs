@@ -376,6 +376,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à No valid saves found for this story.
+        /// </summary>
+        internal static string NoValidSaveFound {
+            get {
+                return ResourceManager.GetString("NoValidSaveFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à No words added yet..
         /// </summary>
         internal static string NoWordsAdded {
@@ -444,6 +453,15 @@ namespace View.Resources.Localization {
         internal static string PlaceholderEventTitle {
             get {
                 return ResourceManager.GetString("PlaceholderEventTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter a key-word to search an option.
+        /// </summary>
+        internal static string PlaceholderKeyWord {
+            get {
+                return ResourceManager.GetString("PlaceholderKeyWord", resourceCulture);
             }
         }
         
@@ -531,6 +549,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Error loading save.
+        /// </summary>
+        internal static string SaveLoadError {
+            get {
+                return ResourceManager.GetString("SaveLoadError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à The story has been saved successfully..
         /// </summary>
         internal static string SaveSuccessMessage {
@@ -545,6 +572,15 @@ namespace View.Resources.Localization {
         internal static string SelectLanguage {
             get {
                 return ResourceManager.GetString("SelectLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Please select a story.
+        /// </summary>
+        internal static string SelectStory {
+            get {
+                return ResourceManager.GetString("SelectStory", resourceCulture);
             }
         }
         
@@ -689,6 +725,33 @@ namespace View.Resources.Localization {
         internal static string UnsavedChangesMessage {
             get {
                 return ResourceManager.GetString("UnsavedChangesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Voice Speed.
+        /// </summary>
+        internal static string VoiceSpeed {
+            get {
+                return ResourceManager.GetString("VoiceSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Change the voice among the available voices.
+        /// </summary>
+        internal static string VoiceType {
+            get {
+                return ResourceManager.GetString("VoiceType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Voice Volume.
+        /// </summary>
+        internal static string VoiceVolume {
+            get {
+                return ResourceManager.GetString("VoiceVolume", resourceCulture);
             }
         }
         

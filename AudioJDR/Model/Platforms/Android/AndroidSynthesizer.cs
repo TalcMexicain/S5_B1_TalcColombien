@@ -6,13 +6,22 @@ using Android.OS;
 
 namespace Model.Platforms.Android
 {
+    /// <summary>
+    /// Android implementation of the ISpeechSynthesizer interface for text-to-speech functionality
+    /// </summary>
     public class AndroidSynthesizer : Java.Lang.Object, ISpeechSynthesizer, TextToSpeech.IOnInitListener, IDisposable
     {
+        #region Fields
+
         private TextToSpeech _textToSpeech;
         private bool _isInitialized;
         private Context _context;
 
         private int _volume;
+
+        #endregion
+
+        #region Constructor
 
         public AndroidSynthesizer(Context context)
         {
@@ -23,6 +32,10 @@ namespace Model.Platforms.Android
             this._volume = 50;
         }
 
+        #endregion
+
+        #region TTS.IOnInitListener Implementation
+
         public void OnInit(OperationResult status)
         {
             _isInitialized = status == OperationResult.Success;
@@ -31,6 +44,10 @@ namespace Model.Platforms.Android
                 _textToSpeech.SetLanguage(Java.Util.Locale.Default);
             }
         }
+
+        #endregion
+
+        #region ISpeechSynthesizer Implementation
 
         public void SynthesizeTextAsync(string textToSynthesize)
         {
@@ -88,7 +105,7 @@ namespace Model.Platforms.Android
             return this._volume;
         }
 
-        public void SetRate(float voiceRate)
+        public void SetVoiceRate(float voiceRate)
         {
             if (voiceRate < 0.5f || voiceRate > 2.0f)
             {
@@ -133,5 +150,7 @@ namespace Model.Platforms.Android
                 _textToSpeech.Shutdown();
             }
         }
+
+        #endregion
     }
 }

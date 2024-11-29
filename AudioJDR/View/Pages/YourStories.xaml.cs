@@ -78,10 +78,37 @@ public partial class YourStories : ContentPage
         }
     }
 
-    private void OnContinueButtonClicked(object sender, EventArgs e)
+    private async void OnContinueButtonClicked(object sender, EventArgs e)
     {
+        if (sender is Button button && button.BindingContext is Story selectedStory)
+        {
+            try
+            {
+                var saveViewModel = new SaveViewModel();
+                await saveViewModel.LoadGameAsync(selectedStory.Title);
 
+                var savedEvent = saveViewModel.CurrentSave?.CurrentEvent;
+
+                if (savedEvent != null)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(PlayPage)}?storyId={selectedStory.IdStory}&eventId={savedEvent.IdEvent}");
+                }
+                else
+                {
+                    await UIHelper.ShowErrorDialog(this, AppResources.NoValidSaveFound);
+                }
+            }
+            catch (Exception ex)
+            {
+                await UIHelper.ShowErrorDialog(this, AppResources.SaveLoadError);
+            }
+        }
+        else
+        {
+            await UIHelper.ShowErrorDialog(this, "Veuillez sélectionner une histoire.");
+        }
     }
+
 
     private void OnRepeatButtonClicked(object sender, EventArgs e)
     {

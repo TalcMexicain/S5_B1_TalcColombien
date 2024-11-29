@@ -7,20 +7,24 @@ namespace Model.Platforms.Windows
     /// </summary>
     public class WindowsSynthesizer : ISpeechSynthesizer, IDisposable
     {
+        #region Fields 
 
         private readonly SpeechSynthesizer _synthesizer;
+        private GlobalSettings _globalSettings;
+
+        #endregion
+
+        #region Constructor
 
         public WindowsSynthesizer()
         {
             _synthesizer = new SpeechSynthesizer();
-            InitSynthesizerParameters();
+            this._globalSettings = new GlobalSettings(this);
         }
 
-        private void InitSynthesizerParameters()
-        {
-            _synthesizer.Volume = 100;
-            _synthesizer.Rate = 0;
-        }
+        #endregion
+
+        #region ISpeechSynthesizer Implementation
 
         public async void SynthesizeTextAsync(string textToSynthesize)
         {
@@ -97,7 +101,7 @@ namespace Model.Platforms.Windows
             return _synthesizer.Volume;
         }
 
-        public void SetRate(float voiceRate)
+        public void SetVoiceRate(float voiceRate)
         {
             const int minOutputRate = -10;
             const int maxOutputRate = 10;
@@ -118,5 +122,7 @@ namespace Model.Platforms.Windows
         {
             _synthesizer?.Dispose();
         }
+
+        #endregion
     }
 }

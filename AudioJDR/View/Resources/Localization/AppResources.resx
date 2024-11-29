@@ -282,6 +282,14 @@
   <data name="ImportStory" xml:space="preserve">
     <value>Import a story</value>
   </data>
+  <data name="Player" xml:space="preserve">
+    <value>Player</value>
+  </data>
+  <data name="RulesPlayer" xml:space="preserve">
+    <value>How to play :
+
+Listen to what the story is saying and say out loud your choice from the options given</value>
+  </data>
   <data name="DiscardChangesMessage" xml:space="preserve">
     <value>You have unsaved changes. If you go back, these changes will be lost. Do you want to continue?</value>
   </data>
@@ -324,20 +332,32 @@
   <data name="SaveSuccessMessage" xml:space="preserve">
     <value>The story has been saved successfully.</value>
   </data>
-  <data name="Player" xml:space="preserve">
-    <value>Player</value>
+  <data name="VoiceVolume" xml:space="preserve">
+    <value>Voice Volume</value>
   </data>
-  <data name="RulesPlayer" xml:space="preserve">
-    <value>How to play :
-
-Listen to what the story is saying and say out loud your choice from the options given</value>
+  <data name="VoiceSpeed" xml:space="preserve">
+    <value>Voice Speed</value>
   </data>
   <data name="SetAsFirst" xml:space="preserve">
     <value>Set as first event</value>
   </data>
-  <data name="RemoveAsFirst" xml:space="preserve">
+	<data name="RemoveAsFirst" xml:space="preserve">
     <value>Remove as first event</value>
   </data>
+  <data name="PlaceholderKeyWord" xml:space="preserve">
+    <value>Enter a key-word to search an option</value>
+  </data>
+  <data name="VoiceType" xml:space="preserve">
+    <value>Change the voice among the available voices</value>
+  </data>
+  <data name="NoValidSaveFound" xml:space="preserve">
+    <value>No valid saves found for this story</value>
+  </data>
+  <data name="SaveLoadError" xml:space="preserve">
+    <value>Error loading save</value>
+  </data>
+  <data name="SelectStory" xml:space="preserve">
+    <value>Please select a story</value>
   <data name="SetFirstEventSuccessMessage" xml:space="preserve">
     <value>"{0}" has been set as the first event.</value>
   </data>
