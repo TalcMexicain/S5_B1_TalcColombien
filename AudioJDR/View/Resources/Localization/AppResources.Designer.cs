@@ -484,6 +484,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Remove as first event.
+        /// </summary>
+        internal static string RemoveAsFirst {
+            get {
+                return ResourceManager.GetString("RemoveAsFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Repeat.
         /// </summary>
         internal static string Repeat {
@@ -536,6 +545,24 @@ namespace View.Resources.Localization {
         internal static string SelectLanguage {
             get {
                 return ResourceManager.GetString("SelectLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Set as first event.
+        /// </summary>
+        internal static string SetAsFirst {
+            get {
+                return ResourceManager.GetString("SetAsFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à &quot;{0}&quot; has been set as the first event..
+        /// </summary>
+        internal static string SetFirstEventSuccessMessage {
+            get {
+                return ResourceManager.GetString("SetFirstEventSuccessMessage", resourceCulture);
             }
         }
         

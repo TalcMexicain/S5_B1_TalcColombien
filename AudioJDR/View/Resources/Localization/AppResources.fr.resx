@@ -299,24 +299,6 @@ Ecouter ce que l'histoire raconte et dites à voix haute votre choix parmis les 
   <data name="WordAlreadyExists" xml:space="preserve">
     <value>Ce mot existe déjà dans la liste</value>
   </data>
-  <data name="DiscardChangesMessage" xml:space="preserve">
-    <value>Vous avez des modifications non enregistrées. Si vous revenez en arrière, ces modifications seront perdues. Voulez-vous continuer ?</value>
-  </data>
-  <data name="UnsavedChangesMessage" xml:space="preserve">
-    <value>Vous avez des modifications non enregistrées. Voulez-vous enregistrer vos modifications avant de continuer ?</value>
-  </data>
-  <data name="WordAlreadyExists" xml:space="preserve">
-    <value>Ce mot existe déjà dans la liste</value>
-  </data>
-  <data name="DiscardChangesMessage" xml:space="preserve">
-    <value>Vous avez des modifications non enregistrées. Si vous revenez en arrière, ces modifications seront perdues. Voulez-vous continuer ?</value>
-  </data>
-  <data name="UnsavedChangesMessage" xml:space="preserve">
-    <value>Vous avez des modifications non enregistrées. Voulez-vous enregistrer vos modifications avant de continuer ?</value>
-  </data>
-  <data name="WordAlreadyExists" xml:space="preserve">
-    <value>Ce mot existe déjà dans la liste</value>
-  </data>
   <data name="DeleteStoryConfirmation" xml:space="preserve">
     <value>Êtes-vous sûr de vouloir supprimer cette histoire ?</value>
   </data>
@@ -349,5 +331,14 @@ Ecouter ce que l'histoire raconte et dites à voix haute votre choix parmis les 
   </data>
   <data name="SaveSuccessMessage" xml:space="preserve">
     <value>L'histoire a été enregistrée avec succès.</value>
+  </data>
+  <data name="SetAsFirst" xml:space="preserve">
+    <value>Définir comme premier évènement</value>
+  </data>
+  <data name="RemoveAsFirst" xml:space="preserve">
+    <value>Retirer comme premier événement</value>
+  </data>
+  <data name="SetFirstEventSuccessMessage" xml:space="preserve">
+    <value>"{0}" a été défini comme le premier événement.</value>
   </data>
 </root>

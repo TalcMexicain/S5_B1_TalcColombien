@@ -332,22 +332,13 @@
 
 Listen to what the story is saying and say out loud your choice from the options given</value>
   </data>
-  <data name="DiscardChangesMessage" xml:space="preserve">
-    <value>You have unsaved changes. If you go back, these changes will be lost. Do you want to continue?</value>
+  <data name="SetAsFirst" xml:space="preserve">
+    <value>Set as first event</value>
   </data>
-  <data name="UnsavedChangesMessage" xml:space="preserve">
-    <value>You have unsaved changes. Do you want to save your changes before proceeding?</value>
+  <data name="RemoveAsFirst" xml:space="preserve">
+    <value>Remove as first event</value>
   </data>
-  <data name="WordAlreadyExists" xml:space="preserve">
-    <value>This word already exists in the list</value>
-  </data>
-  <data name="DiscardChangesMessage" xml:space="preserve">
-    <value>You have unsaved changes. If you go back, these changes will be lost. Do you want to continue?</value>
-  </data>
-  <data name="UnsavedChangesMessage" xml:space="preserve">
-    <value>You have unsaved changes. Do you want to save your changes before proceeding?</value>
-  </data>
-  <data name="WordAlreadyExists" xml:space="preserve">
-    <value>This word already exists in the list</value>
+  <data name="SetFirstEventSuccessMessage" xml:space="preserve">
+    <value>"{0}" has been set as the first event.</value>
   </data>
 </root>

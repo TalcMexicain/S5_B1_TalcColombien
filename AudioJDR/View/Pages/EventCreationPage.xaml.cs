@@ -123,7 +123,7 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
             var navigationParameter = new Dictionary<string, object>
             {
                 { "storyId", _storyId },
-                { "eventId", _eventId },
+                { "eventId", _eventViewModel.CurrentEvent.IdEvent },
                 { "optionId", 0 }
             };
             await Shell.Current.GoToAsync($"{nameof(OptionCreationPage)}", navigationParameter);

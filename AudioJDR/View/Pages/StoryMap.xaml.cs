@@ -4,6 +4,7 @@ using System.Diagnostics;
 using View.Pages;
 using View.Resources.Localization;
 using ViewModel;
+using System.Globalization;
 
 namespace View;
 
@@ -22,6 +23,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
     private string? _currentDescription;
     private bool _hasUnsavedChanges;
     private bool _isNewStory;
+    private Event? _currentFirstEvent; // Track the current first event
 
     #endregion
 
@@ -74,6 +76,14 @@ public partial class StoryMap : ContentPage, IQueryAttributable
             Debug.WriteLine($"Loading story with ID: {_storyId}");
             await _storyViewModel.LoadStoriesAsync();
             _storyViewModel.CurrentStory = await _storyViewModel.GetStoryByIdAsync(_storyId);
+            
+            // Populate Events for the current story
+            _storyViewModel.Events.Clear(); // Clear existing events
+            foreach (var evt in _storyViewModel.CurrentStory.Events)
+            {
+                Debug.WriteLine($"Loaded event: {evt.Name} (ID: {evt.IdEvent})");
+                _storyViewModel.Events.Add(new EventViewModel(_storyViewModel, evt));
+            }
         }
 
         BindingContext = _storyViewModel;
@@ -92,11 +102,13 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         {
             _currentTitle = string.Empty;
             _currentDescription = string.Empty;
+            _currentFirstEvent = null; // No first event for a new story
         }
         else
         {
             _currentTitle = _storyViewModel.CurrentStory.Title;
             _currentDescription = _storyViewModel.CurrentStory.Description;
+            _currentFirstEvent = _storyViewModel.CurrentStory.FirstEvent; // Track the current first event
         }
         _hasUnsavedChanges = false;
     }
@@ -184,6 +196,31 @@ public partial class StoryMap : ContentPage, IQueryAttributable
     private void OnStoryPropertyChanged(object? sender, TextChangedEventArgs e)
     {
         _hasUnsavedChanges = HasStoryChanged();
+    }
+
+    private async void OnSetAsFirstEventButtonClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button && button.CommandParameter is Event selectedEvent)
+        {
+            try
+            {
+                // Check if the first event is changing
+                if (_currentFirstEvent != selectedEvent)
+                {
+                    _hasUnsavedChanges = true; // Mark as unsaved changes
+                }
+
+                _storyViewModel.SetFirstEvent(selectedEvent.IdEvent);
+                _currentFirstEvent = selectedEvent; // Update the current first event
+                await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.SetFirstEventSuccessMessage, selectedEvent.Name));
+                RefreshEventList();
+            }
+            catch (Exception ex)
+            {
+                await UIHelper.ShowErrorDialog(this, ex.Message);
+                Debug.WriteLine($"Error setting first event: {ex.Message}");
+            }
+        }
     }
 
     #endregion
