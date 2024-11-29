@@ -51,7 +51,10 @@ namespace Model
            
             // Mettre à jour la grammaire avec les mots-clés fournis
             var choices = new Choices(keywords);
-            var grammar = new Grammar(new GrammarBuilder(choices));
+            var grammarbuild = new GrammarBuilder(choices);
+            grammarbuild.Culture = new System.Globalization.CultureInfo("fr-FR");
+            var grammar = new Grammar(grammarbuild);
+            
             _recognizer.LoadGrammar(grammar);
         }
     }

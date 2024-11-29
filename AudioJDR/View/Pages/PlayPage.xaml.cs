@@ -40,7 +40,7 @@ public partial class PlayPage : ContentPage, IQueryAttributable
             OptionEntry.Text = string.Empty; // Efface le champ texte lorsque "annuler" est reconnu
         };
 
-        
+
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public partial class PlayPage : ContentPage, IQueryAttributable
     }
 
     public async void AddWordsToView()
-    {   
+    {
         OptionEntry.Text = string.Empty;
         OptionEntry.Text += _speechViewModel.RecognizedText;
     }
@@ -73,6 +73,7 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         var keywords = new HashSet<string>();
         _currentStory = await _viewModel.GetStoryByIdAsync(storyId); // Store the story in the private field
         var eventToShow = _currentStory?.Events.FirstOrDefault(e => e.IdEvent == eventId);
+        Debug.WriteLine(eventToShow.Name);
 
         if (eventToShow != null)
         {
@@ -228,7 +229,7 @@ public partial class PlayPage : ContentPage, IQueryAttributable
         await Shell.Current.GoToAsync($"{nameof(YourStories)}?storyId={_storyId}");
     }
 
-#endregion
+
 
     #region UI Management
 
@@ -246,3 +247,4 @@ public partial class PlayPage : ContentPage, IQueryAttributable
     }
 
     #endregion
+}
