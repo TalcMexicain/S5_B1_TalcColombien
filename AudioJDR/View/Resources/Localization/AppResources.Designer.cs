@@ -529,9 +529,11 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à How to play :
-        ///
-        ///Listen to what the story is saying and say out loud your choice from the options given.
+        ///   Recherche une chaîne localisée semblable à The story is read or told to the player. Each segment of the story ends with a situation or an implicit choice.
+        ///After listening to the story segment, the player expresses out loud what they want to do.
+        ///Once the player has expressed their choice, they must say &quot;validate&quot; to confirm their decision or &quot;cancel&quot; if they want to express a different choice.
+        ///Once the choice is validated, the story continues based on the player&apos;s decision.
+        ///At each new stage of the story, the player can listen again, think, make  [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         internal static string RulesPlayer {
             get {

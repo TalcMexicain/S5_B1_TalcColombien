@@ -16,12 +16,14 @@ public static class UIHelper
         public const double MIN_BUTTON_WIDTH = 200;
         public const double MIN_BUTTON_HEIGHT = 40;
         public const double MIN_FRAME_WIDTH = 300;
+        public const double MIN_FRAME_HEIGHT = 300;
         public const double MIN_EDITOR_HEIGHT = 200;
         
         // Relative sizing factors
         public const double BUTTON_WIDTH_FACTOR = 0.25;
         public const double BUTTON_HEIGHT_FACTOR = 0.08;
         public const double FRAME_WIDTH_FACTOR = 0.9;
+        public const double FRAME_HEIGHT_FACTOR = 0.5;
         public const double LIST_HEIGHT_FACTOR = 0.5;
         public const double BACK_BUTTON_WIDTH_FACTOR = 0.8;
         public const double FONT_SIZE_FACTOR = 0.1;

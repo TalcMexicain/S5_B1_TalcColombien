@@ -88,7 +88,10 @@ public partial class MainPlayerPage : ContentPage
         {
             UIHelper.SetButtonSize(this, RepeatButton, false);
             UIHelper.SetButtonSize(this, ToYourStoriesListButton, false);
-            UIHelper.SetButtonSize(this, BackButton, true); // Assuming BackButton is a back button
+            UIHelper.SetButtonSize(this, BackButton, true);
+
+            RulesPlayerScrollView.WidthRequest = Math.Max(pageWidth * UIHelper.Sizes.FRAME_WIDTH_FACTOR, UIHelper.Sizes.MIN_FRAME_WIDTH);
+            RulesPlayerScrollView.HeightRequest = Math.Max(pageHeight * UIHelper.Sizes.FRAME_HEIGHT_FACTOR, UIHelper.Sizes.MIN_FRAME_HEIGHT);
         }
     }
 

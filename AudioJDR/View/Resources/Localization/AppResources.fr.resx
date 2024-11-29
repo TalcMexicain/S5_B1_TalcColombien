@@ -288,7 +288,11 @@
   <data name="RulesPlayer" xml:space="preserve">
     <value>Comment jouer :
 
-Ecouter ce que l'histoire raconte et dites à voix haute votre choix parmis les options données.</value>
+L'histoire est lue ou racontée au joueur. Chaque segment d'histoire se termine par une situation ou un choix implicite.
+Après avoir écouté le segment d'histoire, le joueur exprime à haute voix ce qu'il souhaite faire.
+Une fois son choix exprimé, le joueur doit dire "valider" pour confirmer sa décision ou "annuler" s'il veut exprimé un autre choix.
+Une fois le choix validé, l'histoire poursuit son cours en fonction de la décision prise par le joueur.
+À chaque nouvelle étape de l'histoire, le joueur pourra à nouveau écouter, réfléchir, faire un choix, et valider celui-ci.</value>
   </data>
   <data name="DiscardChangesMessage" xml:space="preserve">
     <value>Vous avez des modifications non enregistrées. Si vous revenez en arrière, ces modifications seront perdues. Voulez-vous continuer ?</value>
@@ -338,6 +342,12 @@ Ecouter ce que l'histoire raconte et dites à voix haute votre choix parmis les 
   <data name="VoiceSpeed" xml:space="preserve">
     <value>Vitesse de la voix</value>
   </data>
+  <data name="SetAsFirst" xml:space="preserve">
+    <value>Définir comme premier évènement</value>
+  </data>
+  <data name="RemoveAsFirst" xml:space="preserve">
+    <value>Retirer comme premier événement</value>
+  </data>
   <data name="PlaceholderKeyWord" xml:space="preserve">
     <value>Entrez un mot-clé pour rechercher une option</value>
   </data>
@@ -352,12 +362,6 @@ Ecouter ce que l'histoire raconte et dites à voix haute votre choix parmis les 
   </data>
   <data name="SelectStory" xml:space="preserve">
     <value>Veuillez sélectionner une histoire.</value>
-  </data>
-  <data name="SetAsFirst" xml:space="preserve">
-    <value>Définir comme premier évènement</value>
-  </data>
-  <data name="RemoveAsFirst" xml:space="preserve">
-    <value>Retirer comme premier événement</value>
   </data>
   <data name="SetFirstEventSuccessMessage" xml:space="preserve">
     <value>"{0}" a été défini comme le premier événement.</value>
