@@ -133,6 +133,20 @@
                                         </Button.TextColor>
                                     </Button>
 
+                                    <!-- Set as First Event Button -->
+                                    <Button Text="{x:Static local:AppResources.SetAsFirst}"
+                                            Clicked="OnSetAsFirstEventButtonClicked"
+                                            CommandParameter="{Binding}"
+                                            HeightRequest="40"
+                                            WidthRequest="300">
+                                        <Button.BackgroundColor>
+                                            <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                                        </Button.BackgroundColor>
+                                        <Button.TextColor>
+                                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                                        </Button.TextColor>
+                                    </Button>
+
                                     <!-- Delete Event Button -->
                                     <Button Text="{x:Static local:AppResources.Delete}"
                                             Clicked="OnDeleteEventButtonClicked"

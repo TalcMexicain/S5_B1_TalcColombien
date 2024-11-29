@@ -9,12 +9,12 @@ public partial class MainPlayerPage : ContentPage
     #region Constructor
     private StoryManagementSystem storyManagementSystem;
 
-    public MainPlayerPage()
+    public MainPlayerPage(ISpeechSynthesizer speechSynthesizer)
     {
         InitializeComponent();
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
-        this.storyManagementSystem = new StoryManagementSystem();
+        this.storyManagementSystem = new StoryManagementSystem(speechSynthesizer);
     }
 
     #endregion

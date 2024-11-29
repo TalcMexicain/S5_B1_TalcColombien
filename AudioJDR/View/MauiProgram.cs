@@ -1,4 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
+using Model;
+using View.Pages;
+
+#if ANDROID
+    using Android.Content;
+    using Model.Platforms.Android;
+#elif WINDOWS 
+    using Model.Platforms.Windows;
+#endif
 
 namespace View
 {
@@ -15,7 +24,14 @@ namespace View
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("UncialAntiqua-Regular.ttf", "UncialAntiquaRegular");
                 });
-
+                builder.Services.AddSingleton<SettingsPage>();
+                builder.Services.AddSingleton<App>();
+                builder.Services.AddSingleton<MainPlayerPage>();
+#if WINDOWS
+                builder.Services.AddSingleton<ISpeechSynthesizer, WindowsSynthesizer>();
+#elif ANDROID
+                //builder.Services.AddSingleton<ISpeechSynthesizer, AndroidSynthesizer()>();
+#endif
 
 #if DEBUG
             builder.Logging.AddDebug();

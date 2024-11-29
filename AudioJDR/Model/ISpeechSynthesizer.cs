@@ -62,7 +62,7 @@ namespace Model
         /// Adjust the speed of the speech output
         /// </summary>
         /// <param name="voiceRate">The rate of the voice (a float between 0.5f and 2.0f)</param>
-        void SetRate(float voiceRate);
+        void SetVoiceRate(float voiceRate);
 
         /// <summary>
         /// Releases any resources used by the speech synthesizer

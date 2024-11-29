@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Model
 {
@@ -16,6 +17,7 @@ namespace Model
         private string title;
         private string description;
         private string author;
+        private string firstEvent;
 
         private ObservableCollection<Event> events;
         #endregion
@@ -67,6 +69,11 @@ namespace Model
             set => events = value;
         }
 
+        /// <summary>
+        /// Gets or sets the first event in the story.
+        /// </summary>
+        public Event FirstEvent { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -113,13 +120,52 @@ namespace Model
         }
 
         /// <summary>
-        /// Deletes the event the story
+        /// Deletes the event from the story and updates linked options.
         /// </summary>
-        /// <param name="evt">The event to delete</param>
+        /// <param name="evt">The event to delete.</param>
         public void DeleteEvent(Event evt)
         {
+            Debug.WriteLine($"Deleting event: {evt.Name}");
+
+            // Iterate through all events in the story
+            foreach (var eventInStory in events)
+            {
+                // Check each option in the current event
+                foreach (var option in eventInStory.Options.ToList())
+                {
+                    // If the option is linked to the event being deleted, unlink it
+                    if (option.LinkedEvent == evt)
+                    {
+                        Debug.WriteLine($"Unlinking option '{option.NameOption}' from event '{evt.Name}'");
+                        option.LinkedEvent = eventInStory; // Link to the current event
+                    }
+                }
+            }
+
             evt.DeleteEvent(); // Delete all options in the event
-            this.events.Remove(evt);
+            this.events.Remove(evt); // Remove the event from the story
+            Debug.WriteLine($"Event '{evt.Name}' deleted successfully.");
+        }
+
+        /// <summary>
+        /// Sets the specified event as the first event, ensuring no other event is marked as first.
+        /// </summary>
+        /// <param name="evt">The event to set as first.</param>
+        public void SetFirstEvent(Event evt)
+        {
+            if (!events.Contains(evt))
+            {
+                throw new InvalidOperationException("The event must belong to the story's events.");
+            }
+
+            if (FirstEvent != null)
+            {
+                // Remove the first status from the current first event
+                FirstEvent.IsFirst = false; // Ensure the current first event is marked as not first
+            }
+
+            FirstEvent = evt;
+            FirstEvent.IsFirst = true; // Mark the new event as first
         }
     }
 }

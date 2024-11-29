@@ -1,19 +1,35 @@
+using Model;
+using System.Diagnostics;
 using System.Globalization;
+using View.Resources.Localization;
+using ViewModel;
 
 namespace View.Pages
 {
     public partial class SettingsPage : ContentPage
     {
+        #region Const
+
+        private const string decimalFormatOneDigit = "F1";
+
+        #endregion
+
+        #region Fields
+
+        private GlobalSettingsViewModel _globalSettingsViewModel;
+
+        #endregion
+
         #region Constructor
 
-        public SettingsPage()
+        public SettingsPage(ISpeechSynthesizer speechSynthesizer)
         {
             InitializeComponent();
             SetResponsiveSizes();
-            PickerInitialization();
             this.SizeChanged += OnSizeChanged;
+            this._globalSettingsViewModel = new GlobalSettingsViewModel(speechSynthesizer);
+            InitializeSettingsElements();
         }
-
         #endregion
 
         #region Event Handlers
@@ -51,47 +67,67 @@ namespace View.Pages
 
         #endregion
 
-        #region Picker Initialization
+        #region Elements Initialization
 
-        /// <summary>
-        /// Initializes the language picker with available languages (English, French).
-        /// Automatically selects the current app language in the picker when the page loads.
-        /// </summary>
-        private void PickerInitialization()
+        private void InitializeSettingsElements()
+        {
+            LanguagePickerInitialization();
+            VoiceTypeTTSPickerInitialization();
+            VolumeSliderInitialization();
+            RateSliderInitialization();
+        }
+
+        private void LanguagePickerInitialization()
         {
             LanguagePicker.ItemsSource = new List<string> { "English", "Français" };
 
             LanguagePicker.Loaded += (sender, e) =>
             {
-                var currentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+                string currentLanguageCode = this._globalSettingsViewModel.Language;
 
-                if (currentLanguage == "en")
+                if (!string.IsNullOrEmpty(currentLanguageCode))
                 {
-                    LanguagePicker.SelectedItem = "English";
-                }
-                else if (currentLanguage == "fr")
-                {
-                    LanguagePicker.SelectedItem = "Français";
-                }
-                else
-                {
-                    LanguagePicker.SelectedItem = "English";
+                    switch (currentLanguageCode)
+                    {
+                        case "en":
+                            LanguagePicker.SelectedItem = "English";
+                            break;
+                        case "fr":
+                            LanguagePicker.SelectedItem = "Français";
+                            break;
+                    }
                 }
             };
         }
 
+        private void VoiceTypeTTSPickerInitialization()
+        {
+            VoiceTypeTTSPicker.ItemsSource = this._globalSettingsViewModel.AvailableVoicesTypeTTS;
+        }
+
+        private void VolumeSliderInitialization()
+        {
+            // Initialize label value for slider
+            int valueVolumeTTS = this._globalSettingsViewModel.VolumeTTS;
+            VolumeValueLabel.Text = valueVolumeTTS.ToString();
+
+            // Initialize slider's value
+            VolumeSlider.Value = valueVolumeTTS;
+        }
+
+        private void RateSliderInitialization()
+        {
+            // Initialize label value for slider 
+            float valueRateTTS = this._globalSettingsViewModel.RateTTS;
+            RateValueLabel.Text = valueRateTTS.ToString(decimalFormatOneDigit);
+
+            // Initialize slider's value
+            RateSlider.Value = valueRateTTS;
+        }
+
         #endregion
 
-        #region Theme and Language Management
-
-        /// <summary>
-        /// Event handler for the Theme Toggle button click.
-        /// Toggles between light and dark themes for the application.
-        /// </summary>
-        private void OnThemeButtonClicked(object sender, EventArgs e)
-        {
-            Application.Current.UserAppTheme = Application.Current.RequestedTheme == AppTheme.Light ? AppTheme.Dark : AppTheme.Light;
-        }
+        #region Language Management
 
         /// <summary>
         /// Event handler triggered when the selected language in the picker is changed.
@@ -99,16 +135,19 @@ namespace View.Pages
         /// </summary>
         private void OnLanguageChanged(object sender, EventArgs e)
         {
-            var selectedLanguage = LanguagePicker.SelectedItem?.ToString();
-            var currentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+            string? selectedLanguage = LanguagePicker.SelectedItem?.ToString();
 
-            if ((selectedLanguage == "English" && currentLanguage == "en") ||
-                (selectedLanguage == "Français" && currentLanguage == "fr"))
+            if (!string.IsNullOrEmpty(selectedLanguage))
             {
-                return;
+                if (selectedLanguage == "English")
+                {
+                    SetLanguage("en");
+                }
+                else if (selectedLanguage == "Français")
+                {
+                    SetLanguage("fr");
+                }
             }
-
-            SetLanguage(selectedLanguage == "English" ? "en" : "fr");
         }
 
         /// <summary>
@@ -117,14 +156,86 @@ namespace View.Pages
         /// </summary>
         private void SetLanguage(string languageCode)
         {
-            var culture = new CultureInfo(languageCode);
+            CultureInfo culture = new CultureInfo(languageCode);
+
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
 
-            Device.BeginInvokeOnMainThread(async () =>
+            this._globalSettingsViewModel.Language = languageCode;
+
+            UpdateUIWithNewLanguage();
+        }
+
+        private void UpdateUIWithNewLanguage()
+        {
+            AppResources.Culture = new CultureInfo(_globalSettingsViewModel.Language);
+
+            ThemeToggleButton.Text = AppResources.ToggleTheme;
+            BackButton.Text = AppResources.Back;
+            LanguagePicker.Title = AppResources.SelectLanguage;
+        }
+
+        #endregion
+
+        #region Theme Management
+
+        /// <summary>
+        /// Event handler for the Theme Toggle button click.
+        /// Toggles between light and dark themes for the application.
+        /// </summary>
+        private void OnThemeButtonClicked(object sender, EventArgs e)
+        {
+            AppTheme appRequestedTheme = Application.Current.RequestedTheme;
+            AppTheme appNewTheme = AppTheme.Unspecified;
+
+            if (appRequestedTheme == AppTheme.Light)
             {
-                await Shell.Current.GoToAsync(nameof(SettingsPage));
-            });
+                appNewTheme = AppTheme.Dark;
+            }
+            else
+            {
+                appNewTheme = AppTheme.Light;
+            }
+
+            //Change the current theme
+            Application.Current.UserAppTheme = appNewTheme;
+
+            //Saves the theme in settings
+            this._globalSettingsViewModel.AppTheme = appNewTheme;
+        }
+
+        #endregion
+
+        #region VolumeTTS Management
+
+        private void OnVolumeChanged(object sender, ValueChangedEventArgs e)
+        {
+            int volumeSliderValue = (int)Math.Round(e.NewValue);
+            VolumeValueLabel.Text = volumeSliderValue.ToString();
+
+            SaveVolumeTTSToSettings(volumeSliderValue);
+        }
+
+        private void SaveVolumeTTSToSettings(int volumeToSave)
+        {
+            this._globalSettingsViewModel.VolumeTTS = volumeToSave;
+        }
+
+        #endregion
+
+        #region RateTTS Management 
+
+        private void OnRateChanged(object sender, ValueChangedEventArgs e)
+        {
+            float rateSliderValue = (float)e.NewValue;
+            RateValueLabel.Text = rateSliderValue.ToString(decimalFormatOneDigit);
+
+            SaveRateTTSToSettings(rateSliderValue);
+        }
+
+        private void SaveRateTTSToSettings(float rateToSave)
+        {
+            this._globalSettingsViewModel.RateTTS = rateToSave;
         }
 
         #endregion

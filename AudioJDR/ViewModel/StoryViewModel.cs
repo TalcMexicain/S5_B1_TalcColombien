@@ -83,9 +83,26 @@ namespace ViewModel
                 foreach (var story in savedStories)
                 {
                     Stories.Add(story);
+                    Debug.WriteLine($"Loaded story: {story.Title} (ID: {story.IdStory})");
+
+                    // Set the FirstEvent based on the loaded events
+                    if (story.Events.Count > 0)
+                    {
+                        var firstEvent = story.Events.FirstOrDefault(e => e.IsFirst);
+                        if (firstEvent != null)
+                        {
+                            story.SetFirstEvent(firstEvent);
+                        }
+                    }
+
+                    // Populate Events for the current story
                     if (story == CurrentStory)
                     {
-                        RefreshEventViewModels(story);
+                        foreach (var evt in story.Events)
+                        {
+                            Debug.WriteLine($"Loaded event: {evt.Name} (ID: {evt.IdEvent})");
+                            Events.Add(new EventViewModel(this, evt));
+                        }
                     }
                 }
             }
@@ -227,9 +244,28 @@ namespace ViewModel
                 throw new InvalidOperationException("No story selected");
             }
 
+            Debug.WriteLine($"Adding event with ID: {newEvent.IdEvent}, Name: {newEvent.Name}");
+
+            // Add the new event to the current story
             CurrentStory.Events.Add(newEvent);
+            
+            // Check if this is the first event being added
+            if (CurrentStory.Events.Count == 1)
+            {
+                CurrentStory.SetFirstEvent(newEvent); // Set as first event if it's the only one
+                Debug.WriteLine($"Set '{newEvent.Name}' as the first event.");
+            }
+
             var newViewModel = new EventViewModel(this, newEvent);
             Events.Add(newViewModel);
+            
+            // Log the current state of Events collection
+            Debug.WriteLine("Current Events in collection after addition:");
+            foreach (var eventViewModel in Events)
+            {
+                Debug.WriteLine($"Event ID: {eventViewModel.CurrentEvent.IdEvent}, Name: {eventViewModel.CurrentEvent.Name}");
+            }
+
             await UpdateStoryAsync(CurrentStory.IdStory, CurrentStory);
         }
 
@@ -239,13 +275,48 @@ namespace ViewModel
         /// <param name="eventId">The ID of the event to delete.</param>
         public async Task DeleteEventAsync(int eventId)
         {
+            Debug.WriteLine($"Attempting to delete event with ID: {eventId}");
+
+            // List all event IDs in the Events collection
+            Debug.WriteLine("Current Events in collection:");
+            foreach (var eventViewModel in Events)
+            {
+                Debug.WriteLine($"Event ID: {eventViewModel.CurrentEvent.IdEvent}, Name: {eventViewModel.CurrentEvent.Name}");
+            }
+
             var eventToRemove = Events.FirstOrDefault(e => e.CurrentEvent.IdEvent == eventId);
             if (eventToRemove != null)
             {
+                Debug.WriteLine($"Found event to delete: {eventToRemove.CurrentEvent.Name}");
+
+                // Unlink options from the event being deleted
+                foreach (var evt in CurrentStory.Events)
+                {
+                    foreach (var option in evt.Options)
+                    {
+                        if (option.LinkedEvent?.IdEvent == eventId)
+                        {
+                            Debug.WriteLine($"Unlinking option '{option.NameOption}' from event '{eventToRemove.CurrentEvent.Name}'");
+                            option.LinkedEvent = evt; // Link to the current event
+                        }
+                    }
+                }
+
+                // Now delete the event
+                Debug.WriteLine($"Deleting event: {eventToRemove.CurrentEvent.Name}");
+                CurrentStory.DeleteEvent(eventToRemove.CurrentEvent);
+                
+                // Remove the event view model from the Events collection
                 Events.Remove(eventToRemove);
-                CurrentStory.Events.Remove(eventToRemove.CurrentEvent);
+                
+                // Update the story in the storage
                 await UpdateStoryAsync(CurrentStory.IdStory, CurrentStory);
+                
                 Debug.WriteLine($"Deleted event with ID: {eventId}");
+            }
+            else
+            {
+                Debug.WriteLine($"Event with ID: {eventId} not found in Events collection.");
             }
         }
 
@@ -254,6 +325,20 @@ namespace ViewModel
             var story = await GetStoryByIdAsync(storyId);
             var foundEvent = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
             return foundEvent;
+        }
+
+        /// <summary>
+        /// Sets the specified event as the first event in the current story.
+        /// </summary>
+        /// <param name="eventId">The ID of the event to set as first.</param>
+        public void SetFirstEvent(int eventId)
+        {
+            var eventToSet = CurrentStory.Events.FirstOrDefault(e => e.IdEvent == eventId);
+            if (eventToSet != null)
+            {
+                CurrentStory.SetFirstEvent(eventToSet);
+                OnPropertyChanged(nameof(CurrentStory)); // Notify that CurrentStory has changed
+            }
         }
 
         #endregion
@@ -351,7 +436,6 @@ namespace ViewModel
             int newId = Stories.Count > 0 ? Stories.Max(s => s.IdStory) + 1 : 1;
             return newId;
         }
-
         #endregion
     }
 }
