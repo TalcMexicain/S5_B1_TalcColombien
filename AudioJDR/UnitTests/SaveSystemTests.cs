@@ -67,7 +67,7 @@ namespace UnitTests
 
             Event parentEvent = new Event("Test Event", "This is the description of the event");
 
-            Option option = new Option("Test option", parentEvent);
+            Option option = new Option(parentEvent);
 
             currentEvent.AddOption(option);
             story.AddEvent(currentEvent);

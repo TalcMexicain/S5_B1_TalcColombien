@@ -4,11 +4,18 @@ using System.Text.Json;
 namespace Model
 {
     /// <summary>
-    /// General exportation and importation handler
+    /// General exportation and importation handler for stories.
+    /// This class provides methods to export and import stories using the selected file service based on the platform.
     /// </summary>
     public static class FileServiceManager
     {
+        #region Fields 
+
         private static IFileService _fileService;
+
+        #endregion
+
+        #region Constructor
 
         static FileServiceManager()
         {
@@ -20,61 +27,64 @@ namespace Model
 #endif
         }
 
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
-        /// Export story using its ID to name the file and serializing it using JsonSerializer
+        /// Exports a story to a JSON file.
         /// </summary>
-        /// <param name="story"></param>
-        /// <returns></returns>
-        public static async Task ExportStoryAsync(Story story)
+        /// <param name="story">The story to be exported.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a boolean indicating success or failure.</returns>
+        /// <exception cref="InvalidDataException">Thrown when the story cannot be serialized.</exception>
+        public static async Task<bool> ExportStoryAsync(Story story)
         {
-            var fileName = $"{story.IdStory}.json"; // Generate the file name from the id
+            bool success = false;
+            string fileName = $"{story.IdStory}.json";
+            byte[] fileContent = null;
+
             try
             {
-                var optionsJson = new JsonSerializerOptions
+                JsonSerializerOptions optionsJson = new JsonSerializerOptions
                 {
                     WriteIndented = true,
                     ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
                 };
-                var fileContent = JsonSerializer.SerializeToUtf8Bytes(story, optionsJson);
-                await _fileService.ExportStoryAsync(fileName, fileContent); // Pass to platform-specific implementation
+                fileContent = JsonSerializer.SerializeToUtf8Bytes(story, optionsJson);
+                success = await _fileService.ExportStoryAsync(fileName, fileContent);
             }
             catch (JsonException ex)
             {
                 Debug.WriteLine($"Serialization error: {ex.Message}");
-                throw new InvalidDataException("File Couldn't be serialized.");
+                throw new InvalidDataException("File couldn't be serialized.");
             }
 
-
+            return success;
         }
 
         /// <summary>
-        /// Import story, validate, and return the deserialized story
+        /// Imports a story from a JSON file.
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="InvalidDataException"></exception>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the imported story.</returns>
+        /// <exception cref="InvalidDataException">Thrown when the file does not contain a valid story.</exception>
         public static async Task<Story> ImportStoryAsync()
         {
-            var fileData = await _fileService.ImportStoryAsync(); // Platform-specific implementation handles file selection and content
+            byte[] fileData = await _fileService.ImportStoryAsync();
+            Story importedStory = null;
 
             if (fileData != null)
             {
                 try
                 {
                     var jsonString = System.Text.Encoding.UTF8.GetString(fileData);
-                    Debug.WriteLine(jsonString);
-
                     var optionsJson = new JsonSerializerOptions
                     {
                         ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
                     };
 
-                    var importedStory = JsonSerializer.Deserialize<Story>(jsonString, optionsJson);
+                    importedStory = JsonSerializer.Deserialize<Story>(jsonString, optionsJson);
 
-                    if (importedStory != null && !string.IsNullOrEmpty(importedStory.Title))
-                    {
-                        return importedStory; // Return the valid story object
-                    }
-                    else
+                    if (importedStory == null || string.IsNullOrEmpty(importedStory.Title))
                     {
                         throw new InvalidDataException("Invalid story data in the file.");
                     }
@@ -84,11 +94,12 @@ namespace Model
                     Debug.WriteLine($"Deserialization error: {ex.Message}");
                     throw new InvalidDataException("The file does not contain a valid story.");
                 }
-
             }
 
-            return null; // Return null if no valid story was found
+            return importedStory;
         }
+
+        #endregion
     }
 }
 

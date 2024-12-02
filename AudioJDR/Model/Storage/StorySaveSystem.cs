@@ -2,10 +2,25 @@
 
 namespace Model.Storage
 {
+    /// <summary>
+    /// Manages the saving, loading, and deleting of story data in a local storage system
+    /// It stores story data in JSON format, using the story's ID as the filename
+    /// </summary>
     public class StorySaveSystem
     {
+        #region Fields 
+
         private readonly string _storiesFolderPath;
 
+        #endregion
+
+        #region Constructor 
+
+        /// <summary>
+        /// Initializes a new instance of the StorySaveSystem class
+        /// Sets the folder path for saving the stories. If no path is provided, the default folder
+        /// </summary>
+        /// <param name="storiesFolderPath">The path where the stories will be saved. If null, the default path is used</param>
         public StorySaveSystem(string? storiesFolderPath = null)
         {
             if (storiesFolderPath != null)
@@ -26,6 +41,10 @@ namespace Model.Storage
             }
         }
 
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
         /// Saves a story asynchronously to a file, using the story's ID as the filename.
         /// </summary>
@@ -34,7 +53,7 @@ namespace Model.Storage
             // Use the story's ID as the filename to prevent duplicates
             string storyFilePath = Path.Combine(_storiesFolderPath, $"{story.IdStory}.json");
 
-            var optionsJson = new JsonSerializerOptions
+            JsonSerializerOptions optionsJson = new JsonSerializerOptions
             {
                 WriteIndented = true,
                 ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
@@ -52,18 +71,20 @@ namespace Model.Storage
             // Use the story's ID to locate the file
             string storyFilePath = Path.Combine(_storiesFolderPath, $"{storyId}.json");
 
+            Story? story = null;
+
             if (File.Exists(storyFilePath))
             {
                 string storyJson = await File.ReadAllTextAsync(storyFilePath);
-                var optionsJson = new JsonSerializerOptions
+                JsonSerializerOptions optionsJson = new JsonSerializerOptions
                 {
                     ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
                 };
 
-                return JsonSerializer.Deserialize<Story>(storyJson, optionsJson);
+                story = JsonSerializer.Deserialize<Story>(storyJson, optionsJson);
             }
 
-            return null;
+            return story;
         }
 
         /// <summary>
@@ -85,7 +106,7 @@ namespace Model.Storage
         /// </summary>
         public async Task<List<Story>> GetSavedStoriesAsync()
         {
-            var stories = new List<Story>();
+            List<Story> stories = new List<Story>();
 
             if (Directory.Exists(_storiesFolderPath))
             {
@@ -94,12 +115,12 @@ namespace Model.Storage
                 foreach (var storyFile in storyFiles)
                 {
                     string storyJson = await File.ReadAllTextAsync(storyFile);
-                    var optionsJson = new JsonSerializerOptions
+                    JsonSerializerOptions optionsJson = new JsonSerializerOptions
                     {
                         ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
                     };
 
-                    var story = JsonSerializer.Deserialize<Story>(storyJson, optionsJson);
+                    Story? story = JsonSerializer.Deserialize<Story>(storyJson, optionsJson);
                     if (story != null)
                     {
                         stories.Add(story);
@@ -115,10 +136,11 @@ namespace Model.Storage
         /// </summary>
         public List<int> GetAvailableStories()
         {
+            List<int> storyIds = new List<int>();
+
             if (Directory.Exists(_storiesFolderPath))
             {
                 var storyFiles = Directory.GetFiles(_storiesFolderPath, "*.json");
-                var storyIds = new List<int>();
 
                 foreach (var storyFile in storyFiles)
                 {
@@ -130,11 +152,11 @@ namespace Model.Storage
                         storyIds.Add(storyId);
                     }
                 }
-
-                return storyIds;
             }
 
-            return new List<int>();
+            return storyIds;
         }
+
+        #endregion
     }
 }

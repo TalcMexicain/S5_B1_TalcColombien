@@ -1,59 +1,296 @@
-
-/* Modification non fusionnée à partir du projet 'View (net8.0-maccatalyst)'
-Avant :
-using ViewModel;
-Après :
-using Microsoft.Extensions.Logging;
-*/
-
-/* Modification non fusionnée à partir du projet 'View (net8.0-windows10.0.19041.0)'
-Avant :
-using ViewModel;
-Après :
-using Microsoft.Extensions.Logging;
-*/
-
-/* Modification non fusionnée à partir du projet 'View (net8.0-android)'
-Avant :
-using ViewModel;
-Après :
-using Microsoft.Extensions.Logging;
-*/
 using Model;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using View.Pages;
 using View.Resources.Localization;
 using ViewModel;
+using System.Globalization;
 
 namespace View;
+
+/// <summary>
+/// Represents the StoryMap page that allows users to view and edit a specific story,
+/// including its title, description, and associated events.
+/// The page also handles saving changes, navigating to event creation, and event editing.
+/// </summary>
 public partial class StoryMap : ContentPage, IQueryAttributable
 {
-    private StoryViewModel _viewModel;
-    private int _storyId;
+    #region Fields
 
+    private StoryViewModel _storyViewModel;
+    private int _storyId;
+    private string? _currentTitle;
+    private string? _currentDescription;
+    private bool _hasUnsavedChanges;
+    private bool _isNewStory;
+    private Event? _currentFirstEvent; // Track the current first event
+
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    /// Initializes a new instance of the MainPage class. 
+    /// </summary>
     public StoryMap()
     {
         InitializeComponent();
-        _viewModel = new StoryViewModel();
-        BindingContext = _viewModel;
         SetResponsiveSizes();
-        this.SizeChanged += OnSizeChanged;
+        InitializeEventHandlers();
+
+        _storyViewModel = new StoryViewModel();
     }
 
+    #endregion
+
+    #region Initialization
 
     /// <summary>
-    /// Adjusts UI sizes when the page size changes.
+    /// Applies query attributes, setting the story ID and loading the appropriate data.
     /// </summary>
-    private void OnSizeChanged(object sender, EventArgs e)
+    /// <param name="query">Dictionary of query parameters.</param>
+    public async void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.ContainsKey("storyId"))
+        {
+            _storyId = (int)query["storyId"];
+            _isNewStory = (_storyId == 0);
+            await InitializeViewModel();
+            InitializeStoryTracking();
+        }
+        else
+        {
+            Debug.WriteLine("Missing required navigation parameters");
+        }
+    }
+
+    private async Task InitializeViewModel()
+    {  
+        if (_isNewStory)
+        {
+            Debug.WriteLine($"Initializing new story");
+            await _storyViewModel.InitializeNewStoryAsync();
+        }
+        else
+        {
+            Debug.WriteLine($"Loading story with ID: {_storyId}");
+            await _storyViewModel.LoadStoriesAsync();
+            _storyViewModel.CurrentStory = await _storyViewModel.GetStoryByIdAsync(_storyId);
+            
+            // Populate Events for the current story
+            _storyViewModel.Events.Clear(); // Clear existing events
+            foreach (var evt in _storyViewModel.CurrentStory.Events)
+            {
+                Debug.WriteLine($"Loaded event: {evt.Name} (ID: {evt.IdEvent})");
+                _storyViewModel.Events.Add(new EventViewModel(_storyViewModel, evt));
+            }
+        }
+
+        BindingContext = _storyViewModel;
+    }
+
+    private void InitializeEventHandlers()
+    {
+        this.SizeChanged += OnSizeChanged;
+        StoryNameEntry.TextChanged += OnStoryPropertyChanged;
+        StoryDescriptionEditor.TextChanged += OnStoryPropertyChanged;
+    }
+
+    private void InitializeStoryTracking()
+    {
+        if (_isNewStory)
+        {
+            _currentTitle = string.Empty;
+            _currentDescription = string.Empty;
+            _currentFirstEvent = null; // No first event for a new story
+        }
+        else
+        {
+            _currentTitle = _storyViewModel.CurrentStory.Title;
+            _currentDescription = _storyViewModel.CurrentStory.Description;
+            _currentFirstEvent = _storyViewModel.CurrentStory.FirstEvent; // Track the current first event
+        }
+        _hasUnsavedChanges = false;
+    }
+
+    #endregion
+
+    #region Event Handlers
+
+    private async void OnCreateNewEventButtonClicked(object sender, EventArgs e)
+    {
+        bool canProceed = await CheckUnsavedChanges();
+        
+        if (canProceed)
+        {
+            var navigationParameter = new Dictionary<string, object>
+            {
+                { "storyId", _storyViewModel.CurrentStory.IdStory },
+                { "eventId", 0 }
+            };
+            await Shell.Current.GoToAsync($"{nameof(EventCreationPage)}", navigationParameter);
+        }
+    }
+
+    private async void OnEditEventButtonClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button && button.CommandParameter is Event selectedEvent)
+        {
+            bool canProceed = await CheckUnsavedChanges();
+            
+            if (canProceed)
+            {
+                var navigationParameter = new Dictionary<string, object>
+                {
+                    { "storyId", _storyId },
+                    { "eventId", selectedEvent.IdEvent }
+                };
+                await Shell.Current.GoToAsync($"{nameof(EventCreationPage)}", navigationParameter);
+            }
+        }
+    }
+
+    private async void OnDeleteEventButtonClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button && button.CommandParameter is Event selectedEvent)
+        {
+            bool confirmed = await UIHelper.ShowDeleteConfirmationDialog(this, selectedEvent.Name);
+            
+            if (confirmed)
+            {
+                try
+                {
+                    await _storyViewModel.DeleteEventAsync(selectedEvent.IdEvent);
+                    await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.DeleteSuccessFormat, selectedEvent.Name));
+                    RefreshEventList();
+                }
+                catch (Exception ex)
+                {
+                    await UIHelper.ShowErrorDialog(this, ex.Message);
+                    Debug.WriteLine($"Error deleting event: {ex.Message}");
+                }
+            }
+        }
+    }
+
+    private async void OnBackButtonClicked(object sender, EventArgs e)
+    {
+        bool canProceed = await CheckUnsavedChanges();
+        
+        if (canProceed)
+        {
+            await Shell.Current.GoToAsync($"{nameof(StoryList)}");
+        }
+    }
+
+    private async void OnSaveButtonClicked(object sender, EventArgs e)
+    {
+        await SaveStoryChanges();
+    }
+
+    private void OnSizeChanged(object? sender, EventArgs e)
     {
         SetResponsiveSizes();
     }
 
-    /// <summary>
-    /// Adjusts the sizes of buttons and other UI elements dynamically based on the current page dimensions.
-    /// Ensures that elements do not shrink or grow beyond reasonable limits.
-    /// </summary>
+    private void OnStoryPropertyChanged(object? sender, TextChangedEventArgs e)
+    {
+        _hasUnsavedChanges = HasStoryChanged();
+    }
+
+    private async void OnSetAsFirstEventButtonClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button && button.CommandParameter is Event selectedEvent)
+        {
+            try
+            {
+                // Check if the first event is changing
+                if (_currentFirstEvent != selectedEvent)
+                {
+                    _hasUnsavedChanges = true; // Mark as unsaved changes
+                }
+
+                _storyViewModel.SetFirstEvent(selectedEvent.IdEvent);
+                _currentFirstEvent = selectedEvent; // Update the current first event
+                await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.SetFirstEventSuccessMessage, selectedEvent.Name));
+                RefreshEventList();
+            }
+            catch (Exception ex)
+            {
+                await UIHelper.ShowErrorDialog(this, ex.Message);
+                Debug.WriteLine($"Error setting first event: {ex.Message}");
+            }
+        }
+    }
+
+    #endregion
+
+    #region Story Operations
+
+    private bool HasStoryChanged()
+    {
+        bool hasChanged = StoryNameEntry.Text != _currentTitle || 
+                         StoryDescriptionEditor.Text != _currentDescription;
+        return hasChanged;
+    }
+
+    private async Task<bool> CheckUnsavedChanges()
+    {
+        bool canProceed = true;
+        
+        if (_hasUnsavedChanges)
+        {
+            bool saveChanges = await UIHelper.ShowUnsavedChangesDialog(this);
+
+            if (saveChanges)
+            {
+                canProceed = await SaveStoryChanges();
+            }
+        }
+        
+        return canProceed;
+    }
+
+    private async Task<bool> SaveStoryChanges()
+    {
+        bool success = false;
+        
+        try
+        {
+            _storyViewModel.CurrentStory.Title = StoryNameEntry.Text;
+            _storyViewModel.CurrentStory.Description = StoryDescriptionEditor.Text;
+            
+            await _storyViewModel.UpdateStoryAsync(
+                _storyViewModel.CurrentStory.IdStory, 
+                _storyViewModel.CurrentStory
+            );
+            
+            _currentTitle = StoryNameEntry.Text;
+            _currentDescription = StoryDescriptionEditor.Text;
+            _hasUnsavedChanges = false;
+            success = true;
+            
+            await UIHelper.ShowSuccessDialog(this, AppResources.SaveSuccessMessage);
+        }
+        catch (Exception ex)
+        {
+            await UIHelper.ShowErrorDialog(this, ex.Message);
+            Debug.WriteLine($"Error saving story changes: {ex.Message}");
+        }
+        
+        return success;
+    }
+
+    private void RefreshEventList()
+    {
+        EventList.ItemsSource = null;
+        EventList.ItemsSource = _storyViewModel.CurrentStory.Events;
+    }
+
+    #endregion
+
+    #region UI Management
+
     private void SetResponsiveSizes()
     {
         double pageWidth = this.Width;
@@ -61,193 +298,19 @@ public partial class StoryMap : ContentPage, IQueryAttributable
 
         if (pageWidth > 0 && pageHeight > 0)
         {
-            double buttonWidth = Math.Max(pageWidth * 0.24, 350);
-            double buttonHeight = Math.Max(pageHeight * 0.08, 50);
 
-            StoryNameEntry.WidthRequest = Math.Max(pageWidth * 0.7, 300);
-            StoryDescriptionEditor.WidthRequest = Math.Max(pageWidth * 0.7, 300);
-            EventList.WidthRequest = Math.Max(pageWidth * 0.9, 300);
+            // Set button sizes dynamically using UIHelper
+            UIHelper.SetButtonSize(this, SaveButton, false);
+            UIHelper.SetButtonSize(this, CreateNewEventButton, false);
+            UIHelper.SetButtonSize(this, BackButton, true);
 
-            SaveButton.WidthRequest = buttonWidth;
-            SaveButton.HeightRequest = buttonHeight;
-
-            CreateNewEventButton.WidthRequest = buttonWidth;
-            CreateNewEventButton.HeightRequest = buttonHeight;
-
-            BackButton.WidthRequest = buttonWidth * 0.8;
-            BackButton.HeightRequest = buttonHeight;
-
-            double buttonFontSize = Math.Min(buttonWidth * 0.08, 18);
-            SaveButton.FontSize = buttonFontSize;
-            CreateNewEventButton.FontSize = buttonFontSize;
-            BackButton.FontSize = buttonFontSize;
+            // Set frame widths
+            double frameWidth = UIHelper.GetResponsiveFrameWidth(pageWidth);
+            StoryNameEntry.WidthRequest = frameWidth;
+            StoryDescriptionEditor.WidthRequest = frameWidth;
+            EventList.WidthRequest = frameWidth;
         }
     }
 
-    /// <summary>
-    /// Applies query attributes passed when navigating to this page.
-    /// In this case, it expects a "storyId" to identify which story to load.
-    /// </summary>
-    /// <param name="query">Dictionary of query parameters.</param>
-    public void ApplyQueryAttributes(IDictionary<string, object> query)
-    {
-        if (query.ContainsKey("storyId"))
-        {
-            _storyId = int.Parse(query["storyId"].ToString());
-            Debug.WriteLine($"Received storyId: {_storyId}");
-            LoadStory(_storyId); // Load the story by ID
-        }
-        else
-        {
-            Debug.WriteLine("No storyId received");
-        }
-    }
-
-    /// <summary>
-    /// Loads the story and its associated events based on the given storyId.
-    /// If the story is new (ID not found), placeholder text is displayed.
-    /// </summary>
-    /// <param name="storyId">The ID of the story to load.</param>
-    private async void LoadStory(int storyId)
-    {
-        var story = await _viewModel.GetStoryByIdAsync(storyId);
-        _viewModel.SelectedStory = story;
-
-        if (story != null)
-        {
-            StoryNameEntry.Text = story.Title;
-            StoryDescriptionEditor.Text = story.Description;
-            EventList.ItemsSource = story.Events;
-            Debug.WriteLine($"Story loaded: {story.Title}, Events count: {story.Events.Count}");
-        }
-        else
-        {
-            // Don't add a new story yet, wait for the user to save
-            StoryNameEntry.Text = AppResources.NewStoryPlaceholder;
-            StoryDescriptionEditor.Text = AppResources.NewStoryPlaceholder;
-            EventList.ItemsSource = new ObservableCollection<Event>();
-        }
-    }
-
-    /// <summary>
-    /// Navigates to the EventCreationPage to edit the selected event.
-    /// </summary>
-    /// <param name="sender">The Edit button clicked.</param>
-    /// <param name="e">Event arguments.</param>
-    private async void OnEditEventClicked(object sender, EventArgs e)
-    {
-        if (sender is Button button && button.BindingContext is Event selectedEvent)
-        {
-            // Navigating to EventCreationPage with both storyId and eventId
-            Debug.WriteLine($"Edit Event Clicked: Story ID: {_storyId}, Event ID: {selectedEvent.IdEvent}");
-            await Shell.Current.GoToAsync($"{nameof(EventCreationPage)}?storyId={_storyId}&eventId={selectedEvent.IdEvent}");
-        }
-        else
-        {
-            Debug.WriteLine("Error: Could not retrieve the selected event.");
-        }
-    }
-
-    /// <summary>
-    /// Deletes the selected event after user confirmation.
-    /// </summary>
-    /// <param name="sender">The Delete button clicked.</param>
-    /// <param name="e">Event arguments.</param>
-    private async void OnDeleteEventClicked(object sender, EventArgs e)
-    {
-        if (sender is Button button && button.BindingContext is Event selectedEvent)
-        {
-            bool confirm = await DisplayAlert(AppResources.Confirm, AppResources.DeleteEventConfirmationText, AppResources.Yes, AppResources.No);
-            if (confirm)
-            {
-                // Remove the event from the ViewModel
-                await _viewModel.DeleteEventFromStory(_storyId, selectedEvent.IdEvent);
-
-
-            }
-        }
-    }
-
-    /// <summary>
-    /// Creates a new event or saves changes to the current story.
-    /// If the story is new, it is first saved, and then the event creation page is opened.
-    /// </summary>
-    /// <param name="sender">The Create New Event button clicked.</param>
-    /// <param name="e">Event arguments.</param>
-    private async void OnCreateNewEventButtonClicked(object sender, EventArgs e)
-    {
-        if (_storyId == 0)
-        {
-            var newStory = new Story
-            {
-                IdStory = _viewModel.GenerateNewStoryId(),
-                Title = StoryNameEntry.Text,
-                Description = StoryDescriptionEditor.Text,
-                Events = (ObservableCollection<Event>)EventList.ItemsSource
-            };
-
-            await _viewModel.AddStory(newStory); // Add and save the new story
-            _storyId = newStory.IdStory; // Update the ID after saving
-            _viewModel.SelectedStory = newStory;
-        }
-        else
-        {
-            var updatedStory = new Story
-            {
-                IdStory = _storyId,
-                Title = StoryNameEntry.Text,
-                Description = StoryDescriptionEditor.Text,
-                Events = (ObservableCollection<Event>)EventList.ItemsSource
-            };
-
-            await _viewModel.UpdateStory(_storyId, updatedStory); // Save changes
-        }
-        // Navigating to EventCreationPage with just the storyId and a new eventId (set as 0 for new event creation)
-        Debug.WriteLine($"Create New Event Clicked: Story ID: {_storyId}");
-        await Shell.Current.GoToAsync($"{nameof(EventCreationPage)}?storyId={_storyId}&eventId=0");
-    }
-
-    /// <summary>
-    /// Saves the current story to the database. If the story is new, it is created;
-    /// otherwise, the existing story is updated.
-    /// </summary>
-    /// <param name="sender">The Save button clicked.</param>
-    /// <param name="e">Event arguments.</param>
-    private async void OnSaveButtonClicked(object sender, EventArgs e)
-    {
-        // If the storyId is 0, treat it as a new story; otherwise, update the existing story
-        if (_storyId == 0)
-        {
-            var newStory = new Story
-            {
-                IdStory = _viewModel.GenerateNewStoryId(),
-                Title = StoryNameEntry.Text,
-                Description = StoryDescriptionEditor.Text,
-                Events = (ObservableCollection<Event>)EventList.ItemsSource
-            };
-
-            await _viewModel.AddStory(newStory); // Add and save the new story
-            _storyId = newStory.IdStory; // Update the ID after saving
-            _viewModel.SelectedStory = newStory;
-        }
-        else
-        {
-            var updatedStory = new Story
-            {
-                IdStory = _storyId,
-                Title = StoryNameEntry.Text,
-                Description = StoryDescriptionEditor.Text,
-                Events = (ObservableCollection<Event>)EventList.ItemsSource
-            };
-
-            await _viewModel.UpdateStory(_storyId, updatedStory); // Save changes
-        }
-
-        await Shell.Current.GoToAsync(nameof(StoryList)); // Navigate back to the story list
-    }
-
-    private async void OnBackButtonClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(StoryList));
-    }
+    #endregion
 }

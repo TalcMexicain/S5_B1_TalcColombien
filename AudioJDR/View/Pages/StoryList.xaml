@@ -87,7 +87,8 @@
                                     <!-- Edit Story Button -->
                                     <Button Text="{x:Static local:AppResources.Edit}"
                                             Margin="0,0,10,0"
-                                            Clicked="OnEditButtonClicked">
+                                            CommandParameter="{Binding}"
+                                            Clicked="OnEditStoryClicked">
                                         <Button.BackgroundColor>
                                             <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                                         </Button.BackgroundColor>
@@ -99,7 +100,8 @@
                                     <!-- Export Story Button -->
                                     <Button Text="{x:Static local:AppResources.Export}"
                                             Margin="0,0,10,0"
-                                            Clicked="OnExportButtonClicked">
+                                            CommandParameter="{Binding}"
+                                            Clicked="OnExportStoryClicked">
                                         <Button.BackgroundColor>
                                             <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                                         </Button.BackgroundColor>
@@ -110,7 +112,7 @@
 
                                     <!-- Delete Story Button -->
                                     <Button Text="{x:Static local:AppResources.Delete}"
-                                            Clicked="OnDeleteButtonClicked"
+                                            Clicked="OnDeleteStoryClicked"
                                             CommandParameter="{Binding}">
                                         <Button.BackgroundColor>
                                             <AppThemeBinding Light="{StaticResource DeleteColorL}" Dark="{StaticResource DeleteColorD}" />
@@ -153,7 +155,7 @@
                     CornerRadius="5"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
-                    Clicked="OnImportButtonClicked">        
+                    Clicked="OnImportStoryClicked">        
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>

@@ -253,7 +253,7 @@
     <value>Carte de l'histoire</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>Confirmez</value>
+    <value>Confirmer</value>
   </data>
   <data name="DeleteOptionConfirmationText" xml:space="preserve">
     <value>Etes-vous sûr de bien vouloir supprimer cette option ?</value>
@@ -277,7 +277,7 @@
     <value>Oui</value>
   </data>
   <data name="AddWord" xml:space="preserve">
-    <value>Ajouter le mot</value>
+    <value>Ajouter ou supprimer le mot</value>
   </data>
   <data name="ImportStory" xml:space="preserve">
     <value>Importer une histoire</value>
@@ -288,6 +288,82 @@
   <data name="RulesPlayer" xml:space="preserve">
     <value>Comment jouer :
 
-Ecouter ce que l'histoire raconte et dites à voix haute votre choix parmis les options données.</value>
+L'histoire est lue ou racontée au joueur. Chaque segment d'histoire se termine par une situation ou un choix implicite.
+Après avoir écouté le segment d'histoire, le joueur exprime à haute voix ce qu'il souhaite faire.
+Une fois son choix exprimé, le joueur doit dire "valider" pour confirmer sa décision ou "annuler" s'il veut exprimé un autre choix.
+Une fois le choix validé, l'histoire poursuit son cours en fonction de la décision prise par le joueur.
+À chaque nouvelle étape de l'histoire, le joueur pourra à nouveau écouter, réfléchir, faire un choix, et valider celui-ci.</value>
+  </data>
+  <data name="DiscardChangesMessage" xml:space="preserve">
+    <value>Vous avez des modifications non enregistrées. Si vous revenez en arrière, ces modifications seront perdues. Voulez-vous continuer ?</value>
+  </data>
+  <data name="UnsavedChangesMessage" xml:space="preserve">
+    <value>Vous avez des modifications non enregistrées. Voulez-vous enregistrer vos modifications avant de continuer ?</value>
+  </data>
+  <data name="WordAlreadyExists" xml:space="preserve">
+    <value>Ce mot existe déjà dans la liste</value>
+  </data>
+  <data name="DeleteStoryConfirmation" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer cette histoire ?</value>
+  </data>
+  <data name="ExportSuccess" xml:space="preserve">
+    <value>Histoire exportée avec succès</value>
+  </data>
+  <data name="ImportSuccess" xml:space="preserve">
+    <value>Histoire importée avec succès</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Succès</value>
+  </data>
+  <data name="DeleteConfirmationFormat" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer "{0}"</value>
+  </data>
+  <data name="DeleteSuccessFormat" xml:space="preserve">
+    <value>"{0}" a été supprimé avec succès</value>
+  </data>
+  <data name="ErrorEmptyWord" xml:space="preserve">
+    <value>Le mot ne peut pas être vide.</value>
+  </data>
+  <data name="ErrorOptionTitle" xml:space="preserve">
+    <value>Le titre de l'option ne peut pas être vide</value>
+  </data>
+  <data name="NoWordsAdded" xml:space="preserve">
+    <value>Aucun mot ajouté.</value>
+  </data>
+  <data name="SaveSuccessMessage" xml:space="preserve">
+    <value>L'histoire a été enregistrée avec succès.</value>
+  </data>
+  <data name="VoiceVolume" xml:space="preserve">
+    <value>Volume de la voix</value>
+  </data>
+  <data name="VoiceSpeed" xml:space="preserve">
+    <value>Vitesse de la voix</value>
+  </data>
+  <data name="SetAsFirst" xml:space="preserve">
+    <value>Définir comme premier évènement</value>
+  </data>
+  <data name="RemoveAsFirst" xml:space="preserve">
+    <value>Retirer comme premier événement</value>
+  </data>
+  <data name="PlaceholderKeyWord" xml:space="preserve">
+    <value>Entrez un mot-clé pour rechercher une option</value>
+  </data>
+  <data name="VoiceType" xml:space="preserve">
+    <value>Changer la voix parmi les voix disponibles</value>
+  </data>
+  <data name="NoValidSaveFound" xml:space="preserve">
+    <value>Aucune sauvegarde valide trouvée pour cette histoire.</value>
+  </data>
+  <data name="SaveLoadError" xml:space="preserve">
+    <value>Erreur lors du chargement de la sauvegarde.</value>
+  </data>
+  <data name="SelectStory" xml:space="preserve">
+    <value>Veuillez sélectionner une histoire.</value>
+  </data>
+  <data name="SetFirstEventSuccessMessage" xml:space="preserve">
+    <value>"{0}" a été défini comme le premier événement.</value>
   </data>
 </root>

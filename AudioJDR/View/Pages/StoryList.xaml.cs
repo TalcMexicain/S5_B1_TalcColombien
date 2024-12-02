@@ -1,139 +1,180 @@
 using Model;
 using System.Diagnostics;
+using View.Resources.Localization;
 using View.Pages;
 using ViewModel;
 
 namespace View;
 
+/// <summary>
+/// Creator-Side Page displaying the list of all stories to be managed.
+/// </summary>
 public partial class StoryList : ContentPage
 {
-    private StoryViewModel _viewModel;
+    #region Fields
 
+    private readonly StoryViewModel _storyViewModel;
+
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    /// Initializes a new instance of the StoryList page.
+    /// </summary>
     public StoryList()
     {
         InitializeComponent();
-        _viewModel = new StoryViewModel();
-        BindingContext = _viewModel;
+        _storyViewModel = new StoryViewModel();
+        BindingContext = _storyViewModel;
         SetResponsiveSizes();
-        this.SizeChanged += OnSizeChanged; // To handle resizing
+        this.SizeChanged += OnSizeChanged;
     }
 
-    /// <summary>
-    /// Adjusts UI sizes when the page size changes.
-    /// </summary>
-    private void OnSizeChanged(object sender, EventArgs e)
-    {
-        SetResponsiveSizes(); // Adjust sizes when screen size changes
-    }
+    #endregion
 
-    /// <summary>
-    /// Adjusts the sizes of buttons and the story list dynamically based on the current page dimensions.
-    /// Ensures that buttons do not shrink or grow beyond reasonable limits.
-    /// </summary>
-    private void SetResponsiveSizes()
-    {
-        double pageWidth = this.Width;
-        double pageHeight = this.Height;
-
-        double minButtonWidth = 350;
-        double minButtonHeight = 50;
-
-        if (pageWidth > 0 && pageHeight > 0)
-        {
-            double buttonWidth = Math.Max(pageWidth * 0.24, minButtonWidth);
-            double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight);
-
-            CreateNewStoryButton.WidthRequest = buttonWidth;
-            CreateNewStoryButton.HeightRequest = buttonHeight;
-
-            ImportStoryButton.WidthRequest = buttonWidth;
-            ImportStoryButton.HeightRequest = buttonHeight;
-
-            BackButton.WidthRequest = buttonWidth * 0.8;
-            BackButton.HeightRequest = buttonHeight;
-
-            StoriesList.WidthRequest = pageWidth * 0.85;
-
-            double buttonFontSize = Math.Min(buttonWidth * 0.08, 16);
-
-            CreateNewStoryButton.FontSize = buttonFontSize;
-            ImportStoryButton.FontSize = buttonFontSize;
-            BackButton.FontSize = buttonFontSize;
-
-            CreateNewStoryButton.Padding = new Thickness(20, 5);
-            ImportStoryButton.Padding = new Thickness(20, 5);
-            BackButton.Padding = new Thickness(20, 5);
-        }
-    }
-
-
-    /// <summary>
-    /// Opens the StoryMap page to edit the selected story.
-    /// </summary>
-    /// <param name="sender">The Edit button clicked.</param>
-    /// <param name="e">Event arguments.</param>
-    private async void OnEditButtonClicked(object sender, EventArgs e)
-    {
-        if (sender is Button button && button.BindingContext is Story selectedStory)
-        {
-            Debug.WriteLine($"Edit Button Clicked: Story ID: {selectedStory.IdStory}, Title: {selectedStory.Title}");
-            await Shell.Current.GoToAsync($"{nameof(StoryMap)}?storyId={selectedStory.IdStory}");
-        }
-        else
-        {
-            Debug.WriteLine("Error: Could not retrieve the selected story.");
-        }
-    }
-
+    #region Event Handlers
 
     private async void OnCreateNewStoryButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync($"{nameof(StoryMap)}?storyId=0");
+        await _storyViewModel.InitializeNewStoryAsync();
+        await NavigateToStoryMap(_storyViewModel.CurrentStory.IdStory);
     }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(MainCreatorPage)); // Navigate back to MainCreatorPage
+        await NavigateToMainCreator();
     }
 
-    private async void OnImportButtonClicked(object sender, EventArgs e)
-    {
-        await _viewModel.ImportStoryAsync();
-    }
-
-    /// <summary>
-    /// Exports the selected story by triggering the ExportStoryAsync method in the ViewModel.
-    /// </summary>
-    /// <param name="sender">The Export button clicked.</param>
-    /// <param name="e">Event arguments.</param>
-    private async void OnExportButtonClicked(object sender, EventArgs e)
+    private async void OnEditStoryClicked(object sender, EventArgs e)
     {
         if (sender is Button button && button.BindingContext is Story story)
         {
-            Debug.WriteLine($"Exportation of story with id = {story.IdStory} initiated");
-            await _viewModel?.ExportStoryAsync(story);
-        }
-        else
-        {
-            Debug.WriteLine($"Exportation : story was not found");
+            StoriesList.SelectedItem = null;
+            await NavigateToStoryMap(story.IdStory);
         }
     }
 
-
-    /// <summary>
-    /// Deletes the selected story by triggering the DeleteStory method in the ViewModel.
-    /// </summary>
-    /// <param name="sender">The Delete button clicked.</param>
-    /// <param name="e">Event arguments.</param>
-    private void OnDeleteButtonClicked(object sender, EventArgs e)
+    private async void OnDeleteStoryClicked(object sender, EventArgs e)
     {
-        var button = sender as Button;
-        var storyObjet = button?.CommandParameter as Story;
-
-        if (storyObjet != null)
+        if (sender is Button button && button.BindingContext is Story story)
         {
-            _viewModel?.DeleteStory(storyObjet.IdStory);
+            bool confirmed = await UIHelper.ShowDeleteConfirmationDialog(this, story.Title);
+                
+            if (confirmed)
+            {
+                await DeleteStory(story.IdStory);
+            }
         }
     }
 
+    private async void OnExportStoryClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button && button.BindingContext is Story story)
+        {
+            await ExportStory(story);
+        }
+    }
+
+    private async void OnImportStoryClicked(object sender, EventArgs e)
+    {
+        await ImportStory();
+    }
+
+    private void OnSizeChanged(object? sender, EventArgs e)
+    {
+        SetResponsiveSizes();
+    }
+
+    #endregion
+
+    #region Navigation
+
+    private async Task NavigateToStoryMap(int storyId)
+    {
+        var navigationParameter = new Dictionary<string, object>
+        {
+            { "storyId", storyId }
+        };
+        await Shell.Current.GoToAsync($"{nameof(StoryMap)}", navigationParameter);
+    }
+
+    private async Task NavigateToMainCreator()
+    {
+        await Shell.Current.GoToAsync($"{nameof(MainCreatorPage)}");
+    }
+
+    #endregion
+
+    #region Story Operations
+
+    private async Task DeleteStory(int storyId)
+    {
+        try
+        {
+            await _storyViewModel.DeleteStoryAsync(storyId);
+        }
+        catch (Exception ex)
+        {
+            await UIHelper.ShowErrorDialog(this, ex.Message);
+            Debug.WriteLine($"Error deleting story: {ex.Message}");
+        }
+    }
+
+    private async Task ExportStory(Story story)
+    {
+        try
+        {
+            bool success = await _storyViewModel.ExportStoryAsync(story);
+            if (success)
+            {
+                await UIHelper.ShowSuccessDialog(this, AppResources.ExportSuccess);
+            }
+        }
+        catch (Exception ex)
+        {
+            await UIHelper.ShowErrorDialog(this, ex.Message);
+            Debug.WriteLine($"Error exporting story: {ex.Message}");
+        }
+    }
+
+    private async Task ImportStory()
+    {
+        try
+        {
+            bool success = await _storyViewModel.ImportStoryAsync();
+            if (success)
+            {
+                await UIHelper.ShowSuccessDialog(this, AppResources.ImportSuccess);
+            }
+        }
+        catch (Exception ex)
+        {
+            await UIHelper.ShowErrorDialog(this, ex.Message);
+            Debug.WriteLine($"Error importing story: {ex.Message}");
+        }
+    }
+
+    #endregion
+
+    #region UI Management
+
+    private void SetResponsiveSizes()
+    {
+        double pageWidth = Width;
+        double pageHeight = Height;
+
+        if (pageWidth > 0 && pageHeight > 0)
+        {
+            // Apply sizes to UI elements using UIHelper
+            UIHelper.SetButtonSize(this,CreateNewStoryButton, false); 
+            UIHelper.SetButtonSize(this,ImportStoryButton, false); 
+            UIHelper.SetButtonSize(this,BackButton, true); 
+            StoriesList.WidthRequest = Math.Max(pageWidth * UIHelper.Sizes.FRAME_WIDTH_FACTOR, UIHelper.Sizes.MIN_FRAME_WIDTH);
+            StoriesList.HeightRequest = pageHeight * UIHelper.Sizes.LIST_HEIGHT_FACTOR;
+        }
+    }
+
+    #endregion
 }
+

@@ -2,400 +2,440 @@
 using Model.Storage;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace ViewModel
 {
+    /// <summary>
+    /// ViewModel responsible for managing Story objects and their operations.
+    /// Handles story creation, modification, deletion, and persistence.
+    /// </summary>
     public class StoryViewModel : BaseViewModel
     {
         #region Fields
 
         private readonly StoryManager _storyManager;
-        private Story _selectedStory;
-
+        private Story _currentStory;
         private ObservableCollection<Story> _stories;
+        private ObservableCollection<EventViewModel> _events;
 
         #endregion
 
         #region Properties
 
-        public Story? SelectedStory
+        /// <summary>
+        /// Gets or sets the current Story being worked with.
+        /// </summary>
+        public Story CurrentStory
         {
-            get => _selectedStory;
-            set
-            {
-                _selectedStory = value;
-                OnPropertyChanged(nameof(SelectedStory));  // Notify UI to update when the selected story changes
-            }
+            get => _currentStory;
+            set => SetProperty(ref _currentStory, value);
         }
 
+        /// <summary>
+        /// Gets the collection of all available Stories.
+        /// </summary>
         public ObservableCollection<Story> Stories
         {
-            get
-            {
-                if (_stories == null)
-                {
-                    _stories = new ObservableCollection<Story>();
-                }
-                return _stories;
-            }
-            private set
-            {
-                _stories = value;
-                OnPropertyChanged(nameof(Stories));
-            }
+            get => _stories;
+            private set => SetProperty(ref _stories, value);
+        }
+
+        /// <summary>
+        /// Gets the collection of EventViewModels for the current Story.
+        /// </summary>
+        public ObservableCollection<EventViewModel> Events
+        {
+            get => _events;
+            private set => SetProperty(ref _events, value);
         }
 
         #endregion
 
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the StoryViewModel class.
+        /// </summary>
         public StoryViewModel()
         {
             _storyManager = new StoryManager();
             _stories = new ObservableCollection<Story>();
-            LoadStories();
+            _events = new ObservableCollection<EventViewModel>();
+            LoadStoriesAsync();
         }
+
+        #endregion
 
         #region Story Management
 
         /// <summary>
-        /// Load stories from the StorySaveSystem and populate the Stories collection.
+        /// Loads all saved stories from storage and initializes their EventViewModels.
         /// </summary>
-        public async Task LoadStories()
+        public async Task LoadStoriesAsync()
         {
             var savedStories = await _storyManager.GetSavedStoriesAsync();
+            Stories.Clear();
+            Events.Clear();
+            
             if (savedStories != null)
             {
-                Stories.Clear();
                 foreach (var story in savedStories)
                 {
-                    Stories.Add(story); // Populate Stories list
+                    Stories.Add(story);
+                    Debug.WriteLine($"Loaded story: {story.Title} (ID: {story.IdStory})");
+
+                    // Set the FirstEvent based on the loaded events
+                    if (story.Events.Count > 0)
+                    {
+                        var firstEvent = story.Events.FirstOrDefault(e => e.IsFirst);
+                        if (firstEvent != null)
+                        {
+                            story.SetFirstEvent(firstEvent);
+                        }
+                    }
+
+                    // Populate Events for the current story
+                    if (story == CurrentStory)
+                    {
+                        foreach (var evt in story.Events)
+                        {
+                            Debug.WriteLine($"Loaded event: {evt.Name} (ID: {evt.IdEvent})");
+                            Events.Add(new EventViewModel(this, evt));
+                        }
+                    }
                 }
             }
+            
+            Debug.WriteLine($"Loaded {Stories.Count} stories from storage");
         }
 
         /// <summary>
-        /// Adds a story
+        /// Adds a new story to the collection and saves it.
         /// </summary>
-        /// <param name="newStory"></param>
-        /// <returns></returns>
-        public async Task AddStory(Story newStory)
+        /// <param name="newStory">The story to add.</param>
+        /// <exception cref="ArgumentNullException">Thrown when newStory is null.</exception>
+        public async Task AddStoryAsync(Story newStory)
         {
-            Stories.Add(newStory);
-            await _storyManager.SaveCurrentStory(newStory);
-        }
-
-
-        /// <summary>
-        /// Updates the story with the given with the given story
-        /// </summary>
-        /// <param name="storyId">the id of the story to update</param>
-        /// <param name="updatedStory">the update</param>
-        /// <returns></returns>
-        public async Task UpdateStory(int storyId, Story updatedStory)
-        {
-            var story = await GetStoryByIdAsync(storyId);
-            if (story != null)
+            if (newStory == null)
             {
-                story.Title = updatedStory.Title;
-                story.Description = updatedStory.Description;
-                story.Events = updatedStory.Events;
-                Debug.WriteLine($"Story Updated : Updating files..");
-                await _storyManager.SaveCurrentStory(story);
+                throw new ArgumentNullException(nameof(newStory));
+            }
+
+            Stories.Add(newStory);
+            await _storyManager.SaveCurrentStoryAsync(newStory);
+            Debug.WriteLine($"Added new story: {newStory.Title} (ID: {newStory.IdStory})");
+        }
+
+        /// <summary>
+        /// Updates an existing story with new information.
+        /// </summary>
+        /// <param name="storyId">The ID of the story to update.</param>
+        /// <param name="updatedStory">The updated story information.</param>
+        /// <exception cref="ArgumentNullException">Thrown when updatedStory is null.</exception>
+        public async Task UpdateStoryAsync(int storyId, Story updatedStory)
+        {
+            if (updatedStory == null)
+            {
+                throw new ArgumentNullException(nameof(updatedStory));
+            }
+
+            var existingStory = await GetStoryByIdAsync(storyId);
+            
+            if (existingStory != null)
+            {
+                existingStory.Title = updatedStory.Title;
+                existingStory.Description = updatedStory.Description;
+                existingStory.Events = updatedStory.Events;
+                
+                RefreshEventViewModels(existingStory);
+                OnPropertyChanged(nameof(CurrentStory));
+                OnPropertyChanged(nameof(Stories));
+                await _storyManager.SaveCurrentStoryAsync(existingStory);
+                Debug.WriteLine($"Updated story: {existingStory.Title} (ID: {existingStory.IdStory})");
+            }
+            else
+            {
+                await AddStoryAsync(updatedStory);
             }
         }
 
         /// <summary>
-        /// Get a story by its ID.
+        /// Deletes a story by its ID.
         /// </summary>
+        /// <param name="storyId">The ID of the story to delete.</param>
+        public async Task DeleteStoryAsync(int storyId)
+        {
+            var storyToDelete = await GetStoryByIdAsync(storyId);
+            
+            if (storyToDelete != null)
+            {
+                Stories.Remove(storyToDelete);
+                _storyManager.DeleteStory(storyToDelete.IdStory);
+                Debug.WriteLine($"Deleted story with ID: {storyId}");
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a story by its ID.
+        /// </summary>
+        /// <param name="storyId">The ID of the story to retrieve.</param>
+        /// <returns>The story with the specified ID.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown when the story is not found.</exception>
         public async Task<Story> GetStoryByIdAsync(int storyId)
         {
-            Debug.WriteLine($"Fetching story with id = {storyId} ..");
             if (Stories.Count == 0)
             {
-                await LoadStories();
+                await LoadStoriesAsync();
             }
 
-            return Stories.FirstOrDefault(s => s.IdStory == storyId);
-        }
-
-        /// <summary>
-        /// Deletes a story from the Stories list and from storage.
-        /// </summary>
-        public async Task DeleteStory(int storyId)
-        {
-            var story = await GetStoryByIdAsync(storyId);
-            if (story != null)
+            var story = Stories.FirstOrDefault(s => s.IdStory == storyId);
+            
+            if (story == null)
             {
-                Stories.Remove(story);
-                _storyManager.DeleteStory(story.IdStory);
+                Debug.WriteLine($"Story with ID {storyId} not found");
+                throw new KeyNotFoundException($"Story with ID {storyId} not found");
             }
-        }
-
-        /// <summary>
-        /// Generate a new unique ID for the story
-        /// </summary>
-        public int GenerateNewStoryId()
-        {
-            int newStoryId = 1; // Start from 1 if no stories
-
-            if (Stories.Count > 0)
-            {
-                newStoryId = Stories.Max(s => s.IdStory) + 1;
-            }
-
-            return newStoryId;
-        }
-
-        /// <summary>
-        /// Exports the story to a folder
-        /// </summary>
-        /// <param name="story">the story to export</param>
-        /// <returns></returns>
-        public async Task ExportStoryAsync(Story story)
-        {
-            await FileServiceManager.ExportStoryAsync(story);
-        }
-
-        /// <summary>
-        /// Handles the importation of a story
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="InvalidDataException"></exception>
-        public async Task ImportStoryAsync()
-        {
-            try
-            {
-                // Import the story
-                var importedStory = await FileServiceManager.ImportStoryAsync();
-                if (importedStory != null)
-                {
-                    // Generate a new ID for the imported story to prevent overwriting existing stories
-                    importedStory.IdStory = GenerateNewStoryId();
-
-                    // Add the imported story to the collection
-                    AddStory(importedStory);
-                }
-                else
-                {
-                    throw new InvalidDataException("Invalid story or file format.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error importing story: {ex.Message}");
-            }
+            
+            return story;
         }
 
         #endregion
 
         #region Event Management
 
-        /// <summary>
-        /// Add a new event to a story.
-        /// </summary>
-        public async Task AddEventToStory(int storyId, Event newEvent)
+        private void RefreshEventViewModels(Story story)
         {
-            var story = await GetStoryByIdAsync(storyId);
-            if (story != null)
+            Events.Clear();
+            foreach (var evt in story.Events)
             {
-                story.Events.Add(newEvent);
-                await UpdateStory(storyId, story);
+                Events.Add(new EventViewModel(this, evt));
             }
         }
 
         /// <summary>
-        /// Update an existing event in a story.
+        /// Creates or retrieves an EventViewModel for a specific event.
         /// </summary>
-        public async Task UpdateEventInStory(int storyId, Event updatedEvent)
+        /// <param name="eventId">The ID of the event.</param>
+        /// <returns>An EventViewModel instance.</returns>
+        public async Task<EventViewModel> GetEventViewModelAsync(int eventId)
         {
-            var story = await GetStoryByIdAsync(storyId);
-            if (story != null)
+            var existingViewModel = Events.FirstOrDefault(evm => evm.CurrentEvent.IdEvent == eventId);
+            if (existingViewModel != null)
             {
-                var eventToUpdate = story.Events.FirstOrDefault(e => e.IdEvent == updatedEvent.IdEvent);
-                if (eventToUpdate != null)
+                return existingViewModel;
+            }
+
+            var currentEvent = await GetEventByIdAsync(CurrentStory.IdStory, eventId);
+            var newViewModel = new EventViewModel(this, currentEvent);
+            Events.Add(newViewModel);
+            return newViewModel;
+        }
+
+        /// <summary>
+        /// Adds a new event to the current story.
+        /// </summary>
+        /// <param name="newEvent">The event to add.</param>
+        /// <exception cref="InvalidOperationException">Thrown when no current story is selected.</exception>
+        public async Task AddEventAsync(Event newEvent)
+        {
+            if (CurrentStory == null)
+            {
+                throw new InvalidOperationException("No story selected");
+            }
+
+            Debug.WriteLine($"Adding event with ID: {newEvent.IdEvent}, Name: {newEvent.Name}");
+
+            // Add the new event to the current story
+            CurrentStory.Events.Add(newEvent);
+            
+            // Check if this is the first event being added
+            if (CurrentStory.Events.Count == 1)
+            {
+                CurrentStory.SetFirstEvent(newEvent); // Set as first event if it's the only one
+                Debug.WriteLine($"Set '{newEvent.Name}' as the first event.");
+            }
+
+            var newViewModel = new EventViewModel(this, newEvent);
+            Events.Add(newViewModel);
+            
+            // Log the current state of Events collection
+            Debug.WriteLine("Current Events in collection after addition:");
+            foreach (var eventViewModel in Events)
+            {
+                Debug.WriteLine($"Event ID: {eventViewModel.CurrentEvent.IdEvent}, Name: {eventViewModel.CurrentEvent.Name}");
+            }
+
+            await UpdateStoryAsync(CurrentStory.IdStory, CurrentStory);
+        }
+
+        /// <summary>
+        /// Deletes an event from the current story.
+        /// </summary>
+        /// <param name="eventId">The ID of the event to delete.</param>
+        public async Task DeleteEventAsync(int eventId)
+        {
+            Debug.WriteLine($"Attempting to delete event with ID: {eventId}");
+
+            // List all event IDs in the Events collection
+            Debug.WriteLine("Current Events in collection:");
+            foreach (var eventViewModel in Events)
+            {
+                Debug.WriteLine($"Event ID: {eventViewModel.CurrentEvent.IdEvent}, Name: {eventViewModel.CurrentEvent.Name}");
+            }
+
+            var eventToRemove = Events.FirstOrDefault(e => e.CurrentEvent.IdEvent == eventId);
+            if (eventToRemove != null)
+            {
+                Debug.WriteLine($"Found event to delete: {eventToRemove.CurrentEvent.Name}");
+
+                // Unlink options from the event being deleted
+                foreach (var evt in CurrentStory.Events)
                 {
-                    eventToUpdate.Name = updatedEvent.Name;
-                    eventToUpdate.Description = updatedEvent.Description;
-                    Debug.WriteLine($"Event added to Story : Updating Lists..");
-                    await UpdateStory(storyId, story);
+                    foreach (var option in evt.Options)
+                    {
+                        if (option.LinkedEvent?.IdEvent == eventId)
+                        {
+                            Debug.WriteLine($"Unlinking option '{option.NameOption}' from event '{eventToRemove.CurrentEvent.Name}'");
+                            option.LinkedEvent = evt; // Link to the current event
+                        }
+                    }
                 }
+
+                // Now delete the event
+                Debug.WriteLine($"Deleting event: {eventToRemove.CurrentEvent.Name}");
+                CurrentStory.DeleteEvent(eventToRemove.CurrentEvent);
+                
+                // Remove the event view model from the Events collection
+                Events.Remove(eventToRemove);
+                
+                // Update the story in the storage
+                await UpdateStoryAsync(CurrentStory.IdStory, CurrentStory);
+                
+                Debug.WriteLine($"Deleted event with ID: {eventId}");
+            }
+            else
+            {
+                Debug.WriteLine($"Event with ID: {eventId} not found in Events collection.");
             }
         }
 
-        /// <summary>
-        /// Delete an event from a story.
-        /// </summary>
-        public async Task DeleteEventFromStory(int storyId, int eventId)
+        private async Task<Event> GetEventByIdAsync(int storyId, int eventId)
         {
             var story = await GetStoryByIdAsync(storyId);
-            if (story != null)
-            {
-                var eventToDelete = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
-                if (eventToDelete != null)
-                {
-                    story.Events.Remove(eventToDelete);
-                    await UpdateStory(storyId, story);
-                }
-            }
+            var foundEvent = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
+            return foundEvent;
         }
 
         /// <summary>
-        /// Remove an option from a specific event in a story.
+        /// Sets the specified event as the first event in the current story.
         /// </summary>
-        public async Task RemoveOptionFromEvent(int storyId, int eventId, Option option)
+        /// <param name="eventId">The ID of the event to set as first.</param>
+        public void SetFirstEvent(int eventId)
         {
-            var story = await GetStoryByIdAsync(storyId);
-            if (story != null)
+            var eventToSet = CurrentStory.Events.FirstOrDefault(e => e.IdEvent == eventId);
+            if (eventToSet != null)
             {
-                var eventToUpdate = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
-                if (eventToUpdate != null)
-                {
-                    eventToUpdate.Options.Remove(option);
-                    await UpdateStory(storyId, story);
-                }
+                CurrentStory.SetFirstEvent(eventToSet);
+                OnPropertyChanged(nameof(CurrentStory)); // Notify that CurrentStory has changed
             }
-        }
-
-        /// <summary>
-        /// Generate a new unique ID for the event
-        /// </summary>
-        /// <returns></returns>
-        public int GenerateNewEventId()
-        {
-            int newEventId = 1; // Start from 1 if no events
-
-            if (_selectedStory != null && _selectedStory.Events.Count > 0)
-            {
-                newEventId = _selectedStory.Events.Max(e => e.IdEvent) + 1;
-            }
-
-            return newEventId;
-        }
-
-        /// <summary>
-        /// Get an event by its ID from a specific story.
-        /// </summary>
-        public async Task<Event> GetEventByIdAsync(int storyId, int eventId)
-        {
-            Event? result = null;
-
-            var story = await GetStoryByIdAsync(storyId);
-
-            if (story != null)
-            {
-                Debug.WriteLine($"Story Found : Fetching event with id = {eventId} ..");
-                result = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
-            }
-
-            return result;
         }
 
         #endregion
 
-        #region Option Management
+        #region Import/Export
 
         /// <summary>
-        /// Add an option to an event within a story.
+        /// Exports a story to a file.
         /// </summary>
-        public async Task AddOptionToEvent(int storyId, int eventId, Option newOption)
+        /// <param name="story">The story to export.</param>
+        /// <exception cref="ArgumentNullException">Thrown when story is null.</exception>
+        /// <exception cref="IOException">Thrown when file operations fail.</exception>
+        public async Task<bool> ExportStoryAsync(Story story)
         {
-            var eventToUpdate = await GetEventByIdAsync(storyId, eventId);
-
-            if (eventToUpdate != null)
+            bool success = false;
+            
+            try
             {
-                eventToUpdate.Options.Add(newOption);
-                Debug.WriteLine($"Option added to event : Updating lists..");
-                await UpdateEventInStory(storyId, eventToUpdate);
-            }
-            else
-            {
-                Debug.WriteLine($"Event is null : Option was not added");
-            }
-        }
-
-        /// <summary>
-        /// Update an option in an event within a story.
-        /// </summary>
-        public async Task UpdateOptionInEvent(int storyId, int eventId, Option updatedOption)
-        {
-            var story = await GetStoryByIdAsync(storyId);
-            var eventToUpdate = story?.Events.FirstOrDefault(e => e.IdEvent == eventId);
-
-            if (eventToUpdate != null)
-            {
-                var optionToUpdate = eventToUpdate.Options.FirstOrDefault(o => o.IdOption == updatedOption.IdOption);
-                if (optionToUpdate != null)
+                if (story != null)
                 {
-                    optionToUpdate.NameOption = updatedOption.NameOption;
-                    optionToUpdate.Text = updatedOption.Text;
-
-                    foreach(string word in updatedOption.GetWords())
+                    success = await FileServiceManager.ExportStoryAsync(story);
+                    if (success)
                     {
-                        optionToUpdate.AddWordInList(word);
+                        Debug.WriteLine($"Story exported: {story.Title} (ID: {story.IdStory})");
                     }
-
-                    optionToUpdate.LinkedEvent = updatedOption.LinkedEvent;
-
-                    await UpdateEventInStory(storyId, eventToUpdate);
                 }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error exporting story: {ex.Message}");
+            }
+            
+            return success;
         }
 
         /// <summary>
-        /// Delete an option from an event within a story.
+        /// Imports a story from a file.
         /// </summary>
-        public async Task DeleteOptionFromEvent(int storyId, int eventId, int optionId)
+        /// <returns>The imported story.</returns>
+        /// <exception cref="InvalidDataException">Thrown when the imported data is invalid.</exception>
+        /// <exception cref="IOException">Thrown when file operations fail.</exception>
+        public async Task<bool> ImportStoryAsync()
         {
-            var story = await GetStoryByIdAsync(storyId);
-            var eventToUpdate = story?.Events.FirstOrDefault(e => e.IdEvent == eventId);
-
-            if (eventToUpdate != null)
+            bool success = false;
+            
+            try
             {
-                var optionToDelete = eventToUpdate.Options.FirstOrDefault(o => o.IdOption == optionId);
-                if (optionToDelete != null)
+                Story importedStory = await FileServiceManager.ImportStoryAsync();
+                if (importedStory != null)
                 {
-                    eventToUpdate.Options.Remove(optionToDelete);
-                    await UpdateEventInStory(storyId, eventToUpdate);
+                    // Regenerate a new unique ID for the imported story
+                    importedStory.IdStory = GenerateNewStoryId();
+                    
+                    Stories.Add(importedStory);
+                    await _storyManager.SaveCurrentStoryAsync(importedStory); // Save the imported story
+                    Debug.WriteLine($"Story imported with new ID and saved: {importedStory.Title} (ID: {importedStory.IdStory})");
+                    success = true;
                 }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error importing story: {ex.Message}");
+            }
+            
+            return success;
         }
 
-        public async Task<int> GenerateNewOptionId(int storyId, int eventId)
+        #endregion
+
+        #region Utility Methods
+
+        /// <summary>
+        /// Initializes a new story with default values.
+        /// </summary>
+        public async Task InitializeNewStoryAsync()
         {
-            int newOptionId = 1;  // Default value for new option ID
-
-            // Retrieve the event using the provided storyId and eventId
-            Event selectedEvent = await GetEventByIdAsync(storyId, eventId);
-
-            if (selectedEvent != null && selectedEvent.Options != null && selectedEvent.Options.Count > 0)
+            CurrentStory = new Story
             {
-                // Find the maximum existing option ID and calculate the next available ID
-                newOptionId = selectedEvent.Options.Max(o => o.IdOption) + 1;
-            }
-
-            return newOptionId;
+                IdStory = GenerateNewStoryId(),
+                Title = string.Empty,
+                Description = string.Empty,
+                Events = new ObservableCollection<Event>()
+            };
+            
+            await AddStoryAsync(CurrentStory);
+            Debug.WriteLine("Initialized new story");
         }
 
         /// <summary>
-        /// Get an option by its ID from a specific event in a story.
+        /// Generates a new unique ID for a story.
         /// </summary>
-        public async Task<Option> GetOptionByIdAsync(int storyId, int eventId, int optionId)
+        /// <returns>A new unique story ID.</returns>
+        public int GenerateNewStoryId()
         {
-            Option selectedOption = null;  // Default to null if option is not found
-
-            var story = await GetStoryByIdAsync(storyId);
-            if (story != null)
-            {
-                var selectedEvent = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
-                if (selectedEvent != null)
-                {
-                    selectedOption = selectedEvent.Options.FirstOrDefault(o => o.IdOption == optionId);
-                }
-            }
-
-            return selectedOption;
+            int newId = Stories.Count > 0 ? Stories.Max(s => s.IdStory) + 1 : 1;
+            return newId;
         }
-
-
         #endregion
     }
 }

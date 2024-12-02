@@ -1,82 +1,67 @@
 ﻿using View.Pages;
+namespace View;
 
-namespace View
+/// <summary>
+/// Represents the MainPage or main menu, provides access to both main parts of the app as well as the parameters
+/// </summary>
+public partial class MainPage : ContentPage
 {
-    public partial class MainPage : ContentPage
+    #region Constructor
+
+    /// <summary>
+    /// Initializes a new instance of the MainPage class, sets up the UI, 
+    /// and subscribes to the SizeChanged event to adjust button sizes dynamically.
+    /// </summary>
+    public MainPage()
     {
-        public MainPage()
+        InitializeComponent();
+        SetResponsiveSizes();
+        this.SizeChanged += OnSizeChanged;
+    }
+
+    #endregion
+
+    #region Event Handlers
+
+    private void OnSizeChanged(object? sender, EventArgs e)
+    {
+        SetResponsiveSizes();
+    }
+
+    private async void OnPlayButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(MainPlayerPage));
+    }
+
+    private async void OnCreateButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(MainCreatorPage));
+    }
+
+    private async void OnOptionButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(SettingsPage));
+    }
+
+    #endregion
+
+    #region UI Management
+
+    private void SetResponsiveSizes()
+    {
+        // Use the current page size to set button sizes dynamically
+        double pageWidth = this.Width;
+        double pageHeight = this.Height;
+
+        // Set button sizes dynamically using UIHelper
+        if (pageWidth > 0 && pageHeight > 0)
         {
-            InitializeComponent();
-            SetResponsiveSizes();
-            this.SizeChanged += OnSizeChanged;
-        }
-
-        /// <summary>
-        /// Event handler triggered when the page size changes. 
-        /// Calls a method to adjust the UI elements based on the new size.
-        /// </summary>
-        /// <param name="sender">The source of the event (typically the page itself).</param>
-        /// <param name="e">Event arguments.</param>
-        private void OnSizeChanged(object sender, EventArgs e)
-        {
-            SetResponsiveSizes();
-        }
-
-
-        /// <summary>
-        /// Dynamically adjusts the sizes and fonts of the buttons based on the 
-        /// current dimensions of the page. Ensures buttons do not become too small 
-        /// and that the font size is adjusted to fit the button width properly.
-        /// </summary>
-        private void SetResponsiveSizes()
-        {
-            // Use the current page size to set button sizes dynamically
-            double pageWidth = this.Width;
-            double pageHeight = this.Height;
-
-            // Set minimum button sizes to prevent them from becoming too small
-            double minButtonWidth = 150;
-            double minButtonHeight = 50;
-
-            // Set button sizes dynamically as a percentage of the current page size
-            if (pageWidth > 0 && pageHeight > 0)
-            {
-                double buttonWidth = Math.Max(pageWidth * 0.25, minButtonWidth);
-                double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight);
-
-                // Apply dynamic sizes to buttons
-                PlayButton.WidthRequest = buttonWidth;
-                PlayButton.HeightRequest = buttonHeight;
-
-                CreateButton.WidthRequest = buttonWidth;
-                CreateButton.HeightRequest = buttonHeight;
-
-                SettingsButton.WidthRequest = buttonWidth;
-                SettingsButton.HeightRequest = buttonHeight;
-
-                // Adjust font size based on button width, with a maximum size to avoid overflow
-                double buttonFontSize = Math.Min(buttonWidth * 0.1, 24);
-
-                PlayButton.FontSize = buttonFontSize;
-                CreateButton.FontSize = buttonFontSize;
-                SettingsButton.FontSize = buttonFontSize;
-            }
-        }
-
-
-        private async void OnPlayButtonClicked(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync(nameof(MainPlayerPage));
-        }
-
-        private async void OnCreateButtonClicked(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync(nameof(MainCreatorPage));
-        }
-
-        private async void OnOptionButtonClicked(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync(nameof(SettingsPage));
+            UIHelper.SetButtonSize(this, PlayButton, false); 
+            UIHelper.SetButtonSize(this, CreateButton, false); 
+            UIHelper.SetButtonSize(this, SettingsButton, false); 
         }
     }
+
+    #endregion
 }
+

@@ -10,7 +10,6 @@
         private int idOption;
         private string nameOption;
         private List<string> words;
-        private string text;
         private Event? linkedEvent;
         #endregion
 
@@ -35,15 +34,6 @@
         }
 
         /// <summary>
-        /// Gets or sets the text of the words that will trigger the option
-        /// </summary>
-        public string Text
-        {
-            get => text;
-            set => text = value;
-        }
-
-        /// <summary>
         /// Gets or sets the event to which this option is linked
         /// </summary>
         public Event? LinkedEvent
@@ -52,18 +42,26 @@
             set => linkedEvent = value;
         }
 
+        /// <summary>
+        /// Gets or sets the words that will trigger the option
+        /// </summary>
+        public List<string> Words
+        {
+            get => words;
+            set => words = value;
+        }
+
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the Option class with specified text and linked event.
+        /// Initializes a new instance of the Option class with specified linked event.
         /// </summary>
-        /// <param name="text">The text/word that will trigger the option</param>
         /// <param name="linkedEvent">The event to which the option is linked</param>
-        public Option(string text, Event? linkedEvent)
+        public Option(Event? linkedEvent)
         {
-            this.text = text;
+            this.nameOption = string.Empty;
             this.linkedEvent = linkedEvent;
             this.words = new List<string>();
         }
@@ -73,6 +71,7 @@
         /// </summary>
         public Option()
         {
+            this.nameOption = string.Empty;
             this.words = new List<string>();
         }
         #endregion
@@ -80,14 +79,26 @@
         #region Methods
 
         /// <summary>
-        /// Add a word to the list of words if it is not in the list
+        /// Get the list of words that will trigger the option
         /// </summary>
-        /// <param name="word">The word to add</param>
-        public void AddWordInList(string word)
+        /// <returns>The list of words</returns>
+        public List<string> GetWords()
         {
-            if (!this.words.Contains(word))
+            return this.words;
+        }
+
+            /// <summary>
+            /// Add a word to the list of words if it is not in the list
+            /// </summary>
+            /// <param name="word">The word to add</param>
+            public void AddWordInList(string word)
+        {
+            if (string.IsNullOrWhiteSpace(word))
+                throw new ArgumentException("Word cannot be empty", nameof(word));
+            
+            if (!words.Contains(word, StringComparer.OrdinalIgnoreCase))
             {
-                this.words.Add(word);
+                words.Add(word);
             }
         }
 
@@ -97,19 +108,10 @@
         /// <param name="word">The word to remove</param>
         public void RemoveWordInList(string word)
         {
-            if (this.words.Contains(word))
-            {
-                this.words.Remove(word);
-            }
-        }
-
-        /// <summary>
-        /// Get the list of words that will trigger the option
-        /// </summary>
-        /// <returns>The list of words</returns>
-        public List<string> GetWords()
-        {
-            return this.words;
+            if (string.IsNullOrWhiteSpace(word))
+                throw new ArgumentException("Word cannot be empty", nameof(word));
+            
+            words.Remove(word);
         }
 
         /// <summary>

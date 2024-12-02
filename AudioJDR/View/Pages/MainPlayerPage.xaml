@@ -22,7 +22,7 @@
                 <!-- Rules -->
                 <RowDefinition Height="Auto"/>
                 <!-- Spacer -->
-                <RowDefinition Height="150"/>
+                <RowDefinition Height="Auto"/>
                 <!-- Repeat Button -->
                 <RowDefinition Height="Auto"/>
                 <!-- Spacer -->
@@ -62,15 +62,18 @@
             </Label>
 
             <!-- Rules -->
-            <Label Text="{x:Static local:AppResources.RulesPlayer}"
-                   Grid.Row="4"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   FontSize="Medium">
-                <Label.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Label.TextColor>
-            </Label>
+            <ScrollView Grid.Row="4"
+                        x:Name="RulesPlayerScrollView">
+                <Label Text="{x:Static local:AppResources.RulesPlayer}"                   
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       FontSize="Medium"
+                       x:Name="RulesPlayerLabel">
+                    <Label.TextColor>
+                        <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                    </Label.TextColor>
+                </Label>
+            </ScrollView>
 
             <!-- Repeat Button -->
             <Button x:Name="RepeatButton"

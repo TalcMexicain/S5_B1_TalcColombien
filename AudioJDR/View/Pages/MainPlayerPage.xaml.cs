@@ -1,24 +1,82 @@
 namespace View.Pages;
+
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Model;
+using System.Diagnostics;
 using View;
+using ViewModel;
 
 public partial class MainPlayerPage : ContentPage
 {
-	public MainPlayerPage()
+    #region Fields 
+
+    private SpeechSynthesizerViewModel _speechViewModel;
+
+    #endregion
+
+    #region Constructor
+
+    public MainPlayerPage(ISpeechSynthesizer speechSynthesizer)
     {
         InitializeComponent();
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
+        _speechViewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
+        BindingContext = _speechViewModel;
     }
+
+    #endregion
+
+    #region Event Handlers
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // Pass the label's text to the ViewModel for TTS synthesis
+        _speechViewModel.TextToSynthesize = this.RulesPlayerLabel.Text;
+        _speechViewModel.SynthesizeText();
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        // Stop TTS when the page is disappearing
+        _speechViewModel.StopSynthesis();
+    }
+
     /// <summary>
     /// Event handler triggered when the page size changes. 
     /// Calls a method to adjust UI elements based on the new size.
     /// </summary>
     /// <param name="sender">The source of the event (typically the page itself).</param>
     /// <param name="e">Event arguments.</param>
-    private void OnSizeChanged(object sender, EventArgs e)
+    private void OnSizeChanged(object? sender, EventArgs e)
     {
         SetResponsiveSizes();
     }
+
+    private async void OnRepeatButtonClicked(object sender, EventArgs e)
+    {
+        _speechViewModel.TextToSynthesize = this.RulesPlayerLabel.Text;
+        _speechViewModel.StopSynthesis();
+        _speechViewModel.SynthesizeText();
+    }
+
+    private async void OnToYourStoriesButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(YourStories));
+    }
+
+    private async void OnBackButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(MainPage));
+    }
+
+    #endregion
+
+    #region UI Management
 
     /// <summary>
     /// Adjusts the sizes and padding of buttons and other UI elements dynamically 
@@ -31,52 +89,17 @@ public partial class MainPlayerPage : ContentPage
         double pageWidth = this.Width;
         double pageHeight = this.Height;
 
-        // Set minimum button sizes to prevent them from becoming too small
-        double minButtonWidth = 250;
-        double minButtonHeight = 70;
-
-        // Set button sizes dynamically as a percentage of the current page size
+        // Set button sizes dynamically using UIHelper
         if (pageWidth > 0 && pageHeight > 0)
         {
-            double buttonWidth = Math.Max(pageWidth * 0.24, minButtonWidth);
-            double buttonHeight = Math.Max(pageHeight * 0.08, minButtonHeight);
+            UIHelper.SetButtonSize(this, RepeatButton, false);
+            UIHelper.SetButtonSize(this, ToYourStoriesListButton, false);
+            UIHelper.SetButtonSize(this, BackButton, true);
 
-            // Adjust the width and height of buttons
-            RepeatButton.WidthRequest = buttonWidth;
-            RepeatButton.HeightRequest = buttonHeight;
-
-            ToYourStoriesListButton.WidthRequest = buttonWidth;
-            ToYourStoriesListButton.HeightRequest = buttonHeight;
-
-            BackButton.WidthRequest = buttonWidth * 0.8;
-            BackButton.HeightRequest = buttonHeight;
-
-            // Adjust font size based on button width, with a maximum size to avoid overflow
-            double buttonFontSize = Math.Min(buttonWidth * 0.06, 20);
-
-            // Set font sizes for buttons
-            RepeatButton.FontSize = buttonFontSize;
-            ToYourStoriesListButton.FontSize = buttonFontSize;
-            BackButton.FontSize = buttonFontSize;
-
-            // Adjust button padding to ensure text fits well
-            RepeatButton.Padding = new Thickness(20, 5);
-            ToYourStoriesListButton.Padding = new Thickness(20, 5);
-            BackButton.Padding = new Thickness(20, 5);
+            RulesPlayerScrollView.WidthRequest = Math.Max(pageWidth * UIHelper.Sizes.FRAME_WIDTH_FACTOR, UIHelper.Sizes.MIN_FRAME_WIDTH);
+            RulesPlayerScrollView.HeightRequest = Math.Max(pageHeight * UIHelper.Sizes.FRAME_HEIGHT_FACTOR, UIHelper.Sizes.MIN_FRAME_HEIGHT);
         }
     }
 
-    private async void OnRepeatButtonClicked(object sender, EventArgs e)
-    {
-        
-    }
-    private async void OnToYourStoriesButtonClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(YourStories));
-    }
-
-    private async void OnBackButtonClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(MainPage));
-    }
+    #endregion
 }
