@@ -42,7 +42,7 @@
                     <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                 </Label.TextColor>
             </Label>
-
+            
             <Frame x:Name="PlayContentFrame"
                    Grid.Row="4"
                    BorderColor="{StaticResource BorderColorL}"
@@ -52,8 +52,8 @@
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
-
-                <VerticalStackLayout>
+                <ScrollView>
+                    <VerticalStackLayout>
                     <Label x:Name="EventDescriptionLabel"
                            FontSize="Medium"
                            FontAttributes="Bold"
@@ -62,7 +62,8 @@
                             <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
                         </Label.TextColor>
                     </Label>
-                </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
             </Frame>
 
             <!-- Search Field -->
