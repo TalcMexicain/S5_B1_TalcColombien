@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Speech.Recognition;
 using Model;
 
 namespace ViewModel
 {
     /// <summary>
-    /// ViewModel responsible of managing SpeechRecognition and their operations
-    /// Handles voice recognition
+    /// ViewModel responsible for managing SpeechRecognition and its operations.
+    /// Handles voice recognition with contextual grammar.
     /// </summary>
     public class SpeechRecognitionViewModel : BaseViewModel
     {
@@ -17,6 +18,8 @@ namespace ViewModel
         private SpeechRecognitionModel _speechRecognitionModel;
         private StringBuilder _recognizedTextAccumulator;
         private string _recognizedText;
+        private string _currentContext; // Tracks the active context
+
 
         #endregion
 
@@ -25,14 +28,18 @@ namespace ViewModel
         public event Action OptionSubmitted; // When "validate" is recognized
         public event Action TextCleared; // When "cancel" is recognized
         public event Action AddWordsToView;
+        public event Action NavigateToPlay;
+        public event Action NavigateNext;
+        public event Action NavigatePrevious;
+        public event Action RepeatSpeech;
 
         #endregion
 
         #region Properties 
 
         /// <summary>
-        /// Gets the text recognized by the speech engine
-        /// This property is automatically updated and notifies the view when changed
+        /// Gets the text recognized by the speech engine.
+        /// This property is automatically updated and notifies the view when changed.
         /// </summary>
         public string RecognizedText
         {
@@ -45,12 +52,11 @@ namespace ViewModel
         #region Constructor 
 
         /// <summary>
-        /// Initializes a new instance of the SpeechRecognition class
-        /// Sets up the speech recognition model and subscribies to its events
+        /// Initializes a new instance of the SpeechRecognitionViewModel class.
+        /// Sets up the speech recognition model and subscribes to its events.
         /// </summary>
         public SpeechRecognitionViewModel()
         {
-            // Instantiate the speech recognition model
             _speechRecognitionModel = new SpeechRecognitionModel();
             _recognizedTextAccumulator = new StringBuilder();
 
@@ -60,15 +66,39 @@ namespace ViewModel
 
         #endregion
 
-        #region Publics Methods 
+        #region Public Methods 
 
         /// <summary>
-        /// Starts speech recognition with a list of keywords.
+        /// Starts speech recognition with a list of keywords for a specific context.
         /// </summary>
-        public void StartRecognition(IEnumerable<string> keywords)
+        public void StartRecognition(IEnumerable<string> keywords, string context)
         {
-            _speechRecognitionModel.UpdateGrammar(keywords.ToArray());
+            UpdateGrammar(keywords, context);
             _speechRecognitionModel.StartRecognition();
+        }
+
+        /// <summary>
+        /// Updates the grammar for the recognizer. Clears previous grammars if the context changes.
+        /// </summary>
+        public void UpdateGrammar(IEnumerable<string> keywords, string context)
+        {
+            if (_currentContext != context)
+            {
+                Debug.WriteLine($"Context has changed. Unloading previous grammars.");
+                UnloadGrammars(); // Unload existing grammars if the context changes
+                _currentContext = context;
+            }
+            Debug.WriteLine($"Updating grammar with new keywords: {string.Join(", ", keywords)}");
+            _speechRecognitionModel.UpdateGrammar(keywords.ToArray());
+        }
+
+        /// <summary>
+        /// Unloads all active grammars.
+        /// </summary>
+        public void UnloadGrammars()
+        {
+            _speechRecognitionModel.UnloadAllGrammars();
+            _currentContext = null; // Reset the context
         }
 
         #endregion
@@ -80,35 +110,56 @@ namespace ViewModel
         /// </summary>
         private void OnSpeechRecognized(string recognizedText)
         {
-            // "validate": triggers the action but displays nothing in the input field
-            if (recognizedText.Equals("valider", StringComparison.OrdinalIgnoreCase))
+            Debug.WriteLine($"Recognized: {recognizedText}");
+            switch (recognizedText.ToLowerInvariant())
             {
-                // Triggers the "OptionSubmitted" event
-                OptionSubmitted?.Invoke();
-                _recognizedTextAccumulator.Clear();
-                RecognizedText = string.Empty;
-                TextCleared?.Invoke();
-                Debug.WriteLine("test1");
-            }
-            // "cancel": resets the accumulated text and clears the input field
-            else if (recognizedText.Equals("annuler", StringComparison.OrdinalIgnoreCase))
-            {
-                _recognizedTextAccumulator.Clear();
-                RecognizedText = string.Empty;  // Clears the property bound to the input field
-                TextCleared?.Invoke(); // Signals the view to clear the text field
-            }
-            else
-            {
-                // Add recognized text to the accumulated text
-                if (_recognizedTextAccumulator.Length > 0)
-                {
-                    _recognizedTextAccumulator.Append(" ");
-                }
-                _recognizedTextAccumulator.Append(recognizedText);
+                case "valider":
+                    OptionSubmitted?.Invoke();
+                    _recognizedTextAccumulator.Clear();
+                    RecognizedText = string.Empty;
+                    TextCleared?.Invoke();
+                    break;
 
-                // Updates RecognizedText which is bound to the input field
-                RecognizedText = _recognizedTextAccumulator.ToString();
-                AddWordsToView?.Invoke();
+                case "annuler":
+                    _recognizedTextAccumulator.Clear();
+                    RecognizedText = string.Empty;
+                    TextCleared?.Invoke();
+                    break;
+
+                case "jouer":
+                    NavigateToPlay?.Invoke();
+                    _recognizedTextAccumulator.Clear();
+                    RecognizedText = string.Empty;
+                    break;
+
+                case "repeter":
+                    RepeatSpeech?.Invoke();
+                    _recognizedTextAccumulator.Clear();
+                    RecognizedText = string.Empty;
+                    break;
+
+                case "continuer":
+                    NavigateNext?.Invoke();
+                    _recognizedTextAccumulator.Clear();
+                    RecognizedText = string.Empty;
+                    break;
+
+                case "retour":
+                    NavigatePrevious?.Invoke();
+                    _recognizedTextAccumulator.Clear();
+                    RecognizedText = string.Empty;
+                    break;
+
+                default:
+                    if (_recognizedTextAccumulator.Length > 0)
+                    {
+                        _recognizedTextAccumulator.Append(" ");
+                    }
+                    _recognizedTextAccumulator.Append(recognizedText);
+
+                    RecognizedText = _recognizedTextAccumulator.ToString();
+                    AddWordsToView?.Invoke();
+                    break;
             }
         }
 

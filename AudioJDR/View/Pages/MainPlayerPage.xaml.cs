@@ -11,6 +11,10 @@ public partial class MainPlayerPage : ContentPage
     #region Fields 
 
     private SpeechSynthesizerViewModel _speechViewModel;
+    private SpeechRecognitionViewModel _recognitionViewModel;
+
+    // Identify the context for the recognition system
+    private const string PageContext = "MainPlayerPage";
 
     #endregion
 
@@ -20,9 +24,18 @@ public partial class MainPlayerPage : ContentPage
     {
         InitializeComponent();
         SetResponsiveSizes();
+
         this.SizeChanged += OnSizeChanged;
+
+        
         _speechViewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
         BindingContext = _speechViewModel;
+
+        _recognitionViewModel = new SpeechRecognitionViewModel();
+
+        _recognitionViewModel.RepeatSpeech += async () => await RepeatSpeech();
+        _recognitionViewModel.NavigateNext += async () => await NavigateNext();
+        _recognitionViewModel.NavigatePrevious += async () => await NavigatePrevious();
     }
 
     #endregion
@@ -33,7 +46,11 @@ public partial class MainPlayerPage : ContentPage
     {
         base.OnAppearing();
 
-        // Pass the label's text to the ViewModel for TTS synthesis
+        
+        var keywords = new HashSet<string> { "repeter", "continuer", "retour" };
+        _recognitionViewModel.StartRecognition(keywords, PageContext);
+
+
         _speechViewModel.TextToSynthesize = this.RulesPlayerLabel.Text;
         _speechViewModel.SynthesizeText();
     }
@@ -41,9 +58,8 @@ public partial class MainPlayerPage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-
-        // Stop TTS when the page is disappearing
         _speechViewModel.StopSynthesis();
+        _recognitionViewModel.UnloadGrammars();
     }
 
     /// <summary>
@@ -57,21 +73,45 @@ public partial class MainPlayerPage : ContentPage
         SetResponsiveSizes();
     }
 
-    private async void OnRepeatButtonClicked(object sender, EventArgs e)
+    /// <summary>
+    /// Navigate to next page.
+    /// </summary>
+    private async Task NavigateNext()
+    {
+        await Shell.Current.GoToAsync(nameof(YourStories));
+    }
+
+    private async void OnToYourStoriesButtonClicked(object sender, EventArgs e)
+    {
+        await NavigateNext();
+    }
+
+    /// <summary>
+    /// Repeat vocal synthesis.
+    /// </summary>
+    private async Task RepeatSpeech()
     {
         _speechViewModel.TextToSynthesize = this.RulesPlayerLabel.Text;
         _speechViewModel.StopSynthesis();
         _speechViewModel.SynthesizeText();
     }
 
-    private async void OnToYourStoriesButtonClicked(object sender, EventArgs e)
+    private async void OnRepeatButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(YourStories));
+        await RepeatSpeech();
+    }
+
+    /// <summary>
+    /// Navigate on previous page.
+    /// </summary>
+    private async Task NavigatePrevious()
+    {
+        await Shell.Current.GoToAsync(nameof(MainPage));
     }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(MainPage));
+        await NavigatePrevious();
     }
 
     #endregion

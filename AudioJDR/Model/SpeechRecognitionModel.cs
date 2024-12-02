@@ -77,15 +77,22 @@ namespace Model
         /// <param name="keywords">An array of keywords to include in the grammar.</param>
         public void UpdateGrammar(string[] keywords)
         {
+            _recognizer.UnloadAllGrammars();
+
             // Update the grammar with the provided keywords
             var choices = new Choices(keywords);
             var grammarBuild = new GrammarBuilder(choices)
             {
-                Culture = new System.Globalization.CultureInfo("fr-FR") 
+                Culture = new System.Globalization.CultureInfo("fr-FR")
             };
             var grammar = new Grammar(grammarBuild);
 
             _recognizer.LoadGrammar(grammar);
+        }
+
+        public void UnloadAllGrammars()
+        {
+            _recognizer?.UnloadAllGrammars();
         }
 
         #endregion
