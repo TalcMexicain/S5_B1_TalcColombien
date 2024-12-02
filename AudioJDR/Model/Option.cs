@@ -87,14 +87,16 @@
             return this.words;
         }
 
-            /// <summary>
-            /// Add a word to the list of words if it is not in the list
-            /// </summary>
-            /// <param name="word">The word to add</param>
-            public void AddWordInList(string word)
+        /// <summary>
+        /// Add a word to the list of words if it is not in the list
+        /// </summary>
+        /// <param name="word">The word to add</param>
+        public void AddWordInList(string word)
         {
             if (string.IsNullOrWhiteSpace(word))
+            {
                 throw new ArgumentException("Word cannot be empty", nameof(word));
+            }
             
             if (!words.Contains(word, StringComparer.OrdinalIgnoreCase))
             {

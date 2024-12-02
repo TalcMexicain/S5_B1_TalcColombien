@@ -121,7 +121,6 @@ namespace Model
         /// <param name="option">The option to delete.</param>
         public void DeleteOption(Option option)
         {
-            Debug.WriteLine($"Deleting option: {option.NameOption} from event: {this.Name}");
             this.options.Remove(option);
         }
 

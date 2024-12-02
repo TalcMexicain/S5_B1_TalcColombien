@@ -16,8 +16,7 @@ namespace Model
         private int idStory;
         private string title;
         private string description;
-        private string author;
-        private string firstEvent;
+        private Event firstEvent;
 
         private ObservableCollection<Event> events;
         #endregion
@@ -52,15 +51,6 @@ namespace Model
         }
 
         /// <summary>
-        /// Gets or sets the author of the story
-        /// </summary>
-        public string Author
-        {
-            get => author;
-            set => author = value;
-        }
-
-        /// <summary>
         /// Gets or sets the list of events in the story
         /// </summary>
         public ObservableCollection<Event> Events
@@ -72,7 +62,11 @@ namespace Model
         /// <summary>
         /// Gets or sets the first event in the story.
         /// </summary>
-        public Event FirstEvent { get; private set; }
+        public Event FirstEvent 
+        {
+            get => firstEvent;
+            set => firstEvent = value;
+        }
 
         #endregion
 
@@ -99,16 +93,7 @@ namespace Model
         }
         #endregion
 
-        /// <summary>
-        /// Deletes the Story
-        /// </summary>
-        public void DeleteStory()
-        {
-            foreach (var evt in this.events.ToList())
-            {
-                DeleteEvent(evt); // Delete each event linked to the story
-            }
-        }
+        #region Public Methods
 
         /// <summary>
         /// Adds an event to the story
@@ -125,7 +110,6 @@ namespace Model
         /// <param name="evt">The event to delete.</param>
         public void DeleteEvent(Event evt)
         {
-            Debug.WriteLine($"Deleting event: {evt.Name}");
 
             // Iterate through all events in the story
             foreach (var eventInStory in events)
@@ -136,7 +120,6 @@ namespace Model
                     // If the option is linked to the event being deleted, unlink it
                     if (option.LinkedEvent == evt)
                     {
-                        Debug.WriteLine($"Unlinking option '{option.NameOption}' from event '{evt.Name}'");
                         option.LinkedEvent = eventInStory; // Link to the current event
                     }
                 }
@@ -144,7 +127,6 @@ namespace Model
 
             evt.DeleteEvent(); // Delete all options in the event
             this.events.Remove(evt); // Remove the event from the story
-            Debug.WriteLine($"Event '{evt.Name}' deleted successfully.");
         }
 
         /// <summary>
@@ -158,14 +140,16 @@ namespace Model
                 throw new InvalidOperationException("The event must belong to the story's events.");
             }
 
-            if (FirstEvent != null)
+            if (firstEvent != null)
             {
                 // Remove the first status from the current first event
                 FirstEvent.IsFirst = false; // Ensure the current first event is marked as not first
             }
 
-            FirstEvent = evt;
-            FirstEvent.IsFirst = true; // Mark the new event as first
+            firstEvent = evt;
+            firstEvent.IsFirst = true; // Mark the new event as first
         }
+
+        #endregion
     }
 }
