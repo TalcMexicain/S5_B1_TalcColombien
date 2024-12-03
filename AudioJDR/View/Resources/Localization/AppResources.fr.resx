@@ -333,8 +333,8 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   <data name="NoWordsAdded" xml:space="preserve">
     <value>Aucun mot ajouté.</value>
   </data>
-  <data name="SaveSuccessMessage" xml:space="preserve">
-    <value>L'histoire a été enregistrée avec succès.</value>
+  <data name="SaveSuccessFormat" xml:space="preserve">
+    <value>"{0}" a été sauvegardé avec succès.</value>
   </data>
   <data name="VoiceVolume" xml:space="preserve">
     <value>Volume de la voix</value>
@@ -363,7 +363,31 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   <data name="SelectStory" xml:space="preserve">
     <value>Veuillez sélectionner une histoire.</value>
   </data>
-  <data name="SetFirstEventSuccessMessage" xml:space="preserve">
+  <data name="SetAsFirstSuccessFormat" xml:space="preserve">
     <value>"{0}" a été défini comme le premier événement.</value>
+  </data>
+  <data name="AddedFormat" xml:space="preserve">
+    <value>"{0}" a été ajouté</value>
+  </data>
+  <data name="DeletedFormat" xml:space="preserve">
+    <value>"{0}" a été retiré</value>
+  </data>
+  <data name="DeleteErrorFormat" xml:space="preserve">
+    <value>Une erreur est survenue lors de la suppression de "{0}"</value>
+  </data>
+  <data name="ExportErrorFormat" xml:space="preserve">
+    <value>Une erreur est survenue lors de l'exportation de "{0}"</value>
+  </data>
+  <data name="ImportError" xml:space="preserve">
+    <value>Une erreur est survenue lors de l'importation</value>
+  </data>
+  <data name="SaveErrorFormat" xml:space="preserve">
+    <value>Une erreur est survenue lors de la sauvegarde de "{0}"</value>
+  </data>
+  <data name="SetAsFirstErrorFormat" xml:space="preserve">
+    <value>Une erreur est survenue lors de la tentative de définir "{0}" comme premier.</value>
+  </data>
+  <data name="WordChangeErrorFormat" xml:space="preserve">
+    <value>Une erreur est survenue lors de l'ajout/la suppression de "{0}"</value>
   </data>
 </root>

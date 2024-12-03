@@ -166,22 +166,21 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
 
     private void OnOptionPropertyChanged(object sender, EventArgs e)
     {
-        if (_isInitializing) return;
-        
-        if (_optionViewModel?.CurrentOption != null && _initialName != null)
+        if (!_isInitializing && _optionViewModel?.CurrentOption != null && _initialName != null)
         {
             var currentEvent = EventPicker.SelectedItem as Event;
             bool nameChanged = OptionNameEntry.Text != _initialName;
             bool eventChanged = currentEvent?.IdEvent != _initialLinkedEvent?.IdEvent;
-            
+
             _hasUnsavedChanges = nameChanged || eventChanged;
             Debug.WriteLine($"Changes detected - Name changed: {nameChanged}, Event changed: {eventChanged}");
         }
     }
 
+
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
-        bool canSave = ValidateOptionInput();
+        bool canSave = await ValidateOptionInput();
         
         if (canSave)
         {
@@ -191,7 +190,7 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
 
     private async void OnAddWordClicked(object sender, EventArgs e)
     {
-        string newWord = OptionWordsEntry.Text?.Trim();
+        string newWord = OptionWordsEntry.Text.Trim();
 
         if (!string.IsNullOrWhiteSpace(newWord))
         {
@@ -204,20 +203,13 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
                 {
                     // If it exists, remove the word
                     await _optionViewModel.RemoveWordAsync(newWord);
-                    await UIHelper.ShowSuccessDialog(this, $"{newWord} has been removed.");
+                    await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.DeletedFormat, newWord));
                 }
                 else
                 {
                     // If it doesn't exist, add the word
-                    bool added = await _optionViewModel.AddWordAsync(newWord);
-                    if (added)
-                    {
-                        await UIHelper.ShowSuccessDialog(this, $"{newWord} has been added.");
-                    }
-                    else
-                    {
-                        await UIHelper.ShowErrorDialog(this, AppResources.WordAlreadyExists);
-                    }
+                    await _optionViewModel.AddWordAsync(newWord);
+                    await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.AddedFormat, newWord));
                 }
 
                 // Update the display and clear the input
@@ -227,7 +219,7 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
             }
             catch (Exception ex)
             {
-                await UIHelper.ShowErrorDialog(this, ex.Message);
+                await UIHelper.ShowErrorDialog(this, string.Format(AppResources.WordChangeErrorFormat, newWord));
                 Debug.WriteLine($"Error processing word: {ex.Message}");
             }
         }
@@ -256,17 +248,6 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
     #endregion
 
     #region Option Operations
-
-    private bool HasOptionChanged()
-    {
-        if (_optionViewModel?.CurrentOption == null) return false;
-        
-        var currentEvent = (Event)EventPicker.SelectedItem;
-        bool nameChanged = OptionNameEntry.Text != _initialName;
-        bool eventChanged = currentEvent != _initialLinkedEvent;
-        
-        return nameChanged || eventChanged;
-    }
 
     private async Task<bool> CheckUnsavedChanges()
     {
@@ -301,53 +282,27 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
             _hasUnsavedChanges = false;
             
             success = true;
-            await UIHelper.ShowSuccessDialog(this, AppResources.SaveSuccessMessage);
+            await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.SaveSuccessFormat, OptionNameEntry.Text));
         }
         catch (Exception ex)
         {
-            await UIHelper.ShowErrorDialog(this, ex.Message);
+            await UIHelper.ShowErrorDialog(this, string.Format(AppResources.SaveErrorFormat, OptionNameEntry.Text));
             Debug.WriteLine($"Error saving option changes: {ex.Message}");
         }
         
         return success;
     }
 
-    private bool ValidateOptionInput()
+    private async Task<bool> ValidateOptionInput()
     {
         bool isValid = !string.IsNullOrWhiteSpace(OptionNameEntry.Text);
         
         if (!isValid)
         {
-            UIHelper.ShowErrorDialog(this, AppResources.ErrorOptionTitle).Wait();
+            await UIHelper.ShowErrorDialog(this, AppResources.ErrorOptionTitle);
         }
         
         return isValid;
-    }
-
-    private bool ValidateWordInput(string word)
-    {
-        bool isValid = !string.IsNullOrWhiteSpace(word);
-        
-        if (!isValid)
-        {
-            UIHelper.ShowErrorDialog(this, AppResources.ErrorEmptyWord).Wait();
-        }
-        
-        return isValid;
-    }
-
-    private async Task HandleWordAddResult(bool added)
-    {
-        if (added)
-        {
-            UpdateWordsDisplay();
-            OptionWordsEntry.Text = string.Empty;
-            _hasUnsavedChanges = true;
-        }
-        else
-        {
-            await UIHelper.ShowErrorDialog(this, AppResources.WordAlreadyExists);
-        }
     }
 
     private void UpdateWordsDisplay()

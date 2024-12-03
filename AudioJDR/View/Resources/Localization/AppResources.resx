@@ -331,8 +331,8 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="NoWordsAdded" xml:space="preserve">
     <value>No words added yet.</value>
   </data>
-  <data name="SaveSuccessMessage" xml:space="preserve">
-    <value>The story has been saved successfully.</value>
+  <data name="SaveSuccessFormat" xml:space="preserve">
+    <value>"{0}" has been saved successfully.</value>
   </data>
   <data name="VoiceVolume" xml:space="preserve">
     <value>Voice Volume</value>
@@ -361,7 +361,31 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="SelectStory" xml:space="preserve">
     <value>Please select a story</value>
   </data>
-  <data name="SetFirstEventSuccessMessage" xml:space="preserve">
+  <data name="SetAsFirstSuccessFormat" xml:space="preserve">
     <value>"{0}" has been set as the first event.</value>
+  </data>
+  <data name="AddedFormat" xml:space="preserve">
+    <value>"{0}" has been added</value>
+  </data>
+  <data name="DeletedFormat" xml:space="preserve">
+    <value>"{0}" has been removed</value>
+  </data>
+  <data name="DeleteErrorFormat" xml:space="preserve">
+    <value>An error occured attempting to delete "{0}"</value>
+  </data>
+  <data name="ExportErrorFormat" xml:space="preserve">
+    <value>An error occured attempting to export "{0}"</value>
+  </data>
+  <data name="ImportError" xml:space="preserve">
+    <value>An error occured during the importation process</value>
+  </data>
+  <data name="SaveErrorFormat" xml:space="preserve">
+    <value>An error occured attempting to save "{0}"</value>
+  </data>
+  <data name="SetAsFirstErrorFormat" xml:space="preserve">
+    <value>An error occured attempting to set "{0}" as first</value>
+  </data>
+  <data name="WordChangeErrorFormat" xml:space="preserve">
+    <value>An error occured attempting to remove/add "{0}"</value>
   </data>
 </root>
