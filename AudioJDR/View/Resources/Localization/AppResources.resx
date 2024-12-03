@@ -388,4 +388,10 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="WordChangeErrorFormat" xml:space="preserve">
     <value>An error occured attempting to remove/add "{0}"</value>
   </data>
+  <data name="TestVoice" xml:space="preserve">
+    <value>Test voice</value>
+  </data>
+  <data name="SampleVoiceText" xml:space="preserve">
+    <value>This is an example of the selected voice.</value>
+  </data>
 </root>

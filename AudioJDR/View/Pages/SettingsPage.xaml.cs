@@ -1,5 +1,4 @@
 using Model;
-using System.Diagnostics;
 using System.Globalization;
 using View.Resources.Localization;
 using ViewModel;
@@ -17,6 +16,7 @@ namespace View.Pages
         #region Fields
 
         private GlobalSettingsViewModel _globalSettingsViewModel;
+        private SpeechSynthesizerViewModel _speechViewModel;
 
         #endregion
 
@@ -29,6 +29,8 @@ namespace View.Pages
             this.SizeChanged += OnSizeChanged;
             this._globalSettingsViewModel = new GlobalSettingsViewModel(speechSynthesizer);
             InitializeSettingsElements();
+
+            _speechViewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
         }
         #endregion
 
@@ -58,6 +60,7 @@ namespace View.Pages
             if (pageWidth > 0 && pageHeight > 0)
             {
                 UIHelper.SetButtonSize(this, ThemeToggleButton, false);
+                UIHelper.SetButtonSize(this, TestVoiceButton, true);
                 UIHelper.SetButtonSize(this, BackButton, true);
 
                 LanguagePicker.WidthRequest = Math.Max(pageWidth * UIHelper.Sizes.BUTTON_WIDTH_FACTOR, UIHelper.Sizes.MIN_FRAME_WIDTH);
@@ -239,6 +242,19 @@ namespace View.Pages
         }
 
         #endregion
+
+        #region Voice Test Management
+
+        private void OnTestVoiceButtonClicked(object sender, EventArgs e)
+        {
+            string sampleText = AppResources.SampleVoiceText;
+            _speechViewModel.TextToSynthesize = sampleText;
+            _speechViewModel.StopSynthesis();
+            _speechViewModel.SynthesizeText();
+        }
+
+        #endregion
+
 
         #region Navigation
 

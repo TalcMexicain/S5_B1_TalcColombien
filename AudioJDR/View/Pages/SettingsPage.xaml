@@ -133,6 +133,22 @@
                 </VerticalStackLayout>
             </VerticalStackLayout>
 
+            <!-- Test Voice Button -->
+            <Button x:Name="TestVoiceButton"
+                    Text="{x:Static local:AppResources.TestVoice}"
+                    Clicked="OnTestVoiceButtonClicked"
+                    HorizontalOptions="Center"
+                    Padding="20,10"
+                    FontSize="Medium">
+                <Button.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
+                </Button.BackgroundColor>
+                <Button.TextColor>
+                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                </Button.TextColor>
+            </Button>
+
+
             <!-- Back Button -->
             <Button x:Name="BackButton"
                     Text="{x:Static local:AppResources.Back}"

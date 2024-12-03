@@ -390,4 +390,10 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   <data name="WordChangeErrorFormat" xml:space="preserve">
     <value>Une erreur est survenue lors de l'ajout/la suppression de "{0}"</value>
   </data>
+  <data name="TestVoice" xml:space="preserve">
+    <value>Tester la voix</value>
+  </data>
+  <data name="SampleVoiceText" xml:space="preserve">
+    <value>Ceci est un exemple de la voix sélectionnée.</value>
+  </data>
 </root>

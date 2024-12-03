@@ -587,6 +587,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à This is an example of the selected voice..
+        /// </summary>
+        internal static string SampleVoiceText {
+            get {
+                return ResourceManager.GetString("SampleVoiceText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Save.
         /// </summary>
         internal static string Save {
@@ -709,6 +718,15 @@ namespace View.Resources.Localization {
         internal static string Success {
             get {
                 return ResourceManager.GetString("Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Test voice.
+        /// </summary>
+        internal static string TestVoice {
+            get {
+                return ResourceManager.GetString("TestVoice", resourceCulture);
             }
         }
         
