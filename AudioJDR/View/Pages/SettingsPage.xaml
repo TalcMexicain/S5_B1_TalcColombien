@@ -58,7 +58,8 @@
 
             <!-- Speech Synthesis Settings -->
             <VerticalStackLayout Spacing="15">
-                <Label Text="Synthèse Vocale"
+                <Label x:Name="SynthesisTitleLabel"
+                       Text="{x:Static local:AppResources.SynthesisSettingsLabel}"
                        FontSize="Large"
                        FontFamily="UncialAntiquaRegular"
                        HorizontalOptions="Center">
@@ -83,7 +84,8 @@
 
                 <!-- Voice Volume -->
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="{x:Static local:AppResources.VoiceVolume}"
+                    <Label x:Name="VoiceVolumeLabel"
+                           Text="{x:Static local:AppResources.VoiceVolume}"
                            FontSize="Medium"
                            HorizontalOptions="Center">
                         <Label.TextColor>
@@ -108,7 +110,8 @@
 
                 <!-- Voice Speed -->
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="{x:Static local:AppResources.VoiceSpeed}"
+                    <Label x:Name="VoiceRateLabel"
+                           Text="{x:Static local:AppResources.VoiceSpeed}"
                            FontSize="Medium"
                            HorizontalOptions="Center">
                         <Label.TextColor>

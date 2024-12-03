@@ -176,6 +176,12 @@ namespace View.Pages
             ThemeToggleButton.Text = AppResources.ToggleTheme;
             BackButton.Text = AppResources.Back;
             LanguagePicker.Title = AppResources.SelectLanguage;
+
+            SynthesisTitleLabel.Text = AppResources.SynthesisSettingsLabel;
+            VoiceVolumeLabel.Text = AppResources.VoiceVolume;
+            VoiceRateLabel.Text = AppResources.VoiceSpeed;
+            TestVoiceButton.Text = AppResources.TestVoice;
+            VoiceTypeTTSPicker.Title = AppResources.VoiceType;
         }
 
         #endregion

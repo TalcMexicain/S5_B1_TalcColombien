@@ -722,6 +722,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Voice synthesis.
+        /// </summary>
+        internal static string SynthesisSettingsLabel {
+            get {
+                return ResourceManager.GetString("SynthesisSettingsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Test voice.
         /// </summary>
         internal static string TestVoice {
