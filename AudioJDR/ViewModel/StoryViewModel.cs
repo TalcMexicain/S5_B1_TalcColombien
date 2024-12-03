@@ -14,7 +14,7 @@ namespace ViewModel
     {
         #region Fields
 
-        private readonly StoryManager _storyManager;
+        private IStoryManager _storyManager;
         private Story _currentStory;
         private ObservableCollection<Story> _stories;
         private ObservableCollection<EventViewModel> _events;
@@ -57,9 +57,17 @@ namespace ViewModel
         /// <summary>
         /// Initializes a new instance of the StoryViewModel class.
         /// </summary>
-        public StoryViewModel()
+        public StoryViewModel(IStoryManager storyManager = null)
         {
-            _storyManager = new StoryManager();
+            if (storyManager == null)
+            {
+                _storyManager = new StoryManager();
+            }
+            else
+            {
+                _storyManager = storyManager;
+            }
+            
             _stories = new ObservableCollection<Story>();
             _events = new ObservableCollection<EventViewModel>();
             LoadStoriesAsync();

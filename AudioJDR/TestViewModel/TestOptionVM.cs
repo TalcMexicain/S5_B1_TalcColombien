@@ -11,6 +11,7 @@ namespace TestViewModel
     public class TestOptionVM
     {
         private StoryViewModel _storyVM;
+        private EventViewModel _eventVM;
 
         public TestOptionVM() 
         {
@@ -20,13 +21,13 @@ namespace TestViewModel
 
             _storyVM = new StoryViewModel();
             _storyVM.CurrentStory = story;
+            _eventVM = new EventViewModel(_storyVM);
         }
 
         [Fact]
         public void SetCurrentOption()
         {
-            EventViewModel eventVM = new EventViewModel(_storyVM);
-            OptionViewModel optionVM = new OptionViewModel(eventVM);
+            OptionViewModel optionVM = new OptionViewModel(_eventVM);
 
             Option option = new Option();
 
@@ -44,8 +45,7 @@ namespace TestViewModel
         [Fact]
         public void OptionVM_Constructor_NullOption()
         {
-            EventViewModel eventVM = new EventViewModel(_storyVM);
-            OptionViewModel optionVM = new OptionViewModel(eventVM);
+            OptionViewModel optionVM = new OptionViewModel(_eventVM);
 
             Assert.NotNull(optionVM.CurrentOption);
             Assert.Equal(string.Empty, optionVM.CurrentOption.NameOption);
@@ -55,8 +55,7 @@ namespace TestViewModel
         [Fact]
         public async Task UpdateOptionAsync_NullException()
         {
-            EventViewModel eventVM = new EventViewModel(_storyVM);
-            OptionViewModel optionVM = new OptionViewModel(eventVM);
+            OptionViewModel optionVM = new OptionViewModel(_eventVM);
 
             await Assert.ThrowsAsync<ArgumentNullException>(() => optionVM.UpdateOptionAsync(null));
         }

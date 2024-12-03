@@ -5,7 +5,7 @@ namespace Model.Storage
     /// Manages the storage and retrieval of stories using the StorySaveSystem.
     /// Provides methods to save, load, and delete stories.
     /// </summary>
-    public class StoryManager
+    public class StoryManager : IStoryManager
     {
         #region Fields 
 
