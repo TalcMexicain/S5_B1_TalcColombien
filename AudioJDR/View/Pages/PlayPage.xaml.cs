@@ -30,14 +30,14 @@ namespace View.Pages
         /// <summary>
         /// Initializes a new instance of the PlayPage class.
         /// </summary>
-        public PlayPage(ISpeechSynthesizer speechSynthesizer)
+        public PlayPage(ISpeechSynthesizer speechSynthesizer, ISpeechRecognition speechRecognition)
         {
             InitializeComponent();
 
             _storyViewModel = new StoryViewModel();
             BindingContext = _recognitionViewModel;
 
-            _recognitionViewModel = new SpeechRecognitionViewModel();
+            _recognitionViewModel = new SpeechRecognitionViewModel(speechRecognition);
             _synthesizerViewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
 
             // Subscriptions to recognition view model events

@@ -57,7 +57,7 @@
                 </Button.TextColor>
             </Button>
 
-            <!-- Create Button -->
+            <!-- Create Story Button -->
             <Button x:Name="CreateButton"
                     Text="{x:Static local:AppResources.Create}"
                     Grid.Row="4"
@@ -66,7 +66,7 @@
                     FontSize="Medium"
                     Padding="20,10"
                     LineBreakMode="WordWrap"
-                    Clicked="OnCreateButtonClicked">
+                    Clicked="OnCreateStoryButtonClicked">
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>
@@ -84,7 +84,7 @@
                     FontSize="Medium"
                     Padding="20,10"
                     LineBreakMode="WordWrap"
-                    Clicked="OnOptionButtonClicked">
+                    Clicked="OnSettingsButtonClicked">
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                 </Button.BackgroundColor>

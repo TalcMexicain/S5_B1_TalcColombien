@@ -8,9 +8,9 @@ using System.Speech.Recognition;
 namespace Model
 {
     /// <summary>
-    /// 
+    /// Windows implementation of the ISpeechRecognition interface for speech recognition functionnality
     /// </summary>
-    public class SpeechRecognitionModel
+    public class WindowsRecognition : ISpeechRecognition
     {
         #region Fields 
 
@@ -21,9 +21,6 @@ namespace Model
 
         #region Events 
 
-        /// <summary>
-        /// Event triggered when a text is recognized.
-        /// </summary>
         public event Action<string> SpeechRecognized;
 
         #endregion
@@ -34,7 +31,7 @@ namespace Model
         /// Initializes a new instance of the <see cref="SpeechRecognitionModel"/> class.
         /// Sets up the speech recognition engine with French culture settings.
         /// </summary>
-        public SpeechRecognitionModel()
+        public WindowsRecognition()
         {
             try
             {
@@ -60,9 +57,6 @@ namespace Model
 
         #region Public Methods 
 
-        /// <summary>
-        /// Starts the speech recognition process.
-        /// </summary>
         public void StartRecognition()
         {
             if (_recognizer != null && _recognizer.AudioState == AudioState.Stopped)
@@ -71,10 +65,6 @@ namespace Model
             }
         }
 
-        /// <summary>
-        /// Updates the grammar of the speech recognition engine with the provided keywords.
-        /// </summary>
-        /// <param name="keywords">An array of keywords to include in the grammar.</param>
         public void UpdateGrammar(string[] keywords)
         {
             _recognizer.UnloadAllGrammars();

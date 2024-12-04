@@ -22,7 +22,7 @@ public partial class MainPage : ContentPage
     /// Initializes a new instance of the MainPage class, sets up the UI, 
     /// and subscribes to the SizeChanged event to adjust button sizes dynamically.
     /// </summary>
-    public MainPage()
+    public MainPage(ISpeechRecognition speechRecognition)
     {
 
         InitializeComponent();
@@ -30,9 +30,8 @@ public partial class MainPage : ContentPage
         this.SizeChanged += OnSizeChanged;
 
         BindingContext = _recognitionViewModel;
-        _recognitionViewModel = new SpeechRecognitionViewModel();
+        _recognitionViewModel = new SpeechRecognitionViewModel(speechRecognition);
         _recognitionViewModel.NavigateToPlay += async () => await NavigateToPlay();
-        
     }
 
     #endregion
@@ -68,12 +67,12 @@ public partial class MainPage : ContentPage
         await NavigateToPlay();
     }
 
-    private async void OnCreateButtonClicked(object sender, EventArgs e)
+    private async void OnCreateStoryButtonClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(MainCreatorPage));
     }
 
-    private async void OnOptionButtonClicked(object sender, EventArgs e)
+    private async void OnSettingsButtonClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(SettingsPage));
     }

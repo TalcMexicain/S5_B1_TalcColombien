@@ -20,7 +20,7 @@ public partial class MainPlayerPage : ContentPage
 
     #region Constructor
 
-    public MainPlayerPage(ISpeechSynthesizer speechSynthesizer)
+    public MainPlayerPage(ISpeechSynthesizer speechSynthesizer, ISpeechRecognition speechRecognition)
     {
         InitializeComponent();
         SetResponsiveSizes();
@@ -31,7 +31,7 @@ public partial class MainPlayerPage : ContentPage
         _speechViewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
         BindingContext = _speechViewModel;
 
-        _recognitionViewModel = new SpeechRecognitionViewModel();
+        _recognitionViewModel = new SpeechRecognitionViewModel(speechRecognition);
 
         _recognitionViewModel.RepeatSpeech += async () => await RepeatSpeech();
         _recognitionViewModel.NavigateNext += async () => await NavigateNext();

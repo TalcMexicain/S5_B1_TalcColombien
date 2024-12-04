@@ -18,7 +18,7 @@ public partial class YourStories : ContentPage
 
     #region Constructor
 
-    public YourStories()
+    public YourStories(ISpeechRecognition speechRecognition)
     {
         InitializeComponent();
         _viewModel = new StoryViewModel();
@@ -27,15 +27,13 @@ public partial class YourStories : ContentPage
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
 
-        _recognitionViewModel = new SpeechRecognitionViewModel();
+        _recognitionViewModel = new SpeechRecognitionViewModel(speechRecognition);
 
         //_recognitionViewModel.RepeatSpeech += async () => await RepeatSpeech();
         _recognitionViewModel.NavigateToNewGame += async (potentialTitle) => await NavigateToNewGame(potentialTitle);
         _recognitionViewModel.ContinueGame += async (potentialTitle) => await ContinueGame(potentialTitle);
         _recognitionViewModel.NavigatePrevious += async () => await NavigatePrevious();
         
-
-
     }
 
     #endregion

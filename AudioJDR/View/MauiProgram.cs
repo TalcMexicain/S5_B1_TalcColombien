@@ -28,8 +28,11 @@ namespace View
                 builder.Services.AddSingleton<App>();
                 builder.Services.AddSingleton<MainPlayerPage>();
                 builder.Services.AddSingleton<PlayPage>();
+                builder.Services.AddSingleton<MainPage>();
+                builder.Services.AddSingleton<YourStories>();
 #if WINDOWS
                 builder.Services.AddSingleton<ISpeechSynthesizer, WindowsSynthesizer>();
+                builder.Services.AddSingleton<ISpeechRecognition, WindowsRecognition>();
 #elif ANDROID
                 //builder.Services.AddSingleton<ISpeechSynthesizer, AndroidSynthesizer()>();
 #endif

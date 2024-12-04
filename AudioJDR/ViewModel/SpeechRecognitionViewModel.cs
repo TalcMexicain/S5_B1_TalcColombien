@@ -16,11 +16,10 @@ namespace ViewModel
     {
         #region Fields 
 
-        private SpeechRecognitionModel _speechRecognitionModel;
+        private ISpeechRecognition _speechRecognition;
         private StringBuilder _recognizedTextAccumulator;
         private string _recognizedText;
         private string _currentContext; // Tracks the active context
-
 
         #endregion
 
@@ -59,13 +58,13 @@ namespace ViewModel
         /// Initializes a new instance of the SpeechRecognitionViewModel class.
         /// Sets up the speech recognition model and subscribes to its events.
         /// </summary>
-        public SpeechRecognitionViewModel()
+        public SpeechRecognitionViewModel(ISpeechRecognition speechRecognition)
         {
-            _speechRecognitionModel = new SpeechRecognitionModel();
+            _speechRecognition = speechRecognition;
             _recognizedTextAccumulator = new StringBuilder();
 
             // Listen to recognition events
-            _speechRecognitionModel.SpeechRecognized += OnSpeechRecognized;
+            _speechRecognition.SpeechRecognized += OnSpeechRecognized;
         }
 
         #endregion
@@ -78,7 +77,7 @@ namespace ViewModel
         public void StartRecognition(IEnumerable<string> keywords, string context)
         {
             UpdateGrammar(keywords, context);
-            _speechRecognitionModel.StartRecognition();
+            _speechRecognition.StartRecognition();
         }
 
         /// <summary>
@@ -93,7 +92,7 @@ namespace ViewModel
                 _currentContext = context;
             }
             Debug.WriteLine($"Updating grammar with new keywords: {string.Join(", ", keywords)}");
-            _speechRecognitionModel.UpdateGrammar(keywords.ToArray());
+            _speechRecognition.UpdateGrammar(keywords.ToArray());
         }
 
         /// <summary>
@@ -101,7 +100,7 @@ namespace ViewModel
         /// </summary>
         public void UnloadGrammars()
         {
-            _speechRecognitionModel.UnloadAllGrammars();
+            _speechRecognition.UnloadAllGrammars();
             _currentContext = null; // Reset the context
         }
 
@@ -123,7 +122,6 @@ namespace ViewModel
 
             HandleGeneralCommands(recognizedText);
         }
-
         
         private bool HandleSpecificCommands(string recognizedText)
         {
@@ -166,7 +164,6 @@ namespace ViewModel
             return false; 
         }
 
-        
         private string ExtractTitleFromAccumulator(string recognizedText, string command)
         {
             var potentialTitle = _recognizedTextAccumulator.ToString().Trim();
@@ -174,7 +171,6 @@ namespace ViewModel
             return potentialTitle;
         }
 
-        
         private void HandleGeneralCommands(string recognizedText)
         {
             switch (recognizedText.ToLowerInvariant())
@@ -222,13 +218,11 @@ namespace ViewModel
             }
         }
 
-        
         private void ClearAccumulator()
         {
             _recognizedTextAccumulator.Clear();
             RecognizedText = string.Empty;
         }
-
         
         private void AddToAccumulator(string recognizedText)
         {
@@ -241,7 +235,6 @@ namespace ViewModel
             RecognizedText = _recognizedTextAccumulator.ToString();
             AddWordsToView?.Invoke();
         }
-
 
         #endregion
     }
