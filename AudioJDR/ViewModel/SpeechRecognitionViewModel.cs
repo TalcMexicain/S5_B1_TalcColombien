@@ -5,6 +5,7 @@ using System.Text;
 using System.Speech.Recognition;
 using Model;
 
+
 namespace ViewModel
 {
     /// <summary>
@@ -32,6 +33,9 @@ namespace ViewModel
         public event Action NavigateNext;
         public event Action NavigatePrevious;
         public event Action RepeatSpeech;
+        public event Action<string> NavigateToNewGame;
+        public event Action<string> ContinueGame;
+        public event Action ClosePopUp;
 
         #endregion
 
@@ -111,57 +115,133 @@ namespace ViewModel
         private void OnSpeechRecognized(string recognizedText)
         {
             Debug.WriteLine($"Recognized: {recognizedText}");
+           
+            if (HandleSpecificCommands(recognizedText))
+            {
+                return; 
+            }
+
+            HandleGeneralCommands(recognizedText);
+        }
+
+        
+        private bool HandleSpecificCommands(string recognizedText)
+        {
+            var normalizedText = recognizedText.ToLowerInvariant();
+
+            // Commande "nouvelle partie"
+            if (normalizedText.Contains("nouvelle partie"))
+            {
+                var potentialTitle = ExtractTitleFromAccumulator(normalizedText, "nouvelle partie");
+                if (!string.IsNullOrEmpty(potentialTitle))
+                {
+                    Debug.WriteLine($"Recognized title for new game: {potentialTitle}");
+                    NavigateToNewGame?.Invoke(potentialTitle);
+                }
+                else
+                {
+                    Debug.WriteLine("Aucun titre valide trouvé avant 'nouvelle partie'.");
+                }
+                ClearAccumulator();
+                return true; 
+            }
+
+            // Commande "continuer"
+            if (normalizedText.Contains("continuer"))
+            {
+                var potentialTitle = ExtractTitleFromAccumulator(normalizedText, "continuer");
+                if (!string.IsNullOrEmpty(potentialTitle))
+                {
+                    Debug.WriteLine($"Recognized title for continue: {potentialTitle}");
+                    ContinueGame?.Invoke(potentialTitle);
+                }
+                else
+                {
+                    Debug.WriteLine("Aucun titre valide trouvé avant 'continuer'.");
+                }
+                ClearAccumulator();
+                return true; 
+            }
+
+            return false; 
+        }
+
+        
+        private string ExtractTitleFromAccumulator(string recognizedText, string command)
+        {
+            var potentialTitle = _recognizedTextAccumulator.ToString().Trim();
+            potentialTitle = potentialTitle.Replace(command, "").Trim();
+            return potentialTitle;
+        }
+
+        
+        private void HandleGeneralCommands(string recognizedText)
+        {
             switch (recognizedText.ToLowerInvariant())
             {
                 case "valider":
                     OptionSubmitted?.Invoke();
-                    _recognizedTextAccumulator.Clear();
-                    RecognizedText = string.Empty;
+                    ClearAccumulator();
                     TextCleared?.Invoke();
                     break;
 
                 case "annuler":
-                    _recognizedTextAccumulator.Clear();
-                    RecognizedText = string.Empty;
+                    ClearAccumulator();
                     TextCleared?.Invoke();
                     break;
 
                 case "jouer":
                     NavigateToPlay?.Invoke();
-                    _recognizedTextAccumulator.Clear();
-                    RecognizedText = string.Empty;
+                    ClearAccumulator();
                     break;
 
                 case "repeter":
                     RepeatSpeech?.Invoke();
-                    _recognizedTextAccumulator.Clear();
-                    RecognizedText = string.Empty;
+                    ClearAccumulator();
                     break;
 
-                case "continuer":
+                case "vers la liste des histoires":
                     NavigateNext?.Invoke();
-                    _recognizedTextAccumulator.Clear();
-                    RecognizedText = string.Empty;
+                    ClearAccumulator();
                     break;
 
                 case "retour":
                     NavigatePrevious?.Invoke();
-                    _recognizedTextAccumulator.Clear();
-                    RecognizedText = string.Empty;
+                    ClearAccumulator();
+                    break;
+
+                case "ok":
+                    ClosePopUp?.Invoke();
+                    ClearAccumulator();
                     break;
 
                 default:
-                    if (_recognizedTextAccumulator.Length > 0)
-                    {
-                        _recognizedTextAccumulator.Append(" ");
-                    }
-                    _recognizedTextAccumulator.Append(recognizedText);
-
-                    RecognizedText = _recognizedTextAccumulator.ToString();
-                    AddWordsToView?.Invoke();
+                    
+                    AddToAccumulator(recognizedText);
                     break;
             }
         }
+
+        
+        private void ClearAccumulator()
+        {
+            _recognizedTextAccumulator.Clear();
+            RecognizedText = string.Empty;
+        }
+
+        
+        private void AddToAccumulator(string recognizedText)
+        {
+            if (_recognizedTextAccumulator.Length > 0)
+            {
+                _recognizedTextAccumulator.Append(" ");
+            }
+            _recognizedTextAccumulator.Append(recognizedText);
+
+            RecognizedText = _recognizedTextAccumulator.ToString();
+            AddWordsToView?.Invoke();
+        }
+
 
         #endregion
     }

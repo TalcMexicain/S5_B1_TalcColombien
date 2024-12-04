@@ -49,6 +49,7 @@ namespace View.Pages
             {
                 OptionEntry.Text = string.Empty;
             };
+            _recognitionViewModel.ClosePopUp += async () => await ClosePopup();
         }
 
         #endregion
@@ -79,7 +80,7 @@ namespace View.Pages
         private async Task LoadEvent(int storyId, int eventId)
         {
             PageContext = "PlayPage" + eventId.ToString();
-            var keywords = new HashSet<string> { "repeter", "retour", "valider", "annuler" };
+            var keywords = new HashSet<string> { "repeter", "retour", "valider", "annuler", "ok" };
 
             _currentStory = await _storyViewModel.GetStoryByIdAsync(storyId);
             Event? eventToShow = _currentStory?.Events.FirstOrDefault(e => e.IdEvent == eventId);
@@ -268,6 +269,11 @@ namespace View.Pages
         {
             OptionEntry.Text = string.Empty;
             OptionEntry.Text += _recognitionViewModel.RecognizedText;
+        }
+
+        private async Task ClosePopup()
+        {
+            await Shell.Current.GoToAsync("..");
         }
 
         #endregion
