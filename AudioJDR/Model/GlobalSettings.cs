@@ -120,12 +120,20 @@ namespace Model
         /// <summary>
         /// Gets or stores voice type for text-to-speech (TTS)
         /// The default value is set by the cosntant "defaultVoiceTypeTTS" (<see cref="defaultVoiceTypeTTS"/>)
+        /// Verify if the voice type to be saved is available
         /// </summary>
         public string VoiceTypeTTS
         {
             get
             {
-                return Preferences.Get(voiceTypeKey, defaultVoiceTypeTTS);
+                string savedVoiceType = Preferences.Get(voiceTypeKey, defaultVoiceTypeTTS);
+
+                if (string.IsNullOrEmpty(savedVoiceType) && !IsVoiceTypeAvailable(savedVoiceType))
+                {
+                    savedVoiceType = GetAvailableVoiceType();
+                }
+
+                return savedVoiceType;
             }
             set
             {
@@ -195,6 +203,22 @@ namespace Model
         private void LoadAllVoicesTypeTTS()
         {
             this._availableVoicesTypeTTS = this._speechSynthesizer.GetInstalledVoices();
+        }
+
+        private bool IsVoiceTypeAvailable(string voiceType)
+        {
+            return this._availableVoicesTypeTTS.Contains(voiceType);
+        }
+
+        private string GetAvailableVoiceType()
+        {
+            string voiceType = "";
+            if (this.AvailableVoicesTypeTTS.Count > 0)
+            {
+                voiceType = this.AvailableVoicesTypeTTS.First().ToString();
+            }
+
+            return voiceType;
         }
 
         private string GetDefautlLanguage()

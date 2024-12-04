@@ -28,9 +28,8 @@ namespace View.Pages
             SetResponsiveSizes();
             this.SizeChanged += OnSizeChanged;
             this._globalSettingsViewModel = new GlobalSettingsViewModel(speechSynthesizer);
+            this._speechViewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
             InitializeSettingsElements();
-
-            _speechViewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
         }
         #endregion
 
@@ -106,6 +105,7 @@ namespace View.Pages
         private void VoiceTypeTTSPickerInitialization()
         {
             VoiceTypeTTSPicker.ItemsSource = this._globalSettingsViewModel.AvailableVoicesTypeTTS;
+            VoiceTypeTTSPicker.SelectedItem = this._globalSettingsViewModel.VoiceTypeTTS;
         }
 
         private void VolumeSliderInitialization()
@@ -215,6 +215,16 @@ namespace View.Pages
 
         #endregion
 
+        #region VoiceType Management
+
+        private void OnVoiceTypeChanged(object sender, EventArgs e)
+        {
+            string? selectedVoiceType = VoiceTypeTTSPicker.SelectedItem.ToString();
+            this._globalSettingsViewModel.VoiceTypeTTS = selectedVoiceType;
+        }
+
+        #endregion
+
         #region VolumeTTS Management
 
         private void OnVolumeChanged(object sender, ValueChangedEventArgs e)
@@ -253,6 +263,11 @@ namespace View.Pages
 
         private void OnTestVoiceButtonClicked(object sender, EventArgs e)
         {
+            TestVoiceWithNewSettings();
+        }
+
+        private void TestVoiceWithNewSettings()
+        {
             string sampleText = AppResources.SampleVoiceText;
             _speechViewModel.TextToSynthesize = sampleText;
             _speechViewModel.StopSynthesis();
@@ -260,7 +275,6 @@ namespace View.Pages
         }
 
         #endregion
-
 
         #region Navigation
 

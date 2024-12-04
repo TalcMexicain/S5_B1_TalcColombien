@@ -30,15 +30,21 @@ namespace UnitTests
                 Description = "A test story"
             };
 
-            Event event1 = new Event("Event 1", "Description 1") { IdEvent = 1 };
-            Option option1 = new Option { IdOption = 1, NameOption = "Option 1", LinkedEvent = event1 };
+            Event event1 = new Event() 
+            { 
+                IdEvent = 1, 
+                Name = "Event 1", 
+                Description = "Description 1" 
+            };
+
+            Option option1 = new Option {
+                IdOption = 1,
+                NameOption = "Option 1",
+                LinkedEvent = event1 
+            };
+
             event1.AddOption(option1);
             storyTest.Events.Add(event1);
-
-            Event event2 = new Event("Event 2", "Description 2") { IdEvent = 2 };
-            Option option2 = new Option { IdOption = 2, NameOption = "Option 2", LinkedEvent = event2 };
-            event2.AddOption(option2);
-            storyTest.Events.Add(event2);
 
             string storyFilePath = Path.Combine(_testFolder, $"{storyTest.IdStory}.json");
 

@@ -71,6 +71,7 @@
                 <!-- Voice Type Picker -->
                 <Picker x:Name="VoiceTypeTTSPicker"
                         Title="{x:Static local:AppResources.VoiceType}"
+                        SelectedIndexChanged="OnVoiceTypeChanged"
                         HorizontalOptions="Center"
                         MaximumHeightRequest="110"
                         FontSize="Medium">
