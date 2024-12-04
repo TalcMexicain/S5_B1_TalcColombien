@@ -60,5 +60,13 @@ namespace TestViewModel
         {
             _fakeManagerStories.Clear();
         }
+
+        public void ClearAllStoryEvents()
+        {
+            foreach (Story story in _fakeManagerStories)
+            {
+                story.Events.Clear();
+            }
+        }
     }
 }
