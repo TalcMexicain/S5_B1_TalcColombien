@@ -12,7 +12,8 @@
 
             <!-- Title -->
             <VerticalStackLayout Spacing="15">
-                <Label Text="{x:Static local:AppResources.Settings}"
+                <Label x:Name="PageSettingsTitle"
+                       Text="{x:Static local:AppResources.Settings}"
                        FontSize="Large"
                        FontFamily="UncialAntiquaRegular"
                        HorizontalOptions="Center">

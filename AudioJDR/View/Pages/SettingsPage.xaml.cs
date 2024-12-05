@@ -173,6 +173,8 @@ namespace View.Pages
         {
             AppResources.Culture = new CultureInfo(_globalSettingsViewModel.Language);
 
+            PageSettingsTitle.Text = AppResources.Settings;
+
             ThemeToggleButton.Text = AppResources.ToggleTheme;
             BackButton.Text = AppResources.Back;
             LanguagePicker.Title = AppResources.SelectLanguage;

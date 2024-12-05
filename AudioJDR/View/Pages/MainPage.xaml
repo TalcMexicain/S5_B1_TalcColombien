@@ -29,7 +29,8 @@
             </Grid.RowDefinitions>
 
             <!-- Title -->
-            <Label Text="{x:Static local:AppResources.WelcomeMessage}"
+            <Label x:Name="WelcomeMessage" 
+                   Text="{x:Static local:AppResources.WelcomeMessage}"
                    FontFamily="UncialAntiquaRegular"
                    Grid.Row="0"
                    HorizontalOptions="Center"
