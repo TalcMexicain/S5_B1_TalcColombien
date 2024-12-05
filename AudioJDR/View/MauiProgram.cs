@@ -34,7 +34,17 @@ namespace View
                 builder.Services.AddSingleton<ISpeechSynthesizer, WindowsSynthesizer>();
                 builder.Services.AddSingleton<ISpeechRecognition, WindowsRecognition>();
 #elif ANDROID
-                //builder.Services.AddSingleton<ISpeechSynthesizer, AndroidSynthesizer()>();
+            builder.Services.AddSingleton<ISpeechSynthesizer>(provider =>
+            {
+                Context context = Android.App.Application.Context;
+                return new AndroidSynthesizer(context);
+            });
+
+            builder.Services.AddSingleton<ISpeechRecognition>(provider =>
+            {
+                Context context = Android.App.Application.Context;
+                return new AndroidRecognition(context);
+            });
 #endif
 
 #if DEBUG

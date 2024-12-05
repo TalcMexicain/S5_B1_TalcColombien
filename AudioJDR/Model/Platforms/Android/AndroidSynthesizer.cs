@@ -18,6 +18,8 @@ namespace Model.Platforms.Android
         private Context _context;
 
         private int _volume;
+        private float _voiceRate;
+        private string _currentVoiceName;
 
         #endregion
 
@@ -30,6 +32,8 @@ namespace Model.Platforms.Android
             this._textToSpeech = new TextToSpeech(this._context,this);
 
             this._volume = 50;
+            this._voiceRate = 1.0f;
+            this._currentVoiceName = string.Empty;
         }
 
         #endregion
@@ -54,7 +58,7 @@ namespace Model.Platforms.Android
             if(_isInitialized && !string.IsNullOrEmpty(textToSynthesize))
             {
                 Bundle bundle = new Bundle();
-                bundle.PutFloat(TextToSpeech.Engine.KeyParamVolume, _volume);
+                bundle.PutFloat(TextToSpeech.Engine.KeyParamVolume, _volume / 100f);
                 _textToSpeech.Speak(textToSynthesize, QueueMode.Flush, bundle,null);
             }
         }
@@ -69,12 +73,12 @@ namespace Model.Platforms.Android
 
         public void PauseCurrentSynthesis()
         {
-            //TODO 
+            throw new NotSupportedException("Android TTS does not support paused synthesis.");
         }
 
         public void ResumePausedSynthesis()
         {
-            //TODO
+            throw new NotSupportedException("Android TTS does not support resuming paused synthesis.");
         }
         public void SetVoiceVolume(int voiceVolume)
         {
@@ -97,14 +101,17 @@ namespace Model.Platforms.Android
             {
                 throw new ArgumentOutOfRangeException(nameof(voiceRate), "voiceRate parameter must be between 0.5f and 2.0f");   
             }
+            _voiceRate = voiceRate;
 
-            _textToSpeech.SetSpeechRate(voiceRate);
+            if (_isInitialized)
+            {
+                _textToSpeech.SetSpeechRate(voiceRate);
+            }
         }
 
-        //TODO
         public float GetVoiceRate()
         {
-            throw new NotImplementedException();
+            return _voiceRate;
         }
 
         public void SetVoiceType(string voiceName)
@@ -116,6 +123,7 @@ namespace Model.Platforms.Android
                 if (voice != null)
                 {
                     _textToSpeech.SetVoice(voice);
+                    _currentVoiceName = voiceName;
                 }
                 else
                 {
@@ -147,10 +155,9 @@ namespace Model.Platforms.Android
             return voicesName;
         }
 
-        //TODO
         public string GetCurrentVoiceTypeName()
         {
-            throw new NotImplementedException();
+            return _currentVoiceName;
         }
 
         public void Dispose()
@@ -159,7 +166,9 @@ namespace Model.Platforms.Android
             {
                 _textToSpeech.Dispose();
                 _textToSpeech.Shutdown();
+                _textToSpeech = null;
             }
+            GC.SuppressFinalize(this);
         }
 
         #endregion

@@ -33,7 +33,6 @@ public partial class YourStories : ContentPage
         _recognitionViewModel.NavigateToNewGame += async (potentialTitle) => await NavigateToNewGame(potentialTitle);
         _recognitionViewModel.ContinueGame += async (potentialTitle) => await ContinueGame(potentialTitle);
         _recognitionViewModel.NavigatePrevious += async () => await NavigatePrevious();
-        
     }
 
     #endregion
