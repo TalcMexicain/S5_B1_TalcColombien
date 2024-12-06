@@ -3,6 +3,7 @@ using Model.Storage;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using ViewModel.Resources.Localization;
 
 namespace ViewModel
 {
@@ -57,7 +58,7 @@ namespace ViewModel
         /// <summary>
         /// Initializes a new instance of the StoryViewModel class.
         /// </summary>
-        public StoryViewModel(IStoryManager storyManager = null)
+        public StoryViewModel(IStoryManager? storyManager = null)
         {
             if (storyManager == null)
             {
@@ -82,7 +83,7 @@ namespace ViewModel
         /// </summary>
         public async Task LoadStoriesAsync()
         {
-            var savedStories = await _storyManager.GetSavedStoriesAsync();
+            List<Story> savedStories = await _storyManager.GetSavedStoriesAsync();
             Stories.Clear();
             Events.Clear();
             
@@ -91,12 +92,11 @@ namespace ViewModel
                 foreach (var story in savedStories)
                 {
                     Stories.Add(story);
-                    Debug.WriteLine($"Loaded story: {story.Title} (ID: {story.IdStory})");
 
                     // Set the FirstEvent based on the loaded events
                     if (story.Events.Count > 0)
                     {
-                        var firstEvent = story.Events.FirstOrDefault(e => e.IsFirst);
+                        Event? firstEvent = story.Events.FirstOrDefault(e => e.IsFirst);
                         if (firstEvent != null)
                         {
                             story.SetFirstEvent(firstEvent);
@@ -106,16 +106,13 @@ namespace ViewModel
                     // Populate Events for the current story
                     if (story == CurrentStory)
                     {
-                        foreach (var evt in story.Events)
+                        foreach (Event evt in story.Events)
                         {
-                            Debug.WriteLine($"Loaded event: {evt.Name} (ID: {evt.IdEvent})");
                             Events.Add(new EventViewModel(this, evt));
                         }
                     }
                 }
             }
-            
-            Debug.WriteLine($"Loaded {Stories.Count} stories from storage");
         }
 
         /// <summary>
@@ -127,12 +124,11 @@ namespace ViewModel
         {
             if (newStory == null)
             {
-                throw new ArgumentNullException(nameof(newStory));
+                throw new ArgumentNullException(string.Format(AppResourcesVM.StoryVM_ArgumentNullException, nameof(newStory)));
             }
 
             Stories.Add(newStory);
             await _storyManager.SaveCurrentStoryAsync(newStory);
-            Debug.WriteLine($"Added new story: {newStory.Title} (ID: {newStory.IdStory})");
         }
 
         /// <summary>
@@ -145,10 +141,10 @@ namespace ViewModel
         {
             if (updatedStory == null)
             {
-                throw new ArgumentNullException(nameof(updatedStory));
+                throw new ArgumentNullException(string.Format(AppResourcesVM.StoryVM_ArgumentNullException,nameof(updatedStory)));
             }
 
-            var existingStory = await GetStoryByIdAsync(storyId);
+            Story? existingStory = await GetStoryByIdAsync(storyId);
             
             if (existingStory != null)
             {
@@ -160,7 +156,6 @@ namespace ViewModel
                 OnPropertyChanged(nameof(CurrentStory));
                 OnPropertyChanged(nameof(Stories));
                 await _storyManager.SaveCurrentStoryAsync(existingStory);
-                Debug.WriteLine($"Updated story: {existingStory.Title} (ID: {existingStory.IdStory})");
             }
             else
             {
@@ -174,13 +169,12 @@ namespace ViewModel
         /// <param name="storyId">The ID of the story to delete.</param>
         public async Task DeleteStoryAsync(int storyId)
         {
-            var storyToDelete = await GetStoryByIdAsync(storyId);
+            Story? storyToDelete = await GetStoryByIdAsync(storyId);
             
             if (storyToDelete != null)
             {
                 Stories.Remove(storyToDelete);
                 _storyManager.DeleteStory(storyToDelete.IdStory);
-                Debug.WriteLine($"Deleted story with ID: {storyId}");
             }
         }
 
@@ -197,12 +191,11 @@ namespace ViewModel
                 await LoadStoriesAsync();
             }
 
-            var story = Stories.FirstOrDefault(s => s.IdStory == storyId);
+            Story? story = Stories.FirstOrDefault(s => s.IdStory == storyId);
             
             if (story == null)
             {
-                Debug.WriteLine($"Story with ID {storyId} not found");
-                throw new KeyNotFoundException($"Story with ID {storyId} not found");
+                throw new KeyNotFoundException(string.Format(AppResourcesVM.StoryVM_GetStoryByIdAsync_NotFound,storyId));
             }
             
             return story;
@@ -215,7 +208,7 @@ namespace ViewModel
         private void RefreshEventViewModels(Story story)
         {
             Events.Clear();
-            foreach (var evt in story.Events)
+            foreach (Event evt in story.Events)
             {
                 Events.Add(new EventViewModel(this, evt));
             }
@@ -228,16 +221,16 @@ namespace ViewModel
         /// <returns>An EventViewModel instance.</returns>
         public async Task<EventViewModel> GetEventViewModelAsync(int eventId)
         {
-            var existingViewModel = Events.FirstOrDefault(evm => evm.CurrentEvent.IdEvent == eventId);
-            if (existingViewModel != null)
+            EventViewModel? existingViewModel = Events.FirstOrDefault(evm => evm.CurrentEvent.IdEvent == eventId);
+
+            if (existingViewModel == null)
             {
-                return existingViewModel;
+                Event currentEvent = await GetEventByIdAsync(CurrentStory.IdStory, eventId);
+                existingViewModel = new EventViewModel(this, currentEvent);
+                Events.Add(existingViewModel);
             }
 
-            var currentEvent = await GetEventByIdAsync(CurrentStory.IdStory, eventId);
-            var newViewModel = new EventViewModel(this, currentEvent);
-            Events.Add(newViewModel);
-            return newViewModel;
+            return existingViewModel;
         }
 
         /// <summary>
@@ -249,10 +242,8 @@ namespace ViewModel
         {
             if (CurrentStory == null)
             {
-                throw new InvalidOperationException("No story selected");
+                throw new ArgumentNullException(AppResourcesVM.StoryVM_AddEventAsync_NullException);
             }
-
-            Debug.WriteLine($"Adding event with ID: {newEvent.IdEvent}, Name: {newEvent.Name}");
 
             // Add the new event to the current story
             CurrentStory.Events.Add(newEvent);
@@ -261,18 +252,10 @@ namespace ViewModel
             if (CurrentStory.Events.Count == 1)
             {
                 CurrentStory.SetFirstEvent(newEvent); // Set as first event if it's the only one
-                Debug.WriteLine($"Set '{newEvent.Name}' as the first event.");
             }
 
-            var newViewModel = new EventViewModel(this, newEvent);
-            Events.Add(newViewModel);
-            
-            // Log the current state of Events collection
-            Debug.WriteLine("Current Events in collection after addition:");
-            foreach (var eventViewModel in Events)
-            {
-                Debug.WriteLine($"Event ID: {eventViewModel.CurrentEvent.IdEvent}, Name: {eventViewModel.CurrentEvent.Name}");
-            }
+            EventViewModel newViewModel = new EventViewModel(this, newEvent);
+            Events.Add(newViewModel);   
 
             await UpdateStoryAsync(CurrentStory.IdStory, CurrentStory);
         }
@@ -283,35 +266,23 @@ namespace ViewModel
         /// <param name="eventId">The ID of the event to delete.</param>
         public async Task DeleteEventAsync(int eventId)
         {
-            Debug.WriteLine($"Attempting to delete event with ID: {eventId}");
+            EventViewModel? eventToRemove = Events.FirstOrDefault(e => e.CurrentEvent.IdEvent == eventId);
 
-            // List all event IDs in the Events collection
-            Debug.WriteLine("Current Events in collection:");
-            foreach (var eventViewModel in Events)
-            {
-                Debug.WriteLine($"Event ID: {eventViewModel.CurrentEvent.IdEvent}, Name: {eventViewModel.CurrentEvent.Name}");
-            }
-
-            var eventToRemove = Events.FirstOrDefault(e => e.CurrentEvent.IdEvent == eventId);
             if (eventToRemove != null)
             {
-                Debug.WriteLine($"Found event to delete: {eventToRemove.CurrentEvent.Name}");
-
                 // Unlink options from the event being deleted
-                foreach (var evt in CurrentStory.Events)
+                foreach (Event evt in CurrentStory.Events)
                 {
-                    foreach (var option in evt.Options)
+                    foreach (Option option in evt.Options)
                     {
                         if (option.LinkedEvent?.IdEvent == eventId)
                         {
-                            Debug.WriteLine($"Unlinking option '{option.NameOption}' from event '{eventToRemove.CurrentEvent.Name}'");
                             option.LinkedEvent = evt; // Link to the current event
                         }
                     }
                 }
 
                 // Now delete the event
-                Debug.WriteLine($"Deleting event: {eventToRemove.CurrentEvent.Name}");
                 CurrentStory.DeleteEvent(eventToRemove.CurrentEvent);
                 
                 // Remove the event view model from the Events collection
@@ -319,19 +290,18 @@ namespace ViewModel
                 
                 // Update the story in the storage
                 await UpdateStoryAsync(CurrentStory.IdStory, CurrentStory);
-                
-                Debug.WriteLine($"Deleted event with ID: {eventId}");
             }
             else
             {
-                Debug.WriteLine($"Event with ID: {eventId} not found in Events collection.");
+                throw new Exception(string.Format(AppResourcesVM.StoryVM_DeleteEventAsync_NotFound, eventId));            
             }
         }
 
         private async Task<Event> GetEventByIdAsync(int storyId, int eventId)
         {
-            var story = await GetStoryByIdAsync(storyId);
-            var foundEvent = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
+            Story story = await GetStoryByIdAsync(storyId);
+            Event? foundEvent = story.Events.FirstOrDefault(e => e.IdEvent == eventId);
+
             return foundEvent;
         }
 
@@ -341,7 +311,7 @@ namespace ViewModel
         /// <param name="eventId">The ID of the event to set as first.</param>
         public void SetFirstEvent(int eventId)
         {
-            var eventToSet = CurrentStory.Events.FirstOrDefault(e => e.IdEvent == eventId);
+            Event? eventToSet = CurrentStory.Events.FirstOrDefault(e => e.IdEvent == eventId);
             if (eventToSet != null)
             {
                 CurrentStory.SetFirstEvent(eventToSet);
@@ -368,15 +338,11 @@ namespace ViewModel
                 if (story != null)
                 {
                     success = await FileServiceManager.ExportStoryAsync(story);
-                    if (success)
-                    {
-                        Debug.WriteLine($"Story exported: {story.Title} (ID: {story.IdStory})");
-                    }
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error exporting story: {ex.Message}");
+                throw new Exception(AppResourcesVM.StoryVM_ExportStoryAsync_Exception + ex.Message);
             }
             
             return success;
@@ -399,16 +365,14 @@ namespace ViewModel
                 {
                     // Regenerate a new unique ID for the imported story
                     importedStory.IdStory = GenerateNewStoryId();
-                    
                     Stories.Add(importedStory);
                     await _storyManager.SaveCurrentStoryAsync(importedStory); // Save the imported story
-                    Debug.WriteLine($"Story imported with new ID and saved: {importedStory.Title} (ID: {importedStory.IdStory})");
                     success = true;
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error importing story: {ex.Message}");
+                throw new Exception(AppResourcesVM.StoryVM_ImportStoryAsync_Exception + ex.Message);
             }
             
             return success;
@@ -432,7 +396,6 @@ namespace ViewModel
             };
             
             await AddStoryAsync(CurrentStory);
-            Debug.WriteLine("Initialized new story");
         }
 
         /// <summary>
