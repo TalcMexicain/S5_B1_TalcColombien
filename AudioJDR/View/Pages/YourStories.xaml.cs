@@ -47,12 +47,21 @@ public partial class YourStories : ContentPage
         SetResponsiveSizes();
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
 
-        var keywords = new HashSet<string> { "repeter", "continuer", "retour", "nouvelle partie" ,"continuer", "voiture"};
-      
+        // Charger d'abord les histoires (ici j'imagine que vous avez une méthode pour les charger)
+        await _viewModel.LoadStoriesAsync();
+
+        // Une fois les histoires chargées, vous pouvez récupérer les titres et les ajouter aux mots-clés.
+        var keywords = new HashSet<string> { "repeter", "continuer", "retour", "nouvelle partie" };
+
+        // Ajouter les titres des histoires comme mots-clés pour la reconnaissance vocale
+        var storyTitles = _viewModel.Stories.Select(story => story.Title).ToList();
+        keywords.UnionWith(storyTitles);
+
+        // Démarrer la reconnaissance vocale avec les mots-clés complétés
         _recognitionViewModel.StartRecognition(keywords, PageContext);
     }
 

@@ -32,7 +32,7 @@ namespace View
                 builder.Services.AddSingleton<YourStories>();
 #if WINDOWS
                 builder.Services.AddSingleton<ISpeechSynthesizer, WindowsSynthesizer>();
-                builder.Services.AddSingleton<ISpeechRecognition, WindowsRecognition>();
+                builder.Services.AddTransient<ISpeechRecognition, WindowsRecognition>();
 #elif ANDROID
             builder.Services.AddSingleton<ISpeechSynthesizer>(provider =>
             {

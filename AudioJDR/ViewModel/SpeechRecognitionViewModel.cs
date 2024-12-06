@@ -80,6 +80,8 @@ namespace ViewModel
             _speechRecognition.StartRecognition();
         }
 
+        
+
         /// <summary>
         /// Updates the grammar for the recognizer. Clears previous grammars if the context changes.
         /// </summary>
@@ -196,7 +198,7 @@ namespace ViewModel
                     ClearAccumulator();
                     break;
 
-                case "vers la liste des histoires":
+                case "liste":
                     NavigateNext?.Invoke();
                     ClearAccumulator();
                     break;

@@ -65,6 +65,14 @@ namespace Model
             }
         }
 
+        public void StopRecognition()
+        {
+            if (_recognizer != null && _recognizer.AudioState != AudioState.Stopped)
+            {
+                _recognizer.RecognizeAsyncStop();
+            }
+        }
+
         public void UpdateGrammar(string[] keywords)
         {
             _recognizer.UnloadAllGrammars();

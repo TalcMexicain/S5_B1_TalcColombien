@@ -47,7 +47,7 @@ public partial class MainPlayerPage : ContentPage
         base.OnAppearing();
 
         
-        var keywords = new HashSet<string> { "repeter", "vers la liste des histoires", "retour" };
+        var keywords = new HashSet<string> { "repeter", "liste", "retour" };
         _recognitionViewModel.StartRecognition(keywords, PageContext);
 
 

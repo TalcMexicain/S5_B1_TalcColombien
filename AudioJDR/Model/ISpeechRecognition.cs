@@ -16,6 +16,8 @@ namespace Model
         /// </summary>
         void StartRecognition();
 
+        void StopRecognition();
+
         /// <summary>
         /// Updates the grammar of the speech recognition engine with the provided keywords
         /// </summary>

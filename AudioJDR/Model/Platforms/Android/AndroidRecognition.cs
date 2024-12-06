@@ -61,6 +61,11 @@ namespace Model.Platforms.Android
             }
         }
 
+        public async void StopRecognition()
+        {
+
+        }
+
         public void UpdateGrammar(string[] keywords)
         {
             _keywords = new HashSet<string>(keywords.Select(k => k.ToLowerInvariant()));
