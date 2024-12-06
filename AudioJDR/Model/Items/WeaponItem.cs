@@ -64,6 +64,11 @@ namespace Model.Items
             return outcome;
         }
 
+        public override string ToString()
+        {
+            return string.Format(AppResourcesModel.WeaponItemDescription, Name, Damage);
+        }
+
         #endregion
     }
 }

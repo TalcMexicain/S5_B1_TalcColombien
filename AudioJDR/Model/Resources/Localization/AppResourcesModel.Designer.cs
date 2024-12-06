@@ -70,11 +70,92 @@ namespace Model.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Health is critically low with only {0} health points remaining!.
+        /// </summary>
+        internal static string CharacterCriticalHealth {
+            get {
+                return ResourceManager.GetString("CharacterCriticalHealth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Here is information about the character {0}. {1} {2} {3}.
+        /// </summary>
+        internal static string CharacterDescriptionFormat {
+            get {
+                return ResourceManager.GetString("CharacterDescriptionFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à They are holding a {0}, which can deal {1} damage.
+        /// </summary>
+        internal static string CharacterEquippedWeapon {
+            get {
+                return ResourceManager.GetString("CharacterEquippedWeapon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à {0} health points remaining.
+        /// </summary>
+        internal static string CharacterHealthStatus {
+            get {
+                return ResourceManager.GetString("CharacterHealthStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Their inventory is empty.
+        /// </summary>
+        internal static string CharacterInventoryEmpty {
+            get {
+                return ResourceManager.GetString("CharacterInventoryEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à They have the following items in their inventory: {0}.
+        /// </summary>
+        internal static string CharacterInventoryItems {
+            get {
+                return ResourceManager.GetString("CharacterInventoryItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à They are not carrying any weapon and will deal {0} base damage.
+        /// </summary>
+        internal static string CharacterNoWeapon {
+            get {
+                return ResourceManager.GetString("CharacterNoWeapon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à This is a consumable item called {0}, which restores {1} health points.
+        /// </summary>
+        internal static string ConsumableItemDescription {
+            get {
+                return ResourceManager.GetString("ConsumableItemDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à The character {0} equipped the weapon {1}.
         /// </summary>
         internal static string EquippedWeaponItemFormat {
             get {
                 return ResourceManager.GetString("EquippedWeaponItemFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à This is a key item called {0}. It is used to unlock certain paths.
+        /// </summary>
+        internal static string KeyItemDescription {
+            get {
+                return ResourceManager.GetString("KeyItemDescription", resourceCulture);
             }
         }
         
@@ -102,6 +183,15 @@ namespace Model.Resources.Localization {
         internal static string UsedKeyItemFormat {
             get {
                 return ResourceManager.GetString("UsedKeyItemFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à This is a weapon called {0}, which deals {1} damage when equipped.
+        /// </summary>
+        internal static string WeaponItemDescription {
+            get {
+                return ResourceManager.GetString("WeaponItemDescription", resourceCulture);
             }
         }
     }

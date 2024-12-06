@@ -120,8 +120,35 @@
   <data name="CantEquipWeaponItemFormat" xml:space="preserve">
     <value>The character {0} cannot equip the weapon {1}</value>
   </data>
+  <data name="CharacterCriticalHealth" xml:space="preserve">
+    <value>Health is critically low with only {0} health points remaining!</value>
+  </data>
+  <data name="CharacterDescriptionFormat" xml:space="preserve">
+    <value>Here is information about the character {0}. {1} {2} {3}</value>
+  </data>
+  <data name="CharacterEquippedWeapon" xml:space="preserve">
+    <value>They are holding a {0}, which can deal {1} damage</value>
+  </data>
+  <data name="CharacterHealthStatus" xml:space="preserve">
+    <value>{0} health points remaining</value>
+  </data>
+  <data name="CharacterInventoryEmpty" xml:space="preserve">
+    <value>Their inventory is empty</value>
+  </data>
+  <data name="CharacterInventoryItems" xml:space="preserve">
+    <value>They have the following items in their inventory: {0}</value>
+  </data>
+  <data name="CharacterNoWeapon" xml:space="preserve">
+    <value>They are not carrying any weapon and will deal {0} base damage</value>
+  </data>
+  <data name="ConsumableItemDescription" xml:space="preserve">
+    <value>This is a consumable item called {0}, which restores {1} health points</value>
+  </data>
   <data name="EquippedWeaponItemFormat" xml:space="preserve">
     <value>The character {0} equipped the weapon {1}</value>
+  </data>
+  <data name="KeyItemDescription" xml:space="preserve">
+    <value>This is a key item called {0}. It is used to unlock certain paths</value>
   </data>
   <data name="UnEquippedWeaponItemFormat" xml:space="preserve">
     <value>The character {0} unequipped the weapon {1}</value>
@@ -131,5 +158,8 @@
   </data>
   <data name="UsedKeyItemFormat" xml:space="preserve">
     <value>The character {0} used {1}</value>
+  </data>
+  <data name="WeaponItemDescription" xml:space="preserve">
+    <value>This is a weapon called {0}, which deals {1} damage when equipped</value>
   </data>
 </root>

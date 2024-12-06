@@ -32,6 +32,11 @@ namespace Model.Items
             return string.Format(AppResourcesModel.UsedKeyItemFormat, character.Name, this.Name);
         }
 
+        public override string ToString()
+        {
+            return string.Format(AppResourcesModel.KeyItemDescription, Name);
+        }
+
         #endregion
     }
 }

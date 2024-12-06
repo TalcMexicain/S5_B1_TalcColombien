@@ -54,6 +54,11 @@ namespace Model.Items
             return string.Format(AppResourcesModel.UsedConsumableItemFormat,character.Name,healAmount,this.Name);
         }
 
+        public override string ToString()
+        {
+            return string.Format(AppResourcesModel.ConsumableItemDescription, Name, HealAmount);
+        }
+
         #endregion
     }
 }

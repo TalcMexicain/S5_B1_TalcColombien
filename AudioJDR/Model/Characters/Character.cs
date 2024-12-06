@@ -1,4 +1,5 @@
 ﻿using Model.Items;
+using Model.Resources.Localization;
 
 namespace Model.Characters
 {
@@ -141,6 +142,37 @@ namespace Model.Characters
                 item.Use(this);
             }
         }
+
+        /// <summary>
+        /// Provides a precise description of the character depending on its current status.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            // Determine health status
+            string healthStatus = health <= 10
+                ? string.Format(AppResourcesModel.CharacterCriticalHealth, health)
+                : string.Format(AppResourcesModel.CharacterHealthStatus, health);
+
+            // Determine weapon status
+            string weaponStatus;
+            if (equippedWeapon == null)
+            {
+                weaponStatus = string.Format(AppResourcesModel.CharacterNoWeapon, baseDamage);
+            }
+            else
+            {
+                weaponStatus = string.Format(AppResourcesModel.CharacterEquippedWeapon, equippedWeapon.Name, equippedWeapon.Damage);
+            }
+
+            // Determine inventory status
+            string inventoryStatus = inventory.Count == 0
+                ? AppResourcesModel.CharacterInventoryEmpty
+                : string.Format(AppResourcesModel.CharacterInventoryItems, string.Join(", ", inventory.Select(i => i.Name)));
+
+            return string.Format(AppResourcesModel.CharacterDescriptionFormat, name, healthStatus, weaponStatus, inventoryStatus);
+        }
+
 
         #endregion
     }

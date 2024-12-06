@@ -58,6 +58,12 @@ namespace Model.Items
         /// <returns>A string indicating that the item was used</returns>
         internal abstract string Use(Character character);
 
+        /// <summary>
+        /// Provides an accurate description of the item, according to its specific type and attributes
+        /// </summary>
+        /// <returns>A string containing the description of the item</returns>
+        public override abstract string ToString();
+
         #endregion
     }
 }
