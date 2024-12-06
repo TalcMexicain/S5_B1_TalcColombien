@@ -45,7 +45,7 @@ namespace ViewModel
         /// <returns></returns>
         public async Task SaveGameAsync(Story story, Event currentEvent)
         {
-            var save = new Save(story, currentEvent)
+            Save save = new Save(story, currentEvent)
             {
                 SaveDate = DateTime.Now
             };

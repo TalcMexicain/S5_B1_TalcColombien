@@ -128,7 +128,8 @@ namespace ViewModel
             Option? option = CurrentEvent.Options.FirstOrDefault(o => o.IdOption == optionId);
             if (option == null)
             {
-                throw new ArgumentNullException(string.Format(AppResourcesVM.EventVM_GetOptionVMAsync_NullException), optionId.ToString());
+                string message = string.Format(AppResourcesVM.EventVM_GetOptionVMAsync_NullException, optionId.ToString());
+                throw new ArgumentNullException(nameof(optionId), message);
             }
 
             return new OptionViewModel(this, option);

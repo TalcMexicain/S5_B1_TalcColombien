@@ -65,15 +65,7 @@ namespace ViewModel
 
             _parentEventViewModel = eventViewModel;
             _words = new ObservableCollection<string>();
-
-            if (optionInstance != null) 
-            {
-                CurrentOption = optionInstance;
-            }
-            else
-            {
-                CreateNewOption();
-            }
+            CurrentOption = optionInstance ?? CreateNewOption();
             RefreshWords();
         }
 

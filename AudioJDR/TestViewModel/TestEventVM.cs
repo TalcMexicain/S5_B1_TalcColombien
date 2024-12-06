@@ -184,7 +184,7 @@ namespace TestViewModel
             await eventVM.InitializeNewEventAsync();
 
             int idNoOption = 1;
-            await Assert.ThrowsAsync<ArgumentException>(() => eventVM.GetOptionViewModelAsync(idNoOption));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => eventVM.GetOptionViewModelAsync(idNoOption));
         }
 
         [Fact]
