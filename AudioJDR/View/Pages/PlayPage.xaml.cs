@@ -80,7 +80,7 @@ namespace View.Pages
         private async Task LoadEvent(int storyId, int eventId)
         {
             PageContext = "PlayPage" + eventId.ToString();
-            var keywords = new HashSet<string> { "repeter", "retour", "valider", "annuler", "ok" };
+            HashSet<string> keywords = new HashSet<string> { "repeter", "retour", "valider", "annuler", "ok" };
 
             _currentStory = await _storyViewModel.GetStoryByIdAsync(storyId);
             Event? eventToShow = _currentStory?.Events.FirstOrDefault(e => e.IdEvent == eventId);
@@ -92,8 +92,8 @@ namespace View.Pages
 
                 foreach (var option in eventToShow.Options)
                 {
-                    var optionWords = option.GetWords()?.Select(word => word.ToLower()).ToArray() ?? Array.Empty<string>();
-                    foreach (var word in optionWords)
+                    string[] optionWords = option.GetWords()?.Select(word => word.ToLower()).ToArray() ?? Array.Empty<string>();
+                    foreach (string word in optionWords)
                     {
                         keywords.Add(word);
                     }
@@ -109,28 +109,30 @@ namespace View.Pages
         /// </summary>
         private async Task OnOptionSubmitted()
         {
-            string userInput = OptionEntry?.Text?.Trim().ToLower();
-
-            if (string.IsNullOrEmpty(userInput))
+            string? userInput = OptionEntry?.Text?.Trim().ToLower();
+            bool isInputValid = !string.IsNullOrEmpty(userInput);
+            
+            if (isInputValid)
             {
-                await DisplayAlert("Error", "Please enter an option.", "OK");
-                return;
-            }
+                string[] userWords = userInput.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                var result = GetBestMatchingOptionForCurrentEvent(userWords);
 
-            var userWords = userInput.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            var result = GetBestMatchingOptionForCurrentEvent(userWords);
-
-            if (result.TiedOptions.Count > 1)
-            {
-                await HandleTiedOptions(result.TiedOptions);
-            }
-            else if (result.BestMatchingOption != null && result.LinkedEvent != null)
-            {
-                await NavigateToEvent(result.LinkedEvent.IdEvent);
+                if (result.TiedOptions.Count > 1)
+                {
+                    await HandleTiedOptions(result.TiedOptions);
+                }
+                else if (result.BestMatchingOption != null && result.LinkedEvent != null)
+                {
+                    await NavigateToEvent(result.LinkedEvent.IdEvent);
+                }
+                else
+                {
+                    await DisplayAlert("Error", "No matching option or linked event found.", "OK");
+                }
             }
             else
             {
-                await DisplayAlert("Error", "No matching option or linked event found.", "OK");
+                await DisplayAlert("Error", "Please enter an option.", "OK");
             }
         }
 
@@ -139,34 +141,35 @@ namespace View.Pages
         /// </summary>
         private (Option? BestMatchingOption, Event? LinkedEvent, List<Option> TiedOptions) GetBestMatchingOptionForCurrentEvent(string[] userWords)
         {
-            Option bestMatchingOption = null;
-            Event linkedEvent = null;
+            Option? bestMatchingOption = null;
+            Event? linkedEvent = null;
             double bestScore = 0.0;
             List<Option> tiedOptions = new List<Option>();
-            var currentEvent = _currentStory?.Events.FirstOrDefault(e => e.IdEvent == _eventId);
 
-            if (currentEvent == null)
-                return (null, null, tiedOptions);
+            Event? currentEvent = _currentStory?.Events.FirstOrDefault(e => e.IdEvent == _eventId);
 
-            foreach (var option in currentEvent.Options)
+            if (currentEvent != null)
             {
-                var optionWords = option.GetWords()?.Select(word => word.ToLower()).ToArray() ?? Array.Empty<string>();
-
-                if (optionWords.Length > 0)
+                foreach (Option option in currentEvent.GetOptions())
                 {
-                    double matchScore = CalculateMatchScore(userWords, optionWords);
+                    string[] optionWords = option.GetWords()?.Select(word => word.ToLower()).ToArray() ?? Array.Empty<string>();
 
-                    if (matchScore > bestScore)
+                    if (optionWords.Length > 0)
                     {
-                        bestScore = matchScore;
-                        bestMatchingOption = option;
-                        tiedOptions.Clear();
-                        tiedOptions.Add(option);
-                        linkedEvent = _currentStory.Events.FirstOrDefault(e => e.IdEvent == option.LinkedEvent?.IdEvent);
-                    }
-                    else if (matchScore == bestScore && matchScore > 0.0)
-                    {
-                        tiedOptions.Add(option);
+                        double matchScore = CalculateMatchScore(userWords, optionWords);
+
+                        if (matchScore > bestScore)
+                        {
+                            bestScore = matchScore;
+                            bestMatchingOption = option;
+                            tiedOptions.Clear();
+                            tiedOptions.Add(option);
+                            linkedEvent = _currentStory.Events.FirstOrDefault(e => e.IdEvent == option.LinkedEvent?.IdEvent);
+                        }
+                        else if (matchScore == bestScore && matchScore > 0.0)
+                        {
+                            tiedOptions.Add(option);
+                        }
                     }
                 }
             }
@@ -188,7 +191,7 @@ namespace View.Pages
         {
             int matchCount = 0;
 
-            foreach (var word in userWords)
+            foreach (string word in userWords)
             {
                 if (optionWords.Contains(word))
                 {
@@ -297,11 +300,11 @@ namespace View.Pages
 
             if (_currentStory != null && _eventId > 0)
             {
-                var currentEvent = _currentStory.Events.FirstOrDefault(e => e.IdEvent == _eventId);
+                Event? currentEvent = _currentStory.Events.FirstOrDefault(e => e.IdEvent == _eventId);
 
                 if (currentEvent != null)
                 {
-                    var saveViewModel = new SaveViewModel();
+                    SaveViewModel saveViewModel = new SaveViewModel();
                     await saveViewModel.SaveGameAsync(_currentStory, currentEvent);
                 }
             }
