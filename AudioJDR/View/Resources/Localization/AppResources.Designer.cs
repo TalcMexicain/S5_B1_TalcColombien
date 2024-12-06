@@ -97,6 +97,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Cancel.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Confirm.
         /// </summary>
         internal static string Confirm {
@@ -695,6 +704,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à List of story.
+        /// </summary>
+        internal static string StoryList {
+            get {
+                return ResourceManager.GetString("StoryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à The name of your story contains unauthorized characters.
         /// </summary>
         internal static string StoryNameInvalidErrorDesc {
@@ -817,6 +835,15 @@ namespace View.Resources.Localization {
         internal static string UnsavedChangesMessage {
             get {
                 return ResourceManager.GetString("UnsavedChangesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Validate.
+        /// </summary>
+        internal static string Validate {
+            get {
+                return ResourceManager.GetString("Validate", resourceCulture);
             }
         }
         

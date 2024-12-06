@@ -162,4 +162,7 @@
   <data name="WeaponItemDescription" xml:space="preserve">
     <value>This is a weapon called {0}, which deals {1} damage when equipped</value>
   </data>
+  <data name="CultureInfo" xml:space="preserve">
+    <value>fr-FR</value>
+  </data>
 </root>

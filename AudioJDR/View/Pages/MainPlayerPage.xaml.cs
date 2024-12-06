@@ -5,6 +5,7 @@ using Model;
 using System.Diagnostics;
 using View;
 using ViewModel;
+using View.Resources.Localization;
 
 public partial class MainPlayerPage : ContentPage
 {
@@ -47,7 +48,7 @@ public partial class MainPlayerPage : ContentPage
         base.OnAppearing();
 
         
-        var keywords = new HashSet<string> { "repeter", "liste", "retour" };
+        var keywords = new HashSet<string> { AppResources.Repeat, AppResources.StoryList, AppResources.Back };
         _recognitionViewModel.StartRecognition(keywords, PageContext);
 
 

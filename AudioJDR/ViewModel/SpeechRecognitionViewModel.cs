@@ -89,11 +89,9 @@ namespace ViewModel
         {
             if (_currentContext != context)
             {
-                Debug.WriteLine($"Context has changed. Unloading previous grammars.");
                 UnloadGrammars(); // Unload existing grammars if the context changes
                 _currentContext = context;
             }
-            Debug.WriteLine($"Updating grammar with new keywords: {string.Join(", ", keywords)}");
             _speechRecognition.UpdateGrammar(keywords.ToArray());
         }
 
@@ -115,7 +113,6 @@ namespace ViewModel
         /// </summary>
         private void OnSpeechRecognized(string recognizedText)
         {
-            Debug.WriteLine($"Recognized: {recognizedText}");
            
             if (HandleSpecificCommands(recognizedText))
             {
@@ -127,37 +124,24 @@ namespace ViewModel
         
         private bool HandleSpecificCommands(string recognizedText)
         {
-            var normalizedText = recognizedText.ToLowerInvariant();
-
-            // Commande "nouvelle partie"
-            if (normalizedText.Contains("nouvelle partie"))
+            string normalizedText = recognizedText.ToLowerInvariant();
+            if (normalizedText.Contains("nouvelle partie")||normalizedText.Contains("new game"))
             {
                 var potentialTitle = ExtractTitleFromAccumulator(normalizedText, "nouvelle partie");
                 if (!string.IsNullOrEmpty(potentialTitle))
                 {
-                    Debug.WriteLine($"Recognized title for new game: {potentialTitle}");
                     NavigateToNewGame?.Invoke(potentialTitle);
-                }
-                else
-                {
-                    Debug.WriteLine("Aucun titre valide trouvé avant 'nouvelle partie'.");
                 }
                 ClearAccumulator();
                 return true; 
             }
 
-            // Commande "continuer"
-            if (normalizedText.Contains("continuer"))
+            if (normalizedText.Contains("continuer") || normalizedText.Contains("continue"))
             {
                 var potentialTitle = ExtractTitleFromAccumulator(normalizedText, "continuer");
                 if (!string.IsNullOrEmpty(potentialTitle))
                 {
-                    Debug.WriteLine($"Recognized title for continue: {potentialTitle}");
                     ContinueGame?.Invoke(potentialTitle);
-                }
-                else
-                {
-                    Debug.WriteLine("Aucun titre valide trouvé avant 'continuer'.");
                 }
                 ClearAccumulator();
                 return true; 
@@ -175,50 +159,58 @@ namespace ViewModel
 
         private void HandleGeneralCommands(string recognizedText)
         {
+            string[] validateCommands = new[] { "validate", "valider" };
+            string[] cancelCommands = new[] { "cancel", "annuler" };
+            string[] playCommands = new[] { "jouer", "play" };
+            string[] repeatCommands = new[] { "repeter", "repeat" };
+            string[] listStoryCommands = new[] { "liste d'histoire", "list of story" };
+            string[] backCommands = new[] { "retour", "back" };
+            string[] okCommands = new[] { "ok" };
+
             switch (recognizedText.ToLowerInvariant())
             {
-                case "valider":
+                case string cmd when validateCommands.Contains(cmd):
                     OptionSubmitted?.Invoke();
                     ClearAccumulator();
                     TextCleared?.Invoke();
                     break;
 
-                case "annuler":
+                case string cmd when cancelCommands.Contains(cmd):
                     ClearAccumulator();
                     TextCleared?.Invoke();
                     break;
 
-                case "jouer":
+                case string cmd when playCommands.Contains(cmd):
                     NavigateToPlay?.Invoke();
                     ClearAccumulator();
                     break;
 
-                case "repeter":
+                case string cmd when repeatCommands.Contains(cmd):
                     RepeatSpeech?.Invoke();
                     ClearAccumulator();
                     break;
 
-                case "liste":
+                case string cmd when listStoryCommands.Contains(cmd):
                     NavigateNext?.Invoke();
                     ClearAccumulator();
                     break;
 
-                case "retour":
+                case string cmd when backCommands.Contains(cmd):
                     NavigatePrevious?.Invoke();
                     ClearAccumulator();
                     break;
 
-                case "ok":
+                case string cmd when okCommands.Contains(cmd):
                     ClosePopUp?.Invoke();
                     ClearAccumulator();
                     break;
 
                 default:
-                    
                     AddToAccumulator(recognizedText);
                     break;
             }
         }
+
 
         private void ClearAccumulator()
         {

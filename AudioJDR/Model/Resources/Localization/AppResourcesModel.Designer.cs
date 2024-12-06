@@ -142,6 +142,15 @@ namespace Model.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à fr-FR.
+        /// </summary>
+        internal static string CultureInfo {
+            get {
+                return ResourceManager.GetString("CultureInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à The character {0} equipped the weapon {1}.
         /// </summary>
         internal static string EquippedWeaponItemFormat {

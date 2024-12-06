@@ -162,4 +162,7 @@
   <data name="WeaponItemDescription" xml:space="preserve">
     <value>Ceci est une arme appelée {0}, qui inflige {1} points de dégâts lorsqu'elle est équipée</value>
   </data>
+  <data name="CultureInfo" xml:space="preserve">
+    <value>fr-FR</value>
+  </data>
 </root>

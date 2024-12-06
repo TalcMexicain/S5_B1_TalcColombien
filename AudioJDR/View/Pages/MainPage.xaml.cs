@@ -41,7 +41,7 @@ public partial class MainPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        var keywords = new[] { "jouer" };
+        var keywords = new[] { AppResources.Play };
         _recognitionViewModel.StartRecognition(keywords, PageContext);
     }
 

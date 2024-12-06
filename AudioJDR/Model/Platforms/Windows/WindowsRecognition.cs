@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Speech.Recognition;
+using Model.Resources.Localization;
+
 
 namespace Model
 {
@@ -36,7 +38,7 @@ namespace Model
             try
             {
                 // Initialize the speech recognition engine
-                _recognizer = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("fr-FR"));
+                _recognizer = new SpeechRecognitionEngine(new System.Globalization.CultureInfo(AppResourcesModel.CultureInfo));
 
                 // Configure the audio input
                 _recognizer.SetInputToDefaultAudioDevice();
@@ -81,7 +83,7 @@ namespace Model
             var choices = new Choices(keywords);
             var grammarBuild = new GrammarBuilder(choices)
             {
-                Culture = new System.Globalization.CultureInfo("fr-FR")
+                Culture = new System.Globalization.CultureInfo(AppResourcesModel.CultureInfo)
             };
             var grammar = new Grammar(grammarBuild);
 

@@ -397,4 +397,13 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="SampleVoiceText" xml:space="preserve">
     <value>This is an example of the selected voice.</value>
   </data>
+  <data name="Validate" xml:space="preserve">
+    <value>Validate</value>
+  </data>
+  <data name="StoryList" xml:space="preserve">
+    <value>List of story</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
 </root>

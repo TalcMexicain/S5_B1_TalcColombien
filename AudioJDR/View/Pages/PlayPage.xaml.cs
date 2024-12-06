@@ -80,7 +80,7 @@ namespace View.Pages
         private async Task LoadEvent(int storyId, int eventId)
         {
             PageContext = "PlayPage" + eventId.ToString();
-            var keywords = new HashSet<string> { "repeter", "retour", "valider", "annuler", "ok" };
+            var keywords = new HashSet<string> { AppResources.Repeat, AppResources.Back, AppResources.Validate, AppResources.Cancel, "ok" };
 
             _currentStory = await _storyViewModel.GetStoryByIdAsync(storyId);
             Event? eventToShow = _currentStory?.Events.FirstOrDefault(e => e.IdEvent == eventId);

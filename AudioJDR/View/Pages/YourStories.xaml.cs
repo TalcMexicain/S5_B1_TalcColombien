@@ -55,7 +55,7 @@ public partial class YourStories : ContentPage
         await _viewModel.LoadStoriesAsync();
 
         // Une fois les histoires chargées, vous pouvez récupérer les titres et les ajouter aux mots-clés.
-        var keywords = new HashSet<string> { "repeter", "continuer", "retour", "nouvelle partie" };
+        var keywords = new HashSet<string> { AppResources.Back, AppResources.Continue, AppResources.Repeat, AppResources.NewGame };
 
         // Ajouter les titres des histoires comme mots-clés pour la reconnaissance vocale
         var storyTitles = _viewModel.Stories.Select(story => story.Title).ToList();
