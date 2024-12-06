@@ -147,6 +147,30 @@
   <data name="EquippedWeaponItemFormat" xml:space="preserve">
     <value>The character {0} equipped the weapon {1}</value>
   </data>
+  <data name="FileServiceManager_ExportStoryAsync_JsonException" xml:space="preserve">
+    <value>Error : file couldn't be serialized. Message :</value>
+  </data>
+  <data name="FileServiceManager_ImportStoryAsync_ImportedStoryException" xml:space="preserve">
+    <value>Invalid story data in the file.</value>
+  </data>
+  <data name="FileServiceManager_ImportStoryAsync_JsonException" xml:space="preserve">
+    <value>Error : The file does not contain a valid story. Message :</value>
+  </data>
+  <data name="GlobalSettings_VoicRateTTS_ArgumentOutOfRangeException" xml:space="preserve">
+    <value>TextToSpeech rate setting value must a float between 0.5 and 2.0.</value>
+  </data>
+  <data name="GlobalSettings_VolumeTTS_ArgumentOutOfRangeException" xml:space="preserve">
+    <value>TextToSpeech volume setting value must be between 0 and 100.</value>
+  </data>
+  <data name="Option_AddWordInList_ArgumentException" xml:space="preserve">
+    <value>The word to be added cannot be empty.</value>
+  </data>
+  <data name="Option_RemoveWordInList_ArgumentException" xml:space="preserve">
+    <value>The word to be removed cannot be empty.</value>
+  </data>
+  <data name="Story_SetFirstEvent_InvalidOperationException" xml:space="preserve">
+    <value>Error : The event must belong to the story's events. Message : </value>
+  </data>
   <data name="KeyItemDescription" xml:space="preserve">
     <value>This is a key item called {0}. It is used to unlock certain paths</value>
   </data>
@@ -161,5 +185,8 @@
   </data>
   <data name="WeaponItemDescription" xml:space="preserve">
     <value>This is a weapon called {0}, which deals {1} damage when equipped</value>
+  </data>
+  <data name="WindowsRecognition_Constructor_Exception" xml:space="preserve">
+    <value>Error initializing speech recognition : </value>
   </data>
 </root>

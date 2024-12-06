@@ -151,11 +151,83 @@ namespace Model.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Error : file couldn&apos;t be serialized. Message :.
+        /// </summary>
+        internal static string FileServiceManager_ExportStoryAsync_JsonException {
+            get {
+                return ResourceManager.GetString("FileServiceManager_ExportStoryAsync_JsonException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Invalid story data in the file..
+        /// </summary>
+        internal static string FileServiceManager_ImportStoryAsync_ImportedStoryException {
+            get {
+                return ResourceManager.GetString("FileServiceManager_ImportStoryAsync_ImportedStoryException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Error : The file does not contain a valid story. Message :.
+        /// </summary>
+        internal static string FileServiceManager_ImportStoryAsync_JsonException {
+            get {
+                return ResourceManager.GetString("FileServiceManager_ImportStoryAsync_JsonException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à TextToSpeech rate setting value must a float between 0.5 and 2.0..
+        /// </summary>
+        internal static string GlobalSettings_VoicRateTTS_ArgumentOutOfRangeException {
+            get {
+                return ResourceManager.GetString("GlobalSettings_VoicRateTTS_ArgumentOutOfRangeException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à TextToSpeech volume setting value must be between 0 and 100..
+        /// </summary>
+        internal static string GlobalSettings_VolumeTTS_ArgumentOutOfRangeException {
+            get {
+                return ResourceManager.GetString("GlobalSettings_VolumeTTS_ArgumentOutOfRangeException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à This is a key item called {0}. It is used to unlock certain paths.
         /// </summary>
         internal static string KeyItemDescription {
             get {
                 return ResourceManager.GetString("KeyItemDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The word to be added cannot be empty..
+        /// </summary>
+        internal static string Option_AddWordInList_ArgumentException {
+            get {
+                return ResourceManager.GetString("Option_AddWordInList_ArgumentException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The word to be removed cannot be empty..
+        /// </summary>
+        internal static string Option_RemoveWordInList_ArgumentException {
+            get {
+                return ResourceManager.GetString("Option_RemoveWordInList_ArgumentException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Error : The event must belong to the story&apos;s events. Message : .
+        /// </summary>
+        internal static string Story_SetFirstEvent_InvalidOperationException {
+            get {
+                return ResourceManager.GetString("Story_SetFirstEvent_InvalidOperationException", resourceCulture);
             }
         }
         
@@ -192,6 +264,15 @@ namespace Model.Resources.Localization {
         internal static string WeaponItemDescription {
             get {
                 return ResourceManager.GetString("WeaponItemDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Error initializing speech recognition : .
+        /// </summary>
+        internal static string WindowsRecognition_Constructor_Exception {
+            get {
+                return ResourceManager.GetString("WindowsRecognition_Constructor_Exception", resourceCulture);
             }
         }
     }

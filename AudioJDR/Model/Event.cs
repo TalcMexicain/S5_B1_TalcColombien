@@ -125,6 +125,15 @@ namespace Model
         }
 
         /// <summary>
+        /// Gets a copy of the list of options
+        /// </summary>
+        /// <returns></returns>
+        public List<Option> GetOptions()
+        {
+            return this.options;
+        }
+
+        /// <summary>
         /// Generates a new unique Id for the event.
         /// This should be handled by the system creating the event.
         /// </summary>
