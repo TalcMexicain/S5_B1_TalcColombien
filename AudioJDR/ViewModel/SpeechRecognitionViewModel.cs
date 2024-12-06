@@ -34,7 +34,6 @@ namespace ViewModel
         public event Action RepeatSpeech;
         public event Action<string> NavigateToNewGame;
         public event Action<string> ContinueGame;
-        public event Action ClosePopUp;
 
         #endregion
 
@@ -92,6 +91,7 @@ namespace ViewModel
                 UnloadGrammars(); // Unload existing grammars if the context changes
                 _currentContext = context;
             }
+            Debug.WriteLine($"Updating grammar with new keywords: {string.Join(", ", keywords)}");
             _speechRecognition.UpdateGrammar(keywords.ToArray());
         }
 
@@ -165,7 +165,7 @@ namespace ViewModel
             string[] repeatCommands = new[] { "repeter", "repeat" };
             string[] listStoryCommands = new[] { "liste d'histoire", "list of story" };
             string[] backCommands = new[] { "retour", "back" };
-            string[] okCommands = new[] { "ok" };
+            
 
             switch (recognizedText.ToLowerInvariant())
             {
@@ -200,10 +200,6 @@ namespace ViewModel
                     ClearAccumulator();
                     break;
 
-                case string cmd when okCommands.Contains(cmd):
-                    ClosePopUp?.Invoke();
-                    ClearAccumulator();
-                    break;
 
                 default:
                     AddToAccumulator(recognizedText);

@@ -49,7 +49,7 @@ namespace View.Pages
             {
                 OptionEntry.Text = string.Empty;
             };
-            _recognitionViewModel.ClosePopUp += async () => await ClosePopup();
+            
         }
 
         #endregion
