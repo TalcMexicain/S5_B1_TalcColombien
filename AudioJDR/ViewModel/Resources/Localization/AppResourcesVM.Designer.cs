@@ -88,6 +88,15 @@ namespace ViewModel.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à The argument {0} not found..
+        /// </summary>
+        internal static string OptionVM_NullException {
+            get {
+                return ResourceManager.GetString("OptionVM_NullException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Current Story is null. No Story selected..
         /// </summary>
         internal static string StoryVM_AddEventAsync_NullException {

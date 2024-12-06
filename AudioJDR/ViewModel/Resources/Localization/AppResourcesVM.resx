@@ -126,6 +126,9 @@
   <data name="EventVM_NullException" xml:space="preserve">
     <value>The argument {0} cannot be null.</value>
   </data>
+  <data name="OptionVM_NullException" xml:space="preserve">
+    <value>The argument {0} not found.</value>
+  </data>
   <data name="StoryVM_AddEventAsync_NullException" xml:space="preserve">
     <value>Current Story is null. No Story selected.</value>
   </data>
