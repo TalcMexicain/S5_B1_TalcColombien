@@ -1,4 +1,6 @@
-﻿namespace Model
+﻿using Model.Resources.Localization;
+
+namespace Model
 {
     /// <summary>
     /// Represents an Option in a Event
@@ -41,16 +43,6 @@
             get => linkedEvent;
             set => linkedEvent = value;
         }
-
-        /// <summary>
-        /// Gets or sets the words that will trigger the option
-        /// </summary>
-        public List<string> Words
-        {
-            get => words;
-            set => words = value;
-        }
-
         #endregion
 
         #region Constructors
@@ -79,23 +71,24 @@
         #region Methods
 
         /// <summary>
-        /// Get the list of words that will trigger the option
+        /// Get a copy list of words that will trigger the option
         /// </summary>
         /// <returns>The list of words</returns>
         public List<string> GetWords()
         {
-            return this.words;
+            return new List<string>(this.words);
         }
 
         /// <summary>
         /// Add a word to the list of words if it is not in the list
         /// </summary>
         /// <param name="word">The word to add</param>
+        /// <exception cref="ArgumentException">The word to be added cannot be empty</exception>
         public void AddWordInList(string word)
         {
             if (string.IsNullOrWhiteSpace(word))
             {
-                throw new ArgumentException("Word cannot be empty", nameof(word));
+                throw new ArgumentException(AppResourcesModel.Option_AddWordInList_ArgumentException, nameof(word));
             }
             
             if (!words.Contains(word, StringComparer.OrdinalIgnoreCase))
@@ -108,10 +101,11 @@
         /// Remove a word to the list of words if it exist in list
         /// </summary>
         /// <param name="word">The word to remove</param>
+        /// <exception cref="ArgumentException">The word to be removed cannot be empty</exception>
         public void RemoveWordInList(string word)
         {
             if (string.IsNullOrWhiteSpace(word))
-                throw new ArgumentException("Word cannot be empty", nameof(word));
+                throw new ArgumentException(AppResourcesModel.Option_RemoveWordInList_ArgumentException, nameof(word));
             
             words.Remove(word);
         }

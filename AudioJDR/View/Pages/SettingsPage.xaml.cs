@@ -81,23 +81,21 @@ namespace View.Pages
 
         private void LanguagePickerInitialization()
         {
-            LanguagePicker.ItemsSource = new List<string> { "English", "Français" };
+            Dictionary<string, string> languageMapping = new Dictionary<string, string>
+            {
+                {"en", "English" },
+                {"fr", "Français" }
+            };
+
+            LanguagePicker.ItemsSource = new List<string>(languageMapping.Values);
 
             LanguagePicker.Loaded += (sender, e) =>
             {
                 string currentLanguageCode = this._globalSettingsViewModel.Language;
 
-                if (!string.IsNullOrEmpty(currentLanguageCode))
+                if (!string.IsNullOrEmpty(currentLanguageCode) && languageMapping.ContainsKey(currentLanguageCode))
                 {
-                    switch (currentLanguageCode)
-                    {
-                        case "en":
-                            LanguagePicker.SelectedItem = "English";
-                            break;
-                        case "fr":
-                            LanguagePicker.SelectedItem = "Français";
-                            break;
-                    }
+                    LanguagePicker.SelectedItem = languageMapping[currentLanguageCode];
                 }
             };
         }

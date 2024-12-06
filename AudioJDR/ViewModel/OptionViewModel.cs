@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using ViewModel.Resources.Localization;
 
 namespace ViewModel
 {
@@ -54,9 +55,15 @@ namespace ViewModel
         /// </summary>
         /// <param name="eventViewModel">The parent EventViewModel.</param>
         /// <param name="optionInstance">The Option instance to manage, creates new if null.</param>
+        /// <exception cref="ArgumentNullException">Thrown when eventViewModel is null.</exception>
         public OptionViewModel(EventViewModel eventViewModel, Option? optionInstance = null)
         {
-            _parentEventViewModel = eventViewModel ?? throw new ArgumentNullException(nameof(eventViewModel));
+            if (eventViewModel == null)
+            {
+                throw new ArgumentNullException(string.Format(AppResourcesVM.OptionVM_NullException,nameof(eventViewModel)));
+            }
+
+            _parentEventViewModel = eventViewModel;
             _words = new ObservableCollection<string>();
             CurrentOption = optionInstance ?? CreateNewOption();
             RefreshWords();
@@ -75,13 +82,12 @@ namespace ViewModel
         {
             if (updatedOption == null)
             {
-                throw new ArgumentNullException(nameof(updatedOption));
+                throw new ArgumentNullException(string.Format(AppResourcesVM.OptionVM_NullException, nameof(updatedOption)));
             }
 
             CurrentOption.NameOption = updatedOption.NameOption;
             CurrentOption.LinkedEvent = updatedOption.LinkedEvent;
             await _parentEventViewModel.UpdateEventAsync(_parentEventViewModel.CurrentEvent);
-            Debug.WriteLine($"Updated option: {CurrentOption.NameOption} (ID: {CurrentOption.IdOption})");
         }
 
         /// <summary>
@@ -91,7 +97,6 @@ namespace ViewModel
         {
             CurrentOption = CreateNewOption();
             await _parentEventViewModel.AddOptionAsync(CurrentOption);
-            Debug.WriteLine("Initialized new option");
         }
 
         /// <summary>
@@ -120,12 +125,7 @@ namespace ViewModel
                 CurrentOption.AddWordInList(word);
                 Words.Add(word);
                 await _parentEventViewModel.UpdateEventAsync(_parentEventViewModel.CurrentEvent);
-                Debug.WriteLine($"Added word: {word} to option {_currentOption.NameOption}");
                 success = true;
-            }
-            else
-            {
-                Debug.WriteLine($"Word {word} already exists in option {_currentOption.NameOption}");
             }
             
             return success;
@@ -145,13 +145,8 @@ namespace ViewModel
                 CurrentOption.RemoveWordInList(word);
                 Words.Remove(word);
                 await _parentEventViewModel.UpdateEventAsync(_parentEventViewModel.CurrentEvent);
-                Debug.WriteLine($"Removed word: {word} from option {_currentOption.NameOption}");
                 success = true;
             }
-            else
-            {
-                Debug.WriteLine($"Word {word} not found in option {_currentOption.NameOption}");
-        }
 
             return success;
         }
@@ -175,7 +170,7 @@ namespace ViewModel
         /// <returns>A new unique option ID.</returns>
         public int GenerateNewOptionId()
         {
-            var existingOptions = _parentEventViewModel.CurrentEvent.Options;
+            List<Option> existingOptions = _parentEventViewModel.CurrentEvent.Options;
             int newId = existingOptions.Count > 0 ? existingOptions.Max(o => o.IdOption) + 1 : 1;
             return newId;
         }
@@ -185,11 +180,10 @@ namespace ViewModel
             Words.Clear();
             if (CurrentOption?.GetWords() != null)
             {
-                foreach (var word in CurrentOption.GetWords())
+                foreach (string word in CurrentOption.GetWords())
                 {
                     Words.Add(word);
                 }
-                Debug.WriteLine($"Loaded {Words.Count} words for option {CurrentOption.NameOption}");
             }
         }
 

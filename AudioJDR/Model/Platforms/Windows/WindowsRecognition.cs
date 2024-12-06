@@ -51,7 +51,7 @@ namespace Model
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error initializing speech recognition: {ex.Message}");
+                throw new Exception(AppResourcesModel.WindowsRecognition_Constructor_Exception + ex.Message);
             }
         }
 

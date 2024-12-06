@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Model.Resources.Localization;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace Model
@@ -133,11 +134,12 @@ namespace Model
         /// Sets the specified event as the first event, ensuring no other event is marked as first.
         /// </summary>
         /// <param name="evt">The event to set as first.</param>
+        /// <exception cref="InvalidOperationException">Exception thrown when the event doesn't belong to the story's events</exception>
         public void SetFirstEvent(Event evt)
         {
             if (!events.Contains(evt))
             {
-                throw new InvalidOperationException("The event must belong to the story's events.");
+                throw new InvalidOperationException(AppResourcesModel.Story_SetFirstEvent_InvalidOperationException);
             }
 
             if (firstEvent != null)

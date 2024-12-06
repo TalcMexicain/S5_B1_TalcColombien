@@ -124,7 +124,7 @@ namespace TestViewModel
         }
 
         [Fact]
-        public async void AssWordAsync_TestExistingWord()
+        public async void AddWordAsync_TestExistingWord()
         {
             OptionViewModel optionVM = new OptionViewModel(_eventVM);
 

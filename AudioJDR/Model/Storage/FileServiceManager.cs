@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Model.Resources.Localization;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace Model
@@ -55,8 +56,7 @@ namespace Model
             }
             catch (JsonException ex)
             {
-                Debug.WriteLine($"Serialization error: {ex.Message}");
-                throw new InvalidDataException("File couldn't be serialized.");
+                throw new InvalidDataException(AppResourcesModel.FileServiceManager_ExportStoryAsync_JsonException + ex.Message);
             }
 
             return success;
@@ -86,13 +86,12 @@ namespace Model
 
                     if (importedStory == null || string.IsNullOrEmpty(importedStory.Title))
                     {
-                        throw new InvalidDataException("Invalid story data in the file.");
+                        throw new InvalidDataException(AppResourcesModel.FileServiceManager_ImportStoryAsync_ImportedStoryException);
                     }
                 }
                 catch (JsonException ex)
                 {
-                    Debug.WriteLine($"Deserialization error: {ex.Message}");
-                    throw new InvalidDataException("The file does not contain a valid story.");
+                    throw new InvalidDataException(AppResourcesModel.FileServiceManager_ImportStoryAsync_JsonException + ex.Message);
                 }
             }
 

@@ -147,6 +147,30 @@
   <data name="EquippedWeaponItemFormat" xml:space="preserve">
     <value>Le personnage {0} a équipé l'arme {1}</value>
   </data>
+  <data name="FileServiceManager_ExportStoryAsync_JsonException" xml:space="preserve">
+    <value>Erreur : le fichier n'a pas pu être sérialisé. Message :</value>
+  </data>
+  <data name="FileServiceManager_ImportStoryAsync_ImportedStoryException" xml:space="preserve">
+    <value>Données d'histoire non valides dans le fichier.</value>
+  </data>
+  <data name="FileServiceManager_ImportStoryAsync_JsonException" xml:space="preserve">
+    <value>Erreur : Le fichier ne contient pas d'histoire valide. Message : </value>
+  </data>
+  <data name="GlobalSettings_VoicRateTTS_ArgumentOutOfRangeException" xml:space="preserve">
+    <value>La valeur de réglage du débit de TextToSpeech doit être une valeur flottante comprise entre 0,5 et 2,0.</value>
+  </data>
+  <data name="GlobalSettings_VolumeTTS_ArgumentOutOfRangeException" xml:space="preserve">
+    <value>La valeur du volume de TextToSpeech doit être comprise entre 0 et 100.</value>
+  </data>
+  <data name="Option_AddWordInList_ArgumentException" xml:space="preserve">
+    <value>Le mot à ajouter ne peut pas être vide.</value>
+  </data>
+  <data name="Option_RemoveWordInList_ArgumentException" xml:space="preserve">
+    <value>Le mot à supprimer ne peut pas être vide.</value>
+  </data>
+  <data name="Story_SetFirstEvent_InvalidOperationException" xml:space="preserve">
+    <value>Erreur : L'événement doit appartenir aux événements de l'histoire. Message : </value>
+  </data>
   <data name="KeyItemDescription" xml:space="preserve">
     <value>Ceci est un objet clé appelé {0}. Il est utilisé pour débloquer certains chemins</value>
   </data>
@@ -161,6 +185,9 @@
   </data>
   <data name="WeaponItemDescription" xml:space="preserve">
     <value>Ceci est une arme appelée {0}, qui inflige {1} points de dégâts lorsqu'elle est équipée</value>
+  </data>
+  <data name="WindowsRecognition_Constructor_Exception" xml:space="preserve">
+    <value>Erreur d'initialisation de la reconnaissance vocale : </value>
   </data>
   <data name="CultureInfo" xml:space="preserve">
     <value>fr-FR</value>
