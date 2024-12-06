@@ -90,7 +90,7 @@ namespace View.Pages
                 EventTitleLabel.Text = eventToShow.Name;
                 EventDescriptionLabel.Text = eventToShow.Description;
 
-                foreach (var option in eventToShow.Options)
+                foreach (Option option in eventToShow.GetOptions())
                 {
                     string[] optionWords = option.GetWords()?.Select(word => word.ToLower()).ToArray() ?? Array.Empty<string>();
                     foreach (string word in optionWords)

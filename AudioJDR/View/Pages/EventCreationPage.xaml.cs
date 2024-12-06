@@ -253,7 +253,7 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
     private void RefreshOptionList()
     {
         OptionList.ItemsSource = null;
-        OptionList.ItemsSource = _eventViewModel.CurrentEvent.Options;
+        OptionList.ItemsSource = _eventViewModel.CurrentEvent.GetOptions();
     }
 
     #endregion

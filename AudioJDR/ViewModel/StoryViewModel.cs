@@ -273,7 +273,7 @@ namespace ViewModel
                 // Unlink options from the event being deleted
                 foreach (Event evt in CurrentStory.Events)
                 {
-                    foreach (Option option in evt.Options)
+                    foreach (Option option in evt.GetOptions())
                     {
                         if (option.LinkedEvent?.IdEvent == eventId)
                         {

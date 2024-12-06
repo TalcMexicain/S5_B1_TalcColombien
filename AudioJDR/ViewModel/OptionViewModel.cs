@@ -170,7 +170,7 @@ namespace ViewModel
         /// <returns>A new unique option ID.</returns>
         public int GenerateNewOptionId()
         {
-            List<Option> existingOptions = _parentEventViewModel.CurrentEvent.Options;
+            List<Option> existingOptions = _parentEventViewModel.CurrentEvent.GetOptions();
             int newId = existingOptions.Count > 0 ? existingOptions.Max(o => o.IdOption) + 1 : 1;
             return newId;
         }

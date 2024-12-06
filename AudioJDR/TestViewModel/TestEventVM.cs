@@ -82,7 +82,7 @@ namespace TestViewModel
             Assert.Equal(_storyViewModel.Events.Count, eventVM.CurrentEvent.IdEvent);
             Assert.Equal(string.Empty, eventVM.CurrentEvent.Name);
             Assert.Equal(string.Empty, eventVM.CurrentEvent.Description);
-            Assert.Empty(eventVM.CurrentEvent.Options);
+            Assert.Empty(eventVM.CurrentEvent.GetOptions());
 
             Assert.Single(_storyViewModel.Events);
             Assert.Equal(eventVM.CurrentEvent, _storyViewModel.CurrentStory.Events.First());
@@ -153,7 +153,7 @@ namespace TestViewModel
 
             await eventVM.DeleteOptionAsync(optionToDelete.IdOption);
 
-            Assert.Empty(eventVM.CurrentEvent.Options);
+            Assert.Empty(eventVM.CurrentEvent.GetOptions());
             Assert.Empty(eventVM.Options);
         }
 

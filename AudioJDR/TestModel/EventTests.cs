@@ -49,7 +49,7 @@ namespace UnitTests
             Option optionToAdd = new Option(eventToTest);
             eventToTest.AddOption(optionToAdd);
 
-            Assert.Contains(optionToAdd, eventToTest.Options);
+            Assert.Contains(optionToAdd, eventToTest.GetOptions());
         }
 
         [Fact]
@@ -59,11 +59,11 @@ namespace UnitTests
 
             Option optionToDelete = new Option(eventToTest);
             eventToTest.AddOption(optionToDelete);
-            Assert.Contains(optionToDelete, eventToTest.Options);
+            Assert.Contains(optionToDelete, eventToTest.GetOptions());
 
             eventToTest.DeleteOption(optionToDelete);
-            Assert.Empty(eventToTest.Options);
-            Assert.DoesNotContain(optionToDelete, eventToTest.Options);
+            Assert.Empty(eventToTest.GetOptions());
+            Assert.DoesNotContain(optionToDelete, eventToTest.GetOptions());
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace UnitTests
 
             eventToTest.DeleteEvent();
 
-            Assert.Empty(eventToTest.Options);
+            Assert.Empty(eventToTest.GetOptions());
         }
 
         [Fact]

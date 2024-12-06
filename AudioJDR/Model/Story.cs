@@ -113,10 +113,10 @@ namespace Model
         {
 
             // Iterate through all events in the story
-            foreach (var eventInStory in events)
+            foreach (Event eventInStory in events)
             {
                 // Check each option in the current event
-                foreach (var option in eventInStory.Options.ToList())
+                foreach (Option option in eventInStory.GetOptions())
                 {
                     // If the option is linked to the event being deleted, unlink it
                     if (option.LinkedEvent == evt)

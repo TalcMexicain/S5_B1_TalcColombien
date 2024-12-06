@@ -125,7 +125,7 @@ namespace ViewModel
         /// <exception cref="ArgumentException">Thrown when the option with id is not found.</exception>
         public async Task<OptionViewModel> GetOptionViewModelAsync(int optionId)
         {
-            Option? option = CurrentEvent.Options.FirstOrDefault(o => o.IdOption == optionId);
+            Option? option = CurrentEvent.GetOptions().FirstOrDefault(o => o.IdOption == optionId);
             if (option == null)
             {
                 string message = string.Format(AppResourcesVM.EventVM_GetOptionVMAsync_NullException, optionId.ToString());
@@ -147,7 +147,7 @@ namespace ViewModel
                 throw new ArgumentNullException(string.Format(AppResourcesVM.EventVM_NullException, nameof(newOption)));
             }
 
-            CurrentEvent.Options.Add(newOption);
+            CurrentEvent.AddOption(newOption);
             OptionViewModel newViewModel = new OptionViewModel(this, newOption);
             Options.Add(newViewModel);
             await UpdateEventAsync(CurrentEvent);
@@ -163,7 +163,7 @@ namespace ViewModel
             if (optionToRemove != null)
             {
                 Options.Remove(optionToRemove);
-                CurrentEvent.Options.Remove(optionToRemove.CurrentOption);
+                CurrentEvent.DeleteOption(optionToRemove.CurrentOption);
                 await _parentStoryViewModel.UpdateStoryAsync(_parentStoryViewModel.CurrentStory.IdStory, _parentStoryViewModel.CurrentStory);
             }
         }
@@ -178,8 +178,7 @@ namespace ViewModel
             {
                 IdEvent = GenerateNewEventId(),
                 Name = string.Empty,
-                Description = string.Empty,
-                Options = new List<Option>()
+                Description = string.Empty
             };
         }
 
@@ -198,9 +197,9 @@ namespace ViewModel
         {
             Options.Clear();
             
-            if (CurrentEvent?.Options != null)
+            if (CurrentEvent?.GetOptions() != null)
             {
-                foreach (Option option in CurrentEvent.Options)
+                foreach (Option option in CurrentEvent.GetOptions())
                 {
                     Options.Add(new OptionViewModel(this, option));
                 }

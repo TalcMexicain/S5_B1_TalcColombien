@@ -94,9 +94,9 @@ namespace UnitTests
             Assert.NotNull(loadedEvent1);
             Assert.Equal(event1.Name, loadedEvent1.Name);
             Assert.Equal(event1.Description, loadedEvent1.Description);
-            Assert.Equal(event1.Options.Count, loadedEvent1.Options.Count);
+            Assert.Equal(event1.GetOptions().Count, loadedEvent1.GetOptions().Count);
 
-            var loadedOption1 = loadedEvent1.Options.FirstOrDefault(o => o.IdOption == option1.IdOption);
+            var loadedOption1 = loadedEvent1.GetOptions().FirstOrDefault(o => o.IdOption == option1.IdOption);
             Assert.NotNull(loadedOption1);
             Assert.Equal(option1.NameOption, loadedOption1.NameOption);
             Assert.Equal(option1.LinkedEvent.IdEvent, loadedOption1.LinkedEvent.IdEvent);
@@ -106,9 +106,9 @@ namespace UnitTests
             Assert.NotNull(loadedEvent2);
             Assert.Equal(event2.Name, loadedEvent2.Name);
             Assert.Equal(event2.Description, loadedEvent2.Description);
-            Assert.Equal(event2.Options.Count, loadedEvent2.Options.Count);
+            Assert.Equal(event2.GetOptions().Count, loadedEvent2.GetOptions().Count);
 
-            var loadedOption2 = loadedEvent2.Options.FirstOrDefault(o => o.IdOption == option2.IdOption);
+            var loadedOption2 = loadedEvent2.GetOptions().FirstOrDefault(o => o.IdOption == option2.IdOption);
             Assert.NotNull(loadedOption2);
             Assert.Equal(option2.NameOption, loadedOption2.NameOption);
             Assert.Equal(option2.LinkedEvent.IdEvent, loadedOption2.LinkedEvent.IdEvent);

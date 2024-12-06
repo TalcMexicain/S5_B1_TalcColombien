@@ -1,4 +1,5 @@
 ﻿using Model.Resources.Localization;
+using System.Text.Json.Serialization;
 
 namespace Model
 {
@@ -11,8 +12,11 @@ namespace Model
 
         private int idOption;
         private string nameOption;
-        private List<string> words;
         private Event? linkedEvent;
+
+        [JsonInclude]
+        private List<string> words;
+
         #endregion
 
         #region Properties

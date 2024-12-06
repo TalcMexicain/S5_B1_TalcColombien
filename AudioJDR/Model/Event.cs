@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Model
 {
@@ -12,8 +13,10 @@ namespace Model
         private int idEvent;
         private string name;
         private string description;
-        private List<Option> options;
         private bool isFirst;
+
+        [JsonInclude]
+        private List<Option> options;
 
         #endregion
 
@@ -44,16 +47,6 @@ namespace Model
         {
             get => description;
             set => description = value;
-        }
-
-        /// <summary>
-        /// Gets or sets the list of options associated with this event. 
-        /// Options represent possible choices or actions linked to the event
-        /// </summary>
-        public List<Option> Options
-        {
-            get => options;
-            set => options = value;
         }
 
         /// <summary>
@@ -130,7 +123,7 @@ namespace Model
         /// <returns></returns>
         public List<Option> GetOptions()
         {
-            return this.options;
+            return new List<Option>(this.options);
         }
 
         /// <summary>
