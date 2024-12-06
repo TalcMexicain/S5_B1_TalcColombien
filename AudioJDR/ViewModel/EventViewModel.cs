@@ -1,6 +1,7 @@
 ﻿using Model;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using ViewModel.Resources.Localization;
 
 namespace ViewModel
 {
@@ -53,11 +54,25 @@ namespace ViewModel
         /// </summary>
         /// <param name="storyViewModel">The parent StoryViewModel.</param>
         /// <param name="eventInstance">The Event instance to manage, creates new if null.</param>
+        /// <exception cref="ArgumentNullException">Thrown when StoryViewModel is null</exception>
         public EventViewModel(StoryViewModel storyViewModel, Event? eventInstance = null)
         {
-            _parentStoryViewModel = storyViewModel ?? throw new ArgumentNullException(nameof(storyViewModel));
+            if (storyViewModel == null)
+            {
+                throw new ArgumentNullException(AppResourcesVM.EventVM_Constructor_Exception);
+            }
+
+            _parentStoryViewModel = storyViewModel;
             _options = new ObservableCollection<OptionViewModel>();
-            CurrentEvent = eventInstance ?? CreateNewEvent();
+
+            if (eventInstance != null)
+            {
+                CurrentEvent = eventInstance;
+            }
+            else
+            {
+                CurrentEvent = CreateNewEvent();
+            }
         }
 
         #endregion
@@ -73,13 +88,12 @@ namespace ViewModel
         {
             if (updatedEvent == null)
             {
-                throw new ArgumentNullException(nameof(updatedEvent));
+                throw new ArgumentNullException(string.Format(AppResourcesVM.EventVM_NullException, nameof(updatedEvent)));
             }
 
             CurrentEvent.Name = updatedEvent.Name;
             CurrentEvent.Description = updatedEvent.Description;
             await _parentStoryViewModel.UpdateStoryAsync(_parentStoryViewModel.CurrentStory.IdStory, _parentStoryViewModel.CurrentStory);
-            Debug.WriteLine($"Updated event: {CurrentEvent.Name} (ID: {CurrentEvent.IdEvent})");
         }
 
         /// <summary>
@@ -89,7 +103,6 @@ namespace ViewModel
         {
             CurrentEvent = CreateNewEvent();
             await _parentStoryViewModel.AddEventAsync(CurrentEvent);
-            Debug.WriteLine("Initialized new event");
         }
 
         /// <summary>
@@ -98,7 +111,6 @@ namespace ViewModel
         public async Task DeleteEventAsync()
         {
             await _parentStoryViewModel.DeleteEventAsync(CurrentEvent.IdEvent);
-            Debug.WriteLine($"Deleted event with ID: {CurrentEvent.IdEvent}");
         }
 
         #endregion
@@ -110,13 +122,15 @@ namespace ViewModel
         /// </summary>
         /// <param name="optionId">The ID of the option.</param>
         /// <returns>An OptionViewModel instance.</returns>
+        /// <exception cref="ArgumentException">Thrown when the option with id is not found.</exception>
         public async Task<OptionViewModel> GetOptionViewModelAsync(int optionId)
         {
-            var option = CurrentEvent.Options.FirstOrDefault(o => o.IdOption == optionId);
+            Option? option = CurrentEvent.Options.FirstOrDefault(o => o.IdOption == optionId);
             if (option == null)
             {
-                throw new ArgumentException($"Option with ID {optionId} not found");
+                throw new ArgumentNullException(string.Format(AppResourcesVM.EventVM_GetOptionVMAsync_NullException), optionId.ToString());
             }
+
             return new OptionViewModel(this, option);
         }
 
@@ -129,14 +143,13 @@ namespace ViewModel
         {
             if (newOption == null)
             {
-                throw new ArgumentNullException(nameof(newOption));
+                throw new ArgumentNullException(string.Format(AppResourcesVM.EventVM_NullException, nameof(newOption)));
             }
 
             CurrentEvent.Options.Add(newOption);
-            var newViewModel = new OptionViewModel(this, newOption);
+            OptionViewModel newViewModel = new OptionViewModel(this, newOption);
             Options.Add(newViewModel);
             await UpdateEventAsync(CurrentEvent);
-            Debug.WriteLine($"Added new option: {newOption.NameOption} to event {CurrentEvent.Name}");
         }
 
         /// <summary>
@@ -145,13 +158,12 @@ namespace ViewModel
         /// <param name="optionId">The ID of the option to delete.</param>
         public async Task DeleteOptionAsync(int optionId)
         {
-            var optionToRemove = Options.FirstOrDefault(o => o.CurrentOption.IdOption == optionId);
+            OptionViewModel? optionToRemove = Options.FirstOrDefault(o => o.CurrentOption.IdOption == optionId);
             if (optionToRemove != null)
             {
                 Options.Remove(optionToRemove);
                 CurrentEvent.Options.Remove(optionToRemove.CurrentOption);
                 await _parentStoryViewModel.UpdateStoryAsync(_parentStoryViewModel.CurrentStory.IdStory, _parentStoryViewModel.CurrentStory);
-                Debug.WriteLine($"Deleted option with ID: {optionId}");
             }
         }
 
@@ -176,7 +188,7 @@ namespace ViewModel
         /// <returns>A new unique event ID.</returns>
         public int GenerateNewEventId()
         {
-            var existingEvents = _parentStoryViewModel.CurrentStory.Events;
+            ObservableCollection<Event> existingEvents = _parentStoryViewModel.CurrentStory.Events;
             int newId = existingEvents.Count > 0 ? existingEvents.Max(e => e.IdEvent) + 1 : 1;
             return newId;
         }
@@ -187,7 +199,7 @@ namespace ViewModel
             
             if (CurrentEvent?.Options != null)
             {
-                foreach (var option in CurrentEvent.Options)
+                foreach (Option option in CurrentEvent.Options)
                 {
                     Options.Add(new OptionViewModel(this, option));
                 }

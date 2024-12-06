@@ -61,6 +61,33 @@ namespace ViewModel.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à The StoryViewModel cannot be null..
+        /// </summary>
+        internal static string EventVM_Constructor_Exception {
+            get {
+                return ResourceManager.GetString("EventVM_Constructor_Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Option with ID {0} not found..
+        /// </summary>
+        internal static string EventVM_GetOptionVMAsync_NullException {
+            get {
+                return ResourceManager.GetString("EventVM_GetOptionVMAsync_NullException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The argument {0} cannot be null..
+        /// </summary>
+        internal static string EventVM_NullException {
+            get {
+                return ResourceManager.GetString("EventVM_NullException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Current Story is null. No Story selected..
         /// </summary>
         internal static string StoryVM_AddEventAsync_NullException {

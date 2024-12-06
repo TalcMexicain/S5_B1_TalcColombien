@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EventVM_Constructor_Exception" xml:space="preserve">
+    <value>The StoryViewModel cannot be null.</value>
+  </data>
+  <data name="EventVM_GetOptionVMAsync_NullException" xml:space="preserve">
+    <value>Option with ID {0} not found.</value>
+  </data>
+  <data name="EventVM_NullException" xml:space="preserve">
+    <value>The argument {0} cannot be null.</value>
+  </data>
   <data name="StoryVM_AddEventAsync_NullException" xml:space="preserve">
     <value>Current Story is null. No Story selected.</value>
   </data>
