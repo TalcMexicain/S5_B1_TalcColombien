@@ -120,7 +120,7 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
         
         if (canProceed)
         {
-            var navigationParameter = new Dictionary<string, object>
+            Dictionary<string, object> navigationParameter = new Dictionary<string, object>
             {
                 { "storyId", _storyId },
                 { "eventId", _eventViewModel.CurrentEvent.IdEvent },
@@ -138,7 +138,7 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
             
             if (canProceed)
             {
-                var navigationParameter = new Dictionary<string, object>
+                Dictionary<string, object> navigationParameter = new Dictionary<string, object>
                 {
                     { "storyId", _storyId },
                     { "eventId", _eventId },
@@ -165,7 +165,7 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
                 }
                 catch (Exception ex)
                 {
-                    await UIHelper.ShowErrorDialog(this, ex.Message);
+                    await UIHelper.ShowErrorDialog(this, string.Format(AppResources.DeleteErrorFormat, selectedOption.NameOption));
                     Debug.WriteLine($"Error deleting option: {ex.Message}");
                 }
             }
@@ -239,11 +239,11 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
             _initialDescription = EventDescriptionEditor.Text;
             _hasUnsavedChanges = false;
             success = true;
-            await UIHelper.ShowSuccessDialog(this, AppResources.SaveSuccessMessage);
+            await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.SaveSuccessFormat, EventNameEntry.Text));
         }
         catch (Exception ex)
         {
-            await UIHelper.ShowErrorDialog(this, ex.Message);
+            await UIHelper.ShowErrorDialog(this, string.Format(AppResources.SaveErrorFormat, EventNameEntry.Text));
             Debug.WriteLine($"Error saving event changes: {ex.Message}");
         }
         
@@ -253,7 +253,7 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
     private void RefreshOptionList()
     {
         OptionList.ItemsSource = null;
-        OptionList.ItemsSource = _eventViewModel.CurrentEvent.Options;
+        OptionList.ItemsSource = _eventViewModel.CurrentEvent.GetOptions();
     }
 
     #endregion

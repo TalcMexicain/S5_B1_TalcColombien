@@ -171,8 +171,8 @@ namespace ViewModel
                         ApplyTTSVoiceRate();
                         break;
                     case nameof(VoiceTypeTTS):
-                    ApplyTTSVoiceType();
-                    break;
+                        ApplyTTSVoiceType();
+                        break;
                 }
             }
         }

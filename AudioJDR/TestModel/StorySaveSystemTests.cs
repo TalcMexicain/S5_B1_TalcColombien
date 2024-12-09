@@ -30,15 +30,21 @@ namespace UnitTests
                 Description = "A test story"
             };
 
-            Event event1 = new Event("Event 1", "Description 1") { IdEvent = 1 };
-            Option option1 = new Option { IdOption = 1, NameOption = "Option 1", LinkedEvent = event1 };
+            Event event1 = new Event() 
+            { 
+                IdEvent = 1, 
+                Name = "Event 1", 
+                Description = "Description 1" 
+            };
+
+            Option option1 = new Option {
+                IdOption = 1,
+                NameOption = "Option 1",
+                LinkedEvent = event1 
+            };
+
             event1.AddOption(option1);
             storyTest.Events.Add(event1);
-
-            Event event2 = new Event("Event 2", "Description 2") { IdEvent = 2 };
-            Option option2 = new Option { IdOption = 2, NameOption = "Option 2", LinkedEvent = event2 };
-            event2.AddOption(option2);
-            storyTest.Events.Add(event2);
 
             string storyFilePath = Path.Combine(_testFolder, $"{storyTest.IdStory}.json");
 
@@ -88,9 +94,9 @@ namespace UnitTests
             Assert.NotNull(loadedEvent1);
             Assert.Equal(event1.Name, loadedEvent1.Name);
             Assert.Equal(event1.Description, loadedEvent1.Description);
-            Assert.Equal(event1.Options.Count, loadedEvent1.Options.Count);
+            Assert.Equal(event1.GetOptions().Count, loadedEvent1.GetOptions().Count);
 
-            var loadedOption1 = loadedEvent1.Options.FirstOrDefault(o => o.IdOption == option1.IdOption);
+            var loadedOption1 = loadedEvent1.GetOptions().FirstOrDefault(o => o.IdOption == option1.IdOption);
             Assert.NotNull(loadedOption1);
             Assert.Equal(option1.NameOption, loadedOption1.NameOption);
             Assert.Equal(option1.LinkedEvent.IdEvent, loadedOption1.LinkedEvent.IdEvent);
@@ -100,9 +106,9 @@ namespace UnitTests
             Assert.NotNull(loadedEvent2);
             Assert.Equal(event2.Name, loadedEvent2.Name);
             Assert.Equal(event2.Description, loadedEvent2.Description);
-            Assert.Equal(event2.Options.Count, loadedEvent2.Options.Count);
+            Assert.Equal(event2.GetOptions().Count, loadedEvent2.GetOptions().Count);
 
-            var loadedOption2 = loadedEvent2.Options.FirstOrDefault(o => o.IdOption == option2.IdOption);
+            var loadedOption2 = loadedEvent2.GetOptions().FirstOrDefault(o => o.IdOption == option2.IdOption);
             Assert.NotNull(loadedOption2);
             Assert.Equal(option2.NameOption, loadedOption2.NameOption);
             Assert.Equal(option2.LinkedEvent.IdEvent, loadedOption2.LinkedEvent.IdEvent);

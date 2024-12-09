@@ -11,12 +11,14 @@ public partial class YourStories : ContentPage
 
     private StoryViewModel _viewModel;
     private SaveViewModel _saveViewModel;
+    private SpeechRecognitionViewModel _recognitionViewModel;
+    private const string PageContext = "YourStories";
 
     #endregion
 
     #region Constructor
 
-    public YourStories()
+    public YourStories(ISpeechRecognition speechRecognition)
     {
         InitializeComponent();
         _viewModel = new StoryViewModel();
@@ -24,6 +26,13 @@ public partial class YourStories : ContentPage
         BindingContext = _viewModel;
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
+
+        _recognitionViewModel = new SpeechRecognitionViewModel(speechRecognition);
+
+        //_recognitionViewModel.RepeatSpeech += async () => await RepeatSpeech();
+        _recognitionViewModel.NavigateToNewGame += async (potentialTitle) => await NavigateToNewGame(potentialTitle);
+        _recognitionViewModel.ContinueGame += async (potentialTitle) => await ContinueGame(potentialTitle);
+        _recognitionViewModel.NavigatePrevious += async () => await NavigatePrevious();
     }
 
     #endregion
@@ -36,6 +45,92 @@ public partial class YourStories : ContentPage
     private void OnSizeChanged(object? sender, EventArgs e)
     {
         SetResponsiveSizes();
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // Charger d'abord les histoires (ici j'imagine que vous avez une méthode pour les charger)
+        await _viewModel.LoadStoriesAsync();
+
+        // Une fois les histoires chargées, vous pouvez récupérer les titres et les ajouter aux mots-clés.
+        var keywords = new HashSet<string> { AppResources.Back, AppResources.Continue, AppResources.Repeat, AppResources.NewGame };
+
+        // Ajouter les titres des histoires comme mots-clés pour la reconnaissance vocale
+        var storyTitles = _viewModel.Stories.Select(story => story.Title).ToList();
+        keywords.UnionWith(storyTitles);
+
+        // Démarrer la reconnaissance vocale avec les mots-clés complétés
+        _recognitionViewModel.StartRecognition(keywords, PageContext);
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        _recognitionViewModel.UnloadGrammars();
+    }
+
+    private async Task ContinueGame(string title)
+    {
+        var selectedStory = _viewModel.Stories.FirstOrDefault(story => story.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+
+        if (selectedStory != null)
+        {
+            try
+            {
+              
+                await _saveViewModel.LoadGameAsync(selectedStory.Title);
+
+                Event? savedEvent = _saveViewModel.CurrentSave?.CurrentEvent;
+
+                if (savedEvent != null)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(PlayPage)}?storyId={selectedStory.IdStory}&eventId={savedEvent.IdEvent}");
+                }
+                else
+                {
+                    await UIHelper.ShowErrorDialog(this, AppResources.NoValidSaveFound);
+                }
+            }
+            catch (Exception ex)
+            {
+                await UIHelper.ShowErrorDialog(this, AppResources.SaveLoadError);
+            }
+        }
+        else
+        {
+            await UIHelper.ShowErrorDialog(this, "L'histoire n'a pas été trouvée.");
+        }
+    }
+
+
+    private async Task NavigateToNewGame(string title)
+    {
+        var selectedStory = _viewModel.Stories.FirstOrDefault(story => story.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+
+        if (selectedStory != null)
+        {
+            Event? firstEvent = selectedStory.FirstEvent;
+
+            if (firstEvent != null)
+            {
+                await Shell.Current.GoToAsync($"{nameof(PlayPage)}?storyId={selectedStory.IdStory}&eventId={firstEvent.IdEvent}");
+            }
+            else
+            {
+                await UIHelper.ShowErrorDialog(this, "Aucun événement de départ trouvé.");
+            }
+        }
+        else
+        {
+            await UIHelper.ShowErrorDialog(this, "L'histoire n'a pas été trouvée.");
+        }
+    }
+
+    private async Task NavigatePrevious()
+    {
+        await Shell.Current.GoToAsync(nameof(MainPlayerPage));
     }
 
     private async void OnNewGameButtonClicked(object sender, EventArgs e)
@@ -114,8 +209,10 @@ public partial class YourStories : ContentPage
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(MainPlayerPage));
+        await NavigatePrevious();
     }
+
+    
 
     #endregion
 

@@ -56,7 +56,8 @@ namespace Model.Storage
             JsonSerializerOptions optionsJson = new JsonSerializerOptions
             {
                 WriteIndented = true,
-                ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
+                ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve,
+                IncludeFields = true
             };
 
             string storyJson = JsonSerializer.Serialize(story, optionsJson);
@@ -78,7 +79,8 @@ namespace Model.Storage
                 string storyJson = await File.ReadAllTextAsync(storyFilePath);
                 JsonSerializerOptions optionsJson = new JsonSerializerOptions
                 {
-                    ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
+                    ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve,
+                    IncludeFields = true
                 };
 
                 story = JsonSerializer.Deserialize<Story>(storyJson, optionsJson);
@@ -117,7 +119,8 @@ namespace Model.Storage
                     string storyJson = await File.ReadAllTextAsync(storyFile);
                     JsonSerializerOptions optionsJson = new JsonSerializerOptions
                     {
-                        ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
+                        ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve,
+                        IncludeFields = true
                     };
 
                     Story? story = JsonSerializer.Deserialize<Story>(storyJson, optionsJson);

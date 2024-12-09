@@ -61,6 +61,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à &quot;{0}&quot; has been added.
+        /// </summary>
+        internal static string AddedFormat {
+            get {
+                return ResourceManager.GetString("AddedFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Add Option.
         /// </summary>
         internal static string AddOption {
@@ -84,6 +93,15 @@ namespace View.Resources.Localization {
         internal static string Back {
             get {
                 return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Cancel.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
             }
         }
         
@@ -147,6 +165,24 @@ namespace View.Resources.Localization {
         internal static string DeleteConfirmationFormat {
             get {
                 return ResourceManager.GetString("DeleteConfirmationFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à &quot;{0}&quot; has been removed.
+        /// </summary>
+        internal static string DeletedFormat {
+            get {
+                return ResourceManager.GetString("DeletedFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à An error occured attempting to delete &quot;{0}&quot;.
+        /// </summary>
+        internal static string DeleteErrorFormat {
+            get {
+                return ResourceManager.GetString("DeleteErrorFormat", resourceCulture);
             }
         }
         
@@ -268,6 +304,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à An error occured attempting to export &quot;{0}&quot;.
+        /// </summary>
+        internal static string ExportErrorFormat {
+            get {
+                return ResourceManager.GetString("ExportErrorFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Story exported successfully.
         /// </summary>
         internal static string ExportSuccess {
@@ -291,6 +336,15 @@ namespace View.Resources.Localization {
         internal static string Import {
             get {
                 return ResourceManager.GetString("Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à An error occured during the importation process.
+        /// </summary>
+        internal static string ImportError {
+            get {
+                return ResourceManager.GetString("ImportError", resourceCulture);
             }
         }
         
@@ -542,11 +596,29 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à This is an example of the selected voice..
+        /// </summary>
+        internal static string SampleVoiceText {
+            get {
+                return ResourceManager.GetString("SampleVoiceText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Save.
         /// </summary>
         internal static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à An error occured attempting to save &quot;{0}&quot;.
+        /// </summary>
+        internal static string SaveErrorFormat {
+            get {
+                return ResourceManager.GetString("SaveErrorFormat", resourceCulture);
             }
         }
         
@@ -560,11 +632,11 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à The story has been saved successfully..
+        ///   Recherche une chaîne localisée semblable à &quot;{0}&quot; has been saved successfully..
         /// </summary>
-        internal static string SaveSuccessMessage {
+        internal static string SaveSuccessFormat {
             get {
-                return ResourceManager.GetString("SaveSuccessMessage", resourceCulture);
+                return ResourceManager.GetString("SaveSuccessFormat", resourceCulture);
             }
         }
         
@@ -596,11 +668,20 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à An error occured attempting to set &quot;{0}&quot; as first.
+        /// </summary>
+        internal static string SetAsFirstErrorFormat {
+            get {
+                return ResourceManager.GetString("SetAsFirstErrorFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à &quot;{0}&quot; has been set as the first event..
         /// </summary>
-        internal static string SetFirstEventSuccessMessage {
+        internal static string SetAsFirstSuccessFormat {
             get {
-                return ResourceManager.GetString("SetFirstEventSuccessMessage", resourceCulture);
+                return ResourceManager.GetString("SetAsFirstSuccessFormat", resourceCulture);
             }
         }
         
@@ -619,6 +700,15 @@ namespace View.Resources.Localization {
         internal static string StoryContent {
             get {
                 return ResourceManager.GetString("StoryContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à List of story.
+        /// </summary>
+        internal static string StoryList {
+            get {
+                return ResourceManager.GetString("StoryList", resourceCulture);
             }
         }
         
@@ -646,6 +736,24 @@ namespace View.Resources.Localization {
         internal static string Success {
             get {
                 return ResourceManager.GetString("Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Voice synthesis.
+        /// </summary>
+        internal static string SynthesisSettingsLabel {
+            get {
+                return ResourceManager.GetString("SynthesisSettingsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Test voice.
+        /// </summary>
+        internal static string TestVoice {
+            get {
+                return ResourceManager.GetString("TestVoice", resourceCulture);
             }
         }
         
@@ -731,6 +839,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Validate.
+        /// </summary>
+        internal static string Validate {
+            get {
+                return ResourceManager.GetString("Validate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Voice Speed.
         /// </summary>
         internal static string VoiceSpeed {
@@ -781,6 +898,15 @@ namespace View.Resources.Localization {
         internal static string WordAlreadyExists {
             get {
                 return ResourceManager.GetString("WordAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à An error occured attempting to remove/add &quot;{0}&quot;.
+        /// </summary>
+        internal static string WordChangeErrorFormat {
+            get {
+                return ResourceManager.GetString("WordChangeErrorFormat", resourceCulture);
             }
         }
         

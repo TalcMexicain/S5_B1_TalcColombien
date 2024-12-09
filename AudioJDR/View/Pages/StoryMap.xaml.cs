@@ -166,7 +166,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
                 }
                 catch (Exception ex)
                 {
-                    await UIHelper.ShowErrorDialog(this, ex.Message);
+                    await UIHelper.ShowErrorDialog(this, string.Format(AppResources.DeleteErrorFormat, selectedEvent.Name));
                     Debug.WriteLine($"Error deleting event: {ex.Message}");
                 }
             }
@@ -212,12 +212,12 @@ public partial class StoryMap : ContentPage, IQueryAttributable
 
                 _storyViewModel.SetFirstEvent(selectedEvent.IdEvent);
                 _currentFirstEvent = selectedEvent; // Update the current first event
-                await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.SetFirstEventSuccessMessage, selectedEvent.Name));
+                await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.SetAsFirstSuccessFormat, selectedEvent.Name));
                 RefreshEventList();
             }
             catch (Exception ex)
             {
-                await UIHelper.ShowErrorDialog(this, ex.Message);
+                await UIHelper.ShowErrorDialog(this, string.Format(AppResources.SetAsFirstErrorFormat, selectedEvent.Name));
                 Debug.WriteLine($"Error setting first event: {ex.Message}");
             }
         }
@@ -270,11 +270,11 @@ public partial class StoryMap : ContentPage, IQueryAttributable
             _hasUnsavedChanges = false;
             success = true;
             
-            await UIHelper.ShowSuccessDialog(this, AppResources.SaveSuccessMessage);
+            await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.SaveSuccessFormat, StoryNameEntry.Text));
         }
         catch (Exception ex)
         {
-            await UIHelper.ShowErrorDialog(this, ex.Message);
+            await UIHelper.ShowErrorDialog(this, string.Format(AppResources.SaveErrorFormat, StoryNameEntry.Text));
             Debug.WriteLine($"Error saving story changes: {ex.Message}");
         }
         

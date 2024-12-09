@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Model
 {
@@ -12,8 +13,10 @@ namespace Model
         private int idEvent;
         private string name;
         private string description;
-        private List<Option> options;
         private bool isFirst;
+
+        [JsonInclude]
+        private List<Option> options;
 
         #endregion
 
@@ -44,16 +47,6 @@ namespace Model
         {
             get => description;
             set => description = value;
-        }
-
-        /// <summary>
-        /// Gets or sets the list of options associated with this event. 
-        /// Options represent possible choices or actions linked to the event
-        /// </summary>
-        public List<Option> Options
-        {
-            get => options;
-            set => options = value;
         }
 
         /// <summary>
@@ -121,8 +114,16 @@ namespace Model
         /// <param name="option">The option to delete.</param>
         public void DeleteOption(Option option)
         {
-            Debug.WriteLine($"Deleting option: {option.NameOption} from event: {this.Name}");
             this.options.Remove(option);
+        }
+
+        /// <summary>
+        /// Gets a copy of the list of options
+        /// </summary>
+        /// <returns></returns>
+        public List<Option> GetOptions()
+        {
+            return new List<Option>(this.options);
         }
 
         /// <summary>

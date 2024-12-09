@@ -60,10 +60,10 @@ public partial class StoryList : ContentPage
         if (sender is Button button && button.BindingContext is Story story)
         {
             bool confirmed = await UIHelper.ShowDeleteConfirmationDialog(this, story.Title);
-                
+
             if (confirmed)
             {
-                await DeleteStory(story.IdStory);
+                await DeleteStory(story);
             }
         }
     }
@@ -92,7 +92,7 @@ public partial class StoryList : ContentPage
 
     private async Task NavigateToStoryMap(int storyId)
     {
-        var navigationParameter = new Dictionary<string, object>
+        Dictionary<string, object> navigationParameter = new Dictionary<string, object>
         {
             { "storyId", storyId }
         };
@@ -108,15 +108,15 @@ public partial class StoryList : ContentPage
 
     #region Story Operations
 
-    private async Task DeleteStory(int storyId)
+    private async Task DeleteStory(Story story)
     {
         try
         {
-            await _storyViewModel.DeleteStoryAsync(storyId);
+            await _storyViewModel.DeleteStoryAsync(story.IdStory);
         }
         catch (Exception ex)
         {
-            await UIHelper.ShowErrorDialog(this, ex.Message);
+            await UIHelper.ShowErrorDialog(this, string.Format(AppResources.DeleteErrorFormat, story.Title));
             Debug.WriteLine($"Error deleting story: {ex.Message}");
         }
     }
@@ -126,14 +126,12 @@ public partial class StoryList : ContentPage
         try
         {
             bool success = await _storyViewModel.ExportStoryAsync(story);
-            if (success)
-            {
-                await UIHelper.ShowSuccessDialog(this, AppResources.ExportSuccess);
-            }
+            if (success) await UIHelper.ShowSuccessDialog(this, AppResources.ExportSuccess);
+            else await UIHelper.ShowErrorDialog(this, string.Format(AppResources.ExportErrorFormat, story.Title));
         }
         catch (Exception ex)
         {
-            await UIHelper.ShowErrorDialog(this, ex.Message);
+            await UIHelper.ShowErrorDialog(this, string.Format(AppResources.ExportErrorFormat, story.Title));
             Debug.WriteLine($"Error exporting story: {ex.Message}");
         }
     }
@@ -143,14 +141,12 @@ public partial class StoryList : ContentPage
         try
         {
             bool success = await _storyViewModel.ImportStoryAsync();
-            if (success)
-            {
-                await UIHelper.ShowSuccessDialog(this, AppResources.ImportSuccess);
-            }
+            if (success) await UIHelper.ShowSuccessDialog(this, AppResources.ImportSuccess);
+            else await UIHelper.ShowErrorDialog(this, AppResources.ImportError);
         }
         catch (Exception ex)
         {
-            await UIHelper.ShowErrorDialog(this, ex.Message);
+            await UIHelper.ShowErrorDialog(this, AppResources.ImportError);
             Debug.WriteLine($"Error importing story: {ex.Message}");
         }
     }

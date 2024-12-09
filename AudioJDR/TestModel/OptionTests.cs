@@ -4,18 +4,23 @@ namespace UnitTests
 {
     public class OptionTests
     {
+
         [Fact]
-        public void Properties_Test()
+        public void SetId()
         {
-            string text = "Initial Text";
-            Event initialEvent = new Event("Initial Event", "Description");
+            Option option = new Option();
+            int idOpt = 1;
+            option.IdOption = idOpt;
+            Assert.Equal(idOpt, option.IdOption);
+        }
 
-            Option optionToTest = new Option(initialEvent);
-
-            Event updatedEvent = new Event("Intial Event", "Description");
-            optionToTest.LinkedEvent = updatedEvent;
-
-            Assert.Equal(updatedEvent, optionToTest.LinkedEvent);
+        [Fact]
+        public void SetName()
+        {
+            Option option = new Option();
+            string nameOption = "Option";
+            option.NameOption = nameOption;
+            Assert.Equal(nameOption, option.NameOption);
         }
 
         [Fact]
@@ -45,12 +50,32 @@ namespace UnitTests
         public void Option_AddWordInList_Test()
         {
             Option optionToTest = new Option();
-            optionToTest.NameOption = "Test Option";
 
             string wordToAdd = "Test Word";
             optionToTest.AddWordInList(wordToAdd);
 
             Assert.Contains(wordToAdd, optionToTest.GetWords());
+        }
+
+        [Fact]
+        public void Option_AddWordInList_TestWithEmptyWord()
+        {
+            Option optionToTest = new Option();
+            string emptyWord = "";
+
+            Assert.Throws<ArgumentException>(() => optionToTest.AddWordInList(emptyWord));
+        }
+
+        [Fact]
+        public void Option_AddWordInList_TestNotDuplicateWord()
+        {
+            Option optionToTest = new Option();
+            string wordToAdd = "Word";
+
+            optionToTest.AddWordInList(wordToAdd);
+            optionToTest.AddWordInList("word");
+
+            Assert.Single(optionToTest.GetWords());
         }
 
         [Fact]
@@ -88,11 +113,6 @@ namespace UnitTests
             Assert.DoesNotContain(wordToAdd, wordsListToTest);
             Assert.Empty(wordsListToTest);
         }
-
-        //public bool IsWordsListNotEmpty()
-        //{
-        //    return this.words != null && this.words.Any();
-        //}
 
         [Fact]
         public void Option_IsWordsListNotEmpty_Test()

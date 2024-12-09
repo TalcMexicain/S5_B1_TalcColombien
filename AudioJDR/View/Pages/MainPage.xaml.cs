@@ -1,5 +1,12 @@
-﻿using View.Pages;
+﻿using Model;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Text;
+using View.Pages;
+using View.Resources.Localization;
+using ViewModel;
 namespace View;
+
 
 /// <summary>
 /// Represents the MainPage or main menu, provides access to both main parts of the app as well as the parameters
@@ -7,38 +14,65 @@ namespace View;
 public partial class MainPage : ContentPage
 {
     #region Constructor
+    private SpeechRecognitionViewModel _recognitionViewModel;
+
+    private const string PageContext = "MainPage";
 
     /// <summary>
     /// Initializes a new instance of the MainPage class, sets up the UI, 
     /// and subscribes to the SizeChanged event to adjust button sizes dynamically.
     /// </summary>
-    public MainPage()
+    public MainPage(ISpeechRecognition speechRecognition)
     {
+
         InitializeComponent();
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
+
+        BindingContext = _recognitionViewModel;
+        _recognitionViewModel = new SpeechRecognitionViewModel(speechRecognition);
+        _recognitionViewModel.NavigateToPlay += async () => await NavigateToPlay();
     }
 
     #endregion
 
     #region Event Handlers
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        var keywords = new[] { AppResources.Play };
+        _recognitionViewModel.StartRecognition(keywords, PageContext);
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        _recognitionViewModel.UnloadGrammars();
+    }
+
+
     private void OnSizeChanged(object? sender, EventArgs e)
     {
         SetResponsiveSizes();
     }
 
-    private async void OnPlayButtonClicked(object sender, EventArgs e)
+    private async Task NavigateToPlay()
     {
         await Shell.Current.GoToAsync(nameof(MainPlayerPage));
     }
 
-    private async void OnCreateButtonClicked(object sender, EventArgs e)
+    private async void OnPlayButtonClicked(object sender, EventArgs e)
+    {
+        await NavigateToPlay();
+    }
+
+    private async void OnCreateStoryButtonClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(MainCreatorPage));
     }
 
-    private async void OnOptionButtonClicked(object sender, EventArgs e)
+    private async void OnSettingsButtonClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(SettingsPage));
     }

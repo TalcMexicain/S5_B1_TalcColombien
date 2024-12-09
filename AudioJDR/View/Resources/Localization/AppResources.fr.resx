@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Back" xml:space="preserve">
-    <value>Retour</value>
+    <value>retour</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Créer</value>
@@ -241,7 +241,7 @@
     <value>Continuer</value>
   </data>
   <data name="Repeat" xml:space="preserve">
-    <value>Répéter</value>
+    <value>Repeter</value>
   </data>
   <data name="Import" xml:space="preserve">
     <value>Importer</value>
@@ -333,8 +333,8 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   <data name="NoWordsAdded" xml:space="preserve">
     <value>Aucun mot ajouté.</value>
   </data>
-  <data name="SaveSuccessMessage" xml:space="preserve">
-    <value>L'histoire a été enregistrée avec succès.</value>
+  <data name="SaveSuccessFormat" xml:space="preserve">
+    <value>"{0}" a été sauvegardé avec succès.</value>
   </data>
   <data name="VoiceVolume" xml:space="preserve">
     <value>Volume de la voix</value>
@@ -363,7 +363,49 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   <data name="SelectStory" xml:space="preserve">
     <value>Veuillez sélectionner une histoire.</value>
   </data>
-  <data name="SetFirstEventSuccessMessage" xml:space="preserve">
+  <data name="SetAsFirstSuccessFormat" xml:space="preserve">
     <value>"{0}" a été défini comme le premier événement.</value>
+  </data>
+  <data name="AddedFormat" xml:space="preserve">
+    <value>"{0}" a été ajouté</value>
+  </data>
+  <data name="DeletedFormat" xml:space="preserve">
+    <value>"{0}" a été retiré</value>
+  </data>
+  <data name="DeleteErrorFormat" xml:space="preserve">
+    <value>Une erreur est survenue lors de la suppression de "{0}"</value>
+  </data>
+  <data name="ExportErrorFormat" xml:space="preserve">
+    <value>Une erreur est survenue lors de l'exportation de "{0}"</value>
+  </data>
+  <data name="ImportError" xml:space="preserve">
+    <value>Une erreur est survenue lors de l'importation</value>
+  </data>
+  <data name="SaveErrorFormat" xml:space="preserve">
+    <value>Une erreur est survenue lors de la sauvegarde de "{0}"</value>
+  </data>
+  <data name="SetAsFirstErrorFormat" xml:space="preserve">
+    <value>Une erreur est survenue lors de la tentative de définir "{0}" comme premier.</value>
+  </data>
+  <data name="WordChangeErrorFormat" xml:space="preserve">
+    <value>Une erreur est survenue lors de l'ajout/la suppression de "{0}"</value>
+  </data>
+  <data name="SynthesisSettingsLabel" xml:space="preserve">
+    <value>Synthèse Vocale</value>
+  </data>
+  <data name="TestVoice" xml:space="preserve">
+    <value>Tester la voix</value>
+  </data>
+  <data name="SampleVoiceText" xml:space="preserve">
+    <value>Ceci est un exemple de la voix sélectionnée.</value>
+  </data>
+  <data name="Validate" xml:space="preserve">
+    <value>Valider</value>
+  </data>
+  <data name="StoryList" xml:space="preserve">
+    <value>Liste d'histoire</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuler</value>
   </data>
 </root>

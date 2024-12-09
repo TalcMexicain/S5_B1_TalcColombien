@@ -1,5 +1,4 @@
 using Model;
-using System.Diagnostics;
 using System.Globalization;
 using View.Resources.Localization;
 using ViewModel;
@@ -17,6 +16,7 @@ namespace View.Pages
         #region Fields
 
         private GlobalSettingsViewModel _globalSettingsViewModel;
+        private SpeechSynthesizerViewModel _speechViewModel;
 
         #endregion
 
@@ -28,6 +28,7 @@ namespace View.Pages
             SetResponsiveSizes();
             this.SizeChanged += OnSizeChanged;
             this._globalSettingsViewModel = new GlobalSettingsViewModel(speechSynthesizer);
+            this._speechViewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
             InitializeSettingsElements();
         }
         #endregion
@@ -58,6 +59,7 @@ namespace View.Pages
             if (pageWidth > 0 && pageHeight > 0)
             {
                 UIHelper.SetButtonSize(this, ThemeToggleButton, false);
+                UIHelper.SetButtonSize(this, TestVoiceButton, true);
                 UIHelper.SetButtonSize(this, BackButton, true);
 
                 LanguagePicker.WidthRequest = Math.Max(pageWidth * UIHelper.Sizes.BUTTON_WIDTH_FACTOR, UIHelper.Sizes.MIN_FRAME_WIDTH);
@@ -79,23 +81,21 @@ namespace View.Pages
 
         private void LanguagePickerInitialization()
         {
-            LanguagePicker.ItemsSource = new List<string> { "English", "Français" };
+            Dictionary<string, string> languageMapping = new Dictionary<string, string>
+            {
+                {"en", "English" },
+                {"fr", "Français" }
+            };
+
+            LanguagePicker.ItemsSource = new List<string>(languageMapping.Values);
 
             LanguagePicker.Loaded += (sender, e) =>
             {
                 string currentLanguageCode = this._globalSettingsViewModel.Language;
 
-                if (!string.IsNullOrEmpty(currentLanguageCode))
+                if (!string.IsNullOrEmpty(currentLanguageCode) && languageMapping.ContainsKey(currentLanguageCode))
                 {
-                    switch (currentLanguageCode)
-                    {
-                        case "en":
-                            LanguagePicker.SelectedItem = "English";
-                            break;
-                        case "fr":
-                            LanguagePicker.SelectedItem = "Français";
-                            break;
-                    }
+                    LanguagePicker.SelectedItem = languageMapping[currentLanguageCode];
                 }
             };
         }
@@ -103,6 +103,7 @@ namespace View.Pages
         private void VoiceTypeTTSPickerInitialization()
         {
             VoiceTypeTTSPicker.ItemsSource = this._globalSettingsViewModel.AvailableVoicesTypeTTS;
+            VoiceTypeTTSPicker.SelectedItem = this._globalSettingsViewModel.VoiceTypeTTS;
         }
 
         private void VolumeSliderInitialization()
@@ -170,9 +171,17 @@ namespace View.Pages
         {
             AppResources.Culture = new CultureInfo(_globalSettingsViewModel.Language);
 
+            PageSettingsTitle.Text = AppResources.Settings;
+
             ThemeToggleButton.Text = AppResources.ToggleTheme;
             BackButton.Text = AppResources.Back;
             LanguagePicker.Title = AppResources.SelectLanguage;
+
+            SynthesisTitleLabel.Text = AppResources.SynthesisSettingsLabel;
+            VoiceVolumeLabel.Text = AppResources.VoiceVolume;
+            VoiceRateLabel.Text = AppResources.VoiceSpeed;
+            TestVoiceButton.Text = AppResources.TestVoice;
+            VoiceTypeTTSPicker.Title = AppResources.VoiceType;
         }
 
         #endregion
@@ -202,6 +211,16 @@ namespace View.Pages
 
             //Saves the theme in settings
             this._globalSettingsViewModel.AppTheme = appNewTheme;
+        }
+
+        #endregion
+
+        #region VoiceType Management
+
+        private void OnVoiceTypeChanged(object sender, EventArgs e)
+        {
+            string? selectedVoiceType = VoiceTypeTTSPicker.SelectedItem.ToString();
+            this._globalSettingsViewModel.VoiceTypeTTS = selectedVoiceType;
         }
 
         #endregion
@@ -236,6 +255,23 @@ namespace View.Pages
         private void SaveRateTTSToSettings(float rateToSave)
         {
             this._globalSettingsViewModel.RateTTS = rateToSave;
+        }
+
+        #endregion
+
+        #region Voice Test Management
+
+        private void OnTestVoiceButtonClicked(object sender, EventArgs e)
+        {
+            TestVoiceWithNewSettings();
+        }
+
+        private void TestVoiceWithNewSettings()
+        {
+            string sampleText = AppResources.SampleVoiceText;
+            _speechViewModel.TextToSynthesize = sampleText;
+            _speechViewModel.StopSynthesis();
+            _speechViewModel.SynthesizeText();
         }
 
         #endregion

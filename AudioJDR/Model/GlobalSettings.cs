@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
 using Microsoft.Maui.ApplicationModel;
+using Model.Resources.Localization;
 
 namespace Model
 {
@@ -32,6 +33,10 @@ namespace Model
         private const float defaultRateTTS = 1.0f;
         private const string defaultVoiceTypeTTS = "";
 
+        private const int MIN_VOLUME = 0;
+        private const int MAX_VOLUME = 100;
+        private const float MIN_RATE = 0.5f;
+        private const float MAX_RATE = 2.0f;
         #endregion
 
         #region Fields
@@ -78,6 +83,7 @@ namespace Model
         /// <summary>
         /// Gets or stores the volume for text-to-speech (TTS)
         /// The defautl value is set by the cosntant "defautlVolumeTTS" (<see cref="defaultVolumeTTS"/>)
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when attempting to set a value that is less than 0 or greater than 100</exception>
         /// </summary>
         public int VolumeTTS
         {
@@ -87,9 +93,9 @@ namespace Model
             }
             set
             {
-                if (value < 0 || value > 100)
+                if (value < MIN_VOLUME || value > MAX_VOLUME)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), "TextToSpeech volume setting value must be between 0 and 100.");
+                    throw new ArgumentOutOfRangeException(nameof(value), AppResourcesModel.GlobalSettings_VolumeTTS_ArgumentOutOfRangeException);
                 }
 
                 Preferences.Set(volumeKey, value);
@@ -99,6 +105,7 @@ namespace Model
         /// <summary>
         /// Gets or stores the rate (speed) for (TTS)
         /// The default value is set by the constant "defaultRateTTS" (<see cref="defaultRateTTS"/>)
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when attempting to set a value that is less than 0.5f or greater than 2.0f</exception>
         /// </summary>
         public float RateTTS
         {
@@ -108,9 +115,9 @@ namespace Model
             }
             set
             {
-                if (value < 0.5f || value > 2.0f)
+                if (value < MIN_RATE || value > MAX_RATE)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), "TextToSpeech rate setting value must a float between 0.5 and 2.0.");
+                    throw new ArgumentOutOfRangeException(nameof(value), AppResourcesModel.GlobalSettings_VoicRateTTS_ArgumentOutOfRangeException);
                 }
 
                 Preferences.Set(rateKey, value);
@@ -120,12 +127,20 @@ namespace Model
         /// <summary>
         /// Gets or stores voice type for text-to-speech (TTS)
         /// The default value is set by the cosntant "defaultVoiceTypeTTS" (<see cref="defaultVoiceTypeTTS"/>)
+        /// Verify if the voice type to be saved is available
         /// </summary>
         public string VoiceTypeTTS
         {
             get
             {
-                return Preferences.Get(voiceTypeKey, defaultVoiceTypeTTS);
+                string savedVoiceType = Preferences.Get(voiceTypeKey, defaultVoiceTypeTTS);
+
+                if (string.IsNullOrEmpty(savedVoiceType) && !IsVoiceTypeAvailable(savedVoiceType))
+                {
+                    savedVoiceType = GetAvailableVoiceType();
+                }
+
+                return savedVoiceType;
             }
             set
             {
@@ -195,6 +210,22 @@ namespace Model
         private void LoadAllVoicesTypeTTS()
         {
             this._availableVoicesTypeTTS = this._speechSynthesizer.GetInstalledVoices();
+        }
+
+        private bool IsVoiceTypeAvailable(string voiceType)
+        {
+            return this._availableVoicesTypeTTS.Contains(voiceType);
+        }
+
+        private string GetAvailableVoiceType()
+        {
+            string voiceType = "";
+            if (this.AvailableVoicesTypeTTS.Count > 0)
+            {
+                voiceType = this.AvailableVoicesTypeTTS.First().ToString();
+            }
+
+            return voiceType;
         }
 
         private string GetDefautlLanguage()

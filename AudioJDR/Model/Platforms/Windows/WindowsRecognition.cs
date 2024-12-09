@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Speech.Recognition;
+using Model.Resources.Localization;
+
 
 namespace Model
 {
     /// <summary>
-    /// 
+    /// Windows implementation of the ISpeechRecognition interface for speech recognition functionnality
     /// </summary>
-    public class SpeechRecognitionModel
+    public class WindowsRecognition : ISpeechRecognition
     {
         #region Fields 
 
@@ -21,9 +23,6 @@ namespace Model
 
         #region Events 
 
-        /// <summary>
-        /// Event triggered when a text is recognized.
-        /// </summary>
         public event Action<string> SpeechRecognized;
 
         #endregion
@@ -34,12 +33,12 @@ namespace Model
         /// Initializes a new instance of the <see cref="SpeechRecognitionModel"/> class.
         /// Sets up the speech recognition engine with French culture settings.
         /// </summary>
-        public SpeechRecognitionModel()
+        public WindowsRecognition()
         {
             try
             {
                 // Initialize the speech recognition engine
-                _recognizer = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("fr-FR"));
+                _recognizer = new SpeechRecognitionEngine(new System.Globalization.CultureInfo(AppResourcesModel.CultureInfo));
 
                 // Configure the audio input
                 _recognizer.SetInputToDefaultAudioDevice();
@@ -52,7 +51,7 @@ namespace Model
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error initializing speech recognition: {ex.Message}");
+                throw new Exception(AppResourcesModel.WindowsRecognition_Constructor_Exception + ex.Message);
             }
         }
 
@@ -60,9 +59,6 @@ namespace Model
 
         #region Public Methods 
 
-        /// <summary>
-        /// Starts the speech recognition process.
-        /// </summary>
         public void StartRecognition()
         {
             if (_recognizer != null && _recognizer.AudioState == AudioState.Stopped)
@@ -71,21 +67,32 @@ namespace Model
             }
         }
 
-        /// <summary>
-        /// Updates the grammar of the speech recognition engine with the provided keywords.
-        /// </summary>
-        /// <param name="keywords">An array of keywords to include in the grammar.</param>
+        public void StopRecognition()
+        {
+            if (_recognizer != null && _recognizer.AudioState != AudioState.Stopped)
+            {
+                _recognizer.RecognizeAsyncStop();
+            }
+        }
+
         public void UpdateGrammar(string[] keywords)
         {
+            _recognizer.UnloadAllGrammars();
+
             // Update the grammar with the provided keywords
             var choices = new Choices(keywords);
             var grammarBuild = new GrammarBuilder(choices)
             {
-                Culture = new System.Globalization.CultureInfo("fr-FR") 
+                Culture = new System.Globalization.CultureInfo(AppResourcesModel.CultureInfo)
             };
             var grammar = new Grammar(grammarBuild);
 
             _recognizer.LoadGrammar(grammar);
+        }
+
+        public void UnloadAllGrammars()
+        {
+            _recognizer?.UnloadAllGrammars();
         }
 
         #endregion
