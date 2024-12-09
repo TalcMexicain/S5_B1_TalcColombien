@@ -14,8 +14,6 @@ namespace Model
         private string name;
         private string description;
         private bool isFirst;
-
-        [JsonInclude]
         private List<Option> options;
 
         #endregion
@@ -47,6 +45,16 @@ namespace Model
         {
             get => description;
             set => description = value;
+        }
+
+        /// <summary>
+        /// Property used only for serialization
+        /// </summary>
+
+        public List<Option> Options
+        {
+            get { return options; }
+            set => options = value;
         }
 
         /// <summary>

@@ -13,8 +13,6 @@ namespace Model
         private int idOption;
         private string nameOption;
         private Event? linkedEvent;
-
-        [JsonInclude]
         private List<string> words;
 
         #endregion
@@ -37,6 +35,15 @@ namespace Model
         {
             get => nameOption;
             set => nameOption = value;
+        }
+
+        /// <summary>
+        /// Property used only for serialization
+        /// </summary>
+        public List<string> Words
+        {
+            get { return words; }
+            set => words = value;
         }
 
         /// <summary>
