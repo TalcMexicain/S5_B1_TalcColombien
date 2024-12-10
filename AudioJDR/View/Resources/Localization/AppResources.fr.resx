@@ -408,4 +408,13 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   <data name="Cancel" xml:space="preserve">
     <value>Annuler</value>
   </data>
+  <data name="YourStories_Continue_NoSelectedStories" xml:space="preserve">
+    <value>Veuillez sélectionner une histoire à jouer.</value>
+  </data>
+  <data name="YourStories_NewGame_NoEvent" xml:space="preserve">
+    <value>Aucun événement de départ trouvé.</value>
+  </data>
+  <data name="YourStories_NewGame_NoSelectedStories" xml:space="preserve">
+    <value>Veuillez sélectionner une histoire à jouer.</value>
+  </data>
 </root>

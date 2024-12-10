@@ -406,4 +406,13 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="YourStories_Continue_NoSelectedStories" xml:space="preserve">
+    <value>Please select a story to play.</value>
+  </data>
+  <data name="YourStories_NewGame_NoEvent" xml:space="preserve">
+    <value>No start event found.</value>
+  </data>
+  <data name="YourStories_NewGame_NoSelectedStories" xml:space="preserve">
+    <value>Please select a story to play.</value>
+  </data>
 </root>

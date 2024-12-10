@@ -918,5 +918,32 @@ namespace View.Resources.Localization {
                 return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Please select a story to play..
+        /// </summary>
+        internal static string YourStories_Continue_NoSelectedStories {
+            get {
+                return ResourceManager.GetString("YourStories_Continue_NoSelectedStories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No start event found..
+        /// </summary>
+        internal static string YourStories_NewGame_NoEvent {
+            get {
+                return ResourceManager.GetString("YourStories_NewGame_NoEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Please select a story to play..
+        /// </summary>
+        internal static string YourStories_NewGame_NoSelectedStories {
+            get {
+                return ResourceManager.GetString("YourStories_NewGame_NoSelectedStories", resourceCulture);
+            }
+        }
     }
 }

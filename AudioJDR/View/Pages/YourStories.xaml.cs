@@ -145,12 +145,12 @@ public partial class YourStories : ContentPage
             }
             else
             {
-                await UIHelper.ShowErrorDialog(this, "Aucun événement de départ trouvé.");
+                await UIHelper.ShowErrorDialog(this, AppResources.YourStories_NewGame_NoEvent);
             }
         }
         else
         {
-            await UIHelper.ShowErrorDialog(this, "Veuillez sélectionner une histoire à jouer.");
+            await UIHelper.ShowErrorDialog(this, AppResources.YourStories_NewGame_NoSelectedStories);
         }
     }
 
@@ -198,7 +198,7 @@ public partial class YourStories : ContentPage
         }
         else
         {
-            await UIHelper.ShowErrorDialog(this, "Veuillez sélectionner une histoire.");
+            await UIHelper.ShowErrorDialog(this, AppResources.YourStories_Continue_NoSelectedStories);
         }
     }
 
