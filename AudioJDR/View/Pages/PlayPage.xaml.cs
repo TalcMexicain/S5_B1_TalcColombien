@@ -1,3 +1,4 @@
+
 using Model;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -36,6 +37,10 @@ namespace View.Pages
 
             _storyViewModel = new StoryViewModel();
             BindingContext = _recognitionViewModel;
+
+            SetResponsiveSizes();
+            this.SizeChanged += OnSizeChanged;
+            MessagingCenter.Subscribe<SettingsPage>(this, "LanguageChanged", (sender) => { UpdateAllText(); });
 
             _recognitionViewModel = new SpeechRecognitionViewModel(speechRecognition);
             _synthesizerViewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
@@ -236,6 +241,14 @@ namespace View.Pages
 
         #region UI Management
 
+        private void UpdateAllText()
+        {
+            OptionEntry.Placeholder = AppResources.PlaceholderKeyWord;
+            OptionValidation.Text = AppResources.Confirm;
+            RepeatButton.Text = AppResources.Repeat;
+            BackButton.Text = AppResources.Back;
+        }
+
         private void SetResponsiveSizes()
         {
             double pageWidth = this.Width;
@@ -279,13 +292,19 @@ namespace View.Pages
             await Shell.Current.GoToAsync("..");
         }
 
+        private void OnSizeChanged(object? sender, EventArgs e)
+        {
+            SetResponsiveSizes();
+        }
+
         #endregion
 
         #region Lifecycle Methods
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
+            await _storyViewModel.LoadStoriesAsync();
 
             // Pass the label's text to the ViewModel for TTS synthesis
             _synthesizerViewModel.TextToSynthesize = this.EventDescriptionLabel.Text;

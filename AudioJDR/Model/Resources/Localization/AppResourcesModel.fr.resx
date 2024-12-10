@@ -144,6 +144,12 @@
   <data name="ConsumableItemDescription" xml:space="preserve">
     <value>Ceci est un objet consommable appelé {0}, qui restaure {1} points de vie</value>
   </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continuer</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
   <data name="EquippedWeaponItemFormat" xml:space="preserve">
     <value>Le personnage {0} a équipé l'arme {1}</value>
   </data>
@@ -173,6 +179,9 @@
   </data>
   <data name="KeyItemDescription" xml:space="preserve">
     <value>Ceci est un objet clé appelé {0}. Il est utilisé pour débloquer certains chemins</value>
+  </data>
+  <data name="NewGame" xml:space="preserve">
+    <value>Nouvelle partie</value>
   </data>
   <data name="UnEquippedWeaponItemFormat" xml:space="preserve">
     <value>Le personnage {0} a déséquipé l'arme {1}</value>

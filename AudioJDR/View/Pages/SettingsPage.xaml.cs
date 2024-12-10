@@ -1,4 +1,5 @@
 using Model;
+using System.Diagnostics;
 using System.Globalization;
 using View.Resources.Localization;
 using ViewModel;
@@ -148,6 +149,7 @@ namespace View.Pages
                 {
                     SetLanguage("fr");
                 }
+                MessagingCenter.Send(this, "LanguageChanged");
             }
         }
 

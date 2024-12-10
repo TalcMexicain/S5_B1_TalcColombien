@@ -144,6 +144,12 @@
   <data name="ConsumableItemDescription" xml:space="preserve">
     <value>This is a consumable item called {0}, which restores {1} health points</value>
   </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="EquippedWeaponItemFormat" xml:space="preserve">
     <value>The character {0} equipped the weapon {1}</value>
   </data>
@@ -173,6 +179,9 @@
   </data>
   <data name="KeyItemDescription" xml:space="preserve">
     <value>This is a key item called {0}. It is used to unlock certain paths</value>
+  </data>
+  <data name="NewGame" xml:space="preserve">
+    <value>New game</value>
   </data>
   <data name="UnEquippedWeaponItemFormat" xml:space="preserve">
     <value>The character {0} unequipped the weapon {1}</value>

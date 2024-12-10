@@ -28,6 +28,7 @@ public partial class MainPage : ContentPage
         InitializeComponent();
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
+        MessagingCenter.Subscribe<SettingsPage>(this, "LanguageChanged", (sender) => { UpdateAllText(); });
 
         BindingContext = _recognitionViewModel;
         _recognitionViewModel = new SpeechRecognitionViewModel(speechRecognition);
@@ -49,6 +50,8 @@ public partial class MainPage : ContentPage
     {
         base.OnDisappearing();
         _recognitionViewModel.UnloadGrammars();
+        _recognitionViewModel.StopRecognition();
+
     }
 
 
@@ -80,6 +83,14 @@ public partial class MainPage : ContentPage
     #endregion
 
     #region UI Management
+
+    private void UpdateAllText()
+    {
+        WelcomeMessage.Text = AppResources.WelcomeMessage;
+        PlayButton.Text = AppResources.Play;
+        CreateButton.Text = AppResources.Create;
+        SettingsButton.Text = AppResources.Settings;
+    }
 
     private void SetResponsiveSizes()
     {

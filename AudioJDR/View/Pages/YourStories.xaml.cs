@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.Maui.Controls.Internals;
 using Model;
 using View.Resources.Localization;
 using ViewModel;
@@ -26,6 +27,7 @@ public partial class YourStories : ContentPage
         BindingContext = _viewModel;
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
+        MessagingCenter.Subscribe<SettingsPage>(this, "LanguageChanged", (sender) => { UpdateAllText(); });
 
         _recognitionViewModel = new SpeechRecognitionViewModel(speechRecognition);
 
@@ -47,9 +49,10 @@ public partial class YourStories : ContentPage
         SetResponsiveSizes();
     }
 
-    protected override async void OnAppearing()
+    protected async override void OnAppearing()
     {
         base.OnAppearing();
+        await _viewModel.LoadStoriesAsync();
 
         // Charger d'abord les histoires (ici j'imagine que vous avez une méthode pour les charger)
         await _viewModel.LoadStoriesAsync();
@@ -251,6 +254,24 @@ public partial class YourStories : ContentPage
     #endregion
 
     #region UI Management
+
+    private void UpdateAllText()
+    {
+        TitleYourStoryLabel.Text = AppResources.TitleYourStory;
+
+        RepeatVoiceButton.Text = AppResources.Repeat;
+        ImportButton.Text = AppResources.Import;
+        BackButton.Text = AppResources.Back;
+
+        foreach (var story in StoriesList.ItemsSource)
+        {
+            if (story is Story storyModel)
+            {
+                storyModel.RefreshLocalizedProperties();
+            }
+        }
+    }
+
 
     private void SetResponsiveSizes()
     {

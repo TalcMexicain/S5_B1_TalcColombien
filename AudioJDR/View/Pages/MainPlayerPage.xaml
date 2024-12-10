@@ -37,7 +37,8 @@
             </Grid.RowDefinitions>
 
             <!-- Title -->
-            <Label Text="{x:Static local:AppResources.Title}"
+            <Label x:Name="TitleLabel"
+                   Text="{x:Static local:AppResources.Title}"
                    FontFamily="UncialAntiquaRegular"
                    Grid.Row="0"
                    HorizontalOptions="Center"
@@ -50,7 +51,8 @@
             </Label>
 
             <!-- Subtitle -->
-            <Label Text="{x:Static local:AppResources.Player}"
+            <Label x:Name="PlayerLabel"
+                   Text="{x:Static local:AppResources.Player}"
                    FontFamily="UncialAntiquaRegular"
                    Grid.Row="1"
                    HorizontalOptions="Center"

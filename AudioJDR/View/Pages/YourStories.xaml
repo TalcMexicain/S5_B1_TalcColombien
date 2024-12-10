@@ -27,7 +27,8 @@
             </Grid.RowDefinitions>
 
             <!-- Title -->
-            <Label Grid.Row="0"
+            <Label x:Name="TitleYourStoryLabel"
+                   Grid.Row="0"
                    Text="{x:Static local:AppResources.TitleYourStory}"
                    FontFamily="UncialAntiquaRegular"
                    FontSize="Large"
@@ -52,7 +53,8 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame BorderColor="{StaticResource BorderColorL}"
+                        <Frame x:Name="StoriesFrame"
+                               BorderColor="{StaticResource BorderColorL}"
                                CornerRadius="5"
                                Padding="10,10,10,5"
                                Margin="0,10,0,10">
@@ -85,7 +87,8 @@
                                 <!-- Story Buttons -->
                                 <HorizontalStackLayout HorizontalOptions="Center">
                                     <!-- New Game Button -->
-                                    <Button Text="{x:Static local:AppResources.NewGame}"
+                                    <Button x:Name="NewGameButton"
+                                            Text="{Binding NewGameText}"
                                             Margin="0,0,10,0"
                                             Clicked="OnNewGameButtonClicked">
                                         <Button.BackgroundColor>
@@ -97,7 +100,7 @@
                                     </Button>
 
                                     <!-- Continue Button -->
-                                    <Button Text="{x:Static local:AppResources.Continue}"
+                                    <Button Text="{Binding ContinueText}"
                                             Margin="0,0,10,0"
                                             Clicked="OnContinueButtonClicked">
                                         <Button.BackgroundColor>
@@ -109,7 +112,7 @@
                                     </Button>
 
                                     <!-- Delete Story Button -->
-                                    <Button Text="{x:Static local:AppResources.Delete}"
+                                    <Button Text="{Binding DeleteText}"
                                             Clicked="OnDeleteButtonClicked"
                                             CommandParameter="{Binding}">
                                         <Button.BackgroundColor>

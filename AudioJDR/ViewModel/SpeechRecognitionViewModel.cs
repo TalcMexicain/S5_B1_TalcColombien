@@ -82,6 +82,14 @@ namespace ViewModel
         
 
         /// <summary>
+        /// Stops speech recognition.
+        /// </summary>
+        public void StopRecognition()
+        {
+            _speechRecognition.StopRecognition();
+        }
+
+        /// <summary>
         /// Updates the grammar for the recognizer. Clears previous grammars if the context changes.
         /// </summary>
         public void UpdateGrammar(IEnumerable<string> keywords, string context)

@@ -84,7 +84,8 @@
                            />
 
                     <!-- Bouton Valider -->
-                    <Button Text="{x:Static local:AppResources.Save}"
+                    <Button x:Name="OptionValidation"
+                            Text="{x:Static local:AppResources.Confirm}"
                             FontSize="Small"
                             BackgroundColor="{StaticResource PrimaryButtonsL}"
                             TextColor="{StaticResource MainTextL}"

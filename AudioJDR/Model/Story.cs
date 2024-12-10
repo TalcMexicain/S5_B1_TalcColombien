@@ -1,5 +1,6 @@
 ﻿using Model.Resources.Localization;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace Model
@@ -9,7 +10,7 @@ namespace Model
     /// Represents a Story in audioJDR game that contains events
     /// All the code in this file is included in all platforms.
     /// </summary>
-    public class Story
+    public class Story : INotifyPropertyChanged
     {
 
         #region Fields
@@ -20,6 +21,17 @@ namespace Model
         private Event firstEvent;
 
         private ObservableCollection<Event> events;
+
+        #region Bound Properties 
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public string NewGameText => AppResourcesModel.NewGame;
+        public string ContinueText => AppResourcesModel.Continue;
+        public string DeleteText => AppResourcesModel.Delete;
+
+        #endregion
+
         #endregion
 
         #region Properties
@@ -150,6 +162,16 @@ namespace Model
 
             firstEvent = evt;
             firstEvent.IsFirst = true; // Mark the new event as first
+        }
+
+        /// <summary>
+        /// Refreshes Binding related properties
+        /// </summary>
+        public void RefreshLocalizedProperties()
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NewGameText)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ContinueText)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeleteText)));
         }
 
         #endregion
