@@ -151,20 +151,20 @@ namespace Model.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Delete.
-        /// </summary>
-        internal static string Delete {
-            get {
-                return ResourceManager.GetString("Delete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une chaîne localisée semblable à fr-FR.
         /// </summary>
         internal static string CultureInfo {
             get {
                 return ResourceManager.GetString("CultureInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Delete.
+        /// </summary>
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
         
@@ -264,6 +264,42 @@ namespace Model.Resources.Localization {
         internal static string Story_SetFirstEvent_InvalidOperationException {
             get {
                 return ResourceManager.GetString("Story_SetFirstEvent_InvalidOperationException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The voiceRate parameter must be between {0} and {1}..
+        /// </summary>
+        internal static string TTS_SetVoiceRate_Exception {
+            get {
+                return ResourceManager.GetString("TTS_SetVoiceRate_Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Voice {0} has not been found..
+        /// </summary>
+        internal static string TTS_SetVoiceType_Exception {
+            get {
+                return ResourceManager.GetString("TTS_SetVoiceType_Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Failed to set the voice: {0}. Message : .
+        /// </summary>
+        internal static string TTS_SetVoiceType_NotFound {
+            get {
+                return ResourceManager.GetString("TTS_SetVoiceType_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The voiceVolume parameter must be between {0} and {1}..
+        /// </summary>
+        internal static string TTS_SetVoiceVolume_Exception {
+            get {
+                return ResourceManager.GetString("TTS_SetVoiceVolume_Exception", resourceCulture);
             }
         }
         
