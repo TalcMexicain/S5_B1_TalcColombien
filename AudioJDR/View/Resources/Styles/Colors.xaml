@@ -31,9 +31,6 @@
     <Color x:Key="TextButtons">#000000</Color>
     <Color x:Key="DeleteColor">#C62E2E</Color>
 
-    <!-- TextColor="{StaticResource TextButtons}" -->
-    <!-- LineBreakMode="WordWrap" -->
-
 
 
 
