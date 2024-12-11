@@ -1,7 +1,7 @@
 ﻿using Model;
 using Model.Storage;
 
-namespace UnitTests
+namespace TestModel.StorageTests
 {
     public class SaveTests
     {

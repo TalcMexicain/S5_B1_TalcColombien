@@ -1,7 +1,7 @@
 ﻿using Model;
 using Model.Storage;
 
-namespace UnitTests
+namespace TestModel.StorageTests
 {
     public class StorySaveSystemTests : IDisposable
     {
@@ -30,17 +30,18 @@ namespace UnitTests
                 Description = "A test story"
             };
 
-            Event event1 = new Event() 
-            { 
-                IdEvent = 1, 
-                Name = "Event 1", 
-                Description = "Description 1" 
+            Event event1 = new Event()
+            {
+                IdEvent = 1,
+                Name = "Event 1",
+                Description = "Description 1"
             };
 
-            Option option1 = new Option {
+            Option option1 = new Option
+            {
                 IdOption = 1,
                 NameOption = "Option 1",
-                LinkedEvent = event1 
+                LinkedEvent = event1
             };
 
             event1.AddOption(option1);
