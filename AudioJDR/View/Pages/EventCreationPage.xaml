@@ -13,47 +13,43 @@
         <Grid Padding="20">
             <!-- Define rows for the grid -->
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <!-- Title -->
-                <RowDefinition Height="20" />
-                <!-- Spacer -->
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+
                 <!-- Event Name Frame -->
-                <RowDefinition Height="20" />
-                <!-- Spacer -->
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+
                 <!-- Event Text Frame -->
-                <RowDefinition Height="20" />
-                <!-- Spacer -->
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+
                 <!-- Option Adding Frame -->
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
-                <!-- Spacer -->
-                <RowDefinition Height="Auto" />
+
                 <!-- Save Button -->
-                <RowDefinition Height="10" />
-                <!-- Spacer -->
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="10" />
+
                 <!-- Back Button -->
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- Title Section -->
             <Label x:Name="TitleLabel" Grid.Row="0"
                    Text="{x:Static local:AppResources.TitleCreateEvent}"
+                   TextColor="{StaticResource MainText}"
                    FontFamily="UncialAntiquaRegular"
                    FontSize="40"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
-                   Margin="0,10,0,20">
-                <Label.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Label.TextColor>
-            </Label>
+                   Margin="0,10,0,20"/>
 
             <!-- Event title input -->
             <Frame x:Name="EventTitleFrame"
                    Grid.Row="2"
-                   BorderColor="{StaticResource BorderColorL}"
                    CornerRadius="10"
                    Padding="10">
                 <Frame.BackgroundColor>
@@ -67,21 +63,24 @@
                            FontAttributes="Bold"
                            Margin="0,0,0,5">
                         <Label.TextColor>
-                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                            <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
                         </Label.TextColor>
                     </Label>
+
                     <Entry x:Name="EventNameEntry"
                            Text="{Binding CurrentEvent.Name}"
                            Placeholder="{x:Static local:AppResources.PlaceholderEventTitle}"
-                           PlaceholderColor="{StaticResource Gray400}"
-                           FontSize="Medium"/>
+                           FontSize="Medium">
+                        <Entry.PlaceholderColor>
+                            <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
+                        </Entry.PlaceholderColor>
+                    </Entry>
                 </VerticalStackLayout>
             </Frame>
 
             <!-- Event content input -->
             <Frame x:Name="EventContentFrame"
                    Grid.Row="4"
-                   BorderColor="{StaticResource BorderColorL}"
                    CornerRadius="10"
                    Padding="10">
                 <Frame.BackgroundColor>
@@ -89,26 +88,29 @@
                 </Frame.BackgroundColor>
 
                 <VerticalStackLayout>
-                    <Label x:Name="EventContentLabel" Text="{x:Static local:AppResources.StoryContent}"
+                    <Label x:Name="EventContentLabel" 
+                           Text="{x:Static local:AppResources.StoryContent}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,5">
                         <Label.TextColor>
-                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                            <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
                         </Label.TextColor>
                     </Label>
                     <Editor x:Name="EventDescriptionEditor"
                             Text="{Binding CurrentEvent.Description}"
                             Placeholder="{x:Static local:AppResources.PlaceholderStoryContent}"
-                            PlaceholderColor="{StaticResource Gray400}"
                             HeightRequest="250"
-                            FontSize="Medium"/>
+                            FontSize="Medium">
+                        <Editor.PlaceholderColor>
+                            <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
+                        </Editor.PlaceholderColor>
+                    </Editor>
                 </VerticalStackLayout>
             </Frame>
 
             <!-- Options Section -->
             <Frame x:Name="OptionsFrame" Grid.Row="6"
-                   BorderColor="{StaticResource BorderColorL}" 
                    CornerRadius="10" 
                    Padding="10">
                 <Frame.BackgroundColor>
@@ -116,17 +118,20 @@
                 </Frame.BackgroundColor>
 
                 <VerticalStackLayout>
-                    <Label x:Name="OptionsLabel" Text="{x:Static local:AppResources.Options}"
+                    <Label x:Name="OptionsLabel" 
+                           Text="{x:Static local:AppResources.Options}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,10">
                         <Label.TextColor>
-                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
+                            <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
                         </Label.TextColor>
                     </Label>
 
                     <!-- Button to add a new option -->
-                    <Button x:Name="CreateNewOptionButton" Text="{x:Static local:AppResources.AddOption}"
+                    <Button x:Name="CreateNewOptionButton" 
+                            Text="{x:Static local:AppResources.AddOption}"
+                            TextColor="{StaticResource TextButtons}"
                             FontSize="Small"
                             CornerRadius="20"
                             HeightRequest="50"
@@ -136,11 +141,8 @@
                             Margin="0,0,0,20"
                             Clicked="OnCreateNewOptionButtonClicked">
                         <Button.BackgroundColor>
-                            <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                            <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}"/>
                         </Button.BackgroundColor>
-                        <Button.TextColor>
-                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                        </Button.TextColor>
                     </Button>
 
                     <!-- List of choices -->
@@ -148,24 +150,27 @@
                                     ItemsSource="{Binding CurrentEvent.Options}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Frame BackgroundColor="{StaticResource AdditionalColorL}" 
-                                       Padding="10,5" 
+                                <Frame Padding="10,5" 
                                        Margin="0,0,0,20">
-                                    <Grid ColumnDefinitions="*, Auto" 
+                                    <Frame.BackgroundColor>
+                                        <AppThemeBinding Light="{StaticResource ThirdButtonsL}" Dark="{StaticResource ThirdButtonsD}"/>
+                                    </Frame.BackgroundColor>
+
+                                    <Grid ColumnDefinitions="*, Auto"
                                           VerticalOptions="Center">
                                         <!-- Option title and text (left) -->
-                                        <HorizontalStackLayout Grid.Column="0" 
-                                                             HorizontalOptions="StartAndExpand" 
-                                                             Spacing="10" 
-                                                             VerticalOptions="Center">
+                                        <HorizontalStackLayout Grid.Column="0"
+                                                               HorizontalOptions="StartAndExpand" 
+                                                               Spacing="10" 
+                                                               VerticalOptions="Center">
                                             <Label Text="{Binding NameOption}" 
                                                    FontAttributes="Bold" 
                                                    FontSize="Small" 
                                                    Margin="0,0,0,5"
-                                                   TextColor="{StaticResource Gray400}"/>
+                                                   TextColor="{StaticResource Black}"/>
                                             <Label Text="{Binding LinkedEvent.Name}" 
                                                    FontSize="Small"
-                                                   TextColor="{StaticResource Gray400}"/>
+                                                   TextColor="{StaticResource Black}"/>
                                         </HorizontalStackLayout>
 
                                         <!-- Edit and delete buttons (right) -->
@@ -174,26 +179,20 @@
                                                                HorizontalOptions="End">
                                             <!-- Edit Button -->
                                             <Button Text="{x:Static local:AppResources.Edit}"
+                                                    TextColor="{StaticResource TextButtons}"
                                                     Clicked="OnEditOptionButtonClicked"
                                                     CommandParameter="{Binding}">
                                                 <Button.BackgroundColor>
                                                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                                                 </Button.BackgroundColor>
-                                                <Button.TextColor>
-                                                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                                                </Button.TextColor>
                                             </Button>
 
                                             <!-- Delete Button -->
                                             <Button Text="{x:Static local:AppResources.Delete}"
+                                                    TextColor="{StaticResource White}"
+                                                    BackgroundColor="{StaticResource DeleteColor}"
                                                     Clicked="OnDeleteOptionButtonClicked"
                                                     CommandParameter="{Binding}">
-                                                <Button.BackgroundColor>
-                                                    <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
-                                                </Button.BackgroundColor>
-                                                <Button.TextColor>
-                                                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                                                </Button.TextColor>
                                             </Button>
                                         </HorizontalStackLayout>
                                     </Grid>
@@ -208,6 +207,7 @@
             <!-- Save Button -->
             <Button x:Name="SaveButton" Grid.Row="8"
                     Text="{x:Static local:AppResources.Save}"
+                    TextColor="{StaticResource TextButtons}"
                     WidthRequest="200"
                     HeightRequest="60"
                     CornerRadius="10"
@@ -218,14 +218,12 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
 
             <!-- Back Button -->
             <Button x:Name="BackButton" Grid.Row="10"
                     Text="{x:Static local:AppResources.Back}"
+                    TextColor="{StaticResource TextButtons}"
                     WidthRequest="200"
                     HeightRequest="60"
                     CornerRadius="10"
@@ -236,9 +234,6 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
 
         </Grid>

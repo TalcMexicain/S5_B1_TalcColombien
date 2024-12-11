@@ -25,6 +25,7 @@
                 <!-- Theme Toggle Button -->
                 <Button x:Name="ThemeToggleButton"
                         Text="{x:Static local:AppResources.ToggleTheme}"
+                        TextColor="{StaticResource TextButtons}"
                         Clicked="OnThemeButtonClicked"
                         HorizontalOptions="Center"
                         Padding="20,10"
@@ -32,14 +33,13 @@
                     <Button.BackgroundColor>
                         <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                     </Button.BackgroundColor>
-                    <Button.TextColor>
-                        <AppThemeBinding Light="Black" Dark="White" />
-                    </Button.TextColor>
                 </Button>
 
                 <!-- Language Picker -->
                 <Picker x:Name="LanguagePicker"
                         Title="{x:Static local:AppResources.SelectLanguage}"
+                        TitleColor="{StaticResource MainText}"
+                        TextColor="{StaticResource TextButtons}"
                         SelectedIndexChanged="OnLanguageChanged"
                         HorizontalOptions="Center"
                         MaximumHeightRequest="100"
@@ -47,31 +47,26 @@
                     <Picker.BackgroundColor>
                         <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                     </Picker.BackgroundColor>
-                    <Picker.TextColor>
-                        <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                    </Picker.TextColor>
                 </Picker>
             </VerticalStackLayout>
 
             <!-- Separator -->
             <BoxView HeightRequest="1" WidthRequest="500" HorizontalOptions="Center"/>
 
-
             <!-- Speech Synthesis Settings -->
             <VerticalStackLayout Spacing="15">
                 <Label x:Name="SynthesisTitleLabel"
                        Text="{x:Static local:AppResources.SynthesisSettingsLabel}"
+                       TextColor="{StaticResource MainText}"
                        FontSize="Large"
                        FontFamily="UncialAntiquaRegular"
-                       HorizontalOptions="Center">
-                    <Label.TextColor>
-                        <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                    </Label.TextColor>
-                </Label>
+                       HorizontalOptions="Center"/>
 
                 <!-- Voice Type Picker -->
                 <Picker x:Name="VoiceTypeTTSPicker"
                         Title="{x:Static local:AppResources.VoiceType}"
+                        TitleColor="{StaticResource MainText}"
+                        TextColor="{StaticResource TextButtons}"
                         SelectedIndexChanged="OnVoiceTypeChanged"
                         HorizontalOptions="Center"
                         MaximumHeightRequest="110"
@@ -79,29 +74,20 @@
                     <Picker.BackgroundColor>
                         <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                     </Picker.BackgroundColor>
-                    <Picker.TextColor>
-                        <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                    </Picker.TextColor>
                 </Picker>
 
                 <!-- Voice Volume -->
                 <VerticalStackLayout Spacing="10">
                     <Label x:Name="VoiceVolumeLabel"
                            Text="{x:Static local:AppResources.VoiceVolume}"
+                           TextColor="{StaticResource MainText}"
                            FontSize="Medium"
-                           HorizontalOptions="Center">
-                        <Label.TextColor>
-                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                        </Label.TextColor>
-                    </Label>
+                           HorizontalOptions="Center"/>
 
                     <Label x:Name="VolumeValueLabel"
                             FontSize="Medium"
-                            HorizontalOptions="Center">
-                        <Label.TextColor>
-                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                        </Label.TextColor>
-                    </Label>
+                            HorizontalOptions="Center"
+                            TextColor="{StaticResource MainText}"/>
 
                     <Slider x:Name="VolumeSlider"
                             Minimum="0"
@@ -114,20 +100,14 @@
                 <VerticalStackLayout Spacing="10">
                     <Label x:Name="VoiceRateLabel"
                            Text="{x:Static local:AppResources.VoiceSpeed}"
+                           TextColor="{StaticResource MainText}"
                            FontSize="Medium"
-                           HorizontalOptions="Center">
-                        <Label.TextColor>
-                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                        </Label.TextColor>
-                    </Label>
+                           HorizontalOptions="Center"/>
 
                     <Label x:Name="RateValueLabel"
                             FontSize="Medium"
-                            HorizontalOptions="Center">
-                        <Label.TextColor>
-                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                        </Label.TextColor>
-                    </Label>
+                            HorizontalOptions="Center"
+                            TextColor="{StaticResource MainText}"/>
 
                     <Slider x:Name="RateSlider"
                             Minimum="0.5"
@@ -141,22 +121,21 @@
             <!-- Test Voice Button -->
             <Button x:Name="TestVoiceButton"
                     Text="{x:Static local:AppResources.TestVoice}"
+                    TextColor="{StaticResource TextButtons}"
                     Clicked="OnTestVoiceButtonClicked"
                     HorizontalOptions="Center"
                     Padding="20,10"
                     FontSize="Medium">
                 <Button.BackgroundColor>
-                    <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
+                    <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
 
 
             <!-- Back Button -->
             <Button x:Name="BackButton"
                     Text="{x:Static local:AppResources.Back}"
+                    TextColor="{StaticResource TextButtons}"
                     Clicked="OnBackButtonClicked"
                     HorizontalOptions="Center"
                     Padding="20,10"
@@ -164,9 +143,6 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
         </VerticalStackLayout>
     </ScrollView>
