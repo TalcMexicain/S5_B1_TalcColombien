@@ -241,11 +241,29 @@ namespace Model.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à The KeyItem to be added cannot be null.
+        /// </summary>
+        internal static string Option_AddKeyItem_ArgumentNullException {
+            get {
+                return ResourceManager.GetString("Option_AddKeyItem_ArgumentNullException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à The word to be added cannot be empty..
         /// </summary>
         internal static string Option_AddWordInList_ArgumentException {
             get {
                 return ResourceManager.GetString("Option_AddWordInList_ArgumentException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The KeyItem to be removed cannot be null.
+        /// </summary>
+        internal static string Option_RemoveKeyItem_ArgumentNullException {
+            get {
+                return ResourceManager.GetString("Option_RemoveKeyItem_ArgumentNullException", resourceCulture);
             }
         }
         

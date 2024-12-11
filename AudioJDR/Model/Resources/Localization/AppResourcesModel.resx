@@ -213,4 +213,10 @@
   <data name="TTS_SetVoiceVolume_Exception" xml:space="preserve">
     <value>The voiceVolume parameter must be between {0} and {1}.</value>
   </data>
+  <data name="Option_AddKeyItem_ArgumentNullException" xml:space="preserve">
+    <value>The KeyItem to be added cannot be null</value>
+  </data>
+  <data name="Option_RemoveKeyItem_ArgumentNullException" xml:space="preserve">
+    <value>The KeyItem to be removed cannot be null</value>
+  </data>
 </root>

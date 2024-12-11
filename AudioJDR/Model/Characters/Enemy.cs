@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Model.Characters
 {
     /// <summary>
-    /// An enemy to the player
+    /// An enemy to the player - unused
     /// </summary>
     public class Enemy : Character
     {

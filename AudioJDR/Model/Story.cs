@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using Model.Characters;
 
 namespace Model
 {
@@ -21,6 +22,8 @@ namespace Model
         private Event firstEvent;
 
         private ObservableCollection<Event> events;
+        private Player player;
+        private ObservableCollection<Enemy> enemies;
 
         #region Bound Properties 
 
@@ -81,6 +84,24 @@ namespace Model
             set => firstEvent = value;
         }
 
+        /// <summary>
+        /// Gets or sets the player associated with the story.
+        /// </summary>
+        public Player Player
+        {
+            get => player;
+            set => player = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the list of enemies in the story. - unused
+        /// </summary>
+        public ObservableCollection<Enemy> Enemies
+        {
+            get => enemies;
+            set => enemies = value;
+        }
+
         #endregion
 
         #region Constructors
@@ -93,8 +114,10 @@ namespace Model
         public Story(string title, string description)
         {
             this.events = new ObservableCollection<Event>();
+            this.enemies = new ObservableCollection<Enemy>();
             this.title = title;
             this.description = description;
+            //this.player = new Player("bob",100,10); // Base player - values will be used by default.
         }
 
         /// <summary>
@@ -103,6 +126,8 @@ namespace Model
         public Story()
         {
             this.events = new ObservableCollection<Event>();
+            this.enemies = new ObservableCollection<Enemy>();
+            //this.player = new Player("bob", 100, 10);
         }
         #endregion
 

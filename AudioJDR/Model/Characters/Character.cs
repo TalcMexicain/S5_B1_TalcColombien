@@ -141,6 +141,7 @@ namespace Model.Characters
             {
                 item.Use(this);
             }
+            DropItem(item);
         }
 
         /// <summary>

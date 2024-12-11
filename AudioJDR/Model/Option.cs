@@ -1,5 +1,6 @@
 ﻿using Model.Resources.Localization;
 using System.Text.Json.Serialization;
+using Model.Items;
 
 namespace Model
 {
@@ -14,6 +15,7 @@ namespace Model
         private string nameOption;
         private Event? linkedEvent;
         private List<string> words;
+        private List<KeyItem> requiredItems;
 
         #endregion
 
@@ -54,6 +56,16 @@ namespace Model
             get => linkedEvent;
             set => linkedEvent = value;
         }
+
+        /// <summary>
+        /// Property used only for serialization
+        /// </summary>
+        public List<KeyItem> RequiredItems 
+        { 
+            get => requiredItems; 
+            set => requiredItems = value; 
+        }
+
         #endregion
 
         #region Constructors
@@ -67,6 +79,7 @@ namespace Model
             this.nameOption = string.Empty;
             this.linkedEvent = linkedEvent;
             this.words = new List<string>();
+            this.requiredItems = new List<KeyItem>();
         }
 
         /// <summary>
@@ -76,6 +89,7 @@ namespace Model
         {
             this.nameOption = string.Empty;
             this.words = new List<string>();
+            this.requiredItems = new List<KeyItem>();
         }
         #endregion
 
@@ -145,6 +159,35 @@ namespace Model
         public void LinkOptionToEvent(Event linkedEvent)
         {
             this.linkedEvent = linkedEvent;
+        }
+
+        /// <summary>
+        /// Adds a KeyItem to the required items list if it is not already in the list
+        /// </summary>
+        /// <param name="keyItem">The KeyItem to add</param>
+        /// <exception cref="ArgumentNullException">The KeyItem to be added cannot be null</exception>
+        public void AddKeyItem(KeyItem keyItem)
+        {
+            if (keyItem == null)
+                throw new ArgumentNullException(nameof(keyItem), AppResourcesModel.Option_AddKeyItem_ArgumentNullException);
+
+            if (!requiredItems.Contains(keyItem))
+            {
+                requiredItems.Add(keyItem);
+            }
+        }
+
+        /// <summary>
+        /// Removes a KeyItem from the required items list if it exists
+        /// </summary>
+        /// <param name="keyItem">The KeyItem to remove</param>
+        /// <exception cref="ArgumentNullException">The KeyItem to be removed cannot be null</exception>
+        public void RemoveKeyItem(KeyItem keyItem)
+        {
+            if (keyItem == null)
+                throw new ArgumentNullException(nameof(keyItem), AppResourcesModel.Option_RemoveKeyItem_ArgumentNullException);
+
+            requiredItems.Remove(keyItem);
         }
 
         #endregion
