@@ -60,7 +60,7 @@ namespace Model.Platforms.Windows
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(voiceName))
+                if (!string.IsNullOrWhiteSpace(voiceName))
                 {
                     _synthesizer.SelectVoice(voiceName);
                 }
