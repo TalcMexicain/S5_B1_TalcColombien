@@ -121,7 +121,7 @@ public partial class YourStories : ContentPage
         else
         {
             _synthesizerViewModel.StopSynthesis();
-            _synthesizerViewModel.TextToSynthesize = AppResources.StroyNotFound;
+            _synthesizerViewModel.TextToSynthesize = AppResources.StoryNotFound;
             _synthesizerViewModel.SynthesizeText();
         }
     }
@@ -149,7 +149,7 @@ public partial class YourStories : ContentPage
         else
         {
             _synthesizerViewModel.StopSynthesis();
-            _synthesizerViewModel.TextToSynthesize = AppResources.StroyNotFound;
+            _synthesizerViewModel.TextToSynthesize = AppResources.StoryNotFound;
             _synthesizerViewModel.SynthesizeText();
         }
     }

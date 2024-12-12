@@ -427,6 +427,18 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="AddNewObject" xml:space="preserve">
     <value>Add New Object</value>
   </data>
+  <data name="AddObjectConditon" xml:space="preserve">
+    <value>Add item(s) as a condition to unlock this option</value>
+  </data>
+  <data name="NoObjectSelected" xml:space="preserve">
+    <value>No object selected</value>
+  </data>
+  <data name="ChooseObjectCondition" xml:space="preserve">
+    <value>Choose the object you want to add</value>
+  </data>
+  <data name="ObjectCreation" xml:space="preserve">
+    <value />
+  </data>
   <data name="NoLinkedOption" xml:space="preserve">
     <value>No matching option or linked event found.</value>
   </data>
@@ -439,19 +451,16 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="YourStories" xml:space="preserve">
     <value>Here is the list of present stories</value>
   </data>
-  <data name="StroyNotFound" xml:space="preserve">
+  <data name="StoryNotFound" xml:space="preserve">
     <value>Story not found</value>
   </data>
   <data name="NoFirstEvent" xml:space="preserve">
     <value>First event not found</value>
   </data>
-  <data name="AddObjectConditon" xml:space="preserve">
-    <value>Add item(s) as a condition to unlock this option</value>
+  <data name="ObjectNamePlaceholder" xml:space="preserve">
+    <value>Object Name</value>
   </data>
-  <data name="NoObjectSelected" xml:space="preserve">
-    <value>No object selected</value>
-  </data>
-  <data name="ChooseObjectCondition" xml:space="preserve">
-    <value>Choose the object you want to add</value>
+  <data name="NoObjectsCreated" xml:space="preserve">
+    <value>No objects created</value>
   </data>
 </root>

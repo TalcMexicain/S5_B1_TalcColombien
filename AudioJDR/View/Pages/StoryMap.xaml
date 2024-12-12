@@ -28,6 +28,10 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
 
+                <!-- Objet Creation -->
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+
                 <!-- Save Button -->
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
@@ -76,8 +80,8 @@
                    Margin="0,10,0,10"/>
 
             <!-- Events List -->
-            <CollectionView x:Name="EventList"
-                            Grid.Row="6"
+            <CollectionView Grid.Row="6"
+                            x:Name="EventList"
                             ItemsSource="{Binding CurrentStory.Events}"
                             VerticalOptions="FillAndExpand"
                             Margin="0,10">
@@ -163,8 +167,72 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
+            <!-- Objet Creation -->
+            <Frame Grid.Row="8"
+                   CornerRadius="10"
+                   Padding="10">
+                <Frame.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}"/>
+                </Frame.BackgroundColor>
+
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="{x:Static local:AppResources.ObjectCreation}"
+                           FontSize="Medium"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,10"
+                           HorizontalOptions="Start">
+                        <Label.TextColor>
+                            <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}"/>
+                        </Label.TextColor>
+                    </Label>
+
+                    <Grid ColumnDefinitions="300,Auto" ColumnSpacing="10">
+                        <Entry x:Name="ObjectNameEntry"
+                               Placeholder="{x:Static local:AppResources.ObjectNamePlaceholder}"
+                               Grid.Column="0">
+                            <Entry.PlaceholderColor>
+                                <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
+                            </Entry.PlaceholderColor>
+                        </Entry>
+                        <Button Text="{x:Static local:AppResources.AddObject}"
+                                Grid.Column="1"
+                                TextColor="{StaticResource TextButtons}">
+                            <Button.BackgroundColor>
+                                <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}"/>
+                            </Button.BackgroundColor>
+                        </Button>
+                    </Grid>
+
+                    <CollectionView x:Name="ObjectsList"
+                                    HorizontalOptions="Start"
+                                    ItemsSource="{Binding CurrentStory.Objects}"
+                                    EmptyView="{x:Static local:AppResources.NoObjectsCreated}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="{x:Static local:AppResources.Delete}"
+                                                      BackgroundColor="{StaticResource DeleteColor}"/>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <Grid Padding="5">
+                                        <Label Text="{Binding Name}"
+                                               VerticalOptions="Center">
+                                            <Label.TextColor>
+                                                <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}"/>
+                                            </Label.TextColor>
+                                        </Label>
+                                    </Grid>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+            
             <!-- Save Button -->
-            <Button Grid.Row="8"
+            <Button Grid.Row="10"
                     x:Name="SaveButton"
                     Text="{x:Static local:AppResources.Save}"
                     TextColor="{StaticResource TextButtons}"
@@ -178,7 +246,7 @@
             </Button>
 
             <!-- Create New Event Button -->
-            <Button Grid.Row="10"
+            <Button Grid.Row="12"
                     x:Name="CreateNewEventButton"
                     Text="{x:Static local:AppResources.CreateNewEvent}"
                     TextColor="{StaticResource TextButtons}"
@@ -192,7 +260,7 @@
             </Button>
 
             <!-- Back Button -->
-            <Button Grid.Row="12"
+            <Button Grid.Row="14"
                     x:Name="BackButton"
                     Text="{x:Static local:AppResources.Back}"
                     TextColor="{StaticResource TextButtons}"

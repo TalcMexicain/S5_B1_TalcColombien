@@ -511,6 +511,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à No objects created.
+        /// </summary>
+        internal static string NoObjectsCreated {
+            get {
+                return ResourceManager.GetString("NoObjectsCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à No object selected.
         /// </summary>
         internal static string NoObjectSelected {
@@ -534,6 +543,24 @@ namespace View.Resources.Localization {
         internal static string NoWordsAdded {
             get {
                 return ResourceManager.GetString("NoWordsAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à .
+        /// </summary>
+        internal static string ObjectCreation {
+            get {
+                return ResourceManager.GetString("ObjectCreation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Object Name.
+        /// </summary>
+        internal static string ObjectNamePlaceholder {
+            get {
+                return ResourceManager.GetString("ObjectNamePlaceholder", resourceCulture);
             }
         }
         
@@ -832,9 +859,9 @@ namespace View.Resources.Localization {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à Story not found.
         /// </summary>
-        internal static string StroyNotFound {
+        internal static string StoryNotFound {
             get {
-                return ResourceManager.GetString("StroyNotFound", resourceCulture);
+                return ResourceManager.GetString("StoryNotFound", resourceCulture);
             }
         }
         
