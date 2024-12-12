@@ -15,22 +15,22 @@
             <Grid.RowDefinitions>
                 <!-- Title -->
                 <RowDefinition Height="Auto"/>
+                
                 <!-- Subtitle -->
                 <RowDefinition Height="Auto"/>
-                <!-- Spacer -->
                 <RowDefinition Height="30"/>
                 <!-- Rules -->
                 <RowDefinition Height="Auto"/>
-                <!-- Spacer -->
                 <RowDefinition Height="Auto"/>
+                
                 <!-- Repeat Button -->
                 <RowDefinition Height="Auto"/>
-                <!-- Spacer -->
                 <RowDefinition Height="70"/>
+                
                 <!-- Edit Button -->
                 <RowDefinition Height="Auto"/>
-                <!-- Spacer -->
                 <RowDefinition Height="90"/>
+                
                 <!-- Back Button -->
                 <RowDefinition Height="Auto"/>
                 
@@ -39,65 +39,55 @@
             <!-- Title -->
             <Label x:Name="TitleLabel"
                    Text="{x:Static local:AppResources.Title}"
+                   TextColor="{StaticResource MainText}"
                    FontFamily="UncialAntiquaRegular"
                    Grid.Row="0"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
                    FontSize="Large"
-                   FontAttributes="Bold">
-                <Label.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Label.TextColor>
-            </Label>
+                   FontAttributes="Bold"/>
 
             <!-- Subtitle -->
             <Label x:Name="PlayerLabel"
                    Text="{x:Static local:AppResources.Player}"
+                   TextColor="{StaticResource MainText}"
                    FontFamily="UncialAntiquaRegular"
                    Grid.Row="1"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
-                   FontSize="Medium">
-                <Label.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Label.TextColor>
-            </Label>
+                   FontSize="Medium"/>
 
             <!-- Rules -->
             <ScrollView Grid.Row="4"
                         x:Name="RulesPlayerScrollView">
-                <Label Text="{x:Static local:AppResources.RulesPlayer}"                   
+                <Label Text="{x:Static local:AppResources.RulesPlayer}"
+                       TextColor="{StaticResource MainText}"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
                        FontSize="Medium"
-                       x:Name="RulesPlayerLabel">
-                    <Label.TextColor>
-                        <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                    </Label.TextColor>
-                </Label>
+                       x:Name="RulesPlayerLabel"/>
             </ScrollView>
 
             <!-- Repeat Button -->
             <Button x:Name="RepeatButton"
                     Text="{x:Static local:AppResources.Repeat}"
+                    TextColor="{StaticResource TextButtons}"
                     Grid.Row="6"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     FontSize="Medium"
                     Padding="20,5"
                     LineBreakMode="WordWrap"
-                    Clicked="OnRepeatButtonClicked"> 
+                    Clicked="OnRepeatButtonClicked">
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
 
             <!-- ToYourStories Button -->
             <Button x:Name="ToYourStoriesListButton"
                     Text="{x:Static local:AppResources.GoToStoryList}"
+                    TextColor="{StaticResource TextButtons}"
                     Grid.Row="8"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
@@ -108,14 +98,12 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
 
             <!-- Go Back Button -->
             <Button x:Name="BackButton"
                     Text="{x:Static local:AppResources.Back}"
+                    TextColor="{StaticResource TextButtons}"
                     Grid.Row="10"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
@@ -126,9 +114,6 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
         </Grid>
     </ScrollView>

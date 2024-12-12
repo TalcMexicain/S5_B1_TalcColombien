@@ -201,4 +201,22 @@
   <data name="CultureInfo" xml:space="preserve">
     <value>fr-FR</value>
   </data>
+  <data name="TTS_SetVoiceRate_Exception" xml:space="preserve">
+    <value>Le paramètre voiceRate doit être compris entre {0} et {1}.</value>
+  </data>
+  <data name="TTS_SetVoiceType_Exception" xml:space="preserve">
+    <value>La voix {0} n'a pas été trouvée.</value>
+  </data>
+  <data name="TTS_SetVoiceType_NotFound" xml:space="preserve">
+    <value>Échec de la définition de la voix : {0}. Message : </value>
+  </data>
+  <data name="TTS_SetVoiceVolume_Exception" xml:space="preserve">
+    <value>Le paramètre voiceVolume doit être compris entre {0} et {1}.</value>
+  </data>
+  <data name="Option_AddKeyItem_ArgumentNullException" xml:space="preserve">
+    <value>L'objet KeyItem à ajouter ne peut pas être nul</value>
+  </data>
+  <data name="Option_RemoveKeyItem_ArgumentNullException" xml:space="preserve">
+    <value>L'objet KeyItem à supprimer ne peut pas être nul</value>
+  </data>
 </root>

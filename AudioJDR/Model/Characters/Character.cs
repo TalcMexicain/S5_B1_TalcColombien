@@ -83,6 +83,11 @@ namespace Model.Characters
             this.inventory = new List<Item>();
         }
 
+        /// <summary>
+        /// Constructor used for serialization purposes only
+        /// </summary>
+        protected Character() { }
+
         #endregion
 
         #region Methods
@@ -114,6 +119,14 @@ namespace Model.Characters
         }
 
         /// <summary>
+        /// Get a copy of the list of items in the inventory
+        /// </summary>
+        public List<Item> GetInventory()
+        {
+            return new List<Item>(this.inventory);
+        }
+
+        /// <summary>
         /// Adds an item to the character's inventory
         /// </summary>
         /// <param name="item">The item to add</param>
@@ -137,10 +150,11 @@ namespace Model.Characters
         /// <param name="item">The item to use</param>
         public void UseItem(Item item)
         {
-            if (Inventory.Contains(item))
+            if (inventory.Contains(item))
             {
                 item.Use(this);
             }
+            DropItem(item);
         }
 
         /// <summary>

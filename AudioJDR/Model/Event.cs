@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Model.Characters;
+using System.Diagnostics;
 using System.Text.Json.Serialization;
 
 namespace Model
@@ -15,6 +16,7 @@ namespace Model
         private string description;
         private bool isFirst;
         private List<Option> options;
+        private Enemy? enemy;
 
         #endregion
 
@@ -64,6 +66,14 @@ namespace Model
         {
             get => isFirst;
             set => isFirst = value;
+        }
+
+        /// <summary>
+        /// Gets or sets a value representing the event's enemy (there doesn't need to be one) - unused.
+        /// </summary>
+        public Enemy? Enemy { 
+            get => enemy; 
+            set => enemy = value; 
         }
 
         #endregion

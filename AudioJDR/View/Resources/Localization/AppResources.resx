@@ -415,6 +415,18 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="YourStories_NewGame_NoSelectedStories" xml:space="preserve">
     <value>Please select a story to play.</value>
   </data>
+  <data name="EventObject" xml:space="preserve">
+    <value>Object in the event</value>
+  </data>
+  <data name="SelectObjectEvent" xml:space="preserve">
+    <value>Choose the object you want to add to the event</value>
+  </data>
+  <data name="AddObject" xml:space="preserve">
+    <value>Add Object</value>
+  </data>
+  <data name="AddNewObject" xml:space="preserve">
+    <value>Add New Object</value>
+  </data>
   <data name="NoLinkedOption" xml:space="preserve">
     <value>No matching option or linked event found.</value>
   </data>

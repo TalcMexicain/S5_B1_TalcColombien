@@ -7,25 +7,29 @@
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
     <!--Global colors for light mode-->
-    <Color x:Key="MainBackgroundL">#CB9DF0</Color>
-    <Color x:Key="MainTextL">#2B2B2B</Color>
-    <Color x:Key="PrimaryButtonsL">#FDDBBB</Color>
-    <Color x:Key="SecondaryButtonsL">#FFF9BF</Color>
-    <Color x:Key="SecondaryBackgroundL">#F0C1E1</Color>
-    <Color x:Key="ActiveLinkL">#E67E22</Color>
-    <Color x:Key="AdditionalColorL">#FFDE95</Color>
-    <Color x:Key="DeleteColorL">#D68829</Color>
-    <Color x:Key="BorderColorL">#000000</Color>
+    <Color x:Key="MainBackgroundL">#5C3733</Color>
+
+    <Color x:Key="SecondaryBackgroundL">#A2867C</Color>
+    <Color x:Key="SecondaryTextL">#000</Color>
+
+    <Color x:Key="PrimaryButtonsL">#E1C1A3</Color>
+    <Color x:Key="SecondaryButtonsL">#FFF7EB</Color>
+    <Color x:Key="ThirdButtonsL">#C7986B</Color>
 
     <!--Global colors for dark mode-->
-    <Color x:Key="MainBackgroundD">#1A1A1D</Color>
-    <Color x:Key="MainTextD">#EAE1D5</Color>
-    <Color x:Key="SecondaryButtonsD">#A64D79</Color>
-    <Color x:Key="PrimaryButtonsD">#6A1E55</Color>
-    <Color x:Key="SecondaryBackgroundD">#3B1C32</Color>
-    <Color x:Key="ActiveLinkD">#D35400</Color>
-    <Color x:Key="AdditionalColorD">#3E2C1C</Color>
-    <Color x:Key="DeleteColorD">#C62E2E</Color>
+    <Color x:Key="MainBackgroundD">#271816</Color>
+
+    <Color x:Key="SecondaryBackgroundD">#775E55</Color>
+    <Color x:Key="SecondaryTextD">#fff</Color>
+
+    <Color x:Key="PrimaryButtonsD">#CD9765</Color>
+    <Color x:Key="SecondaryButtonsD">#FFD699</Color>
+    <Color x:Key="ThirdButtonsD">#A05F3D</Color>
+
+    <!--Global colors for the app-->
+    <Color x:Key="MainText">#fff</Color>
+    <Color x:Key="TextButtons">#000000</Color>
+    <Color x:Key="DeleteColor">#C62E2E</Color>
 
 
 
