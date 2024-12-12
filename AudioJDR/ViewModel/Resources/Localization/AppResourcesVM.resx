@@ -120,6 +120,9 @@
   <data name="EventVM_Constructor_Exception" xml:space="preserve">
     <value>The StoryViewModel cannot be null.</value>
   </data>
+  <data name="EventVM_GetItemAsync_NullException" xml:space="preserve">
+    <value>Item with ID {0} not found.</value>
+  </data>
   <data name="EventVM_GetOptionVMAsync_NullException" xml:space="preserve">
     <value>Option with ID {0} not found.</value>
   </data>

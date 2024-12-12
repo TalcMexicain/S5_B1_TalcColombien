@@ -443,7 +443,6 @@ namespace ViewModel
         /// Remove an enemy to the current story
         /// </summary>
         /// <param name="enemy">the enemy to remove</param>
-        /// <returns></returns>
         public async Task RemoveEnemyFromStoryAsync(Enemy enemy)
         {
             if (CurrentStory != null && CurrentStory.Enemies.Contains(enemy))
@@ -458,7 +457,6 @@ namespace ViewModel
         /// Updates the player of the current story
         /// </summary>
         /// <param name="updatedPlayer"></param>
-        /// <returns></returns>
         public async Task UpdatePlayerAsync(Player updatedPlayer)
         {
             if (CurrentStory != null)

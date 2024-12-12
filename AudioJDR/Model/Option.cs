@@ -62,7 +62,7 @@ namespace Model
         /// </summary>
         public List<KeyItem> RequiredItems 
         { 
-            get => requiredItems; 
+            get { return requiredItems; }
             set => requiredItems = value; 
         }
 
@@ -189,6 +189,16 @@ namespace Model
 
             requiredItems.Remove(keyItem);
         }
+
+        /// <summary>
+        /// Retrieves a copy of the required items list.
+        /// </summary>
+        /// <returns>A list of KeyItems required by this option.</returns>
+        public List<KeyItem> GetRequiredItems()
+        {
+            return new List<KeyItem>(this.requiredItems);
+        }
+
 
         #endregion
     }
