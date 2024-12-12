@@ -277,6 +277,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Please enter an option..
+        /// </summary>
+        internal static string EnterOption {
+            get {
+                return ResourceManager.GetString("EnterOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Error.
         /// </summary>
         internal static string Error {
@@ -430,6 +439,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Multiple option match please be more specific..
+        /// </summary>
+        internal static string MultipleOptionMatch {
+            get {
+                return ResourceManager.GetString("MultipleOptionMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à New game.
         /// </summary>
         internal static string NewGame {
@@ -462,6 +480,24 @@ namespace View.Resources.Localization {
         internal static string No {
             get {
                 return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à First event not found.
+        /// </summary>
+        internal static string NoFirstEvent {
+            get {
+                return ResourceManager.GetString("NoFirstEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No matching option or linked event found..
+        /// </summary>
+        internal static string NoLinkedOption {
+            get {
+                return ResourceManager.GetString("NoLinkedOption", resourceCulture);
             }
         }
         
@@ -794,6 +830,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Story not found.
+        /// </summary>
+        internal static string StroyNotFound {
+            get {
+                return ResourceManager.GetString("StroyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Success.
         /// </summary>
         internal static string Success {
@@ -979,6 +1024,15 @@ namespace View.Resources.Localization {
         internal static string Yes {
             get {
                 return ResourceManager.GetString("Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Here is the list of present stories.
+        /// </summary>
+        internal static string YourStories {
+            get {
+                return ResourceManager.GetString("YourStories", resourceCulture);
             }
         }
         

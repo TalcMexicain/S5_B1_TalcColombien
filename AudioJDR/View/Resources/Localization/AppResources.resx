@@ -427,6 +427,24 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="AddNewObject" xml:space="preserve">
     <value>Add New Object</value>
   </data>
+  <data name="NoLinkedOption" xml:space="preserve">
+    <value>No matching option or linked event found.</value>
+  </data>
+  <data name="EnterOption" xml:space="preserve">
+    <value>Please enter an option.</value>
+  </data>
+  <data name="MultipleOptionMatch" xml:space="preserve">
+    <value>Multiple option match please be more specific.</value>
+  </data>
+  <data name="YourStories" xml:space="preserve">
+    <value>Here is the list of present stories</value>
+  </data>
+  <data name="StroyNotFound" xml:space="preserve">
+    <value>Story not found</value>
+  </data>
+  <data name="NoFirstEvent" xml:space="preserve">
+    <value>First event not found</value>
+  </data>
   <data name="AddObjectConditon" xml:space="preserve">
     <value>Add item(s) as a condition to unlock this option</value>
   </data>

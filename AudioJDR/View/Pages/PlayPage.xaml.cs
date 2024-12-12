@@ -132,12 +132,17 @@ namespace View.Pages
                 }
                 else
                 {
-                    await DisplayAlert("Error", "No matching option or linked event found.", "OK");
+                    _synthesizerViewModel.StopSynthesis();
+                    _synthesizerViewModel.TextToSynthesize = AppResources.NoLinkedOption;
+                    _synthesizerViewModel.SynthesizeText();
+                    
                 }
             }
             else
             {
-                await DisplayAlert("Error", "Please enter an option.", "OK");
+                _synthesizerViewModel.StopSynthesis();
+                _synthesizerViewModel.TextToSynthesize = AppResources.EnterOption;
+                _synthesizerViewModel.SynthesizeText();
             }
         }
 
@@ -213,11 +218,8 @@ namespace View.Pages
         private async Task HandleTiedOptions(List<Option> tiedOptions)
         {
             string optionsList = string.Join("\n", tiedOptions.Select(o => $"- {o.NameOption}"));
-            await DisplayAlert(
-                "Clarification Needed",
-                $"Multiple options match your input:\n{optionsList}\nPlease be more specific.",
-                "OK"
-            );
+            _synthesizerViewModel.TextToSynthesize = AppResources.MultipleOptionMatch;
+            _synthesizerViewModel.SynthesizeText();
         }
 
         private async Task NavigateToEvent(int eventId)
