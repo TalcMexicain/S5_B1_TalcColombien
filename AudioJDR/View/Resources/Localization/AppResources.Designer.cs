@@ -70,6 +70,24 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add New Object.
+        /// </summary>
+        internal static string AddNewObject {
+            get {
+                return ResourceManager.GetString("AddNewObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add Object.
+        /// </summary>
+        internal static string AddObject {
+            get {
+                return ResourceManager.GetString("AddObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Add Option.
         /// </summary>
         internal static string AddOption {
@@ -282,6 +300,15 @@ namespace View.Resources.Localization {
         internal static string ErrorOptionTitleDesc {
             get {
                 return ResourceManager.GetString("ErrorOptionTitleDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Object in the event.
+        /// </summary>
+        internal static string EventObject {
+            get {
+                return ResourceManager.GetString("EventObject", resourceCulture);
             }
         }
         
@@ -646,6 +673,15 @@ namespace View.Resources.Localization {
         internal static string SelectLanguage {
             get {
                 return ResourceManager.GetString("SelectLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Choose the object you want to add to the event.
+        /// </summary>
+        internal static string SelectObjectEvent {
+            get {
+                return ResourceManager.GetString("SelectObjectEvent", resourceCulture);
             }
         }
         

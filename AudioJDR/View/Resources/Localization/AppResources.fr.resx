@@ -417,4 +417,16 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   <data name="YourStories_NewGame_NoSelectedStories" xml:space="preserve">
     <value>Veuillez sélectionner une histoire à jouer.</value>
   </data>
+  <data name="EventObject" xml:space="preserve">
+    <value>Objet dans l'évènement</value>
+  </data>
+  <data name="SelectObjectEvent" xml:space="preserve">
+    <value>Choisisez l'objet que vous voulez ajouter a l'évènement</value>
+  </data>
+  <data name="AddObject" xml:space="preserve">
+    <value>Ajouter l'objet</value>
+  </data>
+  <data name="AddNewObject" xml:space="preserve">
+    <value>Ajouter un nouvel objet</value>
+  </data>
 </root>
