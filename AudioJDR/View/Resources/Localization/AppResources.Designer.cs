@@ -88,6 +88,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add item(s) as a condition to unlock this option.
+        /// </summary>
+        internal static string AddObjectConditon {
+            get {
+                return ResourceManager.GetString("AddObjectConditon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Add Option.
         /// </summary>
         internal static string AddOption {
@@ -120,6 +129,15 @@ namespace View.Resources.Localization {
         internal static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Choose the object you want to add.
+        /// </summary>
+        internal static string ChooseObjectCondition {
+            get {
+                return ResourceManager.GetString("ChooseObjectCondition", resourceCulture);
             }
         }
         
@@ -453,6 +471,15 @@ namespace View.Resources.Localization {
         internal static string None {
             get {
                 return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No object selected.
+        /// </summary>
+        internal static string NoObjectSelected {
+            get {
+                return ResourceManager.GetString("NoObjectSelected", resourceCulture);
             }
         }
         

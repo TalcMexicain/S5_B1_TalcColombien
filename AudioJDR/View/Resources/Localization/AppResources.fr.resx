@@ -429,4 +429,13 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   <data name="AddNewObject" xml:space="preserve">
     <value>Ajouter un nouvel objet</value>
   </data>
+  <data name="AddObjectConditon" xml:space="preserve">
+    <value>Ajouter un/des objet(s) comme condition pour débloquer cette option</value>
+  </data>
+  <data name="NoObjectSelected" xml:space="preserve">
+    <value>Aucun objet de selectionné pour le moment</value>
+  </data>
+  <data name="ChooseObjectCondition" xml:space="preserve">
+    <value>Sélectionnez un objet à ajouter</value>
+  </data>
 </root>

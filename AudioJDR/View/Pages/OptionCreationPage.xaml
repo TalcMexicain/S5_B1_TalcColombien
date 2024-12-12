@@ -24,6 +24,10 @@
                 <!-- Words frame -->
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
+
+                <!-- Object Condition Frame -->
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
                 
                 <!-- Event Picker Frame -->
                 <RowDefinition Height="Auto" />
@@ -108,7 +112,7 @@
                             Clicked="OnAddWordClicked"
                             Margin="0,10,0,0"
                             HorizontalOptions="Fill"
-                            WidthRequest="200">
+                            WidthRequest="300">
                         <Button.BackgroundColor>
                             <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                         </Button.BackgroundColor>
@@ -125,8 +129,72 @@
                 </StackLayout>
             </Frame>
 
+            <!-- Object Condition Frame -->
+            <Frame x:Name="ObjectConditionFrame"
+                   Grid.Row="6"
+                   CornerRadius="10"
+                   Padding="10">
+                <Frame.BackgroundColor>
+                    <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}"/>
+                </Frame.BackgroundColor>
+                
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="{x:Static local:AppResources.AddObjectConditon}"
+                           FontSize="Medium"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,10"
+                           HorizontalOptions="Start">
+                        <Label.TextColor>
+                            <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
+                        </Label.TextColor>
+                    </Label>
+
+                    <Grid ColumnDefinitions="400,Auto"
+                          ColumnSpacing="10">
+                        <Picker x:Name="ObjectPicker"
+                                Title="{x:Static local:AppResources.ChooseObjectCondition}"
+                                TitleColor="{StaticResource MainText}"
+                                TextColor="{StaticResource TextButtons}"
+                                Grid.Column="0">
+                            <Picker.BackgroundColor>
+                                <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                            </Picker.BackgroundColor>
+                        </Picker>
+                        <Button Text="{x:Static local:AppResources.AddObject}"
+                                TextColor="{StaticResource TextButtons}"
+                                Grid.Column="1">
+                            <Button.BackgroundColor>
+                                <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
+                            </Button.BackgroundColor>
+                        </Button>
+                    </Grid>
+
+                    <CollectionView x:Name="SelectedObjectsCollection"
+                                    EmptyView="{x:Static local:AppResources.NoObjectSelected}"
+                                    Margin="0,0,0,10"
+                                    HorizontalOptions="Start">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="{x:Static local:AppResources.Delete}"
+                                                       BackgroundColor="{StaticResource DeleteColor}"/>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <Grid Padding="5">
+                                        <Label Text="{Binding Name}"
+                                               VerticalOptions="Center"/>
+                                    </Grid>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+
             <!-- Event Picker -->
-            <Frame Grid.Row="6"
+            <Frame Grid.Row="8"
                    x:Name="EventPickerFrame"
                    CornerRadius="10"
                    Padding="10"
@@ -155,7 +223,7 @@
             </Frame>
 
             <!-- Save Button -->
-            <Button Grid.Row="8"
+            <Button Grid.Row="10"
                     x:Name="SaveButton"
                     Text="{x:Static local:AppResources.Save}"
                     TextColor="{StaticResource TextButtons}"
@@ -169,7 +237,7 @@
             </Button>
 
             <!-- Back Button -->
-            <Button Grid.Row="10"
+            <Button Grid.Row="12"
                     x:Name="BackButton"
                     Text="{x:Static local:AppResources.Back}"
                     TextColor="{StaticResource TextButtons}"
