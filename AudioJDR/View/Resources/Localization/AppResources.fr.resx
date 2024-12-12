@@ -417,4 +417,22 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   <data name="YourStories_NewGame_NoSelectedStories" xml:space="preserve">
     <value>Veuillez sélectionner une histoire à jouer.</value>
   </data>
+  <data name="NoLinkedOption" xml:space="preserve">
+    <value>Aucune option correspondante ou événement lié trouvé.</value>
+  </data>
+  <data name="EnterOption" xml:space="preserve">
+    <value>Veuillez entrer une option.</value>
+  </data>
+  <data name="MultipleOptionMatch" xml:space="preserve">
+    <value>Plusieurs options correspondantes, veuillez être plus précis.</value>
+  </data>
+  <data name="YourStories" xml:space="preserve">
+    <value>Voici la liste des histoire présente</value>
+  </data>
+  <data name="StroyNotFound" xml:space="preserve">
+    <value>Histoire non trouvé</value>
+  </data>
+  <data name="NoFirstEvent" xml:space="preserve">
+    <value>Evenement de départ non trouvé</value>
+  </data>
 </root>
