@@ -14,12 +14,10 @@
             <VerticalStackLayout Spacing="15">
                 <Label x:Name="PageSettingsTitle"
                        Text="{x:Static local:AppResources.Settings}"
+                       TextColor="{StaticResource MainText}"
                        FontSize="Large"
                        FontFamily="UncialAntiquaRegular"
                        HorizontalOptions="Center">
-                    <Label.TextColor>
-                        <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                    </Label.TextColor>
                 </Label>
 
                 <!-- Theme Toggle Button -->

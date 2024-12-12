@@ -83,6 +83,11 @@ namespace Model.Characters
             this.inventory = new List<Item>();
         }
 
+        /// <summary>
+        /// Constructor used for serialization purposes only
+        /// </summary>
+        protected Character() { }
+
         #endregion
 
         #region Methods

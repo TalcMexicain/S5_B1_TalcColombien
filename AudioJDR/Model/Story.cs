@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using Model.Characters;
 
+using Model.Items;
+
 namespace Model
 {
 
@@ -24,6 +26,7 @@ namespace Model
         private ObservableCollection<Event> events;
         private Player player;
         private ObservableCollection<Enemy> enemies;
+        private ObservableCollection<Item> items;
 
         #region Bound Properties 
 
@@ -102,6 +105,15 @@ namespace Model
             set => enemies = value;
         }
 
+        /// <summary>
+        /// Gets or sets the list of items in the story.
+        /// </summary>
+        public ObservableCollection<Item> Items
+        {
+            get => items;
+            set => items = value;
+        }
+
         #endregion
 
         #region Constructors
@@ -115,9 +127,10 @@ namespace Model
         {
             this.events = new ObservableCollection<Event>();
             this.enemies = new ObservableCollection<Enemy>();
+            this.items = new ObservableCollection<Item>();
             this.title = title;
             this.description = description;
-            //this.player = new Player("bob",100,10); // Base player - values will be used by default.
+            this.player = new Player("bob",100,10); // Base player - values will be used by default.
         }
 
         /// <summary>
@@ -127,7 +140,8 @@ namespace Model
         {
             this.events = new ObservableCollection<Event>();
             this.enemies = new ObservableCollection<Enemy>();
-            //this.player = new Player("bob", 100, 10);
+            this.items = new ObservableCollection<Item>();
+            this.player = new Player("bob", 100, 10);
         }
         #endregion
 
@@ -187,6 +201,42 @@ namespace Model
 
             firstEvent = evt;
             firstEvent.IsFirst = true; // Mark the new event as first
+        }
+
+        /// <summary>
+        /// Adds an enemy to the story.
+        /// </summary>
+        /// <param name="enemy">The enemy to add.</param>
+        public void AddEnemy(Enemy enemy)
+        {
+            this.enemies.Add(enemy);
+        }
+
+        /// <summary>
+        /// Removes an enemy from the story.
+        /// </summary>
+        /// <param name="enemy">The enemy to remove.</param>
+        public void RemoveEnemy(Enemy enemy)
+        {
+            this.enemies.Remove(enemy);
+        }
+
+        /// <summary>
+        /// Adds an item to the story's inventory.
+        /// </summary>
+        /// <param name="item">The item to add.</param>
+        public void AddItem(Item item)
+        {
+            this.items.Add(item);
+        }
+
+        /// <summary>
+        /// Removes an item from the story's inventory.
+        /// </summary>
+        /// <param name="item">The item to remove.</param>
+        public void RemoveItem(Item item)
+        {
+            this.items.Remove(item);
         }
 
         /// <summary>
