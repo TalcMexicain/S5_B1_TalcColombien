@@ -25,8 +25,8 @@ namespace ViewModel
 
         #region Events 
 
-        public event Action OptionSubmitted; // When "validate" is recognized
-        public event Action TextCleared; // When "cancel" is recognized
+        public event Action OptionSubmitted; 
+        public event Action TextCleared; 
         public event Action AddWordsToView;
         public event Action NavigateToPlay;
         public event Action NavigateToSettings;
@@ -44,6 +44,8 @@ namespace ViewModel
         public event Action DecreaseVolume;
         public event Action IncreaseSpeed;
         public event Action DecreaseSpeed;
+        public event Action OpenInventory;
+        public event Action CloseInventory;
 
         #endregion
 
@@ -221,6 +223,8 @@ namespace ViewModel
             string[] decreaseVolumeCommands = new[] { "decrease volume", "baisser le volume" };
             string[] increaseSpeedCommands = new[] { "increase speed", "augmenter la vitesse" };
             string[] decreaseSpeedCommands = new[] { "decrease speed", "baisser la vitesse" };
+            string[] openInventoryCommands = new[] { "open inventory", "ouvrir inventaire" };
+            string[] closeInventoryCommands = new[] { "close inventory", "fermer inventaire" };
             
 
             switch (recognizedText.ToLowerInvariant())
@@ -299,6 +303,17 @@ namespace ViewModel
                     DecreaseSpeed?.Invoke();
                     ClearAccumulator();
                     break;
+
+                case string cmd when openInventoryCommands.Contains(cmd):
+                    OpenInventory?.Invoke();
+                    ClearAccumulator();
+                    break;
+
+                case string cmd when closeInventoryCommands.Contains(cmd):
+                    CloseInventory?.Invoke();
+                    ClearAccumulator();
+                    break;
+
 
 
                 default:

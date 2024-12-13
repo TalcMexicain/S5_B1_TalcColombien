@@ -338,52 +338,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         }
     }
 
-    private void OnEditButtonClicked(object sender, EventArgs e)
-    {
-        if (sender is Button button)
-        {
-            // Get the parent element to find the corresponding Entry and Label
-            var grid = (Grid)button.Parent;
-            var itemNameLabel = grid.FindByName<Label>("ItemNameLabel");
-            var itemNameEntry = grid.FindByName<Entry>("ItemNameEntry");
-
-            // Check the BindingContext is an Item
-            if (button.BindingContext is Item currentItem)
-            {
-                if (button.Text == AppResources.Edit)
-                {
-                    // Store the current name as the original value
-                    itemNameEntry.SetValue(Entry.PlaceholderProperty, currentItem.Name);
-
-                    // Switch to editing mode
-                    itemNameLabel.IsVisible = false;
-                    itemNameEntry.IsVisible = true;
-                    button.Text = AppResources.Save;
-                }
-                else if (button.Text == AppResources.Save)
-                {
-                    // Retrieve the original value from the Entry's placeholder
-                    string originalValue = itemNameEntry.GetValue(Entry.PlaceholderProperty)?.ToString() ?? string.Empty;
-
-                    // Compare the original value with the current value
-                    if (!string.Equals(originalValue, itemNameEntry.Text, StringComparison.Ordinal))
-                    {
-                        // Mark as unsaved changes if the value has changed
-                        _hasUnsavedChanges = true;
-
-                        // Update the item's name
-                        currentItem.Name = itemNameEntry.Text;
-                        itemNameLabel.Text = itemNameEntry.Text;
-                    }
-
-                    // Switch back to display mode
-                    itemNameLabel.IsVisible = true;
-                    itemNameEntry.IsVisible = false;
-                    button.Text = AppResources.Edit;
-                }
-            }
-        }
-    }
+   
 
     private void RefreshItemList()
     {

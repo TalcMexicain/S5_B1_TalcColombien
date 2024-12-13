@@ -253,17 +253,7 @@
                                         <HorizontalStackLayout Grid.Column="1" 
                                                                HorizontalOptions="End"
                                                                VerticalOptions="Center">
-                                            <!-- Edit Button -->
-                                            <Button x:Name="EditButton"
-                                                    Text="{x:Static local:AppResources.Edit}"
-                                                    TextColor="{StaticResource TextButtons}"
-                                                    Grid.Column="2"
-                                                    Margin="0,0,10,0"
-                                                    Clicked="OnEditButtonClicked">
-                                                <Button.BackgroundColor>
-                                                    <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
-                                                </Button.BackgroundColor>
-                                            </Button>
+                                            
                                             
                                             <Button Text="{x:Static local:AppResources.Delete}"
                                                     TextColor="{StaticResource White}"

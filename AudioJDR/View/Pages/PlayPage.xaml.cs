@@ -1,9 +1,7 @@
-using Model;
-using Model.Items;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
-using View.Pages;
+using Model;
+using Model.Items;
 using View.Resources.Localization;
 using ViewModel;
 
@@ -59,6 +57,8 @@ namespace View.Pages
             {
                 OptionEntry.Text = string.Empty;
             };
+            _recognitionViewModel.OpenInventory += async () => await OpenInventory();
+            _recognitionViewModel.CloseInventory += async () => await CloseInventory();
         }
 
         #endregion
@@ -87,57 +87,50 @@ namespace View.Pages
 
         private async Task LoadEvent(int storyId, int eventId)
         {
-            Debug.WriteLine($"Loading event: StoryId={storyId}, EventId={eventId}");
-
             PageContext = "PlayPage" + eventId.ToString();
-            HashSet<string> keywords = new HashSet<string> { AppResources.Repeat, AppResources.Back, AppResources.Validate, AppResources.Cancel, "ok" };
+            HashSet<string> keywords = new HashSet<string> { AppResources.Repeat, AppResources.Back, AppResources.Validate, AppResources.Cancel, AppResources.OpenInventory, AppResources.CloseInventory };
 
             _currentStory = await _storyViewModel.GetStoryByIdAsync(storyId);
             Event? eventToShow = _currentStory?.Events.FirstOrDefault(e => e.IdEvent == eventId);
 
             if (eventToShow != null)
             {
-                Debug.WriteLine($"Event found: {eventToShow.Name}");
-
                 EventTitleLabel.Text = eventToShow.Name;
                 EventDescriptionLabel.Text = eventToShow.Description;
 
                 foreach (Option option in eventToShow.GetOptions())
                 {
+                    keywords.Add(option.NameOption);
                     string[] optionWords = option.GetWords()?.Select(word => word.ToLower()).ToArray() ?? Array.Empty<string>();
                     foreach (string word in optionWords)
                     {
                         keywords.Add(word);
                     }
                 }
-
+                foreach(Item item in eventToShow.GetItemsToPickUp())
+                {
+                    keywords.Add(item.Name); 
+                }
                 await UpdateRecognitionGrammar(keywords);
-            }
-            else
-            {
-                Debug.WriteLine("No event found.");
-            }
+            }           
         }
 
         private async Task OnOptionSubmitted()
         {
-            Debug.WriteLine("Option submitted.");
-
             string? userInput = OptionEntry?.Text?.Trim().ToLower();
 
             if (!string.IsNullOrEmpty(userInput))
             {
-                Debug.WriteLine($"User input: {userInput}");
-
                 // Check if we are expecting an option selection
                 if (_optionsRequiringItem != null && _currentItemForOption != null)
                 {
                     await HandleOptionSelection(userInput);
                 }
-                else if (userInput == AppResources.OpenInventory.ToLower())
+                else if(userInput == AppResources.OpenInventory.ToLower() && !_isInventoryOpen)
                 {
                     await OpenInventory();
-                }
+                } 
+
                 else if (userInput == AppResources.CloseInventory.ToLower() && _isInventoryOpen)
                 {
                     await CloseInventory();
@@ -153,7 +146,6 @@ namespace View.Pages
             }
             else
             {
-                Debug.WriteLine("User input is empty.");
                 _synthesizerViewModel.StopSynthesis();
                 _synthesizerViewModel.TextToSynthesize = AppResources.EnterOption;
                 _synthesizerViewModel.SynthesizeText();
@@ -164,26 +156,25 @@ namespace View.Pages
         {
             try
             {
-                Debug.WriteLine($"Handling option selection: {userInput}");
-
-                // Validate input as a number
-                if (int.TryParse(userInput, out int selectedIndex) && _optionsRequiringItem != null && selectedIndex > 0 && selectedIndex <= _optionsRequiringItem.Count)
+                if (_optionsRequiringItem != null && _currentItemForOption != null)
                 {
-                    Option selectedOption = _optionsRequiringItem[selectedIndex - 1];
-                    Debug.WriteLine($"Player selected option: {selectedOption.NameOption}");
+                    string normalizedInput = userInput.Trim().ToLower();
 
-                    // Use the item for the selected option
-                    await UseItemForOption(_currentItemForOption!, selectedOption);
+                    var selectedOption = _optionsRequiringItem.FirstOrDefault(option =>
+                        string.Equals(option.NameOption.Trim().ToLower(), normalizedInput, StringComparison.OrdinalIgnoreCase));
 
-                    // Clear the context
-                    _optionsRequiringItem = null;
-                    _currentItemForOption = null;
-                }
-                else
-                {
-                    Debug.WriteLine($"Invalid selection: {userInput}");
-                    _synthesizerViewModel.TextToSynthesize = AppResources.InvalidOptionSelection;
-                    _synthesizerViewModel.SynthesizeText();
+                    if (selectedOption != null)
+                    {
+                        await UseItemForOption(_currentItemForOption, selectedOption);
+
+                        _optionsRequiringItem = null;
+                        _currentItemForOption = null;
+                    }
+                    else
+                    {
+                        _synthesizerViewModel.TextToSynthesize = AppResources.InvalidOptionSelection;
+                        _synthesizerViewModel.SynthesizeText();
+                    }
                 }
             }
             catch (Exception ex)
@@ -195,8 +186,6 @@ namespace View.Pages
 
         private async Task HandleOptionOrItem(string userInput)
         {
-            Debug.WriteLine("Handling option or item...");
-
             Event? currentEvent = _currentStory.Events.FirstOrDefault(e => e.IdEvent == _eventId);
 
             if (currentEvent?.ItemsToPickUp.Any(item =>
@@ -223,19 +212,16 @@ namespace View.Pages
 
                     if (requiredItems.Any())
                     {
-                        Debug.WriteLine($"Option {result.BestMatchingOption.NameOption} still requires items: {string.Join(", ", requiredItems.Select(i => i.Name))}");
                         _synthesizerViewModel.TextToSynthesize = AppResources.OptionRequiresItem;
                         _synthesizerViewModel.SynthesizeText();
                     }
                     else if (result.LinkedEvent != null)
                     {
-                        Debug.WriteLine($"Option {result.BestMatchingOption.NameOption} is valid. Proceeding...");
                         await NavigateToEvent(result.LinkedEvent.IdEvent);
                     }
                 }
                 else
                 {
-                    Debug.WriteLine("No matching option found.");
                     _synthesizerViewModel.StopSynthesis();
                     _synthesizerViewModel.TextToSynthesize = AppResources.NoLinkedOption;
                     _synthesizerViewModel.SynthesizeText();
@@ -247,8 +233,6 @@ namespace View.Pages
 
         private (Option? BestMatchingOption, Event? LinkedEvent, List<Option> TiedOptions) GetBestMatchingOptionForCurrentEvent(string[] userWords)
         {
-            Debug.WriteLine("Finding best matching option...");
-
             Option? bestMatchingOption = null;
             Event? linkedEvent = null;
             double bestScore = 0.0;
@@ -281,45 +265,25 @@ namespace View.Pages
                     }
                 }
             }
-
-            Debug.WriteLine($"Best matching option: {bestMatchingOption?.NameOption}");
             return (bestMatchingOption, linkedEvent, tiedOptions);
         }
 
         private async Task UpdateRecognitionGrammar(HashSet<string> keywords)
         {
-            Debug.WriteLine("Updating recognition grammar...");
-            Debug.WriteLine($"Initial keywords: {string.Join(", ", keywords)}");
-
-            // Ensure there are valid keywords
-            if (keywords == null || keywords.Count == 0)
-            {
-                Debug.WriteLine("No keywords available for recognition grammar. Skipping update.");
-                return;
-            }
-
-            // Unload previous grammars
-            _recognitionViewModel.UnloadGrammars();
-
-            // Introduce a delay to ensure the engine is ready
-            await Task.Delay(500);
-
             try
             {
-                // Validate keywords to remove invalid or empty entries
-                keywords.RemoveWhere(string.IsNullOrWhiteSpace);
-
-                if (keywords.Count == 0)
+                // Validate keywords to ensure they are not null or empty
+                if (keywords != null && keywords.Count > 0)
                 {
-                    Debug.WriteLine("All keywords are invalid or empty. Skipping grammar update.");
-                    return;
+                    keywords.RemoveWhere(string.IsNullOrWhiteSpace);
+
+                    if (keywords.Count > 0)
+                    {
+                        _recognitionViewModel.UnloadGrammars();
+                        await Task.Delay(500);
+                        _recognitionViewModel.StartRecognition(keywords, PageContext);
+                    }
                 }
-
-                Debug.WriteLine($"Validated keywords: {string.Join(", ", keywords)}");
-
-                // Start recognition with validated keywords
-                _recognitionViewModel.StartRecognition(keywords, PageContext);
-                Debug.WriteLine("Recognition grammar updated successfully.");
             }
             catch (Exception ex)
             {
@@ -340,15 +304,11 @@ namespace View.Pages
                     matchCount++;
                 }
             }
-
-            Debug.WriteLine($"Match score: {matchCount}/{optionWords.Length}");
             return (double)matchCount / optionWords.Length;
         }
 
         private async Task HandleTiedOptions(List<Option> tiedOptions)
         {
-            Debug.WriteLine("Handling tied options...");
-
             string optionsList = string.Join("\n", tiedOptions.Select(o => $"- {o.NameOption}"));
             _synthesizerViewModel.TextToSynthesize = AppResources.MultipleOptionMatch;
             _synthesizerViewModel.SynthesizeText();
@@ -356,13 +316,11 @@ namespace View.Pages
 
         private async Task NavigateToEvent(int eventId)
         {
-            Debug.WriteLine($"Navigating to event: {eventId}");
             await Shell.Current.GoToAsync($"{nameof(PlayPage)}?storyId={_storyId}&eventId={eventId}");
         }
 
         private async Task RepeatSpeech()
         {
-            Debug.WriteLine("Repeating speech...");
             _synthesizerViewModel.TextToSynthesize = this.EventDescriptionLabel.Text;
             _synthesizerViewModel.StopSynthesis();
             _synthesizerViewModel.SynthesizeText();
@@ -370,7 +328,6 @@ namespace View.Pages
 
         private async Task NavigatePrevious()
         {
-            Debug.WriteLine("Navigating to previous page...");
             await Shell.Current.GoToAsync($"{nameof(YourStories)}?storyId={_storyId}");
         }
 
@@ -380,8 +337,6 @@ namespace View.Pages
 
         private async Task OpenInventory()
         {
-            Debug.WriteLine("Opening inventory...");
-
             _isInventoryOpen = true;
             StringBuilder inventoryText = new StringBuilder(AppResources.InventoryHeader);
 
@@ -404,8 +359,6 @@ namespace View.Pages
 
         private async Task CloseInventory()
         {
-            Debug.WriteLine("Closing inventory...");
-
             _isInventoryOpen = false;
             Event? currentEvent = _currentStory.Events.FirstOrDefault(e => e.IdEvent == _eventId);
 
@@ -419,11 +372,10 @@ namespace View.Pages
 
         private async Task<bool> HandleItemPickup(string userInput)
         {
+            bool success = false;
+
             try
             {
-                Debug.WriteLine("Handling item pickup...");
-
-                bool success = false;
                 Event? currentEvent = _currentStory.Events.FirstOrDefault(e => e.IdEvent == _eventId);
 
                 if (currentEvent != null && currentEvent.ItemsToPickUp.Any())
@@ -433,20 +385,12 @@ namespace View.Pages
 
                     if (matchedItem != null)
                     {
-                        Debug.WriteLine($"Item picked up: {matchedItem.Name}");
-
                         // Add the item to the player's inventory
                         _currentStory.Player.Inventory.Add(matchedItem);
-
-                        // Temporarily retain the item in the recognition grammar
-                        var remainingItems = currentEvent.ItemsToPickUp.Select(item => item.Name.ToLower()).ToHashSet();
 
                         // Announce success
                         _synthesizerViewModel.TextToSynthesize = string.Format(AppResources.ItemPickedUpFormat, matchedItem.Name);
                         _synthesizerViewModel.SynthesizeText();
-
-                        // Update the recognition grammar first
-                        await UpdateRecognitionGrammar(remainingItems);
 
                         // After grammar update, remove the item from the event
                         currentEvent.ItemsToPickUp.Remove(matchedItem);
@@ -455,30 +399,27 @@ namespace View.Pages
                     }
                     else
                     {
-                        Debug.WriteLine("Item not found in the event.");
                         _synthesizerViewModel.TextToSynthesize = AppResources.ItemNotFound;
                         _synthesizerViewModel.SynthesizeText();
                     }
                 }
                 else
                 {
-                    Debug.WriteLine("No items to pick up in this event.");
                     _synthesizerViewModel.TextToSynthesize = AppResources.NoItemsInEvent;
                     _synthesizerViewModel.SynthesizeText();
                 }
-                return success;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error in HandleItemPickup: {ex.Message}");
-                return false;
+                success = false;
             }
+
+            return success;
         }
 
         private async Task HandleItemUsage(string userInput)
         {
-            Debug.WriteLine($"Handling item usage: {userInput}");
-
             Event? currentEvent = _currentStory.Events.FirstOrDefault(e => e.IdEvent == _eventId);
 
             if (currentEvent != null && _currentStory.Player.Inventory.Any())
@@ -489,16 +430,12 @@ namespace View.Pages
 
                 if (usedItem != null)
                 {
-                    Debug.WriteLine($"Item found in inventory: {usedItem.Name}");
-
-                    // Find options that require this item
                     var optionsRequiringItem = currentEvent.GetOptions()
                         .Where(option => option.GetRequiredItems()?.Contains((KeyItem)usedItem) == true)
                         .ToList();
 
                     if (optionsRequiringItem.Count == 0)
                     {
-                        Debug.WriteLine("Item not usable in this context.");
                         _synthesizerViewModel.TextToSynthesize = AppResources.ItemNotUsableHere;
                         _synthesizerViewModel.SynthesizeText();
                     }
@@ -513,7 +450,6 @@ namespace View.Pages
                 }
                 else
                 {
-                    Debug.WriteLine("Item not found in inventory.");
                     _synthesizerViewModel.TextToSynthesize = AppResources.ItemNotFound;
                     _synthesizerViewModel.SynthesizeText();
                 }
@@ -523,17 +459,13 @@ namespace View.Pages
 
         private async Task UseItemForOption(Item usedItem, Option option)
         {
-            Debug.WriteLine($"Using item: {usedItem.Name} for option: {option.NameOption}");
-
-            // Remove the item from inventory
             _currentStory.Player.Inventory.Remove(usedItem);
 
             // Remove the item from the option's required items
             var requiredItems = option.GetRequiredItems();
             if (requiredItems.Contains((KeyItem)usedItem))
             {
-                requiredItems.Remove((KeyItem)usedItem);
-                Debug.WriteLine($"Item {usedItem.Name} removed from the option's required items.");
+                requiredItems.Remove((KeyItem)usedItem);               
             }
 
             // Update the option in the game state
@@ -544,34 +476,41 @@ namespace View.Pages
                 if (globalOption != null)
                 {
                     globalOption.SetRequiredItems(requiredItems);
-                    Debug.WriteLine($"Global option updated: {globalOption.NameOption}");
                 }
-            }
-
-            // Check if the option is now fully unlocked
-            if (!requiredItems.Any())
-            {
-                Debug.WriteLine($"Option {option.NameOption} is now unlocked.");
-            }
-            else
-            {
-                Debug.WriteLine($"Option {option.NameOption} still requires items: {string.Join(", ", requiredItems.Select(i => i.Name))}");
             }
 
             // Announce success
             _synthesizerViewModel.TextToSynthesize = string.Format(AppResources.ItemUsedSuccessfully, usedItem.Name);
             _synthesizerViewModel.SynthesizeText();
+            RefreshInventoryText();
 
             // Update recognition grammar to reflect inventory changes
             await UpdateRecognitionGrammar(new HashSet<string>(_currentStory.Player.Inventory.Select(item => item.Name.ToLower())));
+        }
+
+        private void RefreshInventoryText()
+        {
+            StringBuilder inventoryText = new StringBuilder(AppResources.InventoryHeader);
+
+            if (_currentStory.Player.Inventory.Any())
+            {
+                foreach (var item in _currentStory.Player.Inventory)
+                {
+                    inventoryText.AppendLine($"- {item.Name}");
+                }
+            }
+            else
+            {
+                inventoryText.AppendLine(AppResources.NoItemsInInventory);
+            }
+            EventDescriptionLabel.Text = inventoryText.ToString();
+            _synthesizerViewModel.TextToSynthesize = inventoryText.ToString();
         }
 
         private async Task PromptPlayerToChooseOption(Item usedItem, List<Option> optionsRequiringItem)
         {
             try
             {
-                Debug.WriteLine($"Prompting player to choose an option for item: {usedItem.Name}");
-
                 // Set the context for option selection
                 _optionsRequiringItem = optionsRequiringItem;
                 _currentItemForOption = usedItem;
@@ -582,10 +521,8 @@ namespace View.Pages
                 {
                     optionsText.AppendLine($"{i + 1}. {optionsRequiringItem[i].NameOption}");
                 }
-
                 // Announce the options requiring the item
                 string optionsTextToAnnounce = optionsText.ToString();
-                Debug.WriteLine($"Options to announce: {optionsTextToAnnounce}");
                 _synthesizerViewModel.TextToSynthesize = optionsTextToAnnounce;
                 _synthesizerViewModel.SynthesizeText();
             }
@@ -595,14 +532,12 @@ namespace View.Pages
             }
         }
 
-
         #endregion
 
         #region UI Management
 
         private void UpdateAllText()
         {
-            Debug.WriteLine("Updating all text on the page...");
             OptionEntry.Placeholder = AppResources.PlaceholderKeyWord;
             OptionValidation.Text = AppResources.Confirm;
             RepeatButton.Text = AppResources.Repeat;
@@ -611,7 +546,6 @@ namespace View.Pages
 
         private void SetResponsiveSizes()
         {
-            Debug.WriteLine("Setting responsive sizes...");
             double pageWidth = this.Width;
             double pageHeight = this.Height;
             if (pageWidth > 0 && pageHeight > 0)
@@ -629,38 +563,28 @@ namespace View.Pages
 
         private async void OnRepeatButtonClicked(object sender, EventArgs e)
         {
-            Debug.WriteLine("Repeat button clicked.");
             await RepeatSpeech();
         }
 
         private async void OnBackButtonClicked(object sender, EventArgs e)
         {
-            Debug.WriteLine("Back button clicked.");
             await NavigatePrevious();
         }
 
         private async void OnOptionSubmittedFromButton(object sender, EventArgs e)
         {
-            Debug.WriteLine("Option submitted from button.");
             await OnOptionSubmitted();
         }
 
         private async void AddWordsToView()
         {
-            Debug.WriteLine("Adding words to view from speech recognition.");
             OptionEntry.Text = string.Empty;
             OptionEntry.Text += _recognitionViewModel.RecognizedText;
         }
 
-        private async Task ClosePopup()
-        {
-            Debug.WriteLine("Closing popup...");
-            await Shell.Current.GoToAsync("..");
-        }
 
         private void OnSizeChanged(object? sender, EventArgs e)
         {
-            Debug.WriteLine("Page size changed.");
             SetResponsiveSizes();
         }
 
@@ -670,19 +594,16 @@ namespace View.Pages
 
         protected async override void OnAppearing()
         {
-            Debug.WriteLine("PlayPage appearing...");
             base.OnAppearing();
             await _storyViewModel.LoadStoriesAsync();
             await LoadEvent(_storyId, _eventId);
 
-            Debug.WriteLine("Passing event description to TTS.");
             _synthesizerViewModel.TextToSynthesize = this.EventDescriptionLabel.Text;
             _synthesizerViewModel.SynthesizeText();
         }
 
         protected override async void OnDisappearing()
         {
-            Debug.WriteLine("PlayPage disappearing...");
             base.OnDisappearing();
             _synthesizerViewModel.StopSynthesis();
             _recognitionViewModel.UnloadGrammars();
@@ -693,7 +614,6 @@ namespace View.Pages
 
                 if (currentEvent != null)
                 {
-                    Debug.WriteLine("Saving game state...");
                     SaveViewModel saveViewModel = new SaveViewModel();
                     await saveViewModel.SaveGameAsync(_currentStory, currentEvent);
                 }
