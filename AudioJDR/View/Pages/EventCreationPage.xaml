@@ -25,7 +25,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
 
-                <!-- Object selecte frame -->
+                <!-- Item select frame -->
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
 
@@ -111,7 +111,7 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Object selecte frame -->
+            <!-- Item select frame -->
             <Frame Grid.Row="6"
                    CornerRadius="10"
                    Padding="10">
@@ -120,31 +120,20 @@
                 </Frame.BackgroundColor>
 
                 <VerticalStackLayout>
-                    <Label Text="{x:Static local:AppResources.EventObject}"
+                    <Label Text="{x:Static local:AppResources.EventItem}"
                            FontAttributes="Bold"
                            FontSize="18"
                            Margin="0,0,0,5">
                     </Label>
 
-                    <Button x:Name="AddNewObjectButton"
-                            Text="{x:Static local:AppResources.AddNewObject}"                                
-                            TextColor="{StaticResource TextButtons}"
-                            WidthRequest="200"
-                            HorizontalOptions="Start"
-                            Margin="0,10,0,25">
-                        <Button.BackgroundColor>
-                            <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
-                        </Button.BackgroundColor>
-                    </Button>
-
                     <HorizontalStackLayout>
-                        <Picker Title="{x:Static local:AppResources.SelectObjectEvent}">
+                        <Picker Title="{x:Static local:AppResources.SelectItemEvent}">
                             <Picker.TitleColor>
                                 <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
                             </Picker.TitleColor>
                         </Picker>
-                        <Button x:Name="AddObjectButton"
-                                Text="{x:Static local:AppResources.AddObject}"                                
+                        <Button x:Name="AddItemButton"
+                                Text="{x:Static local:AppResources.AddItem}"                                
                                 TextColor="{StaticResource TextButtons}"
                                 Margin="20,0,0,0">
                             <Button.BackgroundColor>

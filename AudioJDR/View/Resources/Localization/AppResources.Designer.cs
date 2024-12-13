@@ -70,29 +70,29 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Add New Object.
+        ///   Recherche une chaîne localisée semblable à Add Item.
         /// </summary>
-        internal static string AddNewObject {
+        internal static string AddItem {
             get {
-                return ResourceManager.GetString("AddNewObject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à Add Object.
-        /// </summary>
-        internal static string AddObject {
-            get {
-                return ResourceManager.GetString("AddObject", resourceCulture);
+                return ResourceManager.GetString("AddItem", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Recherche une chaîne localisée semblable à Add item(s) as a condition to unlock this option.
         /// </summary>
-        internal static string AddObjectConditon {
+        internal static string AddItemConditon {
             get {
-                return ResourceManager.GetString("AddObjectConditon", resourceCulture);
+                return ResourceManager.GetString("AddItemConditon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add New Item.
+        /// </summary>
+        internal static string AddNewItem {
+            get {
+                return ResourceManager.GetString("AddNewItem", resourceCulture);
             }
         }
         
@@ -133,11 +133,11 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Choose the object you want to add.
+        ///   Recherche une chaîne localisée semblable à Choose the item you want to add.
         /// </summary>
-        internal static string ChooseObjectCondition {
+        internal static string ChooseItemCondition {
             get {
-                return ResourceManager.GetString("ChooseObjectCondition", resourceCulture);
+                return ResourceManager.GetString("ChooseItemCondition", resourceCulture);
             }
         }
         
@@ -331,11 +331,11 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Object in the event.
+        ///   Recherche une chaîne localisée semblable à Item in the event.
         /// </summary>
-        internal static string EventObject {
+        internal static string EventItem {
             get {
-                return ResourceManager.GetString("EventObject", resourceCulture);
+                return ResourceManager.GetString("EventItem", resourceCulture);
             }
         }
         
@@ -421,6 +421,24 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Create an item for the story.
+        /// </summary>
+        internal static string ItemCreation {
+            get {
+                return ResourceManager.GetString("ItemCreation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Item Name.
+        /// </summary>
+        internal static string ItemNamePlaceholder {
+            get {
+                return ResourceManager.GetString("ItemNamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Linked event.
         /// </summary>
         internal static string LinkedEventOption {
@@ -493,6 +511,24 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à No item created.
+        /// </summary>
+        internal static string NoItemCreated {
+            get {
+                return ResourceManager.GetString("NoItemCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No item selected.
+        /// </summary>
+        internal static string NoItemSelected {
+            get {
+                return ResourceManager.GetString("NoItemSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à No matching option or linked event found..
         /// </summary>
         internal static string NoLinkedOption {
@@ -511,24 +547,6 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à No objects created.
-        /// </summary>
-        internal static string NoObjectsCreated {
-            get {
-                return ResourceManager.GetString("NoObjectsCreated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à No object selected.
-        /// </summary>
-        internal static string NoObjectSelected {
-            get {
-                return ResourceManager.GetString("NoObjectSelected", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une chaîne localisée semblable à No valid saves found for this story.
         /// </summary>
         internal static string NoValidSaveFound {
@@ -543,24 +561,6 @@ namespace View.Resources.Localization {
         internal static string NoWordsAdded {
             get {
                 return ResourceManager.GetString("NoWordsAdded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à .
-        /// </summary>
-        internal static string ObjectCreation {
-            get {
-                return ResourceManager.GetString("ObjectCreation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à Object Name.
-        /// </summary>
-        internal static string ObjectNamePlaceholder {
-            get {
-                return ResourceManager.GetString("ObjectNamePlaceholder", resourceCulture);
             }
         }
         
@@ -758,20 +758,20 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Choose the item you want to add to the event.
+        /// </summary>
+        internal static string SelectItemEvent {
+            get {
+                return ResourceManager.GetString("SelectItemEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Select your language.
         /// </summary>
         internal static string SelectLanguage {
             get {
                 return ResourceManager.GetString("SelectLanguage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à Choose the object you want to add to the event.
-        /// </summary>
-        internal static string SelectObjectEvent {
-            get {
-                return ResourceManager.GetString("SelectObjectEvent", resourceCulture);
             }
         }
         

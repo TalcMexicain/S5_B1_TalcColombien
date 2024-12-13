@@ -10,8 +10,7 @@ namespace Model
 {
 
     /// <summary>
-    /// Represents a Story in audioJDR game that contains events
-    /// All the code in this file is included in all platforms.
+    /// Represents a Story
     /// </summary>
     public class Story : INotifyPropertyChanged
     {

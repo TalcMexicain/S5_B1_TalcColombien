@@ -167,7 +167,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <!-- Objet Creation -->
+            <!-- Item Creation -->
             <Frame Grid.Row="8"
                    CornerRadius="10"
                    Padding="10">
@@ -176,7 +176,7 @@
                 </Frame.BackgroundColor>
 
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="{x:Static local:AppResources.ObjectCreation}"
+                    <Label Text="{x:Static local:AppResources.ItemCreation}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,10"
@@ -187,14 +187,14 @@
                     </Label>
 
                     <Grid ColumnDefinitions="300,Auto" ColumnSpacing="10">
-                        <Entry x:Name="ObjectNameEntry"
-                               Placeholder="{x:Static local:AppResources.ObjectNamePlaceholder}"
+                        <Entry x:Name="ItemNameEntry"
+                               Placeholder="{x:Static local:AppResources.ItemNamePlaceholder}"
                                Grid.Column="0">
                             <Entry.PlaceholderColor>
                                 <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
                             </Entry.PlaceholderColor>
                         </Entry>
-                        <Button Text="{x:Static local:AppResources.AddObject}"
+                        <Button Text="{x:Static local:AppResources.AddItem}"
                                 Grid.Column="1"
                                 TextColor="{StaticResource TextButtons}">
                             <Button.BackgroundColor>
@@ -203,10 +203,10 @@
                         </Button>
                     </Grid>
 
-                    <CollectionView x:Name="ObjectsList"
+                    <CollectionView x:Name="ItemList"
                                     HorizontalOptions="Start"
-                                    ItemsSource="{Binding CurrentStory.Objects}"
-                                    EmptyView="{x:Static local:AppResources.NoObjectsCreated}">
+                                    ItemsSource="{Binding CurrentStory.Items}"
+                                    EmptyView="{x:Static local:AppResources.NoItemCreated}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <SwipeView>

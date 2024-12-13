@@ -415,29 +415,29 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="YourStories_NewGame_NoSelectedStories" xml:space="preserve">
     <value>Please select a story to play.</value>
   </data>
-  <data name="EventObject" xml:space="preserve">
-    <value>Object in the event</value>
+  <data name="EventItem" xml:space="preserve">
+    <value>Item in the event</value>
   </data>
-  <data name="SelectObjectEvent" xml:space="preserve">
-    <value>Choose the object you want to add to the event</value>
+  <data name="SelectItemEvent" xml:space="preserve">
+    <value>Choose the item you want to add to the event</value>
   </data>
-  <data name="AddObject" xml:space="preserve">
-    <value>Add Object</value>
+  <data name="AddItem" xml:space="preserve">
+    <value>Add Item</value>
   </data>
-  <data name="AddNewObject" xml:space="preserve">
-    <value>Add New Object</value>
+  <data name="AddNewItem" xml:space="preserve">
+    <value>Add New Item</value>
   </data>
-  <data name="AddObjectConditon" xml:space="preserve">
+  <data name="AddItemConditon" xml:space="preserve">
     <value>Add item(s) as a condition to unlock this option</value>
   </data>
-  <data name="NoObjectSelected" xml:space="preserve">
-    <value>No object selected</value>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>No item selected</value>
   </data>
-  <data name="ChooseObjectCondition" xml:space="preserve">
-    <value>Choose the object you want to add</value>
+  <data name="ChooseItemCondition" xml:space="preserve">
+    <value>Choose the item you want to add</value>
   </data>
-  <data name="ObjectCreation" xml:space="preserve">
-    <value />
+  <data name="ItemCreation" xml:space="preserve">
+    <value>Create an item for the story</value>
   </data>
   <data name="NoLinkedOption" xml:space="preserve">
     <value>No matching option or linked event found.</value>
@@ -457,10 +457,10 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="NoFirstEvent" xml:space="preserve">
     <value>First event not found</value>
   </data>
-  <data name="ObjectNamePlaceholder" xml:space="preserve">
-    <value>Object Name</value>
+  <data name="ItemNamePlaceholder" xml:space="preserve">
+    <value>Item Name</value>
   </data>
-  <data name="NoObjectsCreated" xml:space="preserve">
-    <value>No objects created</value>
+  <data name="NoItemCreated" xml:space="preserve">
+    <value>No item created</value>
   </data>
 </root>
