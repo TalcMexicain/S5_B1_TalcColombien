@@ -1,4 +1,5 @@
 using Model;
+using Model.Items;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using View.Resources.Localization;
@@ -88,6 +89,8 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
             }
 
             BindingContext = _optionViewModel;
+            PopulateItemPicker(); 
+            RefreshItemList(); 
             UpdateWordsDisplay();
         }
         catch (Exception ex)
@@ -159,6 +162,21 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
             EventPicker.SelectedItem = selectedEvent ?? _eventViewModel.CurrentEvent;
         }
     }
+
+    private void PopulateItemPicker()
+    {
+        ItemPicker.Items.Clear();
+
+        foreach (var item in _storyViewModel.CurrentStory.Items.OfType<KeyItem>())
+        {
+            if (!_optionViewModel.CurrentOption.GetRequiredItems().Any(i => i.IdItem == item.IdItem))
+            {
+                ItemPicker.Items.Add(item.Name); 
+            }
+        }
+        ItemPicker.SelectedIndex = -1; 
+    }
+
 
     #endregion
 
@@ -313,6 +331,62 @@ public partial class OptionCreationPage : ContentPage, IQueryAttributable
             : AppResources.NoWordsAdded;
         Debug.WriteLine($"Updated words display: {WordsDisplayLabel.Text}");
     }
+
+    #endregion
+
+    #region Item Management
+
+    private async void OnAddItemClicked(object sender, EventArgs e)
+    {
+        if (ItemPicker.SelectedIndex != -1)
+        {
+            var selectedItemName = ItemPicker.Items[ItemPicker.SelectedIndex];
+            var selectedItem = _storyViewModel.CurrentStory.Items
+                .OfType<KeyItem>() // Ensure it's a KeyItem
+                .FirstOrDefault(i => i.Name == selectedItemName);
+
+            if (selectedItem != null)
+            {
+                // Check if the KeyItem is already in the option
+                if (_optionViewModel.CurrentOption.GetRequiredItems().Any(i => i.IdItem == selectedItem.IdItem))
+                {
+                    await UIHelper.ShowErrorDialog(this, AppResources.ItemAlreadyInOptionError);
+                }
+                else
+                {
+                    // Add the KeyItem to the option
+                    await _optionViewModel.AddRequiredItemAsync(selectedItem);
+
+                    PopulateItemPicker(); 
+                    RefreshItemList(); 
+                }
+            }
+        }
+        else
+        {
+            await UIHelper.ShowErrorDialog(this, AppResources.NoItemSelected);
+        }
+    }
+
+
+    private async void OnRemoveItemClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button && button.CommandParameter is KeyItem itemToRemove)
+        {
+            // Remove the KeyItem from the option
+            await _optionViewModel.RemoveRequiredItemAsync(itemToRemove);
+
+            PopulateItemPicker(); 
+            RefreshItemList(); 
+        }
+    }
+
+    private void RefreshItemList()
+    {
+        SelectedItemsCollection.ItemsSource = null;
+        SelectedItemsCollection.ItemsSource = _optionViewModel.CurrentOption.GetRequiredItems().OfType<KeyItem>();
+    }
+
 
     #endregion
 

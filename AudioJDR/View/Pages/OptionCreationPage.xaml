@@ -137,9 +137,10 @@
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}"/>
                 </Frame.BackgroundColor>
-                
+
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="{x:Static local:AppResources.AddItemConditon}"
+                    <!-- Title -->
+                    <Label Text="{x:Static local:AppResources.AddItemCondition}"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,10"
@@ -149,44 +150,54 @@
                         </Label.TextColor>
                     </Label>
 
-                    <Grid ColumnDefinitions="400,Auto"
-                          ColumnSpacing="10">
+                    <!-- Picker and Add Button -->
+                    <HorizontalStackLayout>
                         <Picker x:Name="ItemPicker"
                                 Title="{x:Static local:AppResources.ChooseItemCondition}"
-                                TitleColor="{StaticResource MainText}"
-                                TextColor="{StaticResource TextButtons}"
-                                Grid.Column="0">
-                            <Picker.BackgroundColor>
-                                <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
-                            </Picker.BackgroundColor>
+                                HorizontalOptions="FillAndExpand">
+                            <Picker.TitleColor>
+                                <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
+                            </Picker.TitleColor>
                         </Picker>
+
                         <Button Text="{x:Static local:AppResources.AddItem}"
                                 TextColor="{StaticResource TextButtons}"
-                                Grid.Column="1">
+                                Clicked="OnAddItemClicked">
                             <Button.BackgroundColor>
-                                <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
+                                <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                             </Button.BackgroundColor>
                         </Button>
-                    </Grid>
+                    </HorizontalStackLayout>
 
+                    <!-- CollectionView for Selected Items -->
                     <CollectionView x:Name="SelectedItemsCollection"
-                                    EmptyView="{x:Static local:AppResources.NoItemSelected}"
-                                    Margin="0,0,0,10"
-                                    HorizontalOptions="Start">
+                                    ItemsSource="{Binding CurrentOption.Items}"
+                                    EmptyView="{x:Static local:AppResources.NoItemSelected}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <SwipeView>
-                                    <SwipeView.RightItems>
-                                        <SwipeItems>
-                                            <SwipeItem Text="{x:Static local:AppResources.Delete}"
-                                                       BackgroundColor="{StaticResource DeleteColor}"/>
-                                        </SwipeItems>
-                                    </SwipeView.RightItems>
-                                    <Grid Padding="5">
-                                        <Label Text="{Binding Name}"
-                                               VerticalOptions="Center"/>
+                                <Frame CornerRadius="5" Padding="10" Margin="0,10,0,10">
+                                    <Frame.BackgroundColor>
+                                        <AppThemeBinding Light="{StaticResource ThirdButtonsL}" Dark="{StaticResource ThirdButtonsD}" />
+                                    </Frame.BackgroundColor>
+
+                                    <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                                        <!-- Item Name -->
+                                        <Label Grid.Column="0"
+                                               Text="{Binding Name}"
+                                               FontAttributes="Bold"
+                                               FontSize="16"
+                                               LineBreakMode="TailTruncation"
+                                               TextColor="{StaticResource MainText}" />
+
+                                        <!-- Remove Button -->
+                                        <Button Grid.Column="1"
+                                                Text="{x:Static local:AppResources.Delete}"
+                                                TextColor="{StaticResource White}"
+                                                BackgroundColor="{StaticResource DeleteColor}"
+                                                Clicked="OnRemoveItemClicked"
+                                                CommandParameter="{Binding}" />
                                     </Grid>
-                                </SwipeView>
+                                </Frame>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>

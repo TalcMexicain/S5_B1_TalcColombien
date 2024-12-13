@@ -81,9 +81,9 @@ namespace View.Resources.Localization {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à Add item(s) as a condition to unlock this option.
         /// </summary>
-        internal static string AddItemConditon {
+        internal static string AddItemCondition {
             get {
-                return ResourceManager.GetString("AddItemConditon", resourceCulture);
+                return ResourceManager.GetString("AddItemCondition", resourceCulture);
             }
         }
         
@@ -426,6 +426,15 @@ namespace View.Resources.Localization {
         internal static string ItemAlreadyInEventError {
             get {
                 return ResourceManager.GetString("ItemAlreadyInEventError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à This item is already in the option.
+        /// </summary>
+        internal static string ItemAlreadyInOptionError {
+            get {
+                return ResourceManager.GetString("ItemAlreadyInOptionError", resourceCulture);
             }
         }
         

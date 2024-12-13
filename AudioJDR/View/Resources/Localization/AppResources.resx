@@ -427,7 +427,7 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="AddNewItem" xml:space="preserve">
     <value>Add New Item</value>
   </data>
-  <data name="AddItemConditon" xml:space="preserve">
+  <data name="AddItemCondition" xml:space="preserve">
     <value>Add item(s) as a condition to unlock this option</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
@@ -465,5 +465,8 @@ At each new stage of the story, the player can listen again, think, make a choic
   </data>
   <data name="ItemAlreadyInEventError" xml:space="preserve">
     <value>This item is already in the event</value>
+  </data>
+  <data name="ItemAlreadyInOptionError" xml:space="preserve">
+    <value>This item is already in the option</value>
   </data>
 </root>

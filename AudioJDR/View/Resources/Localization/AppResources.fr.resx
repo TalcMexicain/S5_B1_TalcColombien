@@ -429,7 +429,7 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   <data name="AddNewItem" xml:space="preserve">
     <value>Ajouter un nouvel objet</value>
   </data>
-  <data name="AddItemConditon" xml:space="preserve">
+  <data name="AddItemCondition" xml:space="preserve">
     <value>Ajouter un/des objet(s) comme condition pour débloquer cette option</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
@@ -452,5 +452,8 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   </data>
   <data name="ItemAlreadyInEventError" xml:space="preserve">
     <value>Cet objet est déjà présent dans l'évènement</value>
+  </data>
+  <data name="ItemAlreadyInOptionError" xml:space="preserve">
+    <value>Cet objet est déjà présent dans l'option</value>
   </data>
 </root>
