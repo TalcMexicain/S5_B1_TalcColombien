@@ -469,4 +469,25 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="ItemAlreadyInOptionError" xml:space="preserve">
     <value>This item is already in the option</value>
   </data>
+  <data name="ChangeTheme" xml:space="preserve">
+    <value>Change Theme</value>
+  </data>
+  <data name="LanguageEN" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="LanguageFR" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="IncreaseVolume" xml:space="preserve">
+    <value>Increase volume</value>
+  </data>
+  <data name="DecreaseVolume" xml:space="preserve">
+    <value>Decrease volume</value>
+  </data>
+  <data name="IncreaseSpeed" xml:space="preserve">
+    <value>Increase speed</value>
+  </data>
+  <data name="Decrease Speed" xml:space="preserve">
+    <value>Decease speed</value>
+  </data>
 </root>

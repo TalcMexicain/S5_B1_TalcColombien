@@ -33,6 +33,7 @@ public partial class MainPage : ContentPage
         BindingContext = _recognitionViewModel;
         _recognitionViewModel = new SpeechRecognitionViewModel(speechRecognition);
         _recognitionViewModel.NavigateToPlay += async () => await NavigateToPlay();
+        _recognitionViewModel.NavigateToSettings += async () => await NavigateToSettings();
     }
 
     #endregion
@@ -42,7 +43,7 @@ public partial class MainPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        var keywords = new[] { AppResources.Play };
+        var keywords = new[] { AppResources.Play, AppResources.Settings };
         _recognitionViewModel.StartRecognition(keywords, PageContext);
     }
 
@@ -65,6 +66,11 @@ public partial class MainPage : ContentPage
         await Shell.Current.GoToAsync(nameof(MainPlayerPage));
     }
 
+    private async Task NavigateToSettings()
+    {
+        await Shell.Current.GoToAsync(nameof(SettingsPage));
+    }
+
     private async void OnPlayButtonClicked(object sender, EventArgs e)
     {
         await NavigateToPlay();
@@ -77,7 +83,7 @@ public partial class MainPage : ContentPage
 
     private async void OnSettingsButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(SettingsPage));
+        await NavigateToSettings();
     }
 
     #endregion

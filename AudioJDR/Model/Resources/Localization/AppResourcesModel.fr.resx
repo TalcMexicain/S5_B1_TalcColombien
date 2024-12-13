@@ -219,4 +219,10 @@
   <data name="Option_RemoveKeyItem_ArgumentNullException" xml:space="preserve">
     <value>L'objet KeyItem à supprimer ne peut pas être nul</value>
   </data>
+  <data name="VolumeLower" xml:space="preserve">
+    <value>baisser le volume</value>
+  </data>
+  <data name="VolumeHigher" xml:space="preserve">
+    <value>Monter le volume</value>
+  </data>
 </root>

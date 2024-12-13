@@ -11,30 +11,62 @@ namespace View.Pages
         #region Const
 
         private const string decimalFormatOneDigit = "F1";
-
+        private const float r = 0.5f;
+        private const int v = 10;
         #endregion
 
         #region Fields
 
         private GlobalSettingsViewModel _globalSettingsViewModel;
         private SpeechSynthesizerViewModel _speechViewModel;
+        private SpeechRecognitionViewModel _recognitionViewModel;
+        private string PageContext;
 
         #endregion
 
         #region Constructor
 
-        public SettingsPage(ISpeechSynthesizer speechSynthesizer)
+        public SettingsPage(ISpeechSynthesizer speechSynthesizer, ISpeechRecognition speechRecognition)
         {
             InitializeComponent();
             SetResponsiveSizes();
             this.SizeChanged += OnSizeChanged;
             this._globalSettingsViewModel = new GlobalSettingsViewModel(speechSynthesizer);
             this._speechViewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
+            _recognitionViewModel = new SpeechRecognitionViewModel(speechRecognition);
+
+            PageContext = "SettingsPage";
+
+            _recognitionViewModel.NavigatePrevious += async () => await NavigatePrevious();
+            _recognitionViewModel.ChangeTheme += async () => await ChangeTheme();
+            _recognitionViewModel.ChangeLanguageEN += async () => await ChangeLanguageEN();
+            _recognitionViewModel.ChangeLanguageFR += async () => await ChangeLanguageFR();
+            _recognitionViewModel.TestVoice += async () => await TestVoice();
+            _recognitionViewModel.IncreaseVolume += async () => await IncreaseVolume();
+            _recognitionViewModel.DecreaseVolume += async () => await DecreaseVolume();
+            _recognitionViewModel.IncreaseSpeed += async () => await IncreaseSpeed();
+            _recognitionViewModel.DecreaseSpeed += async () => await DecreaseSpeed();
             InitializeSettingsElements();
         }
         #endregion
 
         #region Event Handlers
+
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            var keywords = new[] { AppResources.Back, AppResources.ChangeTheme, AppResources.LanguageEN, AppResources.LanguageFR, AppResources.TestVoice, AppResources.IncreaseVolume, AppResources.DecreaseVolume, AppResources.IncreaseSpeed, AppResources.Decrease_Speed };
+            _recognitionViewModel.StartRecognition(keywords, PageContext);
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            _recognitionViewModel.UnloadGrammars();
+            _recognitionViewModel.StopRecognition();
+
+        }
 
         /// <summary>
         /// Adjusts UI sizes when the page size changes.
@@ -131,6 +163,21 @@ namespace View.Pages
 
         #region Language Management
 
+        private async Task ChangeLanguageEN()
+        {
+            SetLanguage("en");
+            MessagingCenter.Send(this, "LanguageChanged");
+
+            
+        }
+
+        private async Task ChangeLanguageFR()
+        {
+            SetLanguage("fr");
+            MessagingCenter.Send(this, "LanguageChanged");
+            
+        }
+
         /// <summary>
         /// Event handler triggered when the selected language in the picker is changed.
         /// Changes the app language if the selected language is different from the current one.
@@ -151,6 +198,7 @@ namespace View.Pages
                 }
                 MessagingCenter.Send(this, "LanguageChanged");
             }
+
         }
 
         /// <summary>
@@ -190,11 +238,7 @@ namespace View.Pages
 
         #region Theme Management
 
-        /// <summary>
-        /// Event handler for the Theme Toggle button click.
-        /// Toggles between light and dark themes for the application.
-        /// </summary>
-        private void OnThemeButtonClicked(object sender, EventArgs e)
+        private async Task ChangeTheme()
         {
             AppTheme appRequestedTheme = Application.Current.RequestedTheme;
             AppTheme appNewTheme = AppTheme.Unspecified;
@@ -215,6 +259,15 @@ namespace View.Pages
             this._globalSettingsViewModel.AppTheme = appNewTheme;
         }
 
+        /// <summary>
+        /// Event handler for the Theme Toggle button click.
+        /// Toggles between light and dark themes for the application.
+        /// </summary>
+        private async void OnThemeButtonClicked(object sender, EventArgs e)
+        {
+            await ChangeTheme();
+        }
+
         #endregion
 
         #region VoiceType Management
@@ -228,6 +281,27 @@ namespace View.Pages
         #endregion
 
         #region VolumeTTS Management
+
+        private async Task DecreaseVolume()
+        {
+            if (this._globalSettingsViewModel.VolumeTTS >= 10)
+            {
+                this._globalSettingsViewModel.VolumeTTS -= v;
+            }
+            VolumeSlider.Value = this._globalSettingsViewModel.VolumeTTS;
+            VolumeValueLabel.Text = this._globalSettingsViewModel.VolumeTTS.ToString(); 
+        }
+
+        private async Task IncreaseVolume()
+        {
+            if (this._globalSettingsViewModel.VolumeTTS <= 90) {
+                this._globalSettingsViewModel.VolumeTTS += v;
+            }
+            
+
+            VolumeSlider.Value = this._globalSettingsViewModel.VolumeTTS;
+            VolumeValueLabel.Text = this._globalSettingsViewModel.VolumeTTS.ToString();
+        }
 
         private void OnVolumeChanged(object sender, ValueChangedEventArgs e)
         {
@@ -246,6 +320,29 @@ namespace View.Pages
 
         #region RateTTS Management 
 
+
+        private async Task DecreaseSpeed()
+        {
+            if(this._globalSettingsViewModel.RateTTS > 1)
+            {
+                this._globalSettingsViewModel.RateTTS -= r;
+            }
+
+            RateSlider.Value = this._globalSettingsViewModel.RateTTS;
+            RateValueLabel.Text = this._globalSettingsViewModel.RateTTS.ToString("F1");
+        }
+
+        private async Task IncreaseSpeed()
+        {
+            if(this._globalSettingsViewModel.RateTTS <= 1.5)
+            {
+                this._globalSettingsViewModel.RateTTS += r;
+            }
+
+            RateSlider.Value = this._globalSettingsViewModel.RateTTS;
+            RateValueLabel.Text = this._globalSettingsViewModel.RateTTS.ToString("F1");
+        }
+
         private void OnRateChanged(object sender, ValueChangedEventArgs e)
         {
             float rateSliderValue = (float)e.NewValue;
@@ -262,10 +359,14 @@ namespace View.Pages
         #endregion
 
         #region Voice Test Management
-
-        private void OnTestVoiceButtonClicked(object sender, EventArgs e)
+        private async Task TestVoice()
         {
             TestVoiceWithNewSettings();
+        }
+
+        private async void OnTestVoiceButtonClicked(object sender, EventArgs e)
+        {
+            await TestVoice();
         }
 
         private void TestVoiceWithNewSettings()
@@ -280,9 +381,14 @@ namespace View.Pages
 
         #region Navigation
 
-        private async void OnBackButtonClicked(object sender, EventArgs e)
+        private async Task NavigatePrevious()
         {
             await Shell.Current.GoToAsync(nameof(MainPage));
+        }
+
+        private async void OnBackButtonClicked(object sender, EventArgs e)
+        {
+            await NavigatePrevious();
         }
 
         #endregion

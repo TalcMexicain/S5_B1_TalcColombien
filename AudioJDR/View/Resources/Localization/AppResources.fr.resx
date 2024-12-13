@@ -441,6 +441,12 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   <data name="ItemCreation" xml:space="preserve">
     <value>Créer des objets pour l'histoire</value>
   </data>
+  <data name="EnterOption" xml:space="preserve">
+    <value>Veuillez entrer une option</value>
+  </data>
+  <data name="MultipleOptionMatch" xml:space="preserve">
+    <value>Plusieurs options correspondantes veuillez être plus précis</value>
+  </data>
   <data name="StoryNotFound" xml:space="preserve">
     <value>Histoire non trouvée</value>
   </data>
@@ -455,5 +461,26 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   </data>
   <data name="ItemAlreadyInOptionError" xml:space="preserve">
     <value>Cet objet est déjà présent dans l'option</value>
+  </data>
+  <data name="ChangeTheme" xml:space="preserve">
+    <value>Changer le theme</value>
+  </data>
+  <data name="LanguageEN" xml:space="preserve">
+    <value>Anglais</value>
+  </data>
+  <data name="LanguageFR" xml:space="preserve">
+    <value>Français</value>
+  </data>
+  <data name="IncreaseVolume" xml:space="preserve">
+    <value>Monter le volume</value>
+  </data>
+  <data name="DecreaseVolume" xml:space="preserve">
+    <value>Baisser le volume</value>
+  </data>
+  <data name="IncreaseSpeed" xml:space="preserve">
+    <value>Augmenter la vitesse</value>
+  </data>
+  <data name="Decrease Speed" xml:space="preserve">
+    <value>Baisser la vitesse</value>
   </data>
 </root>

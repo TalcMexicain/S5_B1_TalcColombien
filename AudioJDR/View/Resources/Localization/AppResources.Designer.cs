@@ -133,6 +133,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Change Theme.
+        /// </summary>
+        internal static string ChangeTheme {
+            get {
+                return ResourceManager.GetString("ChangeTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Choose the item you want to add.
         /// </summary>
         internal static string ChooseItemCondition {
@@ -183,6 +192,24 @@ namespace View.Resources.Localization {
         internal static string CreateNewStory {
             get {
                 return ResourceManager.GetString("CreateNewStory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Decease speed.
+        /// </summary>
+        internal static string Decrease_Speed {
+            get {
+                return ResourceManager.GetString("Decrease Speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Decrease volume.
+        /// </summary>
+        internal static string DecreaseVolume {
+            get {
+                return ResourceManager.GetString("DecreaseVolume", resourceCulture);
             }
         }
         
@@ -421,6 +448,24 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Increase speed.
+        /// </summary>
+        internal static string IncreaseSpeed {
+            get {
+                return ResourceManager.GetString("IncreaseSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Increase volume.
+        /// </summary>
+        internal static string IncreaseVolume {
+            get {
+                return ResourceManager.GetString("IncreaseVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à This item is already in the event.
         /// </summary>
         internal static string ItemAlreadyInEventError {
@@ -453,6 +498,24 @@ namespace View.Resources.Localization {
         internal static string ItemNamePlaceholder {
             get {
                 return ResourceManager.GetString("ItemNamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à English.
+        /// </summary>
+        internal static string LanguageEN {
+            get {
+                return ResourceManager.GetString("LanguageEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à French.
+        /// </summary>
+        internal static string LanguageFR {
+            get {
+                return ResourceManager.GetString("LanguageFR", resourceCulture);
             }
         }
         
