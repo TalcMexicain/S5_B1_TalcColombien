@@ -142,6 +142,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à close inventory.
+        /// </summary>
+        internal static string CloseInventory {
+            get {
+                return ResourceManager.GetString("CloseInventory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Confirm.
         /// </summary>
         internal static string Confirm {
@@ -421,6 +430,24 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Invalid selection. Please try again.
+        /// </summary>
+        internal static string InvalidOptionSelection {
+            get {
+                return ResourceManager.GetString("InvalidOptionSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Your Inventory:.
+        /// </summary>
+        internal static string InventoryHeader {
+            get {
+                return ResourceManager.GetString("InventoryHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à This item is already in the event.
         /// </summary>
         internal static string ItemAlreadyInEventError {
@@ -475,11 +502,29 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à The item &quot;{0}&quot; cannot be used here.
+        /// </summary>
+        internal static string ItemNotUsableHere {
+            get {
+                return ResourceManager.GetString("ItemNotUsableHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à You have picked up {0}. It has been added to your inventory.
         /// </summary>
         internal static string ItemPickedUpFormat {
             get {
                 return ResourceManager.GetString("ItemPickedUpFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à You used the item &quot;{0}&quot; successfully.
+        /// </summary>
+        internal static string ItemUsedSuccessfully {
+            get {
+                return ResourceManager.GetString("ItemUsedSuccessfully", resourceCulture);
             }
         }
         
@@ -507,6 +552,15 @@ namespace View.Resources.Localization {
         internal static string MultipleOptionMatch {
             get {
                 return ResourceManager.GetString("MultipleOptionMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The item &quot;{0}&quot; is required by multiple options:.
+        /// </summary>
+        internal static string MultipleOptionsRequireItemHeader {
+            get {
+                return ResourceManager.GetString("MultipleOptionsRequireItemHeader", resourceCulture);
             }
         }
         
@@ -583,6 +637,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à You have no items in your inventory.
+        /// </summary>
+        internal static string NoItemsInInventory {
+            get {
+                return ResourceManager.GetString("NoItemsInInventory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à No matching option or item found..
         /// </summary>
         internal static string NoLinkedOption {
@@ -628,6 +691,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à open inventory.
+        /// </summary>
+        internal static string OpenInventory {
+            get {
+                return ResourceManager.GetString("OpenInventory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Enter the name of the option.
         /// </summary>
         internal static string OptionNameInputText {
@@ -651,6 +723,15 @@ namespace View.Resources.Localization {
         internal static string OptionPageEvents {
             get {
                 return ResourceManager.GetString("OptionPageEvents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à You need to use an item before proceeding with this option.
+        /// </summary>
+        internal static string OptionRequiresItem {
+            get {
+                return ResourceManager.GetString("OptionRequiresItem", resourceCulture);
             }
         }
         

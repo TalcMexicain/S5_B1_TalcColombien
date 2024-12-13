@@ -199,6 +199,11 @@ namespace Model
             return new List<KeyItem>(this.requiredItems);
         }
 
+        public void SetRequiredItems(List<KeyItem> requiredItems)
+        {
+            this.requiredItems = requiredItems;
+        }
+
 
         #endregion
     }
