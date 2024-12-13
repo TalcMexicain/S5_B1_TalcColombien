@@ -68,19 +68,6 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal" />
-                            <VisualState x:Name="PointerOver">
-                                <VisualState.Setters>
-                                    <Setter Property="Scale" Value="1.1" />
-                                    <Setter Property="Opacity" Value="0.8" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </VisualStateManager.VisualStateGroups>
             </Button>
 
             <!-- Settings Button -->
@@ -97,19 +84,6 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                 </Button.BackgroundColor>
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal" />
-                            <VisualState x:Name="PointerOver">
-                                <VisualState.Setters>
-                                    <Setter Property="Scale" Value="1.1" />
-                                    <Setter Property="Opacity" Value="0.8" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </VisualStateManager.VisualStateGroups>
             </Button>
         </Grid>
     </ScrollView>
