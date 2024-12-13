@@ -25,9 +25,9 @@ L'application se compose de deux parties principales :
 ## Technologies Utilisées
 - **.NET MAUI** : Framework multiplateforme.
 - **C#** : Langage principal du développement.
-- **Synthèse vocale Windows** : API pour la lecture audio des descriptions.
-- **Reconnaissance vocale Windows** : API pour les interactions vocales.
-- **JSON** : Format pour importer et exporter les jeux.
+- **Synthèse vocale Windows et Android** : API pour la lecture audio des descriptions.
+- **Reconnaissance vocale Windows et Android** : API pour les interactions vocales.
+- **JSON** : Format pour importer et exporter les histoires.
 
 ## Avancement
 
@@ -40,9 +40,8 @@ L'application se compose de deux parties principales :
 - Expérience immersive et accessible pour les personnes déficientes visuelles.
 - Certaines fonctionnalités secondaires en cours d'amélioration (comme la navigation hors-jeu).
 
-## Prochaines Étapes
-- **Amélioration de l’expérience utilisateur** pour les joueurs malentendants.
-- **Nouvelles fonctionnalités** pour enrichir les histoires interactives.
+### Fin du Projet :
+Le projet AudioJDR est officiellement terminé. Nous avons implémenté les fonctionnalités principales prévues, y compris la création complète d'items et la jouabilité pour les utilisateurs excepté le système de combats. L'application est fonctionnelle et prête à être utilisée, répondant à ses objectifs d'accessibilité et d'immersion.
 
 ## Installation
 
@@ -52,6 +51,7 @@ L'application se compose de deux parties principales :
 
 ### Instructions (avec la Release) :
 Un tutoriel sur pdf est disponible -> [ici](./AudioJDR.pdf)
+(un tutoriel plus poussé sera disponible dans les prochains jours)
 
 ### Instructions (avec Visual Studio 2022) :
 1. Clonez ce dépôt GitHub :
