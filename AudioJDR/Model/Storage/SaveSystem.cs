@@ -43,6 +43,7 @@ namespace Model.Storage
             var optionsJson = new JsonSerializerOptions
             {
                 WriteIndented = true,
+                Converters = { new ItemConverter() },
                 ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve // Gestion des références circulaires
             };
 
@@ -73,6 +74,7 @@ namespace Model.Storage
 
             var optionsJson = new JsonSerializerOptions
             {
+                Converters = { new ItemConverter() },
                 ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
             };
 

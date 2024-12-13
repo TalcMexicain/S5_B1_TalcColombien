@@ -196,6 +196,7 @@
                         </Entry>
                         <Button Text="{x:Static local:AppResources.AddItem}"
                                 Grid.Column="1"
+                                Clicked="OnAddItemButtonClicked"
                                 TextColor="{StaticResource TextButtons}">
                             <Button.BackgroundColor>
                                 <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}"/>
@@ -209,25 +210,76 @@
                                     EmptyView="{x:Static local:AppResources.NoItemCreated}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <SwipeView>
-                                    <SwipeView.RightItems>
-                                        <SwipeItems>
-                                            <SwipeItem Text="{x:Static local:AppResources.Delete}"
-                                                      BackgroundColor="{StaticResource DeleteColor}"/>
-                                        </SwipeItems>
-                                    </SwipeView.RightItems>
-                                    <Grid Padding="5">
-                                        <Label Text="{Binding Name}"
-                                               VerticalOptions="Center">
-                                            <Label.TextColor>
-                                                <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}"/>
-                                            </Label.TextColor>
-                                        </Label>
+                                <Frame Padding="10,5" 
+                                       Margin="0,0,0,20">
+                                    <Frame.BackgroundColor>
+                                        <AppThemeBinding Light="{StaticResource ThirdButtonsL}" Dark="{StaticResource ThirdButtonsD}" />
+                                    </Frame.BackgroundColor>
+
+                                    <Grid ColumnDefinitions="*, Auto"
+                                          VerticalOptions="Center">
+                                        <!-- Editable Item title and description -->
+                                        <VerticalStackLayout Grid.Column="0"
+                                                             HorizontalOptions="StartAndExpand"
+                                                             Spacing="5"
+                                                             VerticalOptions="Center">
+                                            <!-- Name Field -->
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="10" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <!-- Label for displaying the item name -->
+                                                <Label x:Name="ItemNameLabel"
+                                                       Grid.Column="0"
+                                                       Text="{Binding Name}"
+                                                       FontAttributes="Bold"
+                                                       FontSize="Small"
+                                                       VerticalOptions="Center" />
+
+                                                <!-- Entry for editing the item name -->
+                                                <Entry x:Name="ItemNameEntry"
+                                                       Grid.Column="0"
+                                                       Text="{Binding Name, Mode=TwoWay}"
+                                                       FontSize="Small"
+                                                       VerticalOptions="Center"
+                                                       IsVisible="False" />
+
+                                                <!-- Edit Button -->
+                                                <Button x:Name="EditButton"
+                                                        Text="Edit"
+                                                        Grid.Column="2"
+                                                        WidthRequest="60"
+                                                        HeightRequest="30"
+                                                        TextColor="{StaticResource TextButtons}"
+                                                        Clicked="OnEditButtonClicked">
+                                                    <Button.BackgroundColor>
+                                                        <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                                                    </Button.BackgroundColor>
+                                                </Button>
+                                            </Grid>
+                                        </VerticalStackLayout>
+
+                                        <!-- Delete Button -->
+                                        <HorizontalStackLayout Grid.Column="1" 
+                                                               HorizontalOptions="End"
+                                                               VerticalOptions="Center">
+                                            <Button Text="{x:Static local:AppResources.Delete}"
+                                                    TextColor="{StaticResource White}"
+                                                    BackgroundColor="{StaticResource DeleteColor}"
+                                                    Clicked="OnDeleteItemButtonClicked"
+                                                    CommandParameter="{Binding}">
+                                            </Button>
+                                        </HorizontalStackLayout>
                                     </Grid>
-                                </SwipeView>
+                                </Frame>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
+
+
                 </VerticalStackLayout>
             </Frame>
             

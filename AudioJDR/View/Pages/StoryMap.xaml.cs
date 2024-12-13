@@ -5,6 +5,7 @@ using View.Pages;
 using View.Resources.Localization;
 using ViewModel;
 using System.Globalization;
+using Model.Items;
 
 namespace View;
 
@@ -288,6 +289,110 @@ public partial class StoryMap : ContentPage, IQueryAttributable
     }
 
     #endregion
+
+    #region Item Management
+
+    private async void OnAddItemButtonClicked(object sender, EventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(ItemNameEntry.Text))
+        {
+            KeyItem newItem = new KeyItem(ItemNameEntry.Text);
+            await _storyViewModel.AddItemToStoryAsync(newItem);
+            ItemNameEntry.Text = string.Empty;
+
+            RefreshItemList();
+
+            await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.AddedFormat,newItem.Name));
+        }
+    }
+
+    private async void OnDeleteItemButtonClicked(object sender, EventArgs e)
+    {
+        bool success = false;
+        string errorMessage = string.Empty;
+
+        if (sender is Button button && button.BindingContext is Item selectedItem)
+        {
+            bool confirmed = await UIHelper.ShowDeleteConfirmationDialog(this, selectedItem.Name);
+
+            if (confirmed)
+            {
+                try
+                {
+                    await _storyViewModel.RemoveItemFromStoryAsync(selectedItem);
+                    RefreshItemList();
+                    success = true;
+                    await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.DeletedFormat, selectedItem.Name));
+                }
+                catch (Exception ex)
+                {
+                    errorMessage = string.Format(AppResources.DeleteErrorFormat, selectedItem.Name);
+                    Debug.WriteLine($"Error deleting item: {ex.Message}");
+                }
+            }
+        }
+
+        if (!success && !string.IsNullOrEmpty(errorMessage))
+        {
+            await UIHelper.ShowErrorDialog(this, errorMessage);
+        }
+    }
+
+    private void OnEditButtonClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button)
+        {
+            // Get the parent element to find the corresponding Entry and Label
+            var grid = (Grid)button.Parent;
+            var itemNameLabel = grid.FindByName<Label>("ItemNameLabel");
+            var itemNameEntry = grid.FindByName<Entry>("ItemNameEntry");
+
+            // Check the BindingContext is an Item
+            if (button.BindingContext is Item currentItem)
+            {
+                if (button.Text == "Edit")
+                {
+                    // Store the current name as the original value
+                    itemNameEntry.SetValue(Entry.PlaceholderProperty, currentItem.Name);
+
+                    // Switch to editing mode
+                    itemNameLabel.IsVisible = false;
+                    itemNameEntry.IsVisible = true;
+                    button.Text = "Save";
+                }
+                else if (button.Text == "Save")
+                {
+                    // Retrieve the original value from the Entry's placeholder
+                    string originalValue = itemNameEntry.GetValue(Entry.PlaceholderProperty)?.ToString() ?? string.Empty;
+
+                    // Compare the original value with the current value
+                    if (!string.Equals(originalValue, itemNameEntry.Text, StringComparison.Ordinal))
+                    {
+                        // Mark as unsaved changes if the value has changed
+                        _hasUnsavedChanges = true;
+
+                        // Update the item's name
+                        currentItem.Name = itemNameEntry.Text;
+                        itemNameLabel.Text = itemNameEntry.Text;
+                    }
+
+                    // Switch back to display mode
+                    itemNameLabel.IsVisible = true;
+                    itemNameEntry.IsVisible = false;
+                    button.Text = "Edit";
+                }
+            }
+        }
+    }
+
+    private void RefreshItemList()
+    {
+        ItemList.ItemsSource = null;
+        ItemList.ItemsSource = _storyViewModel.GetItems();
+    }
+
+    #endregion
+
 
     #region UI Management
 

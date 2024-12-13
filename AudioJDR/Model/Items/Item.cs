@@ -17,6 +17,11 @@ namespace Model.Items
         #region Properties
 
         /// <summary>
+        /// Property used by the serializer to differenciate the Items by type.
+        /// </summary>
+        public string Type => GetType().Name;
+
+        /// <summary>
         /// The item's id
         /// </summary>
         public int IdItem 
@@ -46,6 +51,11 @@ namespace Model.Items
         {
             this.name = name;
         }
+
+        /// <summary>
+        /// Parameterless constructor for serialization
+        /// </summary>
+        public Item() { }
 
         #endregion
 

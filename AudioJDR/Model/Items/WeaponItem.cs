@@ -39,6 +39,11 @@ namespace Model.Items
             this.damage = damage;
         }
 
+        /// <summary>
+        /// Parameterless constructor for serialization
+        /// </summary>
+        public WeaponItem() { }
+
         #endregion
 
         #region Methods

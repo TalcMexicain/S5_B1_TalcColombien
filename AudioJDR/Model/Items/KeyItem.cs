@@ -18,6 +18,11 @@ namespace Model.Items
         {
         }
 
+        /// <summary>
+        /// Parameterless constructor for serialization
+        /// </summary>
+        public KeyItem() { }
+
         #endregion
 
         #region Methods

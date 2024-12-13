@@ -405,6 +405,7 @@ namespace ViewModel
         {
             if (CurrentStory != null)
             {
+                newItem.IdItem = GenerateNewItemId();
                 CurrentStory.AddItem(newItem);
                 Items.Add(newItem);
                 await UpdateStoryAsync(CurrentStory.IdStory, CurrentStory);
@@ -424,6 +425,29 @@ namespace ViewModel
                 await UpdateStoryAsync(CurrentStory.IdStory, CurrentStory);
             }
         }
+
+        /// <summary>
+        /// Retrieves all items associated with the current story
+        /// </summary>
+        /// <returns>An ObservableCollection of items in the current story</returns>
+        public ObservableCollection<Item> GetItems()
+        {
+            if (CurrentStory != null)
+            {
+                _items.Clear();
+                foreach (var item in CurrentStory.Items)
+                {
+                    _items.Add(item);
+                }
+            }
+            return _items;
+        }
+
+        private int GenerateNewItemId()
+        {
+            return CurrentStory.Items.Count > 0 ? CurrentStory.Items.Max(item => item.IdItem) + 1 : 1;
+        }
+
 
         /// <summary>
         /// Adds an enemy to the current story

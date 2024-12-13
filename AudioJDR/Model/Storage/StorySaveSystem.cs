@@ -56,6 +56,7 @@ namespace Model.Storage
             JsonSerializerOptions optionsJson = new JsonSerializerOptions
             {
                 WriteIndented = true,
+                Converters = { new ItemConverter() },
                 ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
             };
 
@@ -78,6 +79,7 @@ namespace Model.Storage
                 string storyJson = await File.ReadAllTextAsync(storyFilePath);
                 JsonSerializerOptions optionsJson = new JsonSerializerOptions
                 {
+                    Converters = { new ItemConverter() },
                     ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
                 };
 
