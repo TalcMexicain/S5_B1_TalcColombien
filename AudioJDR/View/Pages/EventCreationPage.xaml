@@ -230,7 +230,7 @@
                                           VerticalOptions="Center">
                                         <!-- Option title and text (left) -->
                                         <HorizontalStackLayout Grid.Column="0"
-                                                               HorizontalOptions="StartAndExpand" 
+                                                               HorizontalOptions="StartAndExpand"
                                                                Spacing="10" 
                                                                VerticalOptions="Center">
                                             <Label Text="{Binding NameOption}" 
