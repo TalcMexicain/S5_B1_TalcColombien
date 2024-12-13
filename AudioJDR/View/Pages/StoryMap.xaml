@@ -192,7 +192,7 @@
                                Placeholder="{x:Static local:AppResources.ItemNamePlaceholder}"
                                Grid.Column="0">
                             <Entry.PlaceholderColor>
-                                <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
+                                <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}"/>
                             </Entry.PlaceholderColor>
                         </Entry>
                         <Button Text="{x:Static local:AppResources.AddItem}"
@@ -207,10 +207,16 @@
 
                     <CollectionView x:Name="ItemList"
                                     HorizontalOptions="Start"
-                                    ItemsSource="{Binding CurrentStory.Items}"
-                                    EmptyView="{x:Static local:AppResources.NoItemCreated}">
+                                    ItemsSource="{Binding CurrentStory.Items}">
+                        <CollectionView.EmptyView>
+                            <Label Text="{x:Static local:AppResources.NoItemSelected}">
+                                <Label.TextColor>
+                                    <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
+                                </Label.TextColor>
+                            </Label>
+                        </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate>                                
                                 <Frame Padding="10,5" 
                                        Margin="0,0,0,20">
                                     <Frame.BackgroundColor>
@@ -237,7 +243,7 @@
                                                        Text="{Binding Name}"
                                                        FontAttributes="Bold"
                                                        FontSize="Small"
-                                                       VerticalOptions="Center" />
+                                                       VerticalOptions="Center"/>
 
                                                 <!-- Entry for editing the item name -->
                                                 <Entry x:Name="ItemNameEntry"

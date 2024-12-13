@@ -81,10 +81,13 @@
                 <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
                     <!-- Barre de saisie -->
                     <Entry x:Name="OptionEntry"
-                            Placeholder="{x:Static local:AppResources.PlaceholderKeyWord}"                           
-                            PlaceholderColor="{StaticResource MainText}"
+                            Placeholder="{x:Static local:AppResources.PlaceholderKeyWord}"
                             FontSize="Small"
-                            HorizontalOptions="FillAndExpand"/>
+                            HorizontalOptions="FillAndExpand">
+                        <Entry.PlaceholderColor>
+                            <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
+                        </Entry.PlaceholderColor>
+                    </Entry>
 
                     <!-- Bouton Valider -->
                     <Button x:Name="OptionValidation"
