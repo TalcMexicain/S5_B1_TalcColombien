@@ -1,4 +1,5 @@
 ﻿using Model;
+using Model.Items;
 
 namespace UnitTests
 {
@@ -6,7 +7,7 @@ namespace UnitTests
     {
 
         [Fact]
-        public void SetId()
+        public void SetId_Test()
         {
             Option option = new Option();
             int idOpt = 1;
@@ -15,7 +16,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void SetName()
+        public void SetName_Test()
         {
             Option option = new Option();
             string nameOption = "Option";
@@ -127,6 +128,18 @@ namespace UnitTests
             
             bool testIsListNotEmpty = optionToTest.IsWordsListNotEmpty();
             Assert.True(testIsListNotEmpty);
+        }
+
+        [Fact]
+        public void GetRequiredItems()
+        {
+            Option optionToTest = new Option();
+            KeyItem keyItem = new KeyItem();
+            optionToTest.AddKeyItem(keyItem);
+            List<KeyItem> keyItems = optionToTest.GetRequiredItems();
+            keyItems.Add(keyItem);
+            Assert.NotEmpty(optionToTest.GetRequiredItems());
+            Assert.Single(optionToTest.GetRequiredItems());
         }
     }
 }

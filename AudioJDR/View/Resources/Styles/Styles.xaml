@@ -45,8 +45,8 @@
                     </VisualState>
                     <VisualState x:Name="PointerOver">
                         <VisualState.Setters>
-                            <Setter Property="Opacity" Value="0.8" />
                             <Setter Property="Scale" Value="1.05" />
+                            <Setter Property="Opacity" Value="0.8" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>

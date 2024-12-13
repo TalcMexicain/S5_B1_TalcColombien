@@ -35,6 +35,7 @@ namespace ViewModel
         public event Action RepeatSpeech;
         public event Action<string> NavigateToNewGame;
         public event Action<string> ContinueGame;
+        public event Action<string>? RecognizedTextChanged;
         public event Action ChangeTheme;
         public event Action ChangeLanguageEN;
         public event Action ChangeLanguageFR;
@@ -86,9 +87,7 @@ namespace ViewModel
         {
             UpdateGrammar(keywords, context);
             _speechRecognition.StartRecognition();
-        }
-
-        
+        } 
 
         /// <summary>
         /// Stops speech recognition.
@@ -97,6 +96,37 @@ namespace ViewModel
         {
             _speechRecognition.StopRecognition();
         }
+
+        public async Task<string> WaitForPlayerInput()
+        {
+            TaskCompletionSource<string> inputCompletionSource = new TaskCompletionSource<string>();
+
+            // Event handler to capture recognized text
+            void OnRecognizedTextChanged(string recognizedText)
+            {
+                inputCompletionSource.TrySetResult(recognizedText);
+            }
+
+            try
+            {
+                RecognizedTextChanged += OnRecognizedTextChanged;
+
+                // Wait for the input (either through speech or manually entered text)
+                string result = await inputCompletionSource.Task;
+
+                return result?.Trim() ?? string.Empty;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error while waiting for player input: {ex.Message}");
+                return string.Empty;
+            }
+            finally
+            {
+                RecognizedTextChanged -= OnRecognizedTextChanged;
+            }
+        }
+
 
         /// <summary>
         /// Updates the grammar for the recognizer. Clears previous grammars if the context changes.
