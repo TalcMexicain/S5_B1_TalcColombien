@@ -440,7 +440,7 @@ At each new stage of the story, the player can listen again, think, make a choic
     <value>Create an item for the story</value>
   </data>
   <data name="NoLinkedOption" xml:space="preserve">
-    <value>No matching option or linked event found.</value>
+    <value>No matching option or item found.</value>
   </data>
   <data name="EnterOption" xml:space="preserve">
     <value>Please enter an option.</value>
@@ -468,5 +468,17 @@ At each new stage of the story, the player can listen again, think, make a choic
   </data>
   <data name="ItemAlreadyInOptionError" xml:space="preserve">
     <value>This item is already in the option</value>
+  </data>
+  <data name="ItemAvailable" xml:space="preserve">
+    <value>Items to pick up:</value>
+  </data>
+  <data name="ItemNotFound" xml:space="preserve">
+    <value>This item is not available, please try again</value>
+  </data>
+  <data name="ItemPickedUpFormat" xml:space="preserve">
+    <value>You have picked up {0}. It has been added to your inventory</value>
+  </data>
+  <data name="NoItemsInEvent" xml:space="preserve">
+    <value>There are no items around here</value>
   </data>
 </root>

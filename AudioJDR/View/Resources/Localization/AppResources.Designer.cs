@@ -439,6 +439,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Items to pick up:.
+        /// </summary>
+        internal static string ItemAvailable {
+            get {
+                return ResourceManager.GetString("ItemAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Create an item for the story.
         /// </summary>
         internal static string ItemCreation {
@@ -453,6 +462,24 @@ namespace View.Resources.Localization {
         internal static string ItemNamePlaceholder {
             get {
                 return ResourceManager.GetString("ItemNamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à This item is not available, please try again.
+        /// </summary>
+        internal static string ItemNotFound {
+            get {
+                return ResourceManager.GetString("ItemNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à You have picked up {0}. It has been added to your inventory.
+        /// </summary>
+        internal static string ItemPickedUpFormat {
+            get {
+                return ResourceManager.GetString("ItemPickedUpFormat", resourceCulture);
             }
         }
         
@@ -547,7 +574,16 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à No matching option or linked event found..
+        ///   Recherche une chaîne localisée semblable à There are no items around here.
+        /// </summary>
+        internal static string NoItemsInEvent {
+            get {
+                return ResourceManager.GetString("NoItemsInEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No matching option or item found..
         /// </summary>
         internal static string NoLinkedOption {
             get {

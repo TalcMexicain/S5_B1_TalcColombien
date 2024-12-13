@@ -35,7 +35,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!-- Title   -->
+            <!-- Title -->
             <Label x:Name="EventTitleLabel" 
                    Grid.Row="0"
                    TextColor="{StaticResource MainText}"

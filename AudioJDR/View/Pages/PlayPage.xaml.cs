@@ -1,4 +1,3 @@
-
 using Model;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -79,9 +78,6 @@ namespace View.Pages
 
         #region Private Methods
 
-        /// <summary>
-        /// Loads the event and its options by story ID and event ID.
-        /// </summary>
         private async Task LoadEvent(int storyId, int eventId)
         {
             PageContext = "PlayPage" + eventId.ToString();
@@ -108,34 +104,42 @@ namespace View.Pages
             }
         }
 
-        /// <summary>
-        /// Handles the submission of the user's input and attempts to find the best matching option for the current event.
-        /// Navigates to the corresponding event if a match is found.
-        /// </summary>
         private async Task OnOptionSubmitted()
         {
             string? userInput = OptionEntry?.Text?.Trim().ToLower();
-            bool isInputValid = !string.IsNullOrEmpty(userInput);
-            
-            if (isInputValid)
-            {
-                string[] userWords = userInput.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                var result = GetBestMatchingOptionForCurrentEvent(userWords);
 
-                if (result.TiedOptions.Count > 1)
+            if (!string.IsNullOrEmpty(userInput))
+            {
+                Event? currentEvent = _currentStory.Events.FirstOrDefault(e => e.IdEvent == _eventId);
+
+                // Check if the input matches an item
+                if (currentEvent?.ItemsToPickUp.Any(item =>
+                    string.Equals(item.Name, userInput, StringComparison.OrdinalIgnoreCase)) == true)
                 {
-                    await HandleTiedOptions(result.TiedOptions);
-                }
-                else if (result.BestMatchingOption != null && result.LinkedEvent != null)
-                {
-                    await NavigateToEvent(result.LinkedEvent.IdEvent);
+                    bool clearEntry = await HandleItemPickup(userInput);
+                    if (clearEntry)
+                    {
+                        OptionEntry!.Text = string.Empty;
+                    }
                 }
                 else
                 {
-                    _synthesizerViewModel.StopSynthesis();
-                    _synthesizerViewModel.TextToSynthesize = AppResources.NoLinkedOption;
-                    _synthesizerViewModel.SynthesizeText();
-                    
+                    var result = GetBestMatchingOptionForCurrentEvent(userInput.Split(' '));
+
+                    if (result.TiedOptions.Count > 1)
+                    {
+                        await HandleTiedOptions(result.TiedOptions);
+                    }
+                    else if (result.BestMatchingOption != null && result.LinkedEvent != null)
+                    {
+                        await NavigateToEvent(result.LinkedEvent.IdEvent);
+                    }
+                    else
+                    {
+                        _synthesizerViewModel.StopSynthesis();
+                        _synthesizerViewModel.TextToSynthesize = AppResources.NoLinkedOption;
+                        _synthesizerViewModel.SynthesizeText();
+                    }
                 }
             }
             else
@@ -146,9 +150,6 @@ namespace View.Pages
             }
         }
 
-        /// <summary>
-        /// Finds the best matching option for the current event based on user input.
-        /// </summary>
         private (Option? BestMatchingOption, Event? LinkedEvent, List<Option> TiedOptions) GetBestMatchingOptionForCurrentEvent(string[] userWords)
         {
             Option? bestMatchingOption = null;
@@ -191,12 +192,21 @@ namespace View.Pages
         {
             _recognitionViewModel.UnloadGrammars();
             await Task.Delay(500);
+            if (_currentStory != null)
+            {
+                Event? currentEvent = _currentStory.Events.FirstOrDefault(e => e.IdEvent == _eventId);
+
+                if (currentEvent != null)
+                {
+                    foreach (var item in currentEvent.ItemsToPickUp)
+                    {
+                        keywords.Add(item.Name.ToLower());
+                    }
+                }
+            }
             _recognitionViewModel.StartRecognition(keywords, PageContext);
         }
 
-        /// <summary>
-        /// Calculates the match score between user input words and option words.
-        /// </summary>
         private double CalculateMatchScore(string[] userWords, string[] optionWords)
         {
             int matchCount = 0;
@@ -212,9 +222,7 @@ namespace View.Pages
             return (double)matchCount / optionWords.Length;
         }
 
-        /// <summary>
-        /// Handles scenarios where multiple options tie for the best match.
-        /// </summary>
+
         private async Task HandleTiedOptions(List<Option> tiedOptions)
         {
             string optionsList = string.Join("\n", tiedOptions.Select(o => $"- {o.NameOption}"));
@@ -238,6 +246,54 @@ namespace View.Pages
         {
             await Shell.Current.GoToAsync($"{nameof(YourStories)}?storyId={_storyId}");
         }
+
+        #region Item related Methods
+
+        private async Task<bool> HandleItemPickup(string userInput)
+        {
+            bool success = false;
+            Event? currentEvent = _currentStory.Events.FirstOrDefault(e => e.IdEvent == _eventId);
+
+            if (currentEvent != null && currentEvent.ItemsToPickUp.Any())
+            {
+                var matchedItem = currentEvent.ItemsToPickUp.FirstOrDefault(item =>
+                    string.Equals(item.Name, userInput, StringComparison.OrdinalIgnoreCase));
+
+                if (matchedItem != null)
+                {
+                    // Add the item to the player's inventory
+                    _currentStory.Player.Inventory.Add(matchedItem);
+
+                    // Remove the item from the event
+                    currentEvent.ItemsToPickUp.Remove(matchedItem);
+
+                    // Announce success
+                    _synthesizerViewModel.TextToSynthesize = string.Format(AppResources.ItemPickedUpFormat, matchedItem.Name);
+                    _synthesizerViewModel.SynthesizeText();
+
+                    // Update the grammar to remove the picked item
+                    await UpdateRecognitionGrammar(currentEvent.ItemsToPickUp.Select(item => item.Name.ToLower()).ToHashSet());
+                    success = true;
+                    
+                }
+                else
+                {
+                    // Announce item not found
+                    _synthesizerViewModel.TextToSynthesize = AppResources.ItemNotFound;
+                    _synthesizerViewModel.SynthesizeText();
+                }
+            }
+            else
+            {
+                // Announce no items in the event
+                _synthesizerViewModel.TextToSynthesize = AppResources.NoItemsInEvent;
+                _synthesizerViewModel.SynthesizeText();
+            }
+            return success;
+        }
+
+
+        #endregion
 
         #endregion
 
@@ -307,7 +363,7 @@ namespace View.Pages
         {
             base.OnAppearing();
             await _storyViewModel.LoadStoriesAsync();
-
+            await LoadEvent(_storyId,_eventId);
             // Pass the label's text to the ViewModel for TTS synthesis
             _synthesizerViewModel.TextToSynthesize = this.EventDescriptionLabel.Text;
             _synthesizerViewModel.SynthesizeText();
