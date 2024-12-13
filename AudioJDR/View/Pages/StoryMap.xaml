@@ -249,7 +249,7 @@
 
                                                 <!-- Edit Button -->
                                                 <Button x:Name="EditButton"
-                                                        Text="Edit"
+                                                        Text="{x:Static local:AppResources.Edit}"
                                                         Grid.Column="2"
                                                         WidthRequest="60"
                                                         HeightRequest="30"

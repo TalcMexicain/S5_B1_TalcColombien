@@ -450,4 +450,7 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   <data name="NoItemCreated" xml:space="preserve">
     <value>Pas d'objet créé</value>
   </data>
+  <data name="ItemAlreadyInEventError" xml:space="preserve">
+    <value>Cet objet est déjà présent dans l'évènement</value>
+  </data>
 </root>

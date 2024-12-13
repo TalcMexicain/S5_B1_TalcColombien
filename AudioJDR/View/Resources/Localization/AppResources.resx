@@ -463,4 +463,7 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="NoItemCreated" xml:space="preserve">
     <value>No item created</value>
   </data>
+  <data name="ItemAlreadyInEventError" xml:space="preserve">
+    <value>This item is already in the event</value>
+  </data>
 </root>

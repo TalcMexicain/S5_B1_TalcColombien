@@ -123,26 +123,61 @@
                     <Label Text="{x:Static local:AppResources.EventItem}"
                            FontAttributes="Bold"
                            FontSize="18"
-                           Margin="0,0,0,5">
-                    </Label>
+                           Margin="0,0,0,5" />
 
-                    <HorizontalStackLayout>
-                        <Picker Title="{x:Static local:AppResources.SelectItemEvent}">
+                    <HorizontalStackLayout Margin="0,0,0,10">
+                        <Picker x:Name="ItemPicker"
+                                Title="{x:Static local:AppResources.SelectItemEvent}"
+                                Margin="0,0,10,0">
                             <Picker.TitleColor>
                                 <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
                             </Picker.TitleColor>
                         </Picker>
+
                         <Button x:Name="AddItemButton"
-                                Text="{x:Static local:AppResources.AddItem}"                                
+                                Text="{x:Static local:AppResources.AddItem}"
                                 TextColor="{StaticResource TextButtons}"
-                                Margin="20,0,0,0">
+                                Clicked="OnAddItemButtonClicked">
                             <Button.BackgroundColor>
                                 <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                             </Button.BackgroundColor>
                         </Button>
                     </HorizontalStackLayout>
+
+                    <CollectionView x:Name="EventItemList"
+                                    VerticalOptions="Start">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame CornerRadius="5"
+                                       Padding="10"
+                                       Margin="0,10,0,10">
+                                    <Frame.BackgroundColor>
+                                        <AppThemeBinding Light="{StaticResource ThirdButtonsL}" Dark="{StaticResource ThirdButtonsD}" />
+                                    </Frame.BackgroundColor>
+
+                                    <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                                        <Label Grid.Column="0"
+                                               Text="{Binding Name}"
+                                               FontAttributes="Bold"
+                                               FontSize="16"
+                                               LineBreakMode="TailTruncation"
+                                               TextColor="{StaticResource MainText}" />
+
+                                        <Button Grid.Column="1"
+                                                Text="{x:Static local:AppResources.Delete}"
+                                                TextColor="{StaticResource White}"
+                                                BackgroundColor="{StaticResource DeleteColor}"
+                                                Clicked="OnRemoveItemButtonClicked"
+                                                CommandParameter="{Binding}" />
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </VerticalStackLayout>
             </Frame>
+
+
 
             <!-- Options Section -->
             <Frame x:Name="OptionsFrame" Grid.Row="8"

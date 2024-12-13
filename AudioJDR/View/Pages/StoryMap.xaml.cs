@@ -350,7 +350,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
             // Check the BindingContext is an Item
             if (button.BindingContext is Item currentItem)
             {
-                if (button.Text == "Edit")
+                if (button.Text == AppResources.Edit)
                 {
                     // Store the current name as the original value
                     itemNameEntry.SetValue(Entry.PlaceholderProperty, currentItem.Name);
@@ -358,9 +358,9 @@ public partial class StoryMap : ContentPage, IQueryAttributable
                     // Switch to editing mode
                     itemNameLabel.IsVisible = false;
                     itemNameEntry.IsVisible = true;
-                    button.Text = "Save";
+                    button.Text = AppResources.Save;
                 }
-                else if (button.Text == "Save")
+                else if (button.Text == AppResources.Save)
                 {
                     // Retrieve the original value from the Entry's placeholder
                     string originalValue = itemNameEntry.GetValue(Entry.PlaceholderProperty)?.ToString() ?? string.Empty;
@@ -379,7 +379,7 @@ public partial class StoryMap : ContentPage, IQueryAttributable
                     // Switch back to display mode
                     itemNameLabel.IsVisible = true;
                     itemNameEntry.IsVisible = false;
-                    button.Text = "Edit";
+                    button.Text = AppResources.Edit;
                 }
             }
         }

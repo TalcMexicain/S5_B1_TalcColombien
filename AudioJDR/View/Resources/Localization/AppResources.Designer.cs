@@ -421,6 +421,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à This item is already in the event.
+        /// </summary>
+        internal static string ItemAlreadyInEventError {
+            get {
+                return ResourceManager.GetString("ItemAlreadyInEventError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Create an item for the story.
         /// </summary>
         internal static string ItemCreation {
