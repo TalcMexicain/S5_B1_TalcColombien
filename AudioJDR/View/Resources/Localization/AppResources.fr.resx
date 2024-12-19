@@ -445,7 +445,7 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
     <value>Veuillez entrer une option</value>
   </data>
   <data name="MultipleOptionMatch" xml:space="preserve">
-    <value>Plusieurs options correspondantes veuillez être plus précis</value>
+    <value>Plusieurs options sont possibles selon ce choix, soyez plus spécifique</value>
   </data>
   <data name="StoryNotFound" xml:space="preserve">
     <value>Histoire non trouvée</value>
@@ -458,9 +458,6 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   </data>
   <data name="CloseInventory" xml:space="preserve">
     <value>fermer l'inventaire</value>
-  </data>
-  <data name="EnterOption" xml:space="preserve">
-    <value>Veuillez entrer une option</value>
   </data>
   <data name="InvalidOptionSelection" xml:space="preserve">
     <value>Sélection invalide. Veuillez réessayer</value>
@@ -488,9 +485,6 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   </data>
   <data name="ItemUsedSuccessfully" xml:space="preserve">
     <value>Vous avez utilisé l'objet "{0}" avec succès</value>
-  </data>
-  <data name="MultipleOptionMatch" xml:space="preserve">
-    <value>Plusieurs options sont possibles selon ce choix, soyez plus spécifique</value>
   </data>
   <data name="MultipleOptionsRequireItemHeader" xml:space="preserve">
     <value>L'objet "{0}" est requis par plusieurs options :</value>
@@ -536,5 +530,8 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   </data>
   <data name="Decrease Speed" xml:space="preserve">
     <value>Baisser la vitesse</value>
+  </data>
+  <data name="StoryNameEmptyError" xml:space="preserve">
+    <value>Le nom de l'histoire ne peut pas être vide</value>
   </data>
 </root>

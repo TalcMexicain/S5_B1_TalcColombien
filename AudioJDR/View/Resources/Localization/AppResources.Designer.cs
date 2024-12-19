@@ -457,24 +457,6 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Invalid selection. Please try again.
-        /// </summary>
-        internal static string InvalidOptionSelection {
-            get {
-                return ResourceManager.GetString("InvalidOptionSelection", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à Your Inventory:.
-        /// </summary>
-        internal static string InventoryHeader {
-            get {
-                return ResourceManager.GetString("InventoryHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une chaîne localisée semblable à Increase speed.
         /// </summary>
         internal static string IncreaseSpeed {
@@ -489,6 +471,24 @@ namespace View.Resources.Localization {
         internal static string IncreaseVolume {
             get {
                 return ResourceManager.GetString("IncreaseVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Invalid selection. Please try again.
+        /// </summary>
+        internal static string InvalidOptionSelection {
+            get {
+                return ResourceManager.GetString("InvalidOptionSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Your Inventory:.
+        /// </summary>
+        internal static string InventoryHeader {
+            get {
+                return ResourceManager.GetString("InventoryHeader", resourceCulture);
             }
         }
         
@@ -538,24 +538,6 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à English.
-        /// </summary>
-        internal static string LanguageEN {
-            get {
-                return ResourceManager.GetString("LanguageEN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à French.
-        /// </summary>
-        internal static string LanguageFR {
-            get {
-                return ResourceManager.GetString("LanguageFR", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une chaîne localisée semblable à This item is not available, please try again.
         /// </summary>
         internal static string ItemNotFound {
@@ -588,6 +570,24 @@ namespace View.Resources.Localization {
         internal static string ItemUsedSuccessfully {
             get {
                 return ResourceManager.GetString("ItemUsedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à English.
+        /// </summary>
+        internal static string LanguageEN {
+            get {
+                return ResourceManager.GetString("LanguageEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à French.
+        /// </summary>
+        internal static string LanguageFR {
+            get {
+                return ResourceManager.GetString("LanguageFR", resourceCulture);
             }
         }
         
@@ -1033,6 +1033,15 @@ namespace View.Resources.Localization {
         internal static string StoryList {
             get {
                 return ResourceManager.GetString("StoryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The name of the story cannot be empty.
+        /// </summary>
+        internal static string StoryNameEmptyError {
+            get {
+                return ResourceManager.GetString("StoryNameEmptyError", resourceCulture);
             }
         }
         

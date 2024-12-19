@@ -176,11 +176,18 @@ public partial class StoryMap : ContentPage, IQueryAttributable
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        bool canProceed = await CheckUnsavedChanges();
-        
-        if (canProceed)
+        if (string.IsNullOrWhiteSpace(StoryNameEntry.Text?.Trim()))
         {
-            await Shell.Current.GoToAsync($"{nameof(StoryList)}");
+            await UIHelper.ShowErrorDialog(this, AppResources.StoryNameEmptyError);
+        }
+        else
+        {
+            bool canProceed = await CheckUnsavedChanges();
+
+            if (canProceed)
+            {
+                await Shell.Current.GoToAsync($"{nameof(StoryList)}");
+            }
         }
     }
 
@@ -258,20 +265,29 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         
         try
         {
-            _storyViewModel.CurrentStory.Title = StoryNameEntry.Text;
-            _storyViewModel.CurrentStory.Description = StoryDescriptionEditor.Text;
-            
-            await _storyViewModel.UpdateStoryAsync(
-                _storyViewModel.CurrentStory.IdStory, 
-                _storyViewModel.CurrentStory
-            );
-            
-            _currentTitle = StoryNameEntry.Text;
-            _currentDescription = StoryDescriptionEditor.Text;
-            _hasUnsavedChanges = false;
-            success = true;
-            
-            await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.SaveSuccessFormat, StoryNameEntry.Text));
+            string storyName = StoryNameEntry.Text?.Trim();
+
+            if (string.IsNullOrEmpty(storyName))
+            {
+                await UIHelper.ShowErrorDialog(this, AppResources.StoryNameEmptyError);
+            }
+            else
+            {
+                _storyViewModel.CurrentStory.Title = StoryNameEntry.Text;
+                _storyViewModel.CurrentStory.Description = StoryDescriptionEditor.Text;
+
+                await _storyViewModel.UpdateStoryAsync(
+                    _storyViewModel.CurrentStory.IdStory,
+                    _storyViewModel.CurrentStory
+                );
+
+                _currentTitle = StoryNameEntry.Text;
+                _currentDescription = StoryDescriptionEditor.Text;
+                _hasUnsavedChanges = false;
+                success = true;
+
+                await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.SaveSuccessFormat, StoryNameEntry.Text));
+            }
         }
         catch (Exception ex)
         {

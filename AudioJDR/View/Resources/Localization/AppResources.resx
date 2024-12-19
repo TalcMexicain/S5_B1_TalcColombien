@@ -529,4 +529,7 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="Decrease Speed" xml:space="preserve">
     <value>Decease speed</value>
   </data>
+  <data name="StoryNameEmptyError" xml:space="preserve">
+    <value>The name of the story cannot be empty</value>
+  </data>
 </root>
