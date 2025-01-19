@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Back" xml:space="preserve">
-    <value>retour</value>
+    <value>Retour</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Créer</value>
@@ -407,5 +407,131 @@ Une fois le choix validé, l'histoire poursuit son cours en fonction de la déci
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Annuler</value>
+  </data>
+  <data name="YourStories_Continue_NoSelectedStories" xml:space="preserve">
+    <value>Veuillez sélectionner une histoire à jouer.</value>
+  </data>
+  <data name="YourStories_NewGame_NoEvent" xml:space="preserve">
+    <value>Aucun événement de départ trouvé.</value>
+  </data>
+  <data name="YourStories_NewGame_NoSelectedStories" xml:space="preserve">
+    <value>Veuillez sélectionner une histoire à jouer.</value>
+  </data>
+  <data name="EventItem" xml:space="preserve">
+    <value>Objet dans l'évènement</value>
+  </data>
+  <data name="SelectItemEvent" xml:space="preserve">
+    <value>Choisisez l'objet que vous voulez ajouter a l'évènement</value>
+  </data>
+  <data name="AddItem" xml:space="preserve">
+    <value>Ajouter l'objet</value>
+  </data>
+  <data name="AddNewItem" xml:space="preserve">
+    <value>Ajouter un nouvel objet</value>
+  </data>
+  <data name="AddItemCondition" xml:space="preserve">
+    <value>Ajouter un/des objet(s) comme condition pour débloquer cette option</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Aucun objet de selectionné pour le moment</value>
+  </data>
+  <data name="ChooseItemCondition" xml:space="preserve">
+    <value>Sélectionnez un objet à ajouter</value>
+  </data>
+  <data name="ItemCreation" xml:space="preserve">
+    <value>Créer des objets pour l'histoire</value>
+  </data>
+  <data name="EnterOption" xml:space="preserve">
+    <value>Veuillez entrer une option</value>
+  </data>
+  <data name="MultipleOptionMatch" xml:space="preserve">
+    <value>Plusieurs options sont possibles selon ce choix, soyez plus spécifique</value>
+  </data>
+  <data name="StoryNotFound" xml:space="preserve">
+    <value>Histoire non trouvée</value>
+  </data>
+  <data name="ItemNamePlaceholder" xml:space="preserve">
+    <value>Nom de l'objet</value>
+  </data>
+  <data name="NoItemCreated" xml:space="preserve">
+    <value>Pas d'objet créé</value>
+  </data>
+  <data name="CloseInventory" xml:space="preserve">
+    <value>fermer l'inventaire</value>
+  </data>
+  <data name="InvalidOptionSelection" xml:space="preserve">
+    <value>Sélection invalide. Veuillez réessayer</value>
+  </data>
+  <data name="InventoryHeader" xml:space="preserve">
+    <value>Votre Inventaire :</value>
+  </data>
+  <data name="ItemAlreadyInEventError" xml:space="preserve">
+    <value>Cet objet est déjà présent dans l'évènement</value>
+  </data>
+  <data name="ItemAlreadyInOptionError" xml:space="preserve">
+    <value>Cet objet est déjà présent dans l'option</value>
+  </data>
+  <data name="ItemAvailable" xml:space="preserve">
+    <value>Objets à récupérer:</value>
+  </data>
+  <data name="ItemNotFound" xml:space="preserve">
+    <value>Cet objet n'a pas pu être récupéré, veuillez réessayer ​​​</value>
+  </data>
+  <data name="ItemNotUsableHere" xml:space="preserve">
+    <value>L'objet "{0}" ne peut pas être utilisé ici</value>
+  </data>
+  <data name="ItemPickedUpFormat" xml:space="preserve">
+    <value>Vous avez récupéré {0}. L'objet a été ajouté à votre inventaire</value>
+  </data>
+  <data name="ItemUsedSuccessfully" xml:space="preserve">
+    <value>Vous avez utilisé l'objet "{0}" avec succès</value>
+  </data>
+  <data name="MultipleOptionsRequireItemHeader" xml:space="preserve">
+    <value>L'objet "{0}" est requis par plusieurs options :</value>
+  </data>
+  <data name="NoFirstEvent" xml:space="preserve">
+    <value>Premier évènement non trouvé</value>
+  </data>
+  <data name="NoItemsInEvent" xml:space="preserve">
+    <value>Il n'y a rien à récupérer par ici</value>
+  </data>
+  <data name="NoItemsInInventory" xml:space="preserve">
+    <value>Vous n'avez aucun objet dans votre inventaire</value>
+  </data>
+  <data name="NoLinkedOption" xml:space="preserve">
+    <value>Pas d'option ou objet trouvé </value>
+  </data>
+  <data name="OpenInventory" xml:space="preserve">
+    <value>ouvrir l'inventaire</value>
+  </data>
+  <data name="OptionRequiresItem" xml:space="preserve">
+    <value>Vous devez utiliser un objet avant de valider cette option</value>
+  </data>
+  <data name="YourStories" xml:space="preserve">
+    <value>Voici la liste de vos histoires</value>
+  </data>
+  <data name="ChangeTheme" xml:space="preserve">
+    <value>Changer le theme</value>
+  </data>
+  <data name="LanguageEN" xml:space="preserve">
+    <value>Anglais</value>
+  </data>
+  <data name="LanguageFR" xml:space="preserve">
+    <value>Français</value>
+  </data>
+  <data name="IncreaseVolume" xml:space="preserve">
+    <value>Monter le volume</value>
+  </data>
+  <data name="DecreaseVolume" xml:space="preserve">
+    <value>Baisser le volume</value>
+  </data>
+  <data name="IncreaseSpeed" xml:space="preserve">
+    <value>Augmenter la vitesse</value>
+  </data>
+  <data name="Decrease Speed" xml:space="preserve">
+    <value>Baisser la vitesse</value>
+  </data>
+  <data name="StoryNameEmptyError" xml:space="preserve">
+    <value>Le nom de l'histoire ne peut pas être vide</value>
   </data>
 </root>

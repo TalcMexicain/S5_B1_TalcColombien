@@ -142,11 +142,29 @@ namespace Model.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Continue.
+        /// </summary>
+        internal static string Continue {
+            get {
+                return ResourceManager.GetString("Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à fr-FR.
         /// </summary>
         internal static string CultureInfo {
             get {
                 return ResourceManager.GetString("CultureInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Delete.
+        /// </summary>
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
         
@@ -214,11 +232,38 @@ namespace Model.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à New game.
+        /// </summary>
+        internal static string NewGame {
+            get {
+                return ResourceManager.GetString("NewGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The KeyItem to be added cannot be null.
+        /// </summary>
+        internal static string Option_AddKeyItem_ArgumentNullException {
+            get {
+                return ResourceManager.GetString("Option_AddKeyItem_ArgumentNullException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à The word to be added cannot be empty..
         /// </summary>
         internal static string Option_AddWordInList_ArgumentException {
             get {
                 return ResourceManager.GetString("Option_AddWordInList_ArgumentException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The KeyItem to be removed cannot be null.
+        /// </summary>
+        internal static string Option_RemoveKeyItem_ArgumentNullException {
+            get {
+                return ResourceManager.GetString("Option_RemoveKeyItem_ArgumentNullException", resourceCulture);
             }
         }
         
@@ -237,6 +282,42 @@ namespace Model.Resources.Localization {
         internal static string Story_SetFirstEvent_InvalidOperationException {
             get {
                 return ResourceManager.GetString("Story_SetFirstEvent_InvalidOperationException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The voiceRate parameter must be between {0} and {1}..
+        /// </summary>
+        internal static string TTS_SetVoiceRate_Exception {
+            get {
+                return ResourceManager.GetString("TTS_SetVoiceRate_Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Voice {0} has not been found..
+        /// </summary>
+        internal static string TTS_SetVoiceType_Exception {
+            get {
+                return ResourceManager.GetString("TTS_SetVoiceType_Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Failed to set the voice: {0}. Message : .
+        /// </summary>
+        internal static string TTS_SetVoiceType_NotFound {
+            get {
+                return ResourceManager.GetString("TTS_SetVoiceType_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The voiceVolume parameter must be between {0} and {1}..
+        /// </summary>
+        internal static string TTS_SetVoiceVolume_Exception {
+            get {
+                return ResourceManager.GetString("TTS_SetVoiceVolume_Exception", resourceCulture);
             }
         }
         

@@ -10,65 +10,68 @@
 
     <ScrollView>
         <Grid Padding="20">
-            <!-- Define rows for the grid -->
             <Grid.RowDefinitions>
                 <!-- Title -->
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
-                <!-- Event Name Frame -->
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="20" />
+
                 <!-- Event Text Frame -->
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
-                <!-- Option Adding Frame -->
+                
+                <!-- Event Text Frame -->
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
-                <!-- Spacer and buttons -->
+
+                <!-- Search Field -->
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+
+                <!-- Repeat Button -->
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="10" />
+
+                <!-- Back Button -->
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!-- Title Section -->
+            <!-- Title -->
             <Label x:Name="EventTitleLabel" 
                    Grid.Row="0"
+                   TextColor="{StaticResource MainText}"
                    FontFamily="UncialAntiquaRegular"
                    FontSize="40"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
-                   Margin="0,10,0,20">
-                <Label.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Label.TextColor>
-            </Label>
-            
+                   Margin="0,10,0,20"/>
+
+            <!-- Event Text Frame -->
             <Frame x:Name="PlayContentFrame"
                    Grid.Row="4"
-                   BorderColor="{StaticResource BorderColorL}"
                    CornerRadius="10"
                    HeightRequest="450"
                    Padding="10">
                 <Frame.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryBackgroundL}" Dark="{StaticResource SecondaryBackgroundD}" />
                 </Frame.BackgroundColor>
+                
                 <ScrollView>
                     <VerticalStackLayout>
-                    <Label x:Name="EventDescriptionLabel"
+                        <Label x:Name="EventDescriptionLabel"
                            FontSize="Medium"
                            FontAttributes="Bold"
                            Margin="0,0,0,5">
-                        <Label.TextColor>
-                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                        </Label.TextColor>
-                    </Label>
+                            <Label.TextColor>
+                                <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
+                            </Label.TextColor>
+                        </Label>
                     </VerticalStackLayout>
                 </ScrollView>
             </Frame>
 
             <!-- Search Field -->
-            <Frame Grid.Row="6" Padding="10"
-                   BorderColor="{StaticResource BorderColorL}" 
+            <Frame Grid.Row="6" 
+                   Padding="10"
                    CornerRadius="10"
                    Margin="0,0,0,10">
                 <Frame.BackgroundColor>
@@ -80,19 +83,23 @@
                     <Entry x:Name="OptionEntry"
                             Placeholder="{x:Static local:AppResources.PlaceholderKeyWord}"
                             FontSize="Small"
-                            HorizontalOptions="FillAndExpand"
-                           />
+                            HorizontalOptions="FillAndExpand">
+                        <Entry.PlaceholderColor>
+                            <AppThemeBinding Light="{StaticResource SecondaryTextL}" Dark="{StaticResource SecondaryTextD}" />
+                        </Entry.PlaceholderColor>
+                    </Entry>
 
                     <!-- Bouton Valider -->
-                    <Button Text="{x:Static local:AppResources.Save}"
+                    <Button x:Name="OptionValidation"
+                            Text="{x:Static local:AppResources.Confirm}"
+                            TextColor="{StaticResource TextButtons}"
                             FontSize="Small"
-                            BackgroundColor="{StaticResource PrimaryButtonsL}"
-                            TextColor="{StaticResource MainTextL}"
                             CornerRadius="5"
-                            Clicked="OnOptionSubmittedFromButton"
-                             />
-                    
-
+                            Clicked="OnOptionSubmittedFromButton">
+                        <Button.BackgroundColor>
+                            <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
+                        </Button.BackgroundColor>
+                    </Button>
                 </HorizontalStackLayout>
             </Frame>
 
@@ -100,6 +107,7 @@
             <Button x:Name="RepeatButton" 
                     Grid.Row="8"
                     Text="{x:Static local:AppResources.Repeat}"
+                    TextColor="{StaticResource TextButtons}"
                     WidthRequest="200"
                     HeightRequest="60"
                     CornerRadius="10"
@@ -110,14 +118,13 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
+            
             <!-- Back Button -->
             <Button x:Name="BackButton" 
                     Grid.Row="10"
                     Text="{x:Static local:AppResources.Back}"
+                    TextColor="{StaticResource TextButtons}"
                     WidthRequest="200"
                     HeightRequest="60"
                     CornerRadius="10"
@@ -128,9 +135,6 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
         </Grid>
     </ScrollView>

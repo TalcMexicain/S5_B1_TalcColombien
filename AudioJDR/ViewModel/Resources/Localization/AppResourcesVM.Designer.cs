@@ -70,6 +70,15 @@ namespace ViewModel.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Item with ID {0} not found..
+        /// </summary>
+        internal static string EventVM_GetItemAsync_NullException {
+            get {
+                return ResourceManager.GetString("EventVM_GetItemAsync_NullException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Option with ID {0} not found..
         /// </summary>
         internal static string EventVM_GetOptionVMAsync_NullException {

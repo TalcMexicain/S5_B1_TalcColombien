@@ -12,37 +12,36 @@
     <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
         <Grid VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <!-- Title -->
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="70" />
-                <!-- Spacer -->
-                <RowDefinition Height="Auto" />
+
                 <!-- Play Button -->
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
-                <!-- Spacer -->
-                <RowDefinition Height="Auto" />
+
                 <!-- Create Button -->
-                <RowDefinition Height="50" />
-                <!-- Spacer -->
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="50" />
+
                 <!-- Settings Button -->
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- Title -->
             <Label x:Name="WelcomeMessage" 
                    Text="{x:Static local:AppResources.WelcomeMessage}"
+                   TextColor="{StaticResource MainText}"
                    FontFamily="UncialAntiquaRegular"
                    Grid.Row="0"
                    HorizontalOptions="Center"
                    FontSize="Large">
-                <Label.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Label.TextColor>
             </Label>
 
             <!-- Play Button -->
             <Button x:Name="PlayButton"
                     Text="{x:Static local:AppResources.Play}"
+                    TextColor="{StaticResource TextButtons}"
                     Grid.Row="2"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
@@ -53,14 +52,12 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
 
             <!-- Create Story Button -->
             <Button x:Name="CreateButton"
                     Text="{x:Static local:AppResources.Create}"
+                    TextColor="{StaticResource TextButtons}"
                     Grid.Row="4"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
@@ -71,14 +68,12 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
 
             <!-- Settings Button -->
             <Button x:Name="SettingsButton"
                     Text="{x:Static local:AppResources.Settings}"
+                    TextColor="{StaticResource TextButtons}"
                     Grid.Row="6"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
@@ -89,9 +84,6 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
         </Grid>
     </ScrollView>

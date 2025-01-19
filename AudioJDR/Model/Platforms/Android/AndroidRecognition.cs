@@ -61,9 +61,12 @@ namespace Model.Platforms.Android
             }
         }
 
-        public async void StopRecognition()
+        public void StopRecognition()
         {
-
+            if (_speechRecognizer != null)
+            {
+                _speechRecognizer.StopListening(); 
+            }
         }
 
         public void UpdateGrammar(string[] keywords)

@@ -1,4 +1,6 @@
 ﻿using Model;
+using Model.Characters;
+using Model.Items;
 
 namespace UnitTests
 {
@@ -6,7 +8,7 @@ namespace UnitTests
     {
 
         [Fact]
-        public void SetId()
+        public void SetId_Test()
         {
             Event evt = new Event();
             int idEvent = 1;
@@ -15,7 +17,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void SetName()
+        public void SetName_Test()
         {
             Event evt = new Event();
             string name = "Event";
@@ -24,7 +26,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void SetDescription()
+        public void SetDescription_Test()
         {
             Event evt = new Event();
             string desc = "Description";
@@ -33,13 +35,57 @@ namespace UnitTests
         }
 
         [Fact]
-        public void SetIsFirst()
+        public void SetIsFirst_Test()
         {
             Event evt = new Event();
             bool firstEvent = true;
             evt.IsFirst = firstEvent;
             Assert.True(evt.IsFirst);
         }
+
+        [Fact]
+        public void SetEnemy_Test()
+        {
+            Event evt = new Event();
+            Enemy enemy = new Enemy();
+            evt.Enemy = enemy;
+            Assert.Equal(enemy, evt.Enemy);
+        }
+
+        [Fact]
+        public void AddItem_Test()
+        {
+            Event evt = new Event();
+            KeyItem keyItem = new KeyItem();
+            evt.AddItem(keyItem);
+            List<Item> items = evt.GetItemsToPickUp();
+            Assert.NotEmpty(items);
+            Assert.Single(items);
+        }
+
+        [Fact]
+        public void GetItemsToPickUp_Test()
+        {
+            Event evt = new Event();
+            KeyItem keyItem = new KeyItem();
+            evt.AddItem(keyItem);
+            List<Item> items = evt.GetItemsToPickUp();
+            items.Add(keyItem);
+            Assert.NotEmpty(evt.GetItemsToPickUp());
+            Assert.Single(evt.GetItemsToPickUp());
+        }
+
+        [Fact]
+        public void RemoveItem_Test()
+        {
+            Event evt = new Event();
+            KeyItem keyItem = new KeyItem();
+            evt.AddItem(keyItem);
+            evt.RemoveItem(keyItem);
+            List<Item> items = evt.GetItemsToPickUp();
+            Assert.Empty(items);
+        }
+
 
         [Fact]
         public void AddOption_Test()

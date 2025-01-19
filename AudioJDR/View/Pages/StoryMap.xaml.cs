@@ -5,6 +5,7 @@ using View.Pages;
 using View.Resources.Localization;
 using ViewModel;
 using System.Globalization;
+using Model.Items;
 
 namespace View;
 
@@ -175,11 +176,18 @@ public partial class StoryMap : ContentPage, IQueryAttributable
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        bool canProceed = await CheckUnsavedChanges();
-        
-        if (canProceed)
+        if (string.IsNullOrWhiteSpace(StoryNameEntry.Text?.Trim()))
         {
-            await Shell.Current.GoToAsync($"{nameof(StoryList)}");
+            await UIHelper.ShowErrorDialog(this, AppResources.StoryNameEmptyError);
+        }
+        else
+        {
+            bool canProceed = await CheckUnsavedChanges();
+
+            if (canProceed)
+            {
+                await Shell.Current.GoToAsync($"{nameof(StoryList)}");
+            }
         }
     }
 
@@ -257,20 +265,29 @@ public partial class StoryMap : ContentPage, IQueryAttributable
         
         try
         {
-            _storyViewModel.CurrentStory.Title = StoryNameEntry.Text;
-            _storyViewModel.CurrentStory.Description = StoryDescriptionEditor.Text;
-            
-            await _storyViewModel.UpdateStoryAsync(
-                _storyViewModel.CurrentStory.IdStory, 
-                _storyViewModel.CurrentStory
-            );
-            
-            _currentTitle = StoryNameEntry.Text;
-            _currentDescription = StoryDescriptionEditor.Text;
-            _hasUnsavedChanges = false;
-            success = true;
-            
-            await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.SaveSuccessFormat, StoryNameEntry.Text));
+            string storyName = StoryNameEntry.Text?.Trim();
+
+            if (string.IsNullOrEmpty(storyName))
+            {
+                await UIHelper.ShowErrorDialog(this, AppResources.StoryNameEmptyError);
+            }
+            else
+            {
+                _storyViewModel.CurrentStory.Title = StoryNameEntry.Text;
+                _storyViewModel.CurrentStory.Description = StoryDescriptionEditor.Text;
+
+                await _storyViewModel.UpdateStoryAsync(
+                    _storyViewModel.CurrentStory.IdStory,
+                    _storyViewModel.CurrentStory
+                );
+
+                _currentTitle = StoryNameEntry.Text;
+                _currentDescription = StoryDescriptionEditor.Text;
+                _hasUnsavedChanges = false;
+                success = true;
+
+                await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.SaveSuccessFormat, StoryNameEntry.Text));
+            }
         }
         catch (Exception ex)
         {
@@ -288,6 +305,65 @@ public partial class StoryMap : ContentPage, IQueryAttributable
     }
 
     #endregion
+
+    #region Item Management
+
+    private async void OnAddItemButtonClicked(object sender, EventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(ItemNameEntry.Text))
+        {
+            KeyItem newItem = new KeyItem(ItemNameEntry.Text);
+            await _storyViewModel.AddItemToStoryAsync(newItem);
+            ItemNameEntry.Text = string.Empty;
+
+            RefreshItemList();
+
+            await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.AddedFormat,newItem.Name));
+        }
+    }
+
+    private async void OnDeleteItemButtonClicked(object sender, EventArgs e)
+    {
+        bool success = false;
+        string errorMessage = string.Empty;
+
+        if (sender is Button button && button.BindingContext is Item selectedItem)
+        {
+            bool confirmed = await UIHelper.ShowDeleteConfirmationDialog(this, selectedItem.Name);
+
+            if (confirmed)
+            {
+                try
+                {
+                    await _storyViewModel.RemoveItemFromStoryAsync(selectedItem);
+                    RefreshItemList();
+                    success = true;
+                    await UIHelper.ShowSuccessDialog(this, string.Format(AppResources.DeletedFormat, selectedItem.Name));
+                }
+                catch (Exception ex)
+                {
+                    errorMessage = string.Format(AppResources.DeleteErrorFormat, selectedItem.Name);
+                    Debug.WriteLine($"Error deleting item: {ex.Message}");
+                }
+            }
+        }
+
+        if (!success && !string.IsNullOrEmpty(errorMessage))
+        {
+            await UIHelper.ShowErrorDialog(this, errorMessage);
+        }
+    }
+
+   
+
+    private void RefreshItemList()
+    {
+        ItemList.ItemsSource = null;
+        ItemList.ItemsSource = _storyViewModel.GetItems();
+    }
+
+    #endregion
+
 
     #region UI Management
 

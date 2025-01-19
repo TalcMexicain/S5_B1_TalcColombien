@@ -13,48 +13,44 @@
     <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
         <Grid VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <!-- Title -->
                 <RowDefinition Height="Auto" />
+
                 <!-- Subtitle -->
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="70" />
-                <!-- Spacer -->
-                <RowDefinition Height="Auto" />
+
                 <!-- Edit Button -->
-                <RowDefinition Height="20" />
-                <!-- Spacer -->
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+
                 <!-- Back Button -->
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- Title -->
             <Label Text="{x:Static local:AppResources.Title}"
+                   TextColor="{StaticResource MainText}"
                    FontFamily="UncialAntiquaRegular"
                    Grid.Row="0"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
                    FontSize="Large"
-                   FontAttributes="Bold">
-                <Label.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Label.TextColor>
-            </Label>
+                   FontAttributes="Bold"/>
 
             <!-- Subtitle -->
-            <Label Text="{x:Static local:AppResources.Editor}"
+            <Label Grid.Row="1"
+                   Text="{x:Static local:AppResources.Editor}"
+                   TextColor="{StaticResource MainText}"
                    FontFamily="UncialAntiquaRegular"
-                   Grid.Row="1"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
-                   FontSize="Medium">
-                <Label.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Label.TextColor>
-            </Label>
+                   FontSize="Medium"/>
 
             <!-- GoToStoryList Button -->
             <Button x:Name="ToStoryListButton"
                     Text="{x:Static local:AppResources.GoToStoryList}"
+                    TextColor="{StaticResource TextButtons}"
                     Grid.Row="3"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
@@ -65,14 +61,12 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
 
             <!-- Go Back Button -->
             <Button x:Name="BackButton"
                     Text="{x:Static local:AppResources.Back}"
+                    TextColor="{StaticResource TextButtons}"
                     Grid.Row="5"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
@@ -83,9 +77,6 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
         </Grid>
     </ScrollView>

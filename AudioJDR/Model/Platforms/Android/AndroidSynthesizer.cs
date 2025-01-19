@@ -3,6 +3,7 @@ using Android.Speech.Tts;
 using Android.Content;
 using TextToSpeech = Android.Speech.Tts.TextToSpeech;
 using Android.OS;
+using Model.Resources.Localization;
 
 namespace Model.Platforms.Android
 {
@@ -80,11 +81,15 @@ namespace Model.Platforms.Android
         {
             throw new NotSupportedException("Android TTS does not support resuming paused synthesis.");
         }
+
         public void SetVoiceVolume(int voiceVolume)
         {
-            if (voiceVolume < 0 || voiceVolume > 100)
+            const int minVoiceVolume = 0;
+            const int maxVoiceVolume = 100;
+
+            if (voiceVolume < minVoiceVolume || voiceVolume > maxVoiceVolume)
             {
-                throw new ArgumentOutOfRangeException(nameof(voiceVolume), "voiceVolume parameter must be between 0 and 100.");
+                throw new ArgumentOutOfRangeException(nameof(voiceVolume), string.Format(AppResourcesModel.TTS_SetVoiceVolume_Exception, minVoiceVolume.ToString(), maxVoiceVolume.ToString()));
             }
 
             this._volume = voiceVolume;
@@ -97,9 +102,12 @@ namespace Model.Platforms.Android
 
         public void SetVoiceRate(float voiceRate)
         {
-            if (voiceRate < 0.5f || voiceRate > 2.0f)
+            const float minVoiceRate = 0.5f;
+            const float maxVoiceRate = 2.0f;
+
+            if (voiceRate < minVoiceRate || voiceRate > maxVoiceRate)
             {
-                throw new ArgumentOutOfRangeException(nameof(voiceRate), "voiceRate parameter must be between 0.5f and 2.0f");   
+                throw new ArgumentOutOfRangeException(nameof(voiceRate), string.Format(AppResourcesModel.TTS_SetVoiceRate_Exception, minVoiceRate.ToString(), maxVoiceRate.ToString()));   
             }
             _voiceRate = voiceRate;
 
@@ -127,7 +135,7 @@ namespace Model.Platforms.Android
                 }
                 else
                 {
-                    throw new ArgumentException($"Voice {voiceName} not found.", nameof(voiceName));
+                    throw new ArgumentException(string.Format(AppResourcesModel.TTS_SetVoiceType_Exception, nameof(voiceName)));
                 }
             }
         }

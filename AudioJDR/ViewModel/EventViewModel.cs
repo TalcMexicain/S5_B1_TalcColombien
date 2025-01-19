@@ -1,4 +1,5 @@
 ﻿using Model;
+using Model.Items;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using ViewModel.Resources.Localization;
@@ -16,6 +17,7 @@ namespace ViewModel
         private readonly StoryViewModel _parentStoryViewModel;
         private Event _currentEvent;
         private ObservableCollection<OptionViewModel> _options;
+        private ObservableCollection<Item> _items;
 
         #endregion
 
@@ -32,6 +34,7 @@ namespace ViewModel
                 if (SetProperty(ref _currentEvent, value))
                 {
                     RefreshOptionViewModels();
+                    RefreshItems();
                 }
             }
         }
@@ -43,6 +46,15 @@ namespace ViewModel
         {
             get => _options;
             private set => SetProperty(ref _options, value);
+        }
+
+        /// <summary>
+        /// Gets the collection of Items for the current event.
+        /// </summary>
+        public ObservableCollection<Item> Items
+        {
+            get => _items;
+            private set => SetProperty(ref _items, value);
         }
 
         #endregion
@@ -64,6 +76,7 @@ namespace ViewModel
 
             _parentStoryViewModel = storyViewModel;
             _options = new ObservableCollection<OptionViewModel>();
+            _items = new ObservableCollection<Item>();
 
             if (eventInstance != null)
             {
@@ -165,6 +178,64 @@ namespace ViewModel
                 Options.Remove(optionToRemove);
                 CurrentEvent.DeleteOption(optionToRemove.CurrentOption);
                 await _parentStoryViewModel.UpdateStoryAsync(_parentStoryViewModel.CurrentStory.IdStory, _parentStoryViewModel.CurrentStory);
+            }
+        }
+
+        #endregion
+
+        #region Item Manangement
+
+        public async Task AddItemToEventAsync(Item newItem)
+        {
+            if (newItem == null)
+            {
+                throw new ArgumentNullException(nameof(newItem), AppResourcesVM.EventVM_NullException);
+            }
+
+            if (CurrentEvent != null)
+            {
+                CurrentEvent.AddItem(newItem);
+                Items.Add(newItem);
+                await UpdateEventAsync(CurrentEvent);
+            }
+        }
+
+        public async Task RemoveItemFromEventAsync(Item item)
+        {
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item), AppResourcesVM.EventVM_NullException);
+            }
+
+            if (CurrentEvent != null && CurrentEvent.ItemsToPickUp.Contains(item))
+            {
+                CurrentEvent.RemoveItem(item);
+                Items.Remove(item);
+                await UpdateEventAsync(CurrentEvent);
+            }
+        }
+
+        public async Task<Item> GetItemAsync(int itemId)
+        {
+            Item? item = CurrentEvent.ItemsToPickUp.FirstOrDefault(i => i.IdItem == itemId);
+            if (item == null)
+            {
+                string message = string.Format(AppResourcesVM.EventVM_GetItemAsync_NullException, itemId.ToString());
+                throw new ArgumentException(message, nameof(itemId));
+            }
+            return item;
+        }
+
+        private void RefreshItems()
+        {
+            Items.Clear();
+
+            if (CurrentEvent?.ItemsToPickUp != null)
+            {
+                foreach (Item item in CurrentEvent.ItemsToPickUp)
+                {
+                    Items.Add(item);
+                }
             }
         }
 

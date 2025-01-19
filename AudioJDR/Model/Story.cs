@@ -1,15 +1,18 @@
 ﻿using Model.Resources.Localization;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
+using Model.Characters;
+
+using Model.Items;
 
 namespace Model
 {
 
     /// <summary>
-    /// Represents a Story in audioJDR game that contains events
-    /// All the code in this file is included in all platforms.
+    /// Represents a Story
     /// </summary>
-    public class Story
+    public class Story : INotifyPropertyChanged
     {
 
         #region Fields
@@ -20,6 +23,20 @@ namespace Model
         private Event firstEvent;
 
         private ObservableCollection<Event> events;
+        private Player player;
+        private ObservableCollection<Enemy> enemies;
+        private ObservableCollection<Item> items;
+
+        #region Bound Properties 
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public string NewGameText => AppResourcesModel.NewGame;
+        public string ContinueText => AppResourcesModel.Continue;
+        public string DeleteText => AppResourcesModel.Delete;
+
+        #endregion
+
         #endregion
 
         #region Properties
@@ -69,6 +86,33 @@ namespace Model
             set => firstEvent = value;
         }
 
+        /// <summary>
+        /// Gets or sets the player associated with the story.
+        /// </summary>
+        public Player Player
+        {
+            get => player;
+            set => player = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the list of enemies in the story. - unused
+        /// </summary>
+        public ObservableCollection<Enemy> Enemies
+        {
+            get => enemies;
+            set => enemies = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the list of items in the story.
+        /// </summary>
+        public ObservableCollection<Item> Items
+        {
+            get => items;
+            set => items = value;
+        }
+
         #endregion
 
         #region Constructors
@@ -81,8 +125,11 @@ namespace Model
         public Story(string title, string description)
         {
             this.events = new ObservableCollection<Event>();
+            this.enemies = new ObservableCollection<Enemy>();
+            this.items = new ObservableCollection<Item>();
             this.title = title;
             this.description = description;
+            this.player = new Player("bob",100,10); // Base player - values will be used by default.
         }
 
         /// <summary>
@@ -91,6 +138,9 @@ namespace Model
         public Story()
         {
             this.events = new ObservableCollection<Event>();
+            this.enemies = new ObservableCollection<Enemy>();
+            this.items = new ObservableCollection<Item>();
+            this.player = new Player("bob", 100, 10);
         }
         #endregion
 
@@ -150,6 +200,52 @@ namespace Model
 
             firstEvent = evt;
             firstEvent.IsFirst = true; // Mark the new event as first
+        }
+
+        /// <summary>
+        /// Adds an enemy to the story.
+        /// </summary>
+        /// <param name="enemy">The enemy to add.</param>
+        public void AddEnemy(Enemy enemy)
+        {
+            this.enemies.Add(enemy);
+        }
+
+        /// <summary>
+        /// Removes an enemy from the story.
+        /// </summary>
+        /// <param name="enemy">The enemy to remove.</param>
+        public void RemoveEnemy(Enemy enemy)
+        {
+            this.enemies.Remove(enemy);
+        }
+
+        /// <summary>
+        /// Adds an item to the story's inventory.
+        /// </summary>
+        /// <param name="item">The item to add.</param>
+        public void AddItem(Item item)
+        {
+            this.items.Add(item);
+        }
+
+        /// <summary>
+        /// Removes an item from the story's inventory.
+        /// </summary>
+        /// <param name="item">The item to remove.</param>
+        public void RemoveItem(Item item)
+        {
+            this.items.Remove(item);
+        }
+
+        /// <summary>
+        /// Refreshes Binding related properties
+        /// </summary>
+        public void RefreshLocalizedProperties()
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NewGameText)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ContinueText)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeleteText)));
         }
 
         #endregion

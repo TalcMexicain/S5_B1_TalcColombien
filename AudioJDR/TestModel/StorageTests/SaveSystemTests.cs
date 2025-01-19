@@ -3,7 +3,7 @@ using Model.Storage;
 using System.Text.Json;
 
 
-namespace UnitTests
+namespace TestModel.StorageTests
 {
     public class SaveSystemTests
     {

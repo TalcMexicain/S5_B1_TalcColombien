@@ -1,4 +1,5 @@
-﻿using System.Speech.Synthesis;
+﻿using Model.Resources.Localization;
+using System.Speech.Synthesis;
 
 namespace Model.Platforms.Windows
 {
@@ -57,18 +58,17 @@ namespace Model.Platforms.Windows
 
         public void SetVoiceType(string voiceName)
         {
-            if (string.IsNullOrWhiteSpace(voiceName))
-            {
-                throw new ArgumentException("Voice name cannot be null or whitespace",nameof(voiceName));
-            }
-
             try
             {
-                _synthesizer.SelectVoice(voiceName);
+                if (!string.IsNullOrWhiteSpace(voiceName))
+                {
+                    _synthesizer.SelectVoice(voiceName);
+                }
+
             }
             catch(Exception ex)
             {
-                throw new InvalidOperationException($"Failed to set the voice: {voiceName}", ex);
+                throw new Exception(string.Format(AppResourcesModel.TTS_SetVoiceType_NotFound, voiceName) +  ex.Message);
             }
         }
 
@@ -79,11 +79,11 @@ namespace Model.Platforms.Windows
 
         public ICollection<string> GetInstalledVoices()
         {
-            var voices = _synthesizer.GetInstalledVoices();
+           IReadOnlyList<InstalledVoice> voices = _synthesizer.GetInstalledVoices();
 
             List<string> voicesNames = new List<string>();
 
-            foreach (var voice in voices)
+            foreach (InstalledVoice voice in voices)
             {
                 voicesNames.Add(voice.VoiceInfo.Name);
             }
@@ -93,9 +93,12 @@ namespace Model.Platforms.Windows
 
         public void SetVoiceVolume(int voiceVolume)
         {
-            if (voiceVolume < 0 || voiceVolume > 100)
+            const int minVoiceVolume = 0;
+            const int maxVoiceVolume = 100;
+
+            if (voiceVolume < minVoiceVolume || voiceVolume > maxVoiceVolume)
             {
-                throw new ArgumentOutOfRangeException(nameof(voiceVolume),"Volume must be between 0 and 100");
+                throw new ArgumentOutOfRangeException(nameof(voiceVolume),string.Format(AppResourcesModel.TTS_SetVoiceVolume_Exception,minVoiceVolume.ToString(),maxVoiceVolume.ToString()));
             }
 
             _synthesizer.Volume = voiceVolume;
@@ -113,9 +116,9 @@ namespace Model.Platforms.Windows
             const float minInputRate = 0.5f;
             const float maxInputRate = 2.0f;
             
-            if (voiceRate < 0.5f || voiceRate > 2.0f)
+            if (voiceRate < minInputRate || voiceRate > maxInputRate)
             {
-                throw new ArgumentOutOfRangeException(nameof(voiceRate), "Rate parameter must be between -10 and 10");
+                throw new ArgumentOutOfRangeException(nameof(voiceRate), string.Format(AppResourcesModel.TTS_SetVoiceRate_Exception, minInputRate.ToString(), maxInputRate.ToString()));
             }
 
             int normalizedRate = (int)Math.Round(minOutputRate + ((voiceRate - minInputRate) / (maxInputRate - minInputRate)) * (maxOutputRate - minOutputRate));

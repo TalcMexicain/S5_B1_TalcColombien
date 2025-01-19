@@ -144,6 +144,12 @@
   <data name="ConsumableItemDescription" xml:space="preserve">
     <value>This is a consumable item called {0}, which restores {1} health points</value>
   </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="EquippedWeaponItemFormat" xml:space="preserve">
     <value>The character {0} equipped the weapon {1}</value>
   </data>
@@ -174,6 +180,9 @@
   <data name="KeyItemDescription" xml:space="preserve">
     <value>This is a key item called {0}. It is used to unlock certain paths</value>
   </data>
+  <data name="NewGame" xml:space="preserve">
+    <value>New game</value>
+  </data>
   <data name="UnEquippedWeaponItemFormat" xml:space="preserve">
     <value>The character {0} unequipped the weapon {1}</value>
   </data>
@@ -191,5 +200,29 @@
   </data>
   <data name="CultureInfo" xml:space="preserve">
     <value>fr-FR</value>
+  </data>
+  <data name="TTS_SetVoiceRate_Exception" xml:space="preserve">
+    <value>The voiceRate parameter must be between {0} and {1}.</value>
+  </data>
+  <data name="TTS_SetVoiceType_Exception" xml:space="preserve">
+    <value>Voice {0} has not been found.</value>
+  </data>
+  <data name="TTS_SetVoiceType_NotFound" xml:space="preserve">
+    <value>Failed to set the voice: {0}. Message : </value>
+  </data>
+  <data name="TTS_SetVoiceVolume_Exception" xml:space="preserve">
+    <value>The voiceVolume parameter must be between {0} and {1}.</value>
+  </data>
+  <data name="Option_AddKeyItem_ArgumentNullException" xml:space="preserve">
+    <value>The KeyItem to be added cannot be null</value>
+  </data>
+  <data name="Option_RemoveKeyItem_ArgumentNullException" xml:space="preserve">
+    <value>The KeyItem to be removed cannot be null</value>
+  </data>
+  <data name="VolumeLower" xml:space="preserve">
+    <value>Decrease volume</value>
+  </data>
+  <data name="VolumeHigher" xml:space="preserve">
+    <value>Increase volume</value>
   </data>
 </root>

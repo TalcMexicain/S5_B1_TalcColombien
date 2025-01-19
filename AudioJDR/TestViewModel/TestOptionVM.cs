@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ViewModel;
 using Model;
+using Model.Items;
 
 namespace TestViewModel
 {
@@ -163,6 +164,67 @@ namespace TestViewModel
             Assert.False(result);
             Assert.Empty(optionVM.Words);
         }
+
+        [Fact]
+        public async void AddRequiredItemAsync_Test()
+        {
+            OptionViewModel optionVM = new OptionViewModel(_eventVM);
+            await optionVM.InitializeNewOptionAsync();
+
+            KeyItem keyItem = new KeyItem();
+
+            bool result = await optionVM.AddRequiredItemAsync(keyItem);
+
+            Assert.True(result);
+            Assert.Contains(keyItem, optionVM.RequiredItems);
+            Assert.Contains(keyItem, optionVM.CurrentOption.GetRequiredItems());
+        }
+
+        [Fact]
+        public async void AddRequiredItemAsync_TestExistingItem()
+        {
+            OptionViewModel optionVM = new OptionViewModel(_eventVM);
+            await optionVM.InitializeNewOptionAsync();
+
+            KeyItem keyItem = new KeyItem();
+
+            await optionVM.AddRequiredItemAsync(keyItem);
+            bool result = await optionVM.AddRequiredItemAsync(keyItem);
+
+            Assert.False(result);
+            Assert.Single(optionVM.RequiredItems);
+        }
+
+        [Fact]
+        public async void RemoveRequiredItemAsync_Test()
+        {
+            OptionViewModel optionVM = new OptionViewModel(_eventVM);
+            await optionVM.InitializeNewOptionAsync();
+
+            KeyItem keyItem = new KeyItem();
+
+            await optionVM.AddRequiredItemAsync(keyItem);
+            bool result = await optionVM.RemoveRequiredItemAsync(keyItem);
+
+            Assert.True(result);
+            Assert.DoesNotContain(keyItem, optionVM.RequiredItems);
+            Assert.DoesNotContain(keyItem, optionVM.CurrentOption.GetRequiredItems());
+        }
+
+        [Fact]
+        public async void RemoveRequiredItemAsync_TestNotFound()
+        {
+            OptionViewModel optionVM = new OptionViewModel(_eventVM);
+            await optionVM.InitializeNewOptionAsync();
+
+            KeyItem keyItem = new KeyItem();
+
+            bool result = await optionVM.RemoveRequiredItemAsync(keyItem);
+
+            Assert.False(result);
+            Assert.Empty(optionVM.RequiredItems);
+        }
+
 
         private async void InitializeStoryVMAndEventVM()
         {

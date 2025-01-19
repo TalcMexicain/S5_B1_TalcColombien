@@ -1,12 +1,11 @@
-namespace View.Pages;
-
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Model;
 using System.Diagnostics;
 using View;
-using ViewModel;
 using View.Resources.Localization;
+using ViewModel;
 
+namespace View.Pages;
 public partial class MainPlayerPage : ContentPage
 {
     #region Fields 
@@ -27,8 +26,8 @@ public partial class MainPlayerPage : ContentPage
         SetResponsiveSizes();
 
         this.SizeChanged += OnSizeChanged;
+        MessagingCenter.Subscribe<SettingsPage>(this, "LanguageChanged", (sender) => { UpdateAllText(); });
 
-        
         _speechViewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
         BindingContext = _speechViewModel;
 
@@ -119,11 +118,16 @@ public partial class MainPlayerPage : ContentPage
 
     #region UI Management
 
-    /// <summary>
-    /// Adjusts the sizes and padding of buttons and other UI elements dynamically 
-    /// based on the current page dimensions. Ensures that buttons do not become 
-    /// too small and that font sizes and padding are properly set for readability.
-    /// </summary>
+    private void UpdateAllText()
+    {
+        TitleLabel.Text = AppResources.Title;
+        PlayerLabel.Text = AppResources.Player;
+        RulesPlayerLabel.Text = AppResources.RulesPlayer;
+        RepeatButton.Text = AppResources.Repeat;
+        ToYourStoriesListButton.Text = AppResources.GoToStoryList;
+        BackButton.Text = AppResources.Back;
+    }
+
     private void SetResponsiveSizes()
     {
         // Use the current page size to set button sizes dynamically

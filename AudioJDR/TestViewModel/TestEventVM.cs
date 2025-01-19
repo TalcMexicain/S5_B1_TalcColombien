@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Model;
+using Model.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -195,6 +196,84 @@ namespace TestViewModel
             int newEventId = eventVM.GenerateNewEventId();
             Assert.Equal(1, newEventId);
         }
+
+        [Fact]
+        public async void AddItemToEventAsync_Test()
+        {
+            EventViewModel eventVM = new EventViewModel(_storyViewModel);
+            await eventVM.InitializeNewEventAsync();
+
+            KeyItem newItem = new KeyItem();
+
+            await eventVM.AddItemToEventAsync(newItem);
+
+            Assert.Contains(newItem, eventVM.CurrentEvent.ItemsToPickUp);
+            Assert.Contains(newItem, eventVM.Items);
+        }
+
+        [Fact]
+        public async void AddItemToEventAsync_TestException()
+        {
+            EventViewModel eventVM = new EventViewModel(_storyViewModel);
+            await eventVM.InitializeNewEventAsync();
+
+            Item? nullItem = null;
+
+            await Assert.ThrowsAsync<ArgumentNullException>(() => eventVM.AddItemToEventAsync(nullItem));
+        }
+
+        [Fact]
+        public async void RemoveItemFromEventAsync_Test()
+        {
+            EventViewModel eventVM = new EventViewModel(_storyViewModel);
+            await eventVM.InitializeNewEventAsync();
+
+            Item itemToRemove = new KeyItem();
+
+            await eventVM.AddItemToEventAsync(itemToRemove);
+            await eventVM.RemoveItemFromEventAsync(itemToRemove);
+
+            Assert.DoesNotContain(itemToRemove, eventVM.CurrentEvent.ItemsToPickUp);
+            Assert.DoesNotContain(itemToRemove, eventVM.Items);
+        }
+
+        [Fact]
+        public async void RemoveItemFromEventAsync_TestException()
+        {
+            EventViewModel eventVM = new EventViewModel(_storyViewModel);
+            await eventVM.InitializeNewEventAsync();
+
+            Item? nullItem = null;
+
+            await Assert.ThrowsAsync<ArgumentNullException>(() => eventVM.RemoveItemFromEventAsync(nullItem));
+        }
+
+        [Fact]
+        public async void GetItemAsync_Test()
+        {
+            EventViewModel eventVM = new EventViewModel(_storyViewModel);
+            await eventVM.InitializeNewEventAsync();
+
+            Item existingItem = new KeyItem();
+
+            await eventVM.AddItemToEventAsync(existingItem);
+
+            Item retrievedItem = await eventVM.GetItemAsync(existingItem.IdItem);
+
+            Assert.Equal(existingItem, retrievedItem);
+        }
+
+        [Fact]
+        public async void GetItemAsync_TestException()
+        {
+            EventViewModel eventVM = new EventViewModel(_storyViewModel);
+            await eventVM.InitializeNewEventAsync();
+
+            int nonExistentItemId = 999;
+
+            await Assert.ThrowsAsync<ArgumentException>(() => eventVM.GetItemAsync(nonExistentItemId));
+        }
+
 
         private async void InitializeStoryVM()
         {

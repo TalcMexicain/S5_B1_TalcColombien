@@ -15,28 +15,36 @@
               VerticalOptions="CenterAndExpand" 
               HorizontalOptions="FillAndExpand">
             <Grid.RowDefinitions>
+                <!-- Title -->
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
+
+                <!-- Stories List -->
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
+
+                <!-- Repeat Button -->
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
+
+                <!-- Import Story Button -->
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="20" />
+
+                <!-- Back Button -->
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- Title -->
-            <Label Grid.Row="0"
+            <Label x:Name="TitleYourStoryLabel"
+                   Grid.Row="0"
                    Text="{x:Static local:AppResources.TitleYourStory}"
+                   TextColor="{StaticResource MainText}"
                    FontFamily="UncialAntiquaRegular"
                    FontSize="Large"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
                    Margin="0,5,0,0">
-                <Label.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Label.TextColor>
             </Label>
 
             <!-- Stories List -->
@@ -52,7 +60,7 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame BorderColor="{StaticResource BorderColorL}"
+                        <Frame x:Name="StoriesFrame"
                                CornerRadius="5"
                                Padding="10,10,10,5"
                                Margin="0,10,0,10">
@@ -62,63 +70,46 @@
 
                             <VerticalStackLayout>
                                 <Label Text="{Binding Title}"
+                                       TextColor="{StaticResource MainText}"
                                        FontAttributes="Bold"
-                                       FontSize="16">
-                                    <Label.TextColor>
-                                        <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                                    </Label.TextColor>
-                                </Label>
+                                       FontSize="16"/>
 
-                                <Label Text="{Binding Description}">
-                                    <Label.TextColor>
-                                        <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                                    </Label.TextColor>
-                                </Label>
+                                <Label Text="{Binding Description}"
+                                       TextColor="{StaticResource MainText}"/>
 
                                 <Label Text="{Binding Events.Count, StringFormat='Events: {0}'}"
-                                       Margin="0,0,0,10">
-                                    <Label.TextColor>
-                                        <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                                    </Label.TextColor>
-                                </Label>
+                                       TextColor="{StaticResource MainText}"
+                                       Margin="0,0,0,10"/>
 
                                 <!-- Story Buttons -->
                                 <HorizontalStackLayout HorizontalOptions="Center">
                                     <!-- New Game Button -->
-                                    <Button Text="{x:Static local:AppResources.NewGame}"
+                                    <Button x:Name="NewGameButton"
+                                            Text="{Binding NewGameText}"
+                                            TextColor="{StaticResource TextButtons}"
                                             Margin="0,0,10,0"
                                             Clicked="OnNewGameButtonClicked">
                                         <Button.BackgroundColor>
                                             <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                                         </Button.BackgroundColor>
-                                        <Button.TextColor>
-                                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                                        </Button.TextColor>
                                     </Button>
 
                                     <!-- Continue Button -->
-                                    <Button Text="{x:Static local:AppResources.Continue}"
+                                    <Button Text="{Binding ContinueText}"
+                                            TextColor="{StaticResource TextButtons}"
                                             Margin="0,0,10,0"
                                             Clicked="OnContinueButtonClicked">
                                         <Button.BackgroundColor>
                                             <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                                         </Button.BackgroundColor>
-                                        <Button.TextColor>
-                                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                                        </Button.TextColor>
                                     </Button>
 
                                     <!-- Delete Story Button -->
-                                    <Button Text="{x:Static local:AppResources.Delete}"
+                                    <Button Text="{Binding DeleteText}"
+                                            TextColor="{StaticResource White}"
+                                            BackgroundColor="{StaticResource DeleteColor}"
                                             Clicked="OnDeleteButtonClicked"
-                                            CommandParameter="{Binding}">
-                                        <Button.BackgroundColor>
-                                            <AppThemeBinding Light="{StaticResource DeleteColorL}" Dark="{StaticResource DeleteColorD}" />
-                                        </Button.BackgroundColor>
-                                        <Button.TextColor>
-                                            <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                                        </Button.TextColor>
-                                    </Button>
+                                            CommandParameter="{Binding}"/>
                                 </HorizontalStackLayout>
                             </VerticalStackLayout>
                         </Frame>
@@ -129,6 +120,7 @@
             <!-- Repeat Button -->
             <Button x:Name="RepeatVoiceButton"
                     Text="{x:Static local:AppResources.Repeat}"
+                    TextColor="{StaticResource TextButtons}"
                     Grid.Row="4"
                     WidthRequest="230"
                     HeightRequest="50"
@@ -139,14 +131,12 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
 
             <!-- Import Story Button -->
             <Button x:Name="ImportButton"
                     Text="{x:Static local:AppResources.Import}"
+                    TextColor="{StaticResource TextButtons}"
                     Grid.Row="6"
                     WidthRequest="230"
                     HeightRequest="50"
@@ -157,14 +147,12 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource PrimaryButtonsL}" Dark="{StaticResource PrimaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
 
             <!-- Back Button -->
             <Button x:Name="BackButton"
                     Text="{x:Static local:AppResources.Back}"
+                    TextColor="{StaticResource TextButtons}"
                     Grid.Row="8"
                     WidthRequest="180"
                     HeightRequest="40"
@@ -175,9 +163,6 @@
                 <Button.BackgroundColor>
                     <AppThemeBinding Light="{StaticResource SecondaryButtonsL}" Dark="{StaticResource SecondaryButtonsD}" />
                 </Button.BackgroundColor>
-                <Button.TextColor>
-                    <AppThemeBinding Light="{StaticResource MainTextL}" Dark="{StaticResource MainTextD}" />
-                </Button.TextColor>
             </Button>
         </Grid>
     </ScrollView>

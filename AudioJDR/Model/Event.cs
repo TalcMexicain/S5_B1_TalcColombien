@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Model.Characters;
+using Model.Items;
+using System.Diagnostics;
 using System.Text.Json.Serialization;
 
 namespace Model
@@ -14,9 +16,9 @@ namespace Model
         private string name;
         private string description;
         private bool isFirst;
-
-        [JsonInclude]
         private List<Option> options;
+        private List<Item> itemsToPickUp;
+        private Enemy? enemy;
 
         #endregion
 
@@ -50,12 +52,39 @@ namespace Model
         }
 
         /// <summary>
+        /// Property used only for serialization
+        /// </summary>
+
+        public List<Option> Options
+        {
+            get { return options; }
+            set => options = value;
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this event is the first event in the story.
         /// </summary>
         public bool IsFirst
         {
             get => isFirst;
             set => isFirst = value;
+        }
+
+        /// <summary>
+        /// Gets or sets a value representing the event's enemy (there doesn't need to be one) - unused.
+        /// </summary>
+        public Enemy? Enemy { 
+            get => enemy; 
+            set => enemy = value; 
+        }
+
+        /// <summary>
+        /// Property only used for serialization
+        /// </summary>
+        public List<Item> ItemsToPickUp 
+        { 
+            get => itemsToPickUp; 
+            set => itemsToPickUp = value; 
         }
 
         #endregion
@@ -70,6 +99,7 @@ namespace Model
         public Event(string name, string description)
         {
             this.options = new List<Option>();
+            this.itemsToPickUp = new List<Item>();
             this.name = name;
             this.description = description;
             this.isFirst = false;
@@ -81,6 +111,7 @@ namespace Model
         public Event()
         {
             this.options = new List<Option>();
+            this.itemsToPickUp = new List<Item>();
             this.isFirst = false;
         }
 
@@ -124,6 +155,33 @@ namespace Model
         public List<Option> GetOptions()
         {
             return new List<Option>(this.options);
+        }
+
+        /// <summary>
+        /// Adds an item to the event
+        /// </summary>
+        /// <param name="item">The item to add to this event</param>
+        public void AddItem(Item item)
+        {
+            this.itemsToPickUp.Add(item);
+        }
+
+        /// <summary>
+        /// Removes an item from the event
+        /// </summary>
+        /// <param name="item">The item to Remove</param>
+        public void RemoveItem(Item item)
+        {
+            this.itemsToPickUp.Remove(item);
+        }
+
+        /// <summary>
+        /// Gets a copy of the list of items to pick up
+        /// </summary>
+        /// <returns></returns>
+        public List<Item> GetItemsToPickUp()
+        {
+            return new List<Item>(this.itemsToPickUp);
         }
 
         /// <summary>

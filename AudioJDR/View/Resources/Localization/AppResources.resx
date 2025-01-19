@@ -406,4 +406,130 @@ At each new stage of the story, the player can listen again, think, make a choic
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="YourStories_Continue_NoSelectedStories" xml:space="preserve">
+    <value>Please select a story to play.</value>
+  </data>
+  <data name="YourStories_NewGame_NoEvent" xml:space="preserve">
+    <value>No start event found.</value>
+  </data>
+  <data name="YourStories_NewGame_NoSelectedStories" xml:space="preserve">
+    <value>Please select a story to play.</value>
+  </data>
+  <data name="EventItem" xml:space="preserve">
+    <value>Item in the event</value>
+  </data>
+  <data name="SelectItemEvent" xml:space="preserve">
+    <value>Choose the item you want to add to the event</value>
+  </data>
+  <data name="AddItem" xml:space="preserve">
+    <value>Add Item</value>
+  </data>
+  <data name="AddNewItem" xml:space="preserve">
+    <value>Add New Item</value>
+  </data>
+  <data name="AddItemCondition" xml:space="preserve">
+    <value>Add item(s) as a condition to unlock this option</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>No item selected</value>
+  </data>
+  <data name="ChooseItemCondition" xml:space="preserve">
+    <value>Choose the item you want to add</value>
+  </data>
+  <data name="ItemCreation" xml:space="preserve">
+    <value>Create an item for the story</value>
+  </data>
+  <data name="NoLinkedOption" xml:space="preserve">
+    <value>No matching option or item found.</value>
+  </data>
+  <data name="EnterOption" xml:space="preserve">
+    <value>Please enter an option.</value>
+  </data>
+  <data name="MultipleOptionMatch" xml:space="preserve">
+    <value>Multiple option match please be more specific.</value>
+  </data>
+  <data name="YourStories" xml:space="preserve">
+    <value>Here is the list of present stories</value>
+  </data>
+  <data name="StoryNotFound" xml:space="preserve">
+    <value>Story not found</value>
+  </data>
+  <data name="NoFirstEvent" xml:space="preserve">
+    <value>First event not found</value>
+  </data>
+  <data name="ItemNamePlaceholder" xml:space="preserve">
+    <value>Item Name</value>
+  </data>
+  <data name="NoItemCreated" xml:space="preserve">
+    <value>No item created</value>
+  </data>
+  <data name="CloseInventory" xml:space="preserve">
+    <value>close inventory</value>
+  </data>
+  <data name="InvalidOptionSelection" xml:space="preserve">
+    <value>Invalid selection. Please try again</value>
+  </data>
+  <data name="InventoryHeader" xml:space="preserve">
+    <value>Your Inventory:</value>
+  </data>
+  <data name="ItemAlreadyInEventError" xml:space="preserve">
+    <value>This item is already in the event</value>
+  </data>
+  <data name="ItemAlreadyInOptionError" xml:space="preserve">
+    <value>This item is already in the option</value>
+  </data>
+  <data name="ItemAvailable" xml:space="preserve">
+    <value>Items to pick up:</value>
+  </data>
+  <data name="ItemNotFound" xml:space="preserve">
+    <value>This item is not available, please try again</value>
+  </data>
+  <data name="ItemNotUsableHere" xml:space="preserve">
+    <value>The item "{0}" cannot be used here</value>
+  </data>
+  <data name="ItemPickedUpFormat" xml:space="preserve">
+    <value>You have picked up {0}. It has been added to your inventory</value>
+  </data>
+  <data name="ItemUsedSuccessfully" xml:space="preserve">
+    <value>You used the item "{0}" successfully</value>
+  </data>
+  <data name="MultipleOptionsRequireItemHeader" xml:space="preserve">
+    <value>The item "{0}" is required by multiple options:</value>
+  </data>
+  <data name="NoItemsInEvent" xml:space="preserve">
+    <value>There are no items around here</value>
+  </data>
+  <data name="NoItemsInInventory" xml:space="preserve">
+    <value>You have no items in your inventory</value>
+  </data>
+  <data name="OpenInventory" xml:space="preserve">
+    <value>open inventory</value>
+  </data>
+  <data name="OptionRequiresItem" xml:space="preserve">
+    <value>You need to use an item before proceeding with this option</value>
+  </data>
+  <data name="ChangeTheme" xml:space="preserve">
+    <value>Change Theme</value>
+  </data>
+  <data name="LanguageEN" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="LanguageFR" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="IncreaseVolume" xml:space="preserve">
+    <value>Increase volume</value>
+  </data>
+  <data name="DecreaseVolume" xml:space="preserve">
+    <value>Decrease volume</value>
+  </data>
+  <data name="IncreaseSpeed" xml:space="preserve">
+    <value>Increase speed</value>
+  </data>
+  <data name="Decrease Speed" xml:space="preserve">
+    <value>Decease speed</value>
+  </data>
+  <data name="StoryNameEmptyError" xml:space="preserve">
+    <value>The name of the story cannot be empty</value>
+  </data>
 </root>

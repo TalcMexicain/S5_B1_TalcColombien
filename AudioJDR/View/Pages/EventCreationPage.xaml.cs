@@ -1,4 +1,5 @@
 using Model;
+using Model.Items;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using View.Resources.Localization;
@@ -79,7 +80,8 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
             Debug.WriteLine($"Loading event with ID: {_eventId}");
             _eventViewModel = await _storyViewModel.GetEventViewModelAsync(_eventId);
         }
-
+        PopulatePicker();
+        RefreshEventItems();
         BindingContext = _eventViewModel;
     }
 
@@ -104,6 +106,21 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
         }
         _hasUnsavedChanges = false;
     }
+
+    private void PopulatePicker()
+    {
+        ItemPicker.Items.Clear();
+
+        foreach (var item in _storyViewModel.CurrentStory.Items)
+        {
+            if (!_eventViewModel.CurrentEvent.ItemsToPickUp.Any(e => e.IdItem == item.IdItem))
+            {
+                ItemPicker.Items.Add(item.Name);
+            }
+        }
+        ItemPicker.SelectedIndex = -1; 
+    }
+
 
     #endregion
 
@@ -255,6 +272,60 @@ public partial class EventCreationPage : ContentPage, IQueryAttributable
         OptionList.ItemsSource = null;
         OptionList.ItemsSource = _eventViewModel.CurrentEvent.GetOptions();
     }
+
+    #endregion
+
+    #region Item Management
+
+    private async void OnAddItemButtonClicked(object sender, EventArgs e)
+    {
+        if (ItemPicker.SelectedIndex != -1)
+        {
+            var selectedItemName = ItemPicker.Items[ItemPicker.SelectedIndex];
+            var selectedItem = _storyViewModel.CurrentStory.Items.FirstOrDefault(i => i.Name == selectedItemName);
+
+            if (selectedItem != null)
+            {
+                // Check if the item is already in the event
+                if (_eventViewModel.CurrentEvent.ItemsToPickUp.Any(e => e.IdItem == selectedItem.IdItem))
+                {
+                    await UIHelper.ShowErrorDialog(this, AppResources.ItemAlreadyInEventError);
+                }
+                else
+                {
+                    // Add the selected item to the event
+                    await _eventViewModel.AddItemToEventAsync(selectedItem);
+
+                    RefreshEventItems();
+                    PopulatePicker();
+                }
+            }
+        }
+        else
+        {
+            await UIHelper.ShowErrorDialog(this, AppResources.NoItemSelected);
+        }
+    }
+
+    private async void OnRemoveItemButtonClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button && button.CommandParameter is Item itemToRemove)
+        {
+            // Remove the item from the event
+            await _eventViewModel.RemoveItemFromEventAsync(itemToRemove);
+
+            // Refresh the UI
+            RefreshEventItems();
+            PopulatePicker();
+        }
+    }
+
+    private void RefreshEventItems()
+    {
+        EventItemList.ItemsSource = null;
+        EventItemList.ItemsSource = _eventViewModel.CurrentEvent.ItemsToPickUp;
+    }
+
 
     #endregion
 

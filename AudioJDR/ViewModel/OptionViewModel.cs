@@ -1,4 +1,5 @@
 ﻿using Model;
+using Model.Items;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace ViewModel
         private readonly EventViewModel _parentEventViewModel;
         private Option _currentOption;
         private ObservableCollection<string> _words;
+        private ObservableCollection<KeyItem> _requiredItems;
 
         #endregion
 
@@ -46,6 +48,15 @@ namespace ViewModel
             private set => SetProperty(ref _words, value);
         }
 
+        /// <summary>
+        /// Gets the collection of required items for the current Option.
+        /// </summary>
+        public ObservableCollection<KeyItem> RequiredItems
+        {
+            get => _requiredItems;
+            private set => SetProperty(ref _requiredItems, value);
+        }
+
         #endregion
 
         #region Constructor
@@ -65,8 +76,10 @@ namespace ViewModel
 
             _parentEventViewModel = eventViewModel;
             _words = new ObservableCollection<string>();
+            _requiredItems = new ObservableCollection<KeyItem>();
             CurrentOption = optionInstance ?? CreateNewOption();
             RefreshWords();
+            RefreshRequiredItems();
         }
 
         #endregion
@@ -150,6 +163,63 @@ namespace ViewModel
 
             return success;
         }
+        #endregion
+
+        #region Required Items Management
+
+        /// <summary>
+        /// Adds a new required item to the option's item list
+        /// </summary>
+        /// <param name="item">The KeyItem to add</param>
+        /// <returns>True if the item was added successfully, false if it already exists</returns>
+        public async Task<bool> AddRequiredItemAsync(KeyItem item)
+        {
+            bool success = false;
+
+            if (!RequiredItems.Contains(item))
+            {
+                CurrentOption.AddKeyItem(item);
+                RequiredItems.Add(item);
+                await _parentEventViewModel.UpdateEventAsync(_parentEventViewModel.CurrentEvent);
+                success = true;
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Removes a required item from the option's item list
+        /// </summary>
+        /// <param name="item">The KeyItem to remove</param>
+        /// <returns>True if the item was removed successfully, false if it wasn't found</returns>
+        public async Task<bool> RemoveRequiredItemAsync(KeyItem item)
+        {
+            bool success = false;
+
+            if (RequiredItems.Contains(item))
+            {
+                CurrentOption.RemoveKeyItem(item);
+                RequiredItems.Remove(item);
+                await _parentEventViewModel.UpdateEventAsync(_parentEventViewModel.CurrentEvent);
+                success = true;
+            }
+
+            return success;
+        }
+
+        private void RefreshRequiredItems()
+        {
+            RequiredItems.Clear();
+
+            if (CurrentOption?.GetRequiredItems() != null)
+            {
+                foreach (KeyItem item in CurrentOption.GetRequiredItems())
+                {
+                    RequiredItems.Add(item);
+                }
+            }
+        }
+
         #endregion
 
         #region Utility Methods

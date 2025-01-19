@@ -70,6 +70,33 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add Item.
+        /// </summary>
+        internal static string AddItem {
+            get {
+                return ResourceManager.GetString("AddItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add item(s) as a condition to unlock this option.
+        /// </summary>
+        internal static string AddItemCondition {
+            get {
+                return ResourceManager.GetString("AddItemCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add New Item.
+        /// </summary>
+        internal static string AddNewItem {
+            get {
+                return ResourceManager.GetString("AddNewItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Add Option.
         /// </summary>
         internal static string AddOption {
@@ -102,6 +129,33 @@ namespace View.Resources.Localization {
         internal static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Change Theme.
+        /// </summary>
+        internal static string ChangeTheme {
+            get {
+                return ResourceManager.GetString("ChangeTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Choose the item you want to add.
+        /// </summary>
+        internal static string ChooseItemCondition {
+            get {
+                return ResourceManager.GetString("ChooseItemCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à close inventory.
+        /// </summary>
+        internal static string CloseInventory {
+            get {
+                return ResourceManager.GetString("CloseInventory", resourceCulture);
             }
         }
         
@@ -147,6 +201,24 @@ namespace View.Resources.Localization {
         internal static string CreateNewStory {
             get {
                 return ResourceManager.GetString("CreateNewStory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Decease speed.
+        /// </summary>
+        internal static string Decrease_Speed {
+            get {
+                return ResourceManager.GetString("Decrease Speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Decrease volume.
+        /// </summary>
+        internal static string DecreaseVolume {
+            get {
+                return ResourceManager.GetString("DecreaseVolume", resourceCulture);
             }
         }
         
@@ -241,6 +313,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Please enter an option..
+        /// </summary>
+        internal static string EnterOption {
+            get {
+                return ResourceManager.GetString("EnterOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Error.
         /// </summary>
         internal static string Error {
@@ -282,6 +363,15 @@ namespace View.Resources.Localization {
         internal static string ErrorOptionTitleDesc {
             get {
                 return ResourceManager.GetString("ErrorOptionTitleDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Item in the event.
+        /// </summary>
+        internal static string EventItem {
+            get {
+                return ResourceManager.GetString("EventItem", resourceCulture);
             }
         }
         
@@ -367,6 +457,141 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Increase speed.
+        /// </summary>
+        internal static string IncreaseSpeed {
+            get {
+                return ResourceManager.GetString("IncreaseSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Increase volume.
+        /// </summary>
+        internal static string IncreaseVolume {
+            get {
+                return ResourceManager.GetString("IncreaseVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Invalid selection. Please try again.
+        /// </summary>
+        internal static string InvalidOptionSelection {
+            get {
+                return ResourceManager.GetString("InvalidOptionSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Your Inventory:.
+        /// </summary>
+        internal static string InventoryHeader {
+            get {
+                return ResourceManager.GetString("InventoryHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à This item is already in the event.
+        /// </summary>
+        internal static string ItemAlreadyInEventError {
+            get {
+                return ResourceManager.GetString("ItemAlreadyInEventError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à This item is already in the option.
+        /// </summary>
+        internal static string ItemAlreadyInOptionError {
+            get {
+                return ResourceManager.GetString("ItemAlreadyInOptionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Items to pick up:.
+        /// </summary>
+        internal static string ItemAvailable {
+            get {
+                return ResourceManager.GetString("ItemAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Create an item for the story.
+        /// </summary>
+        internal static string ItemCreation {
+            get {
+                return ResourceManager.GetString("ItemCreation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Item Name.
+        /// </summary>
+        internal static string ItemNamePlaceholder {
+            get {
+                return ResourceManager.GetString("ItemNamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à This item is not available, please try again.
+        /// </summary>
+        internal static string ItemNotFound {
+            get {
+                return ResourceManager.GetString("ItemNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The item &quot;{0}&quot; cannot be used here.
+        /// </summary>
+        internal static string ItemNotUsableHere {
+            get {
+                return ResourceManager.GetString("ItemNotUsableHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à You have picked up {0}. It has been added to your inventory.
+        /// </summary>
+        internal static string ItemPickedUpFormat {
+            get {
+                return ResourceManager.GetString("ItemPickedUpFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à You used the item &quot;{0}&quot; successfully.
+        /// </summary>
+        internal static string ItemUsedSuccessfully {
+            get {
+                return ResourceManager.GetString("ItemUsedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à English.
+        /// </summary>
+        internal static string LanguageEN {
+            get {
+                return ResourceManager.GetString("LanguageEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à French.
+        /// </summary>
+        internal static string LanguageFR {
+            get {
+                return ResourceManager.GetString("LanguageFR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Linked event.
         /// </summary>
         internal static string LinkedEventOption {
@@ -381,6 +606,24 @@ namespace View.Resources.Localization {
         internal static string MainPageDescription {
             get {
                 return ResourceManager.GetString("MainPageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Multiple option match please be more specific..
+        /// </summary>
+        internal static string MultipleOptionMatch {
+            get {
+                return ResourceManager.GetString("MultipleOptionMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The item &quot;{0}&quot; is required by multiple options:.
+        /// </summary>
+        internal static string MultipleOptionsRequireItemHeader {
+            get {
+                return ResourceManager.GetString("MultipleOptionsRequireItemHeader", resourceCulture);
             }
         }
         
@@ -421,6 +664,60 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à First event not found.
+        /// </summary>
+        internal static string NoFirstEvent {
+            get {
+                return ResourceManager.GetString("NoFirstEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No item created.
+        /// </summary>
+        internal static string NoItemCreated {
+            get {
+                return ResourceManager.GetString("NoItemCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No item selected.
+        /// </summary>
+        internal static string NoItemSelected {
+            get {
+                return ResourceManager.GetString("NoItemSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à There are no items around here.
+        /// </summary>
+        internal static string NoItemsInEvent {
+            get {
+                return ResourceManager.GetString("NoItemsInEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à You have no items in your inventory.
+        /// </summary>
+        internal static string NoItemsInInventory {
+            get {
+                return ResourceManager.GetString("NoItemsInInventory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No matching option or item found..
+        /// </summary>
+        internal static string NoLinkedOption {
+            get {
+                return ResourceManager.GetString("NoLinkedOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à None.
         /// </summary>
         internal static string None {
@@ -457,6 +754,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à open inventory.
+        /// </summary>
+        internal static string OpenInventory {
+            get {
+                return ResourceManager.GetString("OpenInventory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Enter the name of the option.
         /// </summary>
         internal static string OptionNameInputText {
@@ -480,6 +786,15 @@ namespace View.Resources.Localization {
         internal static string OptionPageEvents {
             get {
                 return ResourceManager.GetString("OptionPageEvents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à You need to use an item before proceeding with this option.
+        /// </summary>
+        internal static string OptionRequiresItem {
+            get {
+                return ResourceManager.GetString("OptionRequiresItem", resourceCulture);
             }
         }
         
@@ -641,6 +956,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Choose the item you want to add to the event.
+        /// </summary>
+        internal static string SelectItemEvent {
+            get {
+                return ResourceManager.GetString("SelectItemEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Select your language.
         /// </summary>
         internal static string SelectLanguage {
@@ -713,6 +1037,15 @@ namespace View.Resources.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à The name of the story cannot be empty.
+        /// </summary>
+        internal static string StoryNameEmptyError {
+            get {
+                return ResourceManager.GetString("StoryNameEmptyError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à The name of your story contains unauthorized characters.
         /// </summary>
         internal static string StoryNameInvalidErrorDesc {
@@ -727,6 +1060,15 @@ namespace View.Resources.Localization {
         internal static string StoryNameInvalidErrorTitle {
             get {
                 return ResourceManager.GetString("StoryNameInvalidErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Story not found.
+        /// </summary>
+        internal static string StoryNotFound {
+            get {
+                return ResourceManager.GetString("StoryNotFound", resourceCulture);
             }
         }
         
@@ -916,6 +1258,42 @@ namespace View.Resources.Localization {
         internal static string Yes {
             get {
                 return ResourceManager.GetString("Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Here is the list of present stories.
+        /// </summary>
+        internal static string YourStories {
+            get {
+                return ResourceManager.GetString("YourStories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Please select a story to play..
+        /// </summary>
+        internal static string YourStories_Continue_NoSelectedStories {
+            get {
+                return ResourceManager.GetString("YourStories_Continue_NoSelectedStories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No start event found..
+        /// </summary>
+        internal static string YourStories_NewGame_NoEvent {
+            get {
+                return ResourceManager.GetString("YourStories_NewGame_NoEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Please select a story to play..
+        /// </summary>
+        internal static string YourStories_NewGame_NoSelectedStories {
+            get {
+                return ResourceManager.GetString("YourStories_NewGame_NoSelectedStories", resourceCulture);
             }
         }
     }

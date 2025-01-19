@@ -39,6 +39,11 @@ namespace Model.Items
             this.healAmount = healAmount;
         }
 
+        /// <summary>
+        /// Parameterless constructor for serialization
+        /// </summary>
+        public ConsumableItem() { }
+
         #endregion
 
         #region Methods

@@ -25,15 +25,27 @@ namespace ViewModel
 
         #region Events 
 
-        public event Action OptionSubmitted; // When "validate" is recognized
-        public event Action TextCleared; // When "cancel" is recognized
+        public event Action OptionSubmitted; 
+        public event Action TextCleared; 
         public event Action AddWordsToView;
         public event Action NavigateToPlay;
+        public event Action NavigateToSettings;
         public event Action NavigateNext;
         public event Action NavigatePrevious;
         public event Action RepeatSpeech;
         public event Action<string> NavigateToNewGame;
         public event Action<string> ContinueGame;
+        public event Action<string>? RecognizedTextChanged;
+        public event Action ChangeTheme;
+        public event Action ChangeLanguageEN;
+        public event Action ChangeLanguageFR;
+        public event Action TestVoice;
+        public event Action IncreaseVolume;
+        public event Action DecreaseVolume;
+        public event Action IncreaseSpeed;
+        public event Action DecreaseSpeed;
+        public event Action OpenInventory;
+        public event Action CloseInventory;
 
         #endregion
 
@@ -77,9 +89,46 @@ namespace ViewModel
         {
             UpdateGrammar(keywords, context);
             _speechRecognition.StartRecognition();
+        } 
+
+        /// <summary>
+        /// Stops speech recognition.
+        /// </summary>
+        public void StopRecognition()
+        {
+            _speechRecognition.StopRecognition();
         }
 
-        
+        public async Task<string> WaitForPlayerInput()
+        {
+            TaskCompletionSource<string> inputCompletionSource = new TaskCompletionSource<string>();
+
+            // Event handler to capture recognized text
+            void OnRecognizedTextChanged(string recognizedText)
+            {
+                inputCompletionSource.TrySetResult(recognizedText);
+            }
+
+            try
+            {
+                RecognizedTextChanged += OnRecognizedTextChanged;
+
+                // Wait for the input (either through speech or manually entered text)
+                string result = await inputCompletionSource.Task;
+
+                return result?.Trim() ?? string.Empty;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error while waiting for player input: {ex.Message}");
+                return string.Empty;
+            }
+            finally
+            {
+                RecognizedTextChanged -= OnRecognizedTextChanged;
+            }
+        }
+
 
         /// <summary>
         /// Updates the grammar for the recognizer. Clears previous grammars if the context changes.
@@ -162,9 +211,20 @@ namespace ViewModel
             string[] validateCommands = new[] { "validate", "valider" };
             string[] cancelCommands = new[] { "cancel", "annuler" };
             string[] playCommands = new[] { "jouer", "play" };
+            string[] settingsCommands = new[] { "settings", "paramètres" };
             string[] repeatCommands = new[] { "repeter", "repeat" };
             string[] listStoryCommands = new[] { "liste d'histoire", "list of story" };
             string[] backCommands = new[] { "retour", "back" };
+            string[] themeCommands = new[] { "change theme", "changer le theme"};
+            string[] languageCommandsEN = new[] { "english", "anglais" };
+            string[] languageCommandsFR = new[] { "french", "français" };
+            string[] testCommands = new[] { "test voice", "tester la voix" };
+            string[] increaseVolumeCommands = new[] { "increase volume", "monter le volume" };
+            string[] decreaseVolumeCommands = new[] { "decrease volume", "baisser le volume" };
+            string[] increaseSpeedCommands = new[] { "increase speed", "augmenter la vitesse" };
+            string[] decreaseSpeedCommands = new[] { "decrease speed", "baisser la vitesse" };
+            string[] openInventoryCommands = new[] { "open inventory", "ouvrir inventaire" };
+            string[] closeInventoryCommands = new[] { "close inventory", "fermer inventaire" };
             
 
             switch (recognizedText.ToLowerInvariant())
@@ -185,6 +245,11 @@ namespace ViewModel
                     ClearAccumulator();
                     break;
 
+                case string cmd when settingsCommands.Contains(cmd):
+                    NavigateToSettings?.Invoke();
+                    TextCleared?.Invoke();
+                    break;
+
                 case string cmd when repeatCommands.Contains(cmd):
                     RepeatSpeech?.Invoke();
                     ClearAccumulator();
@@ -199,6 +264,56 @@ namespace ViewModel
                     NavigatePrevious?.Invoke();
                     ClearAccumulator();
                     break;
+                case string cmd when themeCommands.Contains(cmd):
+                    ChangeTheme?.Invoke();
+                    ClearAccumulator();
+                    break;
+
+                case string cmd when languageCommandsEN.Contains(cmd):
+                    ChangeLanguageEN?.Invoke();
+                    ClearAccumulator();
+                    break;
+
+                case string cmd when languageCommandsFR.Contains(cmd):
+                    ChangeLanguageFR?.Invoke();
+                    ClearAccumulator();
+                    break;
+
+                case string cmd when testCommands.Contains(cmd):
+                    TestVoice?.Invoke();
+                    ClearAccumulator();
+                    break;
+
+                case string cmd when increaseVolumeCommands.Contains(cmd):
+                    IncreaseVolume?.Invoke();
+                    ClearAccumulator();
+                    break;
+
+                case string cmd when decreaseVolumeCommands.Contains(cmd):
+                    DecreaseVolume?.Invoke();
+                    ClearAccumulator();
+                    break;
+
+                case string cmd when increaseSpeedCommands.Contains(cmd):
+                    IncreaseSpeed?.Invoke();
+                    ClearAccumulator();
+                    break;
+
+                case string cmd when decreaseSpeedCommands.Contains(cmd):
+                    DecreaseSpeed?.Invoke();
+                    ClearAccumulator();
+                    break;
+
+                case string cmd when openInventoryCommands.Contains(cmd):
+                    OpenInventory?.Invoke();
+                    ClearAccumulator();
+                    break;
+
+                case string cmd when closeInventoryCommands.Contains(cmd):
+                    CloseInventory?.Invoke();
+                    ClearAccumulator();
+                    break;
+
 
 
                 default:

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.Maui.Controls.Internals;
 using Model;
 using View.Resources.Localization;
 using ViewModel;
@@ -12,13 +13,14 @@ public partial class YourStories : ContentPage
     private StoryViewModel _viewModel;
     private SaveViewModel _saveViewModel;
     private SpeechRecognitionViewModel _recognitionViewModel;
+    private SpeechSynthesizerViewModel _synthesizerViewModel;
     private const string PageContext = "YourStories";
 
     #endregion
 
     #region Constructor
 
-    public YourStories(ISpeechRecognition speechRecognition)
+    public YourStories(ISpeechSynthesizer speechSynthesizer, ISpeechRecognition speechRecognition)
     {
         InitializeComponent();
         _viewModel = new StoryViewModel();
@@ -26,6 +28,9 @@ public partial class YourStories : ContentPage
         BindingContext = _viewModel;
         SetResponsiveSizes();
         this.SizeChanged += OnSizeChanged;
+        MessagingCenter.Subscribe<SettingsPage>(this, "LanguageChanged", (sender) => { UpdateAllText(); });
+
+        _synthesizerViewModel = new SpeechSynthesizerViewModel(speechSynthesizer);
 
         _recognitionViewModel = new SpeechRecognitionViewModel(speechRecognition);
 
@@ -47,21 +52,31 @@ public partial class YourStories : ContentPage
         SetResponsiveSizes();
     }
 
-    protected override async void OnAppearing()
+    protected async override void OnAppearing()
     {
         base.OnAppearing();
-
-        // Charger d'abord les histoires (ici j'imagine que vous avez une méthode pour les charger)
         await _viewModel.LoadStoriesAsync();
 
-        // Une fois les histoires chargées, vous pouvez récupérer les titres et les ajouter aux mots-clés.
+        
+        await _viewModel.LoadStoriesAsync();
+
+        
         var keywords = new HashSet<string> { AppResources.Back, AppResources.Continue, AppResources.Repeat, AppResources.NewGame };
 
-        // Ajouter les titres des histoires comme mots-clés pour la reconnaissance vocale
+        
         var storyTitles = _viewModel.Stories.Select(story => story.Title).ToList();
         keywords.UnionWith(storyTitles);
 
-        // Démarrer la reconnaissance vocale avec les mots-clés complétés
+        _synthesizerViewModel.TextToSynthesize = AppResources.YourStories;
+        _synthesizerViewModel.SynthesizeText();
+
+        foreach (string title in storyTitles)
+        {
+            _synthesizerViewModel.TextToSynthesize = title;
+            _synthesizerViewModel.SynthesizeText();
+        }
+
+
         _recognitionViewModel.StartRecognition(keywords, PageContext);
     }
 
@@ -69,6 +84,7 @@ public partial class YourStories : ContentPage
     {
         base.OnDisappearing();
         _recognitionViewModel.UnloadGrammars();
+        _synthesizerViewModel.StopSynthesis();
     }
 
     private async Task ContinueGame(string title)
@@ -90,17 +106,23 @@ public partial class YourStories : ContentPage
                 }
                 else
                 {
-                    await UIHelper.ShowErrorDialog(this, AppResources.NoValidSaveFound);
+                    _synthesizerViewModel.StopSynthesis();
+                    _synthesizerViewModel.TextToSynthesize = AppResources.NoValidSaveFound;
+                    _synthesizerViewModel.SynthesizeText();
                 }
             }
             catch (Exception ex)
             {
-                await UIHelper.ShowErrorDialog(this, AppResources.SaveLoadError);
+                _synthesizerViewModel.StopSynthesis();
+                _synthesizerViewModel.TextToSynthesize = AppResources.SaveLoadError;
+                _synthesizerViewModel.SynthesizeText();
             }
         }
         else
         {
-            await UIHelper.ShowErrorDialog(this, "L'histoire n'a pas été trouvée.");
+            _synthesizerViewModel.StopSynthesis();
+            _synthesizerViewModel.TextToSynthesize = AppResources.StoryNotFound;
+            _synthesizerViewModel.SynthesizeText();
         }
     }
 
@@ -119,12 +141,16 @@ public partial class YourStories : ContentPage
             }
             else
             {
-                await UIHelper.ShowErrorDialog(this, "Aucun événement de départ trouvé.");
+                _synthesizerViewModel.StopSynthesis();
+                _synthesizerViewModel.TextToSynthesize = AppResources.NoFirstEvent;
+                _synthesizerViewModel.SynthesizeText();
             }
         }
         else
         {
-            await UIHelper.ShowErrorDialog(this, "L'histoire n'a pas été trouvée.");
+            _synthesizerViewModel.StopSynthesis();
+            _synthesizerViewModel.TextToSynthesize = AppResources.StoryNotFound;
+            _synthesizerViewModel.SynthesizeText();
         }
     }
 
@@ -145,12 +171,12 @@ public partial class YourStories : ContentPage
             }
             else
             {
-                await UIHelper.ShowErrorDialog(this, "Aucun événement de départ trouvé.");
+                await UIHelper.ShowErrorDialog(this, AppResources.YourStories_NewGame_NoEvent);
             }
         }
         else
         {
-            await UIHelper.ShowErrorDialog(this, "Veuillez sélectionner une histoire à jouer.");
+            await UIHelper.ShowErrorDialog(this, AppResources.YourStories_NewGame_NoSelectedStories);
         }
     }
 
@@ -198,7 +224,7 @@ public partial class YourStories : ContentPage
         }
         else
         {
-            await UIHelper.ShowErrorDialog(this, "Veuillez sélectionner une histoire.");
+            await UIHelper.ShowErrorDialog(this, AppResources.YourStories_Continue_NoSelectedStories);
         }
     }
 
@@ -251,6 +277,24 @@ public partial class YourStories : ContentPage
     #endregion
 
     #region UI Management
+
+    private void UpdateAllText()
+    {
+        TitleYourStoryLabel.Text = AppResources.TitleYourStory;
+
+        RepeatVoiceButton.Text = AppResources.Repeat;
+        ImportButton.Text = AppResources.Import;
+        BackButton.Text = AppResources.Back;
+
+        foreach (var story in StoriesList.ItemsSource)
+        {
+            if (story is Story storyModel)
+            {
+                storyModel.RefreshLocalizedProperties();
+            }
+        }
+    }
+
 
     private void SetResponsiveSizes()
     {

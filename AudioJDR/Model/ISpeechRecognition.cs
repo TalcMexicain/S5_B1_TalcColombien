@@ -16,6 +16,9 @@ namespace Model
         /// </summary>
         void StartRecognition();
 
+        /// <summary>
+        /// Stops the speech recognition process
+        /// </summary>
         void StopRecognition();
 
         /// <summary>

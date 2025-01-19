@@ -1,6 +1,9 @@
 ﻿using Model;
+using Model.Characters;
+using Model.Items;
 using Model.Storage;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using ViewModel.Resources.Localization;
@@ -19,6 +22,9 @@ namespace ViewModel
         private Story _currentStory;
         private ObservableCollection<Story> _stories;
         private ObservableCollection<EventViewModel> _events;
+        private ObservableCollection<Item> _items;
+        private ObservableCollection<Enemy> _enemies;
+        private Player _player;
 
         #endregion
 
@@ -51,6 +57,40 @@ namespace ViewModel
             private set => SetProperty(ref _events, value);
         }
 
+        /// <summary>
+        /// Gets the collection of items for the current story.
+        /// </summary>
+        public ObservableCollection<Item> Items
+        {
+            get => _items;
+            private set => SetProperty(ref _items, value);
+        }
+
+        /// <summary>
+        /// Gets the collection of enemies for the current story.
+        /// </summary>
+        public ObservableCollection<Enemy> Enemies
+        {
+            get => _enemies;
+            private set => SetProperty(ref _enemies, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the player for the current story.
+        /// </summary>
+        public Player Player
+        {
+            get => _player;
+            set
+            {
+                if (CurrentStory != null)
+                {
+                    CurrentStory.Player = value;
+                    SetProperty(ref _player, value);
+                }
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -71,6 +111,8 @@ namespace ViewModel
             
             _stories = new ObservableCollection<Story>();
             _events = new ObservableCollection<EventViewModel>();
+            _items = new ObservableCollection<Item>();
+            _enemies = new ObservableCollection<Enemy>();
             LoadStoriesAsync();
         }
 
@@ -151,7 +193,11 @@ namespace ViewModel
                 existingStory.Title = updatedStory.Title;
                 existingStory.Description = updatedStory.Description;
                 existingStory.Events = updatedStory.Events;
-                
+                existingStory.Items = updatedStory.Items;
+                existingStory.Enemies = updatedStory.Enemies;
+                existingStory.Player = updatedStory.Player;
+
+                LoadPlayerEnemiesAndItems(); 
                 RefreshEventViewModels(existingStory);
                 OnPropertyChanged(nameof(CurrentStory));
                 OnPropertyChanged(nameof(Stories));
@@ -316,6 +362,132 @@ namespace ViewModel
             {
                 CurrentStory.SetFirstEvent(eventToSet);
                 OnPropertyChanged(nameof(CurrentStory)); // Notify that CurrentStory has changed
+            }
+        }
+
+        #endregion
+
+        #region Item and Character Management
+
+        /// <summary>
+        /// Loads the player, enemies, and items for the current story.
+        /// </summary>
+        private void LoadPlayerEnemiesAndItems()
+        {
+            if (CurrentStory != null)
+            {
+                // Clear existing collections
+                Items.Clear();
+                Enemies.Clear();
+
+                // Load player
+                Player = CurrentStory.Player;
+
+                // Load items
+                foreach (var item in CurrentStory.Items)
+                {
+                    Items.Add(item);
+                }
+
+                // Load enemies
+                foreach (var enemy in CurrentStory.Enemies)
+                {
+                    Enemies.Add(enemy);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds an item to the current story
+        /// </summary>
+        /// <param name="newItem">the item to add</param>
+        public async Task AddItemToStoryAsync(Item newItem)
+        {
+            if (CurrentStory != null)
+            {
+                newItem.IdItem = GenerateNewItemId();
+                CurrentStory.AddItem(newItem);
+                Items.Add(newItem);
+                await UpdateStoryAsync(CurrentStory.IdStory, CurrentStory);
+            }
+        }
+
+        /// <summary>
+        /// Removes an item from the current story
+        /// </summary>
+        /// <param name="item">the item to remove</param>
+        public async Task RemoveItemFromStoryAsync(Item item)
+        {
+            if (CurrentStory != null && CurrentStory.Items.Contains(item))
+            {
+                CurrentStory.RemoveItem(item);
+                Items.Remove(item);
+                await UpdateStoryAsync(CurrentStory.IdStory, CurrentStory);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves all items associated with the current story
+        /// </summary>
+        /// <returns>An ObservableCollection of items in the current story</returns>
+        public ObservableCollection<Item> GetItems()
+        {
+            if (CurrentStory != null)
+            {
+                _items.Clear();
+                foreach (var item in CurrentStory.Items)
+                {
+                    _items.Add(item);
+                }
+            }
+            return _items;
+        }
+
+        private int GenerateNewItemId()
+        {
+            return CurrentStory.Items.Count > 0 ? CurrentStory.Items.Max(item => item.IdItem) + 1 : 1;
+        }
+
+
+        /// <summary>
+        /// Adds an enemy to the current story
+        /// </summary>
+        /// <param name="newEnemy">the enemy to add</param>
+        public async Task AddEnemyToStoryAsync(Enemy newEnemy)
+        {
+            if (CurrentStory != null)
+            {
+                CurrentStory.AddEnemy(newEnemy);
+                Enemies.Add(newEnemy);
+                await UpdateStoryAsync(CurrentStory.IdStory, CurrentStory);
+            }
+        }
+
+        /// <summary>
+        /// Remove an enemy to the current story
+        /// </summary>
+        /// <param name="enemy">the enemy to remove</param>
+        public async Task RemoveEnemyFromStoryAsync(Enemy enemy)
+        {
+            if (CurrentStory != null && CurrentStory.Enemies.Contains(enemy))
+            {
+                CurrentStory.RemoveEnemy(enemy);
+                Enemies.Remove(enemy);
+                await UpdateStoryAsync(CurrentStory.IdStory, CurrentStory);
+            }
+        }
+
+        /// <summary>
+        /// Updates the player of the current story
+        /// </summary>
+        /// <param name="updatedPlayer"></param>
+        public async Task UpdatePlayerAsync(Player updatedPlayer)
+        {
+            if (CurrentStory != null)
+            {
+                CurrentStory.Player = updatedPlayer;
+                Player = updatedPlayer;
+                await UpdateStoryAsync(CurrentStory.IdStory, CurrentStory);
             }
         }
 

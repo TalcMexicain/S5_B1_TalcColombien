@@ -18,6 +18,11 @@ namespace Model.Items
         {
         }
 
+        /// <summary>
+        /// Parameterless constructor for serialization
+        /// </summary>
+        public KeyItem() { }
+
         #endregion
 
         #region Methods
@@ -37,6 +42,20 @@ namespace Model.Items
             return string.Format(AppResourcesModel.KeyItemDescription, Name);
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is KeyItem other)
+            {
+                return this.Name == other.Name;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Name?.GetHashCode() ?? 0;
+        }
+        
         #endregion
     }
 }
